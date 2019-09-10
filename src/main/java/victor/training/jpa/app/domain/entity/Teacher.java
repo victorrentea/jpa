@@ -18,37 +18,28 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 
-@Entity
 public class Teacher {
 
 	public enum Grade {
 		LECTURER, PROFESSOR, CONF, ASSISTENT
 	}
 	
-	@Id
-	@GeneratedValue
 	private Long id;
 	
 	private String name;
 	
-	@Enumerated(EnumType.STRING)
 	private Grade grade;
 	
-	@OneToOne(cascade = CascadeType.ALL)
 	private TeacherDetails details;
 	
-	@ElementCollection
-//	@OrderColumn(name="INDEX")
-	@OrderBy("type ASC, value ASC")
+	//	Order Column(name="INDEX")
+	// Order By "type ASC, value ASC"
 	private List<ContactChannel> channels = new ArrayList<>();
 
-	@OneToMany(mappedBy = "holderTeacher")
 	private Set<Subject> heldSubjects = new HashSet<>() ;
 	
-	@ManyToMany(mappedBy = "teachers")
 	private Set<TeachingActivity> activities = new HashSet<>();
 	
-	@Enumerated(EnumType.STRING)
 	private DayOfWeek counselingDay;
 	
 	private int counselingStartHour;

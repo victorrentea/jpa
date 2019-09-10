@@ -20,20 +20,12 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-//@DiscriminatorColumn()
-@EntityListeners(AuditingEntityListener.class) // SOLUTION
 public abstract class TeachingActivity {
 	
-	@Id
-	@GeneratedValue
 	private Long id;
 	
-	@ManyToOne
 	private Subject subject;
 	
-	@Enumerated(EnumType.STRING)
 	private DayOfWeek day;
 	
 	private int startHour;
@@ -42,14 +34,10 @@ public abstract class TeachingActivity {
 	
 	private String roomId;
 	
-	@LastModifiedDate // SOLUTION
 	private LocalDateTime lastModifiedDate;
 	
-	@LastModifiedBy // SOLUTION
 	private String lastModifiedBy;
 	
-	@ManyToMany
-//	@OrderColumn(name="INDEX") + the collection must become List
 	private Set<Teacher> teachers = new HashSet<>();
 	
 	
