@@ -10,13 +10,13 @@ import javax.persistence.Enumerated;
 public class TimeSlot {
 
 	@Enumerated(EnumType.STRING)
-	private final DayOfWeek day;
+	private DayOfWeek day;
 	
-	private final int startHour;
+	private int startHour;
 	
-	private final int durationInHours;
+	private int durationInHours;
 	
-	private final String roomId;
+	private String roomId;
 
 	public TimeSlot(DayOfWeek day, int startHour, int durationInHours, String roomId) {
 		if (day == null) throw  new IllegalArgumentException("nu asa;");
@@ -26,7 +26,8 @@ public class TimeSlot {
 		this.roomId = roomId;
 	}
 
-
+	private TimeSlot() { // pentru dragul de Hibernate
+	}
 
 	public DayOfWeek getDay() {
 		return day;
