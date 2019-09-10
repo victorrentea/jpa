@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.domain.entity.LabActivity;
+import victor.training.jpa.app.domain.entity.TeachingActivity;
 import victor.training.jpa.app.domain.entity.TimeSlot;
 
 import javax.persistence.EntityManager;
@@ -27,6 +28,8 @@ public class Playground {
 //        lab.
 //        lab.setA("a hihihi");
         em.persist(lab);
+
+        em.createQuery("SELECT t FROM TeachingActivity t", TeachingActivity.class).getResultList(); // UNIUNEA PROLETARILOR :P
     }
 
     @Transactional
