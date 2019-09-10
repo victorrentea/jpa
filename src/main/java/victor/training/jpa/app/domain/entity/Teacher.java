@@ -30,8 +30,7 @@ public class Teacher  extends AbstractEntity  {
 	@ElementCollection
 	private List<ContactChannel> channels = new ArrayList<>();
 
-	@OneToMany(mappedBy = "holderTeacher")
-
+	@OneToMany(mappedBy = "holderTeacher",cascade = CascadeType.ALL)
 	private Set<Subject> heldSubjects = new HashSet<>() ;
 
 	@ManyToMany

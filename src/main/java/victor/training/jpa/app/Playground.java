@@ -41,7 +41,7 @@ public class Playground {
 
         Subject subject = new Subject();
         subject.setName("ML");
-        em.persist(subject);
+//        em.persist(subject); // discutabil, deoarece viata cursului de FP nu depinde de existenta lui Giumale.
         teacher.addSubject(subject);
 
         // teacher.getHeldSubjects().add(subject) // crapa la runtime, fraere
