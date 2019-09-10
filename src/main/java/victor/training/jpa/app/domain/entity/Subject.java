@@ -25,8 +25,9 @@ public class Subject { // INITIAL
 	@ManyToOne
 	@JoinColumn(name="T_ID")
 	private Teacher holderTeacher;
-	
-//	private List<TeachingActivity> activities = new ArrayList<>();
+
+	@OneToMany
+	private List<TeachingActivity> activities = new ArrayList<>();
 	
 //	@LastModifiedDate // SOLUTION
 	private LocalDateTime lastModifiedDate;

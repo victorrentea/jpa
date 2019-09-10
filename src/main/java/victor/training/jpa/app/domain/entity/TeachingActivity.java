@@ -5,25 +5,22 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "TYPE")
 public abstract class TeachingActivity {
-	
+
+	@Id
 	private Long id;
-	
+
+	@ManyToOne
+	@JoinColumn(name = "S_ID")
 	private Subject subject;
 	
 	private DayOfWeek day;
@@ -37,7 +34,8 @@ public abstract class TeachingActivity {
 	private LocalDateTime lastModifiedDate;
 	
 	private String lastModifiedBy;
-	
+
+	@ManyToMany(mappedBy = "activities")
 	private Set<Teacher> teachers = new HashSet<>();
 	
 	
@@ -91,14 +89,7 @@ public abstract class TeachingActivity {
 		this.roomId = roomId;
 	}
 
-	public Set<Teacher> getTeachers() {
-		return teachers;
-	}
 
-	public void setTeachers(Set<Teacher> teachers) {
-		this.teachers = teachers;
-	}
-	
 	public String getLastModifiedBy() {
 		return lastModifiedBy;
 	}

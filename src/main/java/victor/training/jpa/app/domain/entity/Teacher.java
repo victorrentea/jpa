@@ -35,9 +35,15 @@ public class Teacher {
 	private List<ContactChannel> channels = new ArrayList<>();
 
 	@OneToMany(mappedBy = "holderTeacher")
+
 	private Set<Subject> heldSubjects = new HashSet<>() ;
-	
-//	private Set<TeachingActivity> activities = new HashSet<>();
+
+	@ManyToMany
+	@JoinTable(name = "TEACHER_ACTIVITY",
+		joinColumns = @JoinColumn(name = "TEACHER_ID"),
+		inverseJoinColumns = @JoinColumn(name = "ACTIVITY_ID")
+	)
+	private Set<TeachingActivity> activities = new HashSet<>();
 	
 	private DayOfWeek counselingDay;
 	
