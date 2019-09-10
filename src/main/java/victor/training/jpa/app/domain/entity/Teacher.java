@@ -63,4 +63,12 @@ public class Teacher  extends AbstractEntity  {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public TeacherDetails getDetails() {
+		return details;
+	}
+
+	public void setDetails(TeacherDetails details) {
+		this.details = details;
+	}
 }

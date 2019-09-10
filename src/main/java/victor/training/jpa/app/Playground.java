@@ -16,28 +16,34 @@ public class Playground {
 
     @Autowired
     private EntityManager em;
+    private Long teacherId;
+
 
     @Transactional
     public void firstTransaction() {
         log.debug("Halo!");
 
-        Teacher teacher = new Teacher();
-        teacher.setName("Giumale");
-        em.persist(teacher);
-
         TeacherDetails details = new TeacherDetails();
         details.setCv("pimped");
         em.persist(details);
 
+        Teacher teacher = new Teacher();
+        teacher.setName("Giumale");
+        teacher.setDetails(details);
+        System.out.println("Teacher.id inainte = " + teacher.getId());
+        em.persist(teacher);
+        System.out.println("Teacher.id dupa = " + teacher.getId());
+        teacherId = teacher.getId();
     }
 
     @Transactional
     public void secondTransaction() {
         log.debug("Halo2!");
 
-        Teacher teacher = em.find(Teacher.class, 1L);
+        Teacher teacher = em.find(Teacher.class, teacherId);
         teacher.setName("Cristian");
         System.out.println(teacher.getName());
+        System.out.println(teacher.getDetails().getCv());
 //        ActivitySearchCriteria criteria; // hm...
     }
 }

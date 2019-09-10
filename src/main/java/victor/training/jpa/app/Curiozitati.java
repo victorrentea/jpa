@@ -18,12 +18,12 @@ public class Curiozitati {
 
     @Transactional
     public void cretz() {
-        LabActivity lab = new LabActivity();
-        lab.setId(1L);
-        lab.setTimeSlot(new TimeSlot(DayOfWeek.MONDAY,6,2,"13"));
-//        lab.
-//        lab.setA("a hihihi");
-        em.persist(lab);
+//        LabActivity lab = new LabActivity();
+//        lab.setId(1L);
+//        lab.setTimeSlot(new TimeSlot(DayOfWeek.MONDAY,6,2,"13"));
+////        lab.
+////        lab.setA("a hihihi");
+//        em.persist(lab);
 
         em.createQuery("SELECT t FROM TeachingActivity t", TeachingActivity.class).getResultList(); // UNIUNEA PROLETARILOR :P
     }
