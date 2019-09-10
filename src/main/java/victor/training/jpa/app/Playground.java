@@ -28,7 +28,7 @@ public class Playground {
 
         TeacherDetails details = new TeacherDetails();
         details.setCv("pimped");
-        em.persist(details);
+//        em.persist(details); // putem sa-l scoatem pe asta ?
 
         Teacher teacher = new Teacher();
         teacher.setName("Giumale");

@@ -11,7 +11,6 @@ import static java.util.Collections.unmodifiableSet;
 public class Teacher  extends AbstractEntity  {
 
 
-
 	public enum Grade {
 		LECTURER, PROFESSOR, CONF, ASSISTENT
 	}
@@ -21,7 +20,7 @@ public class Teacher  extends AbstractEntity  {
 	@Enumerated(EnumType.STRING)
 	private Grade grade;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "TD_ID")
 	private TeacherDetails details;
 	
