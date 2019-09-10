@@ -12,9 +12,9 @@ public class TimeSlot {
 	@Enumerated(EnumType.STRING)
 	private DayOfWeek day;
 	
-	private int startHour;
+	private Integer startHour;
 	
-	private int durationInHours;
+	private Integer durationInHours;
 	
 	private String roomId;
 
@@ -34,12 +34,12 @@ public class TimeSlot {
 	}
 
 
-	public int getStartHour() {
+	public Integer getStartHour() {
 		return startHour;
 	}
 
 
-	public int getDurationInHours() {
+	public Integer getDurationInHours() {
 		return durationInHours;
 	}
 

@@ -73,10 +73,6 @@ public class Subject  extends AbstractEntity { // INITIAL
 		return holderTeacher;
 	}
 
-	public void setHolderTeacher(Teacher holder) {
-		this.holderTeacher = holder;
-	}
-
 //	public List<TeachingActivity> getActivities() {
 //		return activities;
 //	}
@@ -100,5 +96,8 @@ public class Subject  extends AbstractEntity { // INITIAL
 	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
 	}
-	
+
+	void setHolderTeacher(Teacher holderTeacher) {
+		this.holderTeacher = holderTeacher;
+	}
 }

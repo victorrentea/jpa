@@ -1,16 +1,16 @@
 package victor.training.jpa.app.domain.entity;
 
-import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.*;
+
+import static java.util.Collections.unmodifiableSet;
 
 //@Data
 @Entity
 public class Teacher  extends AbstractEntity  {
+
+
 
 	public enum Grade {
 		LECTURER, PROFESSOR, CONF, ASSISTENT
@@ -51,7 +51,16 @@ public class Teacher  extends AbstractEntity  {
 	
 	public Teacher() {
 	}
-	
+
+	public Set<Subject> getHeldSubjects() {
+		return unmodifiableSet(heldSubjects);
+	}
+
+	public void addSubject(Subject subject) {
+		heldSubjects.add(subject); // adica asta e degeaba ?
+		subject.setHolderTeacher(this);
+	}
+
 	public Teacher(String name) {
 		this.name = name;
 	}

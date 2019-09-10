@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.domain.entity.*;
 
 import javax.persistence.EntityManager;
-import java.time.DayOfWeek;
 
 @Service
 public class Playground {
@@ -23,6 +22,10 @@ public class Playground {
     public void firstTransaction() {
         log.debug("Halo!");
 
+//        Teacher tdejaAcolo = new Teacher();
+//        tdejaAcolo.setId(2L);
+//        em.merge(tdejaAcolo);
+
         TeacherDetails details = new TeacherDetails();
         details.setCv("pimped");
         em.persist(details);
@@ -34,6 +37,16 @@ public class Playground {
         em.persist(teacher);
         System.out.println("Teacher.id dupa = " + teacher.getId());
         teacherId = teacher.getId();
+
+
+        Subject subject = new Subject();
+        subject.setName("ML");
+        em.persist(subject);
+        teacher.addSubject(subject);
+
+        // teacher.getHeldSubjects().add(subject) // crapa la runtime, fraere
+        // subject.setHolderTeacher(teacher); nu compileaza, fraere
+        // Unde, fraere = tu peste 6 luni
     }
 
     @Transactional
@@ -44,6 +57,7 @@ public class Playground {
         teacher.setName("Cristian");
         System.out.println(teacher.getName());
         System.out.println(teacher.getDetails().getCv());
+        System.out.println(teacher.getHeldSubjects());
 //        ActivitySearchCriteria criteria; // hm...
     }
 }
