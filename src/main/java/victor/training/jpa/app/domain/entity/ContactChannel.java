@@ -1,9 +1,10 @@
 package victor.training.jpa.app.domain.entity;
 
-import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import com.sun.javafx.beans.IDProperty;
 
+import javax.persistence.*;
+
+@Entity
 public class ContactChannel {
 
 	public enum Type {
@@ -15,7 +16,10 @@ public class ContactChannel {
 		FACEBOOK,
 		LINKED_IN
 	}
-	
+	@Id
+	private Long id;
+
+	@Enumerated(EnumType.STRING)
 	private Type type;
 	
 	private String value;

@@ -6,17 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
+import javax.persistence.*;
 
 //@Data
 @Entity
@@ -30,14 +20,18 @@ public class Teacher {
 	private Long id;
 	
 	private String name;
-	
+
+	@Enumerated(EnumType.STRING)
 	private Grade grade;
-	
-//	private TeacherDetails details;
+
+	@OneToOne
+	@JoinColumn(name = "TD_ID")
+	private TeacherDetails details;
 	
 	//	Order Column(name="INDEX")
 	// Order By "type ASC, value ASC"
-//	private List<ContactChannel> channels = new ArrayList<>();
+	@OneToMany
+	private List<ContactChannel> channels = new ArrayList<>();
 
 //	private Set<Subject> heldSubjects = new HashSet<>() ;
 	

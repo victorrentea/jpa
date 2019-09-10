@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class Playground {
     public static final Logger log = LoggerFactory.getLogger(Playground.class);
 
+
     @Transactional
     public void firstTransaction() {
         log.debug("Halo!");
