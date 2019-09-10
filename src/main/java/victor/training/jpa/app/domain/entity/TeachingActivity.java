@@ -36,9 +36,9 @@ public abstract class TeachingActivity {
 	@Enumerated(EnumType.STRING)
 	private DayOfWeek day;
 	
-	private int startHour;
+	private Integer startHour;
 	
-	private int durationInHours;
+	private Integer durationInHours;
 	
 	private String roomId;
 	
@@ -79,19 +79,19 @@ public abstract class TeachingActivity {
 		this.day = day;
 	}
 
-	public int getStartHour() {
+	public Integer getStartHour() {
 		return startHour;
 	}
 
-	public void setStartHour(int startHour) {
+	public void setStartHour(Integer startHour) {
 		this.startHour = startHour;
 	}
 
-	public int getDurationInHours() {
+	public Integer getDurationInHours() {
 		return durationInHours;
 	}
 
-	public void setDurationInHours(int durationInHours) {
+	public void setDurationInHours(Integer durationInHours) {
 		this.durationInHours = durationInHours;
 	}
 
