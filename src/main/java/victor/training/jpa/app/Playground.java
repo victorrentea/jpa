@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import victor.training.jpa.app.facade.dto.ActivitySearchCriteria;
 
 @Service
 public class Playground {
@@ -19,6 +18,6 @@ public class Playground {
     public void secondTransaction() {
         log.debug("Halo2!");
 
-        ActivitySearchCriteria criteria; // hm...
+//        ActivitySearchCriteria criteria; // hm...
     }
 }
