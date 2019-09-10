@@ -10,7 +10,6 @@ import javax.persistence.*;
 
 //@Data
 @Entity
-@SequenceGenerator(name="unstring")
 public class Teacher  extends AbstractEntity  {
 
 	public enum Grade {
