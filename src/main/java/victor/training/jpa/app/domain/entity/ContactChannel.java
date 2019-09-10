@@ -4,7 +4,7 @@ import com.sun.javafx.beans.IDProperty;
 
 import javax.persistence.*;
 
-@Entity
+@Embeddable
 public class ContactChannel {
 
 	public enum Type {
@@ -16,8 +16,6 @@ public class ContactChannel {
 		FACEBOOK,
 		LINKED_IN
 	}
-	@Id
-	private Long id;
 
 	@Enumerated(EnumType.STRING)
 	private Type type;

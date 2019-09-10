@@ -30,7 +30,8 @@ public class Teacher {
 	
 	//	Order Column(name="INDEX")
 	// Order By "type ASC, value ASC"
-	@OneToMany
+
+	@ElementCollection
 	private List<ContactChannel> channels = new ArrayList<>();
 
 //	private Set<Subject> heldSubjects = new HashSet<>() ;
