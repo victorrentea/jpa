@@ -14,11 +14,8 @@ import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 
 @Entity
 //@EntityListeners(MyTrackingEntityListener.class)
-public class Subject { // INITIAL
+public class Subject  extends AbstractEntity { // INITIAL
 //public class Subject implements Trackable { // SOLUTION
-	@Id
-	private Long id;
-	
 	private String name;
 	
 	private boolean active;
@@ -62,14 +59,6 @@ public class Subject { // INITIAL
 
 	public Subject(String name) {
 		this.name = name;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getName() {

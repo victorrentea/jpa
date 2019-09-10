@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-public class StudentsGroup {
+public class StudentsGroup  extends AbstractEntity {
 	@Id
 	private Long id;
 

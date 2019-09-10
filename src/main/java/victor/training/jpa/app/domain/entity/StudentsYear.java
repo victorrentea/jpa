@@ -8,11 +8,8 @@ import java.util.Set;
 import javax.persistence.*;
 
 @Entity
-public class StudentsYear {
+public class StudentsYear  extends AbstractEntity {
 
-	@Id
-	private Long id;
-	
 	private String code;
 	
 	@OneToMany
@@ -31,14 +28,6 @@ public class StudentsYear {
 	}
 
 
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getCode() {
 		return code;

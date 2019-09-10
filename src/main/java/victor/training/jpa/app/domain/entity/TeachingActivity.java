@@ -14,10 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @DiscriminatorColumn(name = "TYPE")
-public abstract class TeachingActivity {
-
-	@Id
-	private Long id;
+public abstract class TeachingActivity  extends AbstractEntity  {
 
 	@ManyToOne
 	@JoinColumn(name = "S_ID")
@@ -39,14 +36,6 @@ public abstract class TeachingActivity {
 
 	public void setTimeSlot(TimeSlot timeSlot) {
 		this.timeSlot = timeSlot;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	

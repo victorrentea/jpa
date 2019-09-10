@@ -11,16 +11,12 @@ import javax.persistence.*;
 //@Data
 @Entity
 @SequenceGenerator(name="unstring")
-public class Teacher {
+public class Teacher  extends AbstractEntity  {
 
 	public enum Grade {
 		LECTURER, PROFESSOR, CONF, ASSISTENT
 	}
 
-	@Id
-	@GeneratedValue(generator = "unstring")
-	private Long id;
-	
 	private String name;
 
 	@Enumerated(EnumType.STRING)
