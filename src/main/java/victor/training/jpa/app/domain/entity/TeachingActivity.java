@@ -22,23 +22,24 @@ public abstract class TeachingActivity {
 	@ManyToOne
 	@JoinColumn(name = "S_ID")
 	private Subject subject;
-	
-	private DayOfWeek day;
-	
-	private int startHour;
-	
-	private int durationInHours;
-	
-	private String roomId;
-	
+
+	@Embedded
+	private TimeSlot timeSlot;
+
 	private LocalDateTime lastModifiedDate;
 	
 	private String lastModifiedBy;
 
 	@ManyToMany(mappedBy = "activities")
 	private Set<Teacher> teachers = new HashSet<>();
-	
-	
+
+	public TimeSlot getTimeSlot() {
+		return timeSlot;
+	}
+
+	public void setTimeSlot(TimeSlot timeSlot) {
+		this.timeSlot = timeSlot;
+	}
 
 	public Long getId() {
 		return id;
@@ -55,38 +56,6 @@ public abstract class TeachingActivity {
 
 	public void setSubject(Subject subject) {
 		this.subject = subject;
-	}
-
-	public DayOfWeek getDay() {
-		return day;
-	}
-
-	public void setDay(DayOfWeek day) {
-		this.day = day;
-	}
-
-	public int getStartHour() {
-		return startHour;
-	}
-
-	public void setStartHour(int startHour) {
-		this.startHour = startHour;
-	}
-
-	public int getDurationInHours() {
-		return durationInHours;
-	}
-
-	public void setDurationInHours(int durationInHours) {
-		this.durationInHours = durationInHours;
-	}
-
-	public String getRoomId() {
-		return roomId;
-	}
-
-	public void setRoomId(String roomId) {
-		this.roomId = roomId;
 	}
 
 

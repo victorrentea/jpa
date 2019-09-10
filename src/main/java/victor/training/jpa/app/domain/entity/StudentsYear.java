@@ -5,22 +5,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
+import javax.persistence.*;
 
+@Entity
 public class StudentsYear {
 
+	@Id
 	private Long id;
 	
 	private String code;
 	
-	
+	@OneToMany
+	@JoinColumn
 	private List<StudentsGroup> groups = new ArrayList<>();
-	
+
+	@OneToMany(mappedBy = "year")
 	private Set<CourseActivity> courses = new HashSet<>();
 
 	public StudentsYear() {

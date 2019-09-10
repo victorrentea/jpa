@@ -44,14 +44,21 @@ public class Teacher {
 		inverseJoinColumns = @JoinColumn(name = "ACTIVITY_ID")
 	)
 	private Set<TeachingActivity> activities = new HashSet<>();
-	
-	private DayOfWeek counselingDay;
-	
-	private int counselingStartHour;
-	
-	private int counselingDurationInHours;
-	
-	private String counselingRoomId;
+
+//	private DayOfWeek counselingDay;
+//
+//	private int counselingStartHour;
+//
+//	private int counselingDurationInHours;
+//
+//	private String counselingRoomId;
+
+	@AttributeOverrides({
+		@AttributeOverride(name = "day", column = @Column(name = "COUNSELING_DAY"))
+			// to be continued...
+	})
+	@Embedded
+	private TimeSlot timeSlot;
 	
 	public Teacher() {
 	}
