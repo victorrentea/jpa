@@ -34,7 +34,8 @@ public class Teacher {
 	@ElementCollection
 	private List<ContactChannel> channels = new ArrayList<>();
 
-//	private Set<Subject> heldSubjects = new HashSet<>() ;
+	@OneToMany(mappedBy = "holderTeacher")
+	private Set<Subject> heldSubjects = new HashSet<>() ;
 	
 //	private Set<TeachingActivity> activities = new HashSet<>();
 	
