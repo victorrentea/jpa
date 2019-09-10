@@ -9,6 +9,7 @@ import javax.persistence.Lob;
 public class TeacherDetails {
 
 	@Id
+	@GeneratedValue
 	private Long id;
 
 	@Lob

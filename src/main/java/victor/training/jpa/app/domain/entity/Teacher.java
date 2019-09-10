@@ -10,6 +10,7 @@ import javax.persistence.*;
 
 //@Data
 @Entity
+@SequenceGenerator(name="unstring")
 public class Teacher {
 
 	public enum Grade {
@@ -17,6 +18,7 @@ public class Teacher {
 	}
 
 	@Id
+	@GeneratedValue(generator = "unstring")
 	private Long id;
 	
 	private String name;
@@ -45,20 +47,12 @@ public class Teacher {
 	)
 	private Set<TeachingActivity> activities = new HashSet<>();
 
-//	private DayOfWeek counselingDay;
-//
-//	private int counselingStartHour;
-//
-//	private int counselingDurationInHours;
-//
-//	private String counselingRoomId;
-
 	@AttributeOverrides({
 		@AttributeOverride(name = "day", column = @Column(name = "COUNSELING_DAY"))
 			// to be continued...
 	})
 	@Embedded
-	private TimeSlot timeSlot;
+	private TimeSlot timeSlot = new TimeSlot();
 	
 	public Teacher() {
 	}
@@ -67,10 +61,11 @@ public class Teacher {
 		this.name = name;
 	}
 
-	
-	
+	public String getName() {
+		return name;
+	}
 
-	
-	
-
+	public void setName(String name) {
+		this.name = name;
+	}
 }

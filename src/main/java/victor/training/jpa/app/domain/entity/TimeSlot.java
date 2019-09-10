@@ -26,7 +26,7 @@ public class TimeSlot {
 		this.roomId = roomId;
 	}
 
-	private TimeSlot() { // pentru dragul de Hibernate
+	public TimeSlot() { // pentru dragul de Hibernate
 	}
 
 	public DayOfWeek getDay() {
