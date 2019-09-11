@@ -75,9 +75,9 @@ public class Playground {
     @Autowired
     private TeacherRepository teacherRepository;
 
-    @Transactional
+//    @Transactional
     public void nPlus1() {
-        Set<Teacher> teachers = teacherRepository.findAllFetchingSubjects();
+        List<Teacher> teachers = teacherRepository.findAll();
         System.out.println("I-am adus pe inculpati");
         for (Teacher teacher : teachers) {
             System.out.println("Subiectele lui " + teacher.getName() + " : " + teacher.getHeldSubjects());
