@@ -45,6 +45,8 @@ public class Subject  extends AbstractEntity { // INITIAL
 	
 	public Subject() {
 	}
+
+
 	
 	
 	public boolean isActive() {

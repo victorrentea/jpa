@@ -28,7 +28,7 @@ public abstract class TeachingActivity  extends AbstractEntity  {
 	private String lastModifiedBy;
 
 	@ManyToMany(mappedBy = "activities")
-	private Set<Teacher> teachers = new HashSet<>();
+	Set<Teacher> teachers = new HashSet<>();
 
 	public TimeSlot getTimeSlot() {
 		return timeSlot;

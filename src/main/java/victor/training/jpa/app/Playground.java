@@ -39,10 +39,13 @@ public class Playground {
         teacherId = teacher.getId();
 
 
-        Subject subject = new Subject();
-        subject.setName("ML");
-//        em.persist(subject); // discutabil, deoarece viata cursului de FP nu depinde de existenta lui Giumale.
-        teacher.addSubject(subject);
+        //        em.persist(subject); // discutabil, deoarece viata cursului de FP nu depinde de existenta lui Giumale.
+        teacher.addSubject(new Subject("ML"));
+        teacher.addSubject(new Subject("FP"));
+        teacher.addSubject(new Subject("MAS"));
+
+        teacher.addActivity(new LabActivity());
+        teacher.addActivity(new LabActivity());
 
         // teacher.getHeldSubjects().add(subject) // crapa la runtime, fraere
         // subject.setHolderTeacher(teacher); nu compileaza, fraere
@@ -57,6 +60,7 @@ public class Playground {
         teacher.setName("Cristian");
         System.out.println(teacher.getName());
         System.out.println(teacher.getDetails().getCv());
+
         System.out.println(teacher.getHeldSubjects());
 //        ActivitySearchCriteria criteria; // hm...
     }

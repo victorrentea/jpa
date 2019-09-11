@@ -30,10 +30,10 @@ public class Teacher  extends AbstractEntity  {
 	@ElementCollection
 	private List<ContactChannel> channels = new ArrayList<>();
 
-	@OneToMany(mappedBy = "holderTeacher",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "holderTeacher",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Subject> heldSubjects = new HashSet<>() ;
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "TEACHER_ACTIVITY",
 		joinColumns = @JoinColumn(name = "TEACHER_ID"),
 		inverseJoinColumns = @JoinColumn(name = "ACTIVITY_ID")
@@ -46,8 +46,20 @@ public class Teacher  extends AbstractEntity  {
 	})
 	@Embedded
 	private TimeSlot timeSlot = new TimeSlot();
-	
+
+	@OneToOne
+	private Frigider frigider;
+
 	public Teacher() {
+	}
+
+	public Set<TeachingActivity> getActivities() {
+		return unmodifiableSet(activities);
+	}
+
+	public void addActivity(TeachingActivity activity) {
+		activities.add(activity);
+		activity.teachers.add(this);
 	}
 
 	public Set<Subject> getHeldSubjects() {
