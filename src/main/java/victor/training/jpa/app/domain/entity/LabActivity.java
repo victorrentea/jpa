@@ -20,4 +20,12 @@ public class LabActivity extends TeachingActivity {
         this.group = group;
     }
 
+    @Override
+    public String toString() {
+        return "LabActivity{" +
+                "group=" + group +
+                ", teachers=" + teachers +
+                ", timeSlot=" + getTimeSlot() +
+                '}';
+    }
 }

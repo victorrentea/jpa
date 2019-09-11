@@ -3,12 +3,11 @@ package victor.training.jpa.app;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.domain.entity.*;
 import victor.training.jpa.app.repo.TeacherRepo;
+import victor.training.jpa.app.repo.TeachingActivityRepo;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -72,7 +71,6 @@ public class Playground {
         System.out.println(teacher.getDetails().getCv());
 
         System.out.println(teacher.getHeldSubjects());
-//        ActivitySearchCriteria criteria; // hm...
         Teacher teacherDeDeparte = altaDeparte.damiTeacher(teacherId);
 
         System.out.println("Oare teacherul local este == cu al de departe ?" +
@@ -81,7 +79,17 @@ public class Playground {
         System.out.println("Contact channels: " + teacher.getChannels());
 
         teacher.removeSubject(teacher.getHeldSubjects().iterator().next());
+        System.out.println("******************* Tu cel intri, lasa in urma orice sperata... Urmeaza search-ul");
+
+        ActivitySearchCriteria criteria  = new ActivitySearchCriteria();
+//        criteria.hour = 7;
+        criteria.room="eC";
+        List<TeachingActivity> results = teachingActivityRepo.search(criteria);
+        System.out.println(results);
     }
+    @Autowired
+    private TeachingActivityRepo teachingActivityRepo;
+
     @Autowired
     AltaClasaOverTheHillsAndFarAway altaDeparte;
 

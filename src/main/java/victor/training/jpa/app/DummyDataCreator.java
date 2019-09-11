@@ -69,7 +69,7 @@ public class DummyDataCreator {
 		timeSlot1.setDay(DayOfWeek.MONDAY);
 		timeSlot1.setStartHour(11);
 		timeSlot1.setDurationInHours(2);
-		timeSlot1.setRoomId("EC202");
+		timeSlot1.setRoomId("BN202");
         lab1.setTimeSlot(timeSlot1);
 		lab1.getTeachers().add(bianca);
 		lab1.getTeachers().add(ionut);
@@ -80,7 +80,7 @@ public class DummyDataCreator {
 		timeSlot2.setDay(DayOfWeek.TUESDAY);
 		timeSlot2.setStartHour(11);
 		timeSlot2.setDurationInHours(2);
-		timeSlot2.setRoomId("EC203");
+		timeSlot2.setRoomId("AN203");
 		lab2.setTimeSlot(timeSlot2);
 		lab2.getTeachers().add(ionut);
 

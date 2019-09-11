@@ -8,6 +8,15 @@ import javax.persistence.Enumerated;
 
 @Embeddable
 public class TimeSlot {
+	@Override
+	public String toString() {
+		return "TimeSlot{" +
+				"day=" + day +
+				", startHour=" + startHour +
+				", durationInHours=" + durationInHours +
+				", roomId='" + roomId + '\'' +
+				'}';
+	}
 
 	@Enumerated(EnumType.STRING)
 	private DayOfWeek day;

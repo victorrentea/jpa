@@ -20,6 +20,13 @@ public class CourseActivity extends TeachingActivity {
 	public void setYear(StudentsYear year) {
 		this.year = year;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "CourseActivity{" +
+				"year=" + year +
+				", teachers=" + teachers +
+				", timeSlot=" + getTimeSlot() +
+				'}';
+	}
 }
