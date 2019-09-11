@@ -70,7 +70,13 @@ public class Playground {
 
         System.out.println(teacher.getHeldSubjects());
 //        ActivitySearchCriteria criteria; // hm...
+        Teacher teacherDeDeparte = altaDeparte.damiTeacher(teacherId);
+
+        System.out.println("Oare teacherul local este == cu al de departe ?" +
+                (teacherDeDeparte == teacher));
     }
+    @Autowired
+    AltaClasaOverTheHillsAndFarAway altaDeparte;
 
     @Autowired
     private TeacherRepository teacherRepository;
@@ -84,6 +90,16 @@ public class Playground {
 //            em.detach(teacher);
             System.out.println("Subiectele lui " + teacher.getName() + " : " + teacher.getHeldSubjects());
         }
+    }
+}
+
+@Service
+class AltaClasaOverTheHillsAndFarAway {
+    @Autowired
+    private TeacherRepository repo;
+
+    public Teacher damiTeacher(Long teacherId) {
+        return repo.findById(teacherId).get();
     }
 }
 
