@@ -31,7 +31,7 @@ public class TransactionPlayground {
 class AltaClasa {
     @Autowired
     private EntityManager em;
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void altaMetoda() throws Exception {
         em.persist(new ErrorLog("Alta Eroare"));
         em.flush();
