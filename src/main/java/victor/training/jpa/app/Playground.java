@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.domain.entity.*;
+import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -85,7 +86,7 @@ public class Playground {
     AltaClasaOverTheHillsAndFarAway altaDeparte;
 
     @Autowired
-    private TeacherRepository teacherRepository;
+    private TeacherRepo teacherRepository;
 
     @Transactional
     public void nPlus1() {
@@ -102,15 +103,9 @@ public class Playground {
 @Service
 class AltaClasaOverTheHillsAndFarAway {
     @Autowired
-    private TeacherRepository repo;
+    private TeacherRepo repo;
 
     public Teacher damiTeacher(Long teacherId) {
         return repo.findById(teacherId).get();
     }
-}
-
-interface TeacherRepository extends JpaRepository<Teacher, Long> {
-
-    @Query("FROM Teacher t LEFT JOIN FETCH t.heldSubjects")
-    Set<Teacher> findAllFetchingSubjects();
 }

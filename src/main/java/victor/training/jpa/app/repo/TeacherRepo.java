@@ -10,21 +10,17 @@ import victor.training.jpa.app.common.data.EntityRepository;
 import victor.training.jpa.app.domain.entity.Subject;
 import victor.training.jpa.app.domain.entity.Teacher;
 
-//public interface TeacherRepo extends EntityRepository<Teacher, Long> {
+public interface TeacherRepo extends EntityRepository<Teacher, Long> {
+@Query("FROM Teacher t LEFT JOIN FETCH t.heldSubjects")
+    Set<Teacher> findAllFetchingSubjects();
+//	public ? getBusyDaysOfTeacher(long teacherId);
+//
+//	public ? getSubjectsKnownByTeacher(long teacherId);
+//
+//	public ? getTeachersKnownByGroup(long groupId);
+//
+//	public ? getSubjectsInRoom(String roomId);
+//
+//	public ? findByName(String name);
 
-//	@Query("SELECT DISTINCT a.day FROM Teacher t JOIN t.activities a WHERE t.id=?1")
-//	public Set<DayOfWeek> getBusyDaysOfTeacher(long teacherId);
-//
-//	@Query("SELECT DISTINCT a.subject FROM Teacher t JOIN t.activities a WHERE t.id=?1")
-//	public Set<Subject> getSubjectsKnownByTeacher(long teacherId);
-//
-//	@Query("SELECT DISTINCT t FROM TeachingActivity a JOIN a.teachers t "
-//			+ "WHERE a.group.id =?1 or a.year.id=(select g.year.id from StudentsGroup g where g.id=?1)")
-//	public Set<Teacher> getTeachersKnownByGroup(long groupId);
-//
-//	@Query("SELECT DISTINCT a.subject FROM TeachingActivity a WHERE a.roomId=?1")
-//	public Set<Subject> getSubjectsInRoom(String roomId);
-//
-//	public Optional<Teacher> findByName(String name);
-
-//}
+}
