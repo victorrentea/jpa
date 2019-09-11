@@ -31,10 +31,10 @@ public class TransactionPlayground {
 class AltaClasa {
     @Autowired
     private EntityManager em;
-    @Transactional(rollbackFor = Exception.class)
-    public void altaMetoda() throws Exception {
+    @Transactional
+    public void altaMetoda() {
         em.persist(new ErrorLog("Alta Eroare"));
         em.flush();
-        throw new Exception("Poc");
+        throw new RuntimeException("Poc");
     }
 }
