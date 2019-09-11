@@ -101,7 +101,8 @@ class UberEntitySearchResult {
                 '}';
     }
 }
-// CREATE OR REPLACE [materialized:(] VIEW UBER_SEARCH_VIEW AS (SELECT ,,,, FROM )
+// CREATE OR REPLACE [materialized:(] VIEW UBER_SEARCH_VIEW AS
+// (SELECT ,,,, AVG, DECODE, TO_DATE  FROM )
 @Entity
 @Table(name="UBER_SEARCH_VIEW")
 class UberEntitySearchView {
