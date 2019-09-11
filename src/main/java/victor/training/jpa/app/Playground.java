@@ -51,6 +51,8 @@ public class Playground {
 //        teacher.addActivity(new LabActivity());
 //        teacher.addActivity(new LabActivity());
 
+        teacher.getChannels().add(new ContactChannel(ContactChannel.Type.TWITTER, "the_real_sn"));
+        teacher.getChannels().add(new ContactChannel(ContactChannel.Type.FACEBOOK, "brexit"));
 
         em.persist(new Teacher("Vlad"));
 
@@ -74,6 +76,8 @@ public class Playground {
 
         System.out.println("Oare teacherul local este == cu al de departe ?" +
                 (teacherDeDeparte == teacher));
+
+        System.out.println("Contact channels: " + teacher.getChannels());
     }
     @Autowired
     AltaClasaOverTheHillsAndFarAway altaDeparte;

@@ -31,7 +31,7 @@ public class TransactionPlayground {
 }
 
 @Service
-@Transactional
+//@Transactional
 class AltaClasa {
     @Autowired
     private EntityManager em;

@@ -4,6 +4,7 @@ import com.sun.javafx.beans.IDProperty;
 
 import javax.persistence.*;
 
+
 @Embeddable
 public class ContactChannel {
 
@@ -45,6 +46,12 @@ public class ContactChannel {
 	public void setValue(String value) {
 		this.value = value;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "ContactChannel{" +
+				"type=" + type +
+				", value='" + value + '\'' +
+				'}';
+	}
 }

@@ -28,9 +28,15 @@ public class Teacher  extends AbstractEntity  {
 	// Order By "type ASC, value ASC"
 
 	@ElementCollection
+//    @OrderBy("value ASC")
+    @OrderColumn(name = "indexul_meu")
 	private List<ContactChannel> channels = new ArrayList<>();
 
-	@OneToMany(mappedBy = "holderTeacher",cascade = CascadeType.ALL)
+    public List<ContactChannel> getChannels() {
+        return channels;
+    }
+
+    @OneToMany(mappedBy = "holderTeacher",cascade = CascadeType.ALL)
 	private Set<Subject> heldSubjects = new HashSet<>() ;
 
 	@ManyToMany(cascade = CascadeType.ALL)
