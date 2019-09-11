@@ -14,8 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.util.Arrays;
+import javax.persistence.*;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -53,14 +52,14 @@ public class UberEntityTest {
         TestTransaction.start();
 
         log.info("Now, loading by id...");
-        Object[] uberEntity = uberRepo.getStrictlyNecessary(uber.getId()).get(0);
+        UberEntitySearchResult uberEntity = uberRepo.getStrictlyNecessary(uber.getId()).get(0);
         log.info("Loaded");
         log.info("Tre sa printez in UI: id, name si originCountry.name, asdsa si , is, is, si");
 
 
         // TODO fetch only the necessary data
         // TODO change link types?
-        System.out.println(Arrays.toString(uberEntity));
+        System.out.println(uberEntity);
     }
 
     @Autowired
@@ -70,8 +69,12 @@ public class UberEntityTest {
 
 interface UberRepo extends JpaRepository<UberEntity, Long> {
 
-    @Query("SELECT u.id, u.name, u.originCountry.name FROM UberEntity u WHERE u.id = ?1")
-    List<Object[]> getStrictlyNecessary(Long id);
+    @Query("SELECT new victor.training.jpa.perf.UberEntitySearchResult(" +
+            "u.id, u.name, u.originCountry.name, u.firstName) FROM UberEntity u WHERE u.id = ?1")
+    List<UberEntitySearchResult> getStrictlyNecessary(Long id);
+
+    // cu view arata asa :
+    // SELECT us from UberEntitySearchView us JOIN UberEntity u ON u.id=us.is WHERE u. and u.blabla and u.
 }
 
 
@@ -80,10 +83,32 @@ class UberEntitySearchResult {
     public final long id;
     public final String name;
     public final String originCountryName;
+    public final String firstName;
 
-    public UberEntitySearchResult(long id, String name, String originCountryName) {
+    public UberEntitySearchResult(long id, String name, String originCountryName, String firstName) {
         this.id = id;
         this.name = name;
         this.originCountryName = originCountryName;
+        this.firstName = firstName;
     }
+
+    @Override
+    public String toString() {
+        return "UberEntitySearchResult{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", originCountryName='" + originCountryName + '\'' +
+                '}';
+    }
+}
+// CREATE OR REPLACE [materialized:(] VIEW UBER_SEARCH_VIEW AS (SELECT ,,,, FROM )
+@Entity
+@Table(name="UBER_SEARCH_VIEW")
+class UberEntitySearchView {
+    @Id
+    public Long id;
+    public String name;
+    @Column(name = "ORIGIN_COUNTRY_NAME")
+    public String originCountryName;
+    public String firstName;
 }
