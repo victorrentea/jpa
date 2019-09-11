@@ -11,8 +11,10 @@ import victor.training.jpa.app.domain.entity.Subject;
 import victor.training.jpa.app.domain.entity.Teacher;
 
 public interface TeacherRepo extends EntityRepository<Teacher, Long> {
-@Query("FROM Teacher t LEFT JOIN FETCH t.heldSubjects")
+    @Query("FROM Teacher t LEFT JOIN FETCH t.heldSubjects")
     Set<Teacher> findAllFetchingSubjects();
+
+
 //	public ? getBusyDaysOfTeacher(long teacherId);
 //
 //	public ? getSubjectsKnownByTeacher(long teacherId);
@@ -21,6 +23,6 @@ public interface TeacherRepo extends EntityRepository<Teacher, Long> {
 //
 //	public ? getSubjectsInRoom(String roomId);
 //
-//	public ? findByName(String name);
+	Optional<Teacher> findByName(String name);
 
 }

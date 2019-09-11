@@ -100,4 +100,40 @@ public class Teacher  extends AbstractEntity  {
 	public void setDetails(TeacherDetails details) {
 		this.details = details;
 	}
+
+    public Grade getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Grade grade) {
+        this.grade = grade;
+    }
+
+    public void setChannels(List<ContactChannel> channels) {
+        this.channels = channels;
+    }
+
+    public void setHeldSubjects(Set<Subject> heldSubjects) {
+        this.heldSubjects = heldSubjects;
+    }
+
+    public void setActivities(Set<TeachingActivity> activities) {
+        this.activities = activities;
+    }
+
+    public TimeSlot getTimeSlot() {
+        return timeSlot;
+    }
+
+    public void setTimeSlot(TimeSlot timeSlot) {
+        this.timeSlot = timeSlot;
+    }
+
+    public Frigider getFrigider() {
+        return frigider;
+    }
+
+    public void setFrigider(Frigider frigider) {
+        this.frigider = frigider;
+    }
 }

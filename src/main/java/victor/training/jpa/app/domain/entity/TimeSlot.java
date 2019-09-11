@@ -48,6 +48,19 @@ public class TimeSlot {
 		return roomId;
 	}
 
+	public void setDay(DayOfWeek day) {
+		this.day = day;
+	}
 
-	
+	public void setStartHour(Integer startHour) {
+		this.startHour = startHour;
+	}
+
+	public void setDurationInHours(Integer durationInHours) {
+		this.durationInHours = durationInHours;
+	}
+
+	public void setRoomId(String roomId) {
+		this.roomId = roomId;
+	}
 }

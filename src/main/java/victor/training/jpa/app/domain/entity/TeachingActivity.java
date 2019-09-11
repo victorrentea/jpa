@@ -55,7 +55,20 @@ public abstract class TeachingActivity  extends AbstractEntity  {
 	public LocalDateTime getLastModifiedDate() {
 		return lastModifiedDate;
 	}
-	
-	
-	
+
+	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
+
+	public void setLastModifiedBy(String lastModifiedBy) {
+		this.lastModifiedBy = lastModifiedBy;
+	}
+
+	public Set<Teacher> getTeachers() {
+		return teachers;
+	}
+
+	public void setTeachers(Set<Teacher> teachers) {
+		this.teachers = teachers;
+	}
 }

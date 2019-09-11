@@ -24,7 +24,7 @@ public class TransactionPlayground {
         try {
             altaClasa.altaMetoda();
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace(); shaorma cu di toate
             //shaorma
         }
     }
