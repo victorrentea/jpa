@@ -49,6 +49,7 @@ public class JpaApplication {
 	@Autowired
 	TransactionPlayground transactionPlayground;
 
+	//TODO decomenteaza aci daca ai Sp Security activat. :) si foloseste @LastModifiedBy in casa si gradina
 //	@Bean
 //	public AuditorAware<String> auditorProvider() {
 //		return MyUtil::getUserOnCurrentThread;
