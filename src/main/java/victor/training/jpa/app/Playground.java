@@ -11,6 +11,7 @@ import victor.training.jpa.app.domain.entity.*;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class Playground {
@@ -76,7 +77,7 @@ public class Playground {
 
     @Transactional
     public void nPlus1() {
-        List<Teacher> teachers = teacherRepository.findAll();
+        Set<Teacher> teachers = teacherRepository.findAllFetchingSubjects();
         System.out.println("I-am adus pe inculpati");
         for (Teacher teacher : teachers) {
             System.out.println("Subiectele lui " + teacher.getName() + " : " + teacher.getHeldSubjects());
@@ -86,6 +87,6 @@ public class Playground {
 
 interface TeacherRepository extends JpaRepository<Teacher, Long> {
 
-    @Query("FROM Teacher t LEFT JOIN FETCH t.subjects")
-    List<Teacher> findAllFetchingSubjects();
+    @Query("FROM Teacher t LEFT JOIN FETCH t.heldSubjects")
+    Set<Teacher> findAllFetchingSubjects();
 }
