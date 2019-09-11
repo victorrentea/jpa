@@ -40,6 +40,8 @@ public class JpaApplication {
 		playground.firstTransaction();
 		System.out.println(" ========= SECOND TRANSACTION ========== ");
 		playground.secondTransaction();
+		System.out.println(" ========= N+1 ========== ");
+		playground.nPlus1();
 		System.out.println(" ========= END ========== ");
 	}
 	

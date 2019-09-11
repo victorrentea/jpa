@@ -30,10 +30,10 @@ public class Teacher  extends AbstractEntity  {
 	@ElementCollection
 	private List<ContactChannel> channels = new ArrayList<>();
 
-	@OneToMany(mappedBy = "holderTeacher",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "holderTeacher",cascade = CascadeType.ALL)
 	private Set<Subject> heldSubjects = new HashSet<>() ;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "TEACHER_ACTIVITY",
 		joinColumns = @JoinColumn(name = "TEACHER_ID"),
 		inverseJoinColumns = @JoinColumn(name = "ACTIVITY_ID")

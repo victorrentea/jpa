@@ -3,11 +3,14 @@ package victor.training.jpa.app;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.domain.entity.*;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 @Service
 public class Playground {
@@ -44,8 +47,11 @@ public class Playground {
         teacher.addSubject(new Subject("FP"));
         teacher.addSubject(new Subject("MAS"));
 
-        teacher.addActivity(new LabActivity());
-        teacher.addActivity(new LabActivity());
+//        teacher.addActivity(new LabActivity());
+//        teacher.addActivity(new LabActivity());
+
+
+        em.persist(new Teacher("Vlad"));
 
         // teacher.getHeldSubjects().add(subject) // crapa la runtime, fraere
         // subject.setHolderTeacher(teacher); nu compileaza, fraere
@@ -64,4 +70,22 @@ public class Playground {
         System.out.println(teacher.getHeldSubjects());
 //        ActivitySearchCriteria criteria; // hm...
     }
+
+    @Autowired
+    private TeacherRepository teacherRepository;
+
+    @Transactional
+    public void nPlus1() {
+        List<Teacher> teachers = teacherRepository.findAll();
+        System.out.println("I-am adus pe inculpati");
+        for (Teacher teacher : teachers) {
+            System.out.println("Subiectele lui " + teacher.getName() + " : " + teacher.getHeldSubjects());
+        }
+    }
+}
+
+interface TeacherRepository extends JpaRepository<Teacher, Long> {
+
+    @Query("FROM Teacher t LEFT JOIN FETCH t.subjects")
+    List<Teacher> findAllFetchingSubjects();
 }
