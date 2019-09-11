@@ -13,9 +13,8 @@ import victor.training.jpa.app.util.MyTrackingEntityListener;
 import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 
 @Entity
-//@EntityListeners(MyTrackingEntityListener.class)
-public class Subject  extends AbstractEntity { // INITIAL
-//public class Subject implements Trackable { // SOLUTION
+@EntityListeners(MyTrackingEntityListener.class)
+public class Subject  extends AbstractEntity implements Trackable{ // INITIAL
 	private String name;
 	
 	private boolean active;
@@ -33,13 +32,13 @@ public class Subject  extends AbstractEntity { // INITIAL
 	private String lastModifiedBy;
 
 	
-	@PrePersist
-	@PreUpdate
-	public void automaticUpdateTrackingColumns() {
-		System.out.println("Before persist/update Subject");
-		lastModifiedDate = LocalDateTime.now();
-		lastModifiedBy = "user de pe thread";
-	}
+//	@PrePersist
+//	@PreUpdate
+//	public void automaticUpdateTrackingColumns() {
+//		System.out.println("Before persist/update Subject");
+//		lastModifiedDate = LocalDateTime.now();
+//		lastModifiedBy = "user de pe thread";
+//	}
 	
 	
 	

@@ -7,6 +7,7 @@ import javax.persistence.PreUpdate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import victor.training.jpa.app.domain.entity.AbstractEntity;
 
 public class MyTrackingEntityListener {
 	private final static Logger log = LoggerFactory.getLogger(MyTrackingEntityListener.class);
@@ -19,8 +20,10 @@ public class MyTrackingEntityListener {
 	@PreUpdate
     @PrePersist
     public void setLastUpdate(Trackable trackable) {
-//		log.debug("Updating tracking columns of: {}", trackable);
-//		trackable.setLastModifiedDate(LocalDateTime.now());
-//		trackable.setLastModifiedBy(MyUtil.getUserOnCurrentThread());
+		log.debug("Updating tracking columns of: {}", trackable);
+		trackable.setLastModifiedDate(LocalDateTime.now());
+		trackable.setLastModifiedBy("user de pe thread");
     }
+
+
 }
