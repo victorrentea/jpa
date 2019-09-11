@@ -29,9 +29,12 @@ public class TransactionPlayground {
 
 @Service
 class AltaClasa {
-
+    @Autowired
+    private EntityManager em;
     @Transactional
-    public void altaMetoda() {
-        throw new IllegalArgumentException("Poc");
+    public void altaMetoda() throws Exception {
+        em.persist(new ErrorLog("Alta Eroare"));
+        em.flush();
+        throw new Exception("Poc");
     }
 }
