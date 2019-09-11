@@ -33,13 +33,13 @@ public class Subject  extends AbstractEntity { // INITIAL
 	private String lastModifiedBy;
 
 	
-//	@PrePersist
-//	@PreUpdate
-//	public void automaticUpdateTrackingColumns() {
-//		System.out.println("Before persist/update Subject");
-//		lastModifiedDate = LocalDateTime.now();
-//		lastModifiedBy = MyUtil.getUserOnCurrentThread();
-//	}
+	@PrePersist
+	@PreUpdate
+	public void automaticUpdateTrackingColumns() {
+		System.out.println("Before persist/update Subject");
+		lastModifiedDate = LocalDateTime.now();
+		lastModifiedBy = "user de pe thread";
+	}
 	
 	
 	
