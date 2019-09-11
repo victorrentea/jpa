@@ -10,8 +10,12 @@ import static java.util.Collections.unmodifiableSet;
 @Entity
 public class Teacher  extends AbstractEntity  {
 
+    public void removeSubject(Subject subject) {
+        heldSubjects.remove(subject);
+        subject.setHolderTeacher(null);
+    }
 
-	public enum Grade {
+    public enum Grade {
 		LECTURER, PROFESSOR, CONF, ASSISTENT
 	}
 
@@ -36,7 +40,7 @@ public class Teacher  extends AbstractEntity  {
         return channels;
     }
 
-    @OneToMany(mappedBy = "holderTeacher",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "holderTeacher",cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Subject> heldSubjects = new HashSet<>() ;
 
 	@ManyToMany(cascade = CascadeType.ALL)

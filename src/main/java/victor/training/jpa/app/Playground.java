@@ -78,6 +78,8 @@ public class Playground {
                 (teacherDeDeparte == teacher));
 
         System.out.println("Contact channels: " + teacher.getChannels());
+
+        teacher.removeSubject(teacher.getHeldSubjects().iterator().next());
     }
     @Autowired
     AltaClasaOverTheHillsAndFarAway altaDeparte;
