@@ -13,7 +13,7 @@ import victor.training.jpa.app.util.MyTrackingEntityListener;
 import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 
 @Entity
-@EntityListeners(MyTrackingEntityListener.class)
+//@EntityListeners(MyTrackingEntityListener.class)
 public class Subject  extends AbstractEntity /*implements Trackable*/{ // INITIAL
 	private String name;
 	
@@ -25,7 +25,7 @@ public class Subject  extends AbstractEntity /*implements Trackable*/{ // INITIA
 	@OneToMany
 	private List<TeachingActivity> activities = new ArrayList<>();
 	
-//	 @LastModifiedDate // SOLUTION // exercitiu pentru cititor
+	 @LastModifiedDate // SOLUTION // exercitiu pentru cititor
 	private LocalDateTime lastModifiedDate;
 	
 //	@LastModifiedBy // SOLUTION

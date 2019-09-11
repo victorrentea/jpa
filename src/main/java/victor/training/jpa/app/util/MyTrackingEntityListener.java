@@ -17,13 +17,13 @@ public class MyTrackingEntityListener {
 		void setLastModifiedDate(LocalDateTime dateTime);
 	}
 	
-	@PreUpdate
-    @PrePersist
-    public void setLastUpdate(Trackable trackable) {
-		log.debug("Updating tracking columns of: {}", trackable);
-		trackable.setLastModifiedDate(LocalDateTime.now());
-		trackable.setLastModifiedBy("user de pe thread");
-    }
+//	@PreUpdate
+//    @PrePersist
+//    public void setLastUpdate(Trackable trackable) {
+//		log.debug("Updating tracking columns of: {}", trackable);
+//		trackable.setLastModifiedDate(LocalDateTime.now());
+//		trackable.setLastModifiedBy("user de pe thread");
+//    }
 
 
 }

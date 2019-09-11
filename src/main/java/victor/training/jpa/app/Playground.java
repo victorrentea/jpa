@@ -55,6 +55,7 @@ public class Playground {
         teacher.getChannels().add(new ContactChannel(ContactChannel.Type.FACEBOOK, "brexit"));
 
         em.persist(new Teacher("Vlad"));
+        em.persist(new Country2(13L,"Romania"));
 
         // teacher.getHeldSubjects().add(subject) // crapa la runtime, fraere
         // subject.setHolderTeacher(teacher); nu compileaza, fraere
@@ -81,11 +82,22 @@ public class Playground {
         teacher.removeSubject(teacher.getHeldSubjects().iterator().next());
         System.out.println("******************* Tu cel intri, lasa in urma orice sperata... Urmeaza search-ul");
 
+
         ActivitySearchCriteria criteria  = new ActivitySearchCriteria();
 //        criteria.hour = 7;
         criteria.room="eC";
         List<TeachingActivity> results = teachingActivityRepo.search(criteria);
         System.out.println(results);
+
+        // iata vine un json de Frigider {
+        long countryId = 13L;
+        System.out.println("Iata vine-un frigider");
+        Frigider frigider = new Frigider();
+//        frigider.setCountry2(em.find(Country2.class, countryId)); // face un SELECT
+        Country2 proxyLaCountry = em.getReference(Country2.class, countryId);
+        System.out.println("Country = "  + proxyLaCountry.getClass());
+        frigider.setCountry2(proxyLaCountry); // face un SELECT
+        em.persist(frigider);
     }
     @Autowired
     private TeachingActivityRepo teachingActivityRepo;
