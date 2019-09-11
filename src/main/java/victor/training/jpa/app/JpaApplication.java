@@ -42,9 +42,12 @@ public class JpaApplication {
 		playground.secondTransaction();
 		System.out.println(" ========= N+1 ========== ");
 		playground.nPlus1();
-		System.out.println(" ========= END ========== ");
+		System.out.println(" ========= END ==========ASD&SA*D&SA*D&SA*D&SAD&*SAD*SAD ");
+		transactionPlayground.tx1();
+
 	}
-	
+	@Autowired
+	TransactionPlayground transactionPlayground;
 
 //	@Bean
 //	public AuditorAware<String> auditorProvider() {
