@@ -57,8 +57,6 @@ public class NPlusOneTest {
 	}
 
 
-
-
 	private int anotherMethod(Collection<Parent> parents) {
 		log.debug("Start iterating over {} parents: {}", parents.size(), parents);
 		int total = 0;

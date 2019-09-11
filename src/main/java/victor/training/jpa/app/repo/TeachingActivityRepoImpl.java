@@ -19,6 +19,7 @@ public class TeachingActivityRepoImpl implements TeachingActivityRepoCustom
     public List<TeachingActivity> search(ActivitySearchCriteria criteria) {
 //        @Query("SELECT ta FROM TeachingActivity ta WHERE paiii, daca am dala pun altfel nu")
         String jpql = "SELECT ta FROM TeachingActivity ta WHERE 1=1 ";
+        // NICIOADATA nu face searchuri care intorc entitati, tot timpul intoarce DTOuri
         Map<String, Object> paramsMap = new HashMap<>();
 
         if (criteria.hour != null) {

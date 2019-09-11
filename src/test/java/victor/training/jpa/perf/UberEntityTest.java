@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -13,6 +15,8 @@ import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.Arrays;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -49,10 +53,37 @@ public class UberEntityTest {
         TestTransaction.start();
 
         log.info("Now, loading by id...");
-        UberEntity uberEntity = em.find(UberEntity.class, uber.getId());
+        Object[] uberEntity = uberRepo.getStrictlyNecessary(uber.getId()).get(0);
         log.info("Loaded");
+        log.info("Tre sa printez in UI: id, name si originCountry.name, asdsa si , is, is, si");
+
+
         // TODO fetch only the necessary data
         // TODO change link types?
-        System.out.println(uberEntity.toString());
+        System.out.println(Arrays.toString(uberEntity));
+    }
+
+    @Autowired
+    private UberRepo uberRepo;
+}
+
+
+interface UberRepo extends JpaRepository<UberEntity, Long> {
+
+    @Query("SELECT u.id, u.name, u.originCountry.name FROM UberEntity u WHERE u.id = ?1")
+    List<Object[]> getStrictlyNecessary(Long id);
+}
+
+
+// JSON
+class UberEntitySearchResult {
+    public final long id;
+    public final String name;
+    public final String originCountryName;
+
+    public UberEntitySearchResult(long id, String name, String originCountryName) {
+        this.id = id;
+        this.name = name;
+        this.originCountryName = originCountryName;
     }
 }
