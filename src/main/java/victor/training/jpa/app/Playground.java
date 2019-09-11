@@ -77,11 +77,11 @@ public class Playground {
 
     @Transactional
     public void nPlus1() {
-        List<Teacher> teachers = teacherRepository.findAll();
+        Set<Teacher> teachers = teacherRepository.findAllFetchingSubjects();
 
         System.out.println("I-am adus pe inculpati");
         for (Teacher teacher : teachers) {
-            em.detach(teacher);
+//            em.detach(teacher);
             System.out.println("Subiectele lui " + teacher.getName() + " : " + teacher.getHeldSubjects());
         }
     }
