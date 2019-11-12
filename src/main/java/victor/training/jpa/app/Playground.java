@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.domain.entity.ErrorLog;
 import victor.training.jpa.app.domain.entity.Teacher;
+import victor.training.jpa.app.domain.entity.TeacherDetails;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,7 +36,10 @@ public class Playground {
 
         Teacher tavi = new Teacher();
         tavi.setName("Octavian Purdila");
+        TeacherDetails teacherDetails = new TeacherDetails();
+        tavi.setDetails(teacherDetails);
 
+        em.persist(teacherDetails);
         em.persist(tavi);
         alta();
     }
