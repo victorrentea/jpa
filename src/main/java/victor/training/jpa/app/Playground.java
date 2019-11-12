@@ -34,16 +34,13 @@ public class Playground {
         ErrorLog errorLog1 = new ErrorLog("alta");
         em.persist(errorLog1);
 
-        Teacher tavi = new Teacher();
-        tavi.setName("Octavian Purdila");
-        TeacherDetails teacherDetails = new TeacherDetails();
-        tavi.setDetails(teacherDetails);
-        Teacher plagiator = new Teacher();
-        plagiator.setDetails(teacherDetails);
+        Teacher teacher = new Teacher();
+        teacher.setName("Octavian Purdila");
+        TeacherDetails details = new TeacherDetails();
+        teacher.setDetails(details);
 
-        em.persist(teacherDetails);
-        em.persist(tavi);
-        em.persist(plagiator);
+        em.persist(teacher);
+//        em.persist(details);
         alta();
     }
 

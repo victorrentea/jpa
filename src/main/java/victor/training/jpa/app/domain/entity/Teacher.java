@@ -26,7 +26,7 @@ public class Teacher {
 	@Enumerated(EnumType.STRING)
 	private Grade grade;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "DETAILS_ID")
 	private TeacherDetails details;
 
