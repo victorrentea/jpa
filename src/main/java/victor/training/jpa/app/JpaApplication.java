@@ -46,6 +46,13 @@ public class JpaApplication {
 		System.out.println(" ========= SECOND TRANSACTION ========== ");
 		playground.secondTransaction();
 		System.out.println("Start..");
+//		Teacher teacher = em.find(Teacher.class, 3L); // causes a :
+		// org.hibernate.LazyInitializationException: failed to lazily initialize a collection of role: victor.training.jpa.app.domain.entity.Teacher.channels, could not initialize proxy - no Session
+		//	at org.hibernate.collection.internal.AbstractPersistentCollection.throwLazyInitializationException(AbstractPersistentCollection.java:582)
+		//	at org.hibernate.collection.internal.AbstractPersistentCollection.withTemporarySessionIfNeeded(AbstractPersistentCollection.java:201)
+		//	at org.hibernate.collection.internal.AbstractPersistentCollection.initialize(AbstractPersistentCollection.java:561)
+		//	at org.hibernate.collection.internal.AbstractPersistentCollection.read(AbstractPersistentCollection.java:132)
+		//	at org.hibernate.collection.internal.PersistentBag.iterator(PersistentBag.java:277)
 		Teacher teacher = em.createNamedQuery("Teacher.fetchChannels",Teacher.class)
 				.setParameter("id", 3L)
 				.getSingleResult();
