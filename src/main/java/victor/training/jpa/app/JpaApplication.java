@@ -39,6 +39,8 @@ public class JpaApplication {
 		playground.firstTransaction();
 		System.out.println(" ========= SECOND TRANSACTION ========== ");
 		playground.secondTransaction();
+		System.out.println(" ========= 3 TRANSACTION ========== ");
+		playground.thirdTransaction();
 		System.out.println(" ========= END ========== ");
 	}
 	
