@@ -6,15 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.sql.DataSource;
 
 @Service
 public class Playground {
     public static final Logger log = LoggerFactory.getLogger(Playground.class);
-    @Autowired
-    private TeacherRepo teacherRepo;
+//    @Autowired
+//    private TeacherRepo teacherRepo;
 
     @Autowired
     private DataSource ds;
@@ -22,7 +21,7 @@ public class Playground {
     @Transactional
     public void firstTransaction() {
         log.debug("Halo!");
-        teacherRepo.findAll();
+//        teacherRepo.findAll();
 //        new RuntimeException().printStackTrace();
 //        secondTransaction();
     }

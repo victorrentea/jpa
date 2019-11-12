@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import victor.training.jpa.app.common.data.EntityRepositoryFactoryBean;
 
+import java.time.Clock;
+
 @SpringBootApplication
 @EnableJpaRepositories(repositoryFactoryBeanClass = EntityRepositoryFactoryBean.class)
 @EnableJpaAuditing
@@ -20,8 +22,8 @@ import victor.training.jpa.app.common.data.EntityRepositoryFactoryBean;
 //@EnableLoadTimeWeaving(aspectjWeaving= EnableLoadTimeWeaving.AspectJWeaving.ENABLED)
 public class JpaApplication {
 
-	@Autowired
-	private DummyDataCreator dummyDataCreator;
+//	@Autowired
+//	private DummyDataCreator dummyDataCreator;
 	@Autowired
 	private Playground playground;
 
@@ -32,12 +34,13 @@ public class JpaApplication {
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		System.out.println(txm.getClass());
 		System.out.println("Application started. Running playground code...");
-		dummyDataCreator.persistDummyData();
+//		dummyDataCreator.persistDummyData();
 		System.out.println(" ========= FIRST TRANSACTION ========== ");
 		playground.firstTransaction();
 		System.out.println(" ========= SECOND TRANSACTION ========== ");
 		playground.secondTransaction();
 		System.out.println(" ========= END ========== ");
+		Clock
 	}
 	
 

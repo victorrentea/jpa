@@ -5,14 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 
-@Entity
 public class TeacherDetails {
 	
-	@Id
-	@GeneratedValue
 	private Long id;
 	
-	@Lob
 	private String cv;
 
 	public Long getId() {
