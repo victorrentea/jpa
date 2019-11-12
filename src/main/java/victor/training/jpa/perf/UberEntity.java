@@ -76,6 +76,7 @@ public class UberEntity {
 @Entity
 class Country {
     @Id
+    @GeneratedValue
     private Long id;
     private String name;
     private String region;
@@ -99,6 +100,7 @@ class Country {
 @Entity
 class Scope {
     @Id
+    @GeneratedValue
     private Long id;
     private String name;
     private Scope() {
@@ -112,6 +114,7 @@ class Scope {
 @Entity
 class User {
     @Id
+    @GeneratedValue
     private Long id;
     private String name;
     private User() {

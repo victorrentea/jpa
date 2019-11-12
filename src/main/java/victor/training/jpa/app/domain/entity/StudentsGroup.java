@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Entity
 public class StudentsGroup {
 	@Id
+	@GeneratedValue
 	private Long id;
 
 	private String code;

@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 public abstract class TeachingActivity {
 	@Id
+	@GeneratedValue
 	private Long id;
 
 	@ManyToOne

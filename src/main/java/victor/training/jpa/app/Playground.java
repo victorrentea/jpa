@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.domain.entity.ErrorLog;
+import victor.training.jpa.app.domain.entity.Teacher;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,10 +28,15 @@ public class Playground {
         log.debug("Halo!");
         ErrorLog errorLog = new ErrorLog("buba");
         em.persist(errorLog);
+        System.out.println("Am inserat un rand cu ID-ul " + errorLog.getId());
 
         ErrorLog errorLog1 = new ErrorLog("alta");
-        errorLog1.setId(2L);
         em.persist(errorLog1);
+
+        Teacher tavi = new Teacher();
+        tavi.setName("Octavian Purdila");
+
+        em.persist(tavi);
         alta();
     }
 

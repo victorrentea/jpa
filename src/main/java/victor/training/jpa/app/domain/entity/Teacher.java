@@ -16,6 +16,7 @@ public class Teacher {
 	}
 
 	@Id
+	@GeneratedValue
 	private Long id;
 	
 	private String name;

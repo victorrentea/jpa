@@ -15,6 +15,7 @@ import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 @Entity
 public class Subject  {
 	@Id
+	@GeneratedValue
 	private Long id;
 	
 	private String name;

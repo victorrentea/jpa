@@ -16,6 +16,7 @@ import javax.persistence.OrderColumn;
 public class StudentsYear {
 
 	@Id
+	@GeneratedValue
 	private Long id;
 	
 	private String code;
