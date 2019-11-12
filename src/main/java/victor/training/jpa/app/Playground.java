@@ -33,11 +33,15 @@ public class Playground {
         em.persist(errorLog1);
 
         Teacher teacher = new Teacher();
-        teacher.setName("Octavian Purdila");
         TeacherDetails details = new TeacherDetails();
         teacher.setDetails(details);
 
         em.persist(teacher);
+        teacher.setName("Octavian Purdila");
+        em.persist(teacher);
+        teacher.setName("Octavian Purdila2");
+        teacher.getChannels().add(new ContactChannel(ContactChannel.Type.FACEBOOK, "Krueger"));
+        teacher.getChannels().add(new ContactChannel(ContactChannel.Type.PERSONAL_EMAIL, "cosmar@gmail.com"));
 //        em.persist(details);
     }
 
@@ -50,7 +54,14 @@ public class Playground {
         teacher.addSubject(subject);
         em.persist(subject);
 
-
+        System.out.println("--- linie ----");
+        System.out.println("oare ce fel de lista e asta ?!!? "  +teacher.getChannels().getClass());
+        for (ContactChannel channel : teacher.getChannels()) {
+            System.out.println(channel);
+        }
+        for (ContactChannel channel : teacher.getChannels()) {
+            System.out.println(channel);
+        }
 
         ErrorLog errorLog = em.find(ErrorLog.class, 1L);
         System.out.println(errorLog);
