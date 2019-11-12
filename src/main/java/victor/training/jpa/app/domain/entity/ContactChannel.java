@@ -4,6 +4,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+@Embeddable
 public class ContactChannel {
 
 	public enum Type {
@@ -15,7 +16,7 @@ public class ContactChannel {
 		FACEBOOK,
 		LINKED_IN
 	}
-	
+	@Enumerated(EnumType.STRING)
 	private Type type;
 	
 	private String value;

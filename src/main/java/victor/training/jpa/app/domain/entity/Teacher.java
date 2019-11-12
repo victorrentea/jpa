@@ -25,7 +25,10 @@ public class Teacher {
 	@OneToOne
 	@JoinColumn(name = "DETAILS_ID")
 	private TeacherDetails details;
-	@Transient
+
+	@ElementCollection
+	@CollectionTable(name = "TEACHER_CONTACT_CHANNELS")
+	@OrderBy("type, value")
 	private List<ContactChannel> channels = new ArrayList<>();
 	@Transient
 	private Set<Subject> heldSubjects = new HashSet<>() ;
