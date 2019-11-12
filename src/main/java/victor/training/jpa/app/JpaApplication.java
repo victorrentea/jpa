@@ -40,7 +40,6 @@ public class JpaApplication {
 		System.out.println(" ========= SECOND TRANSACTION ========== ");
 		playground.secondTransaction();
 		System.out.println(" ========= END ========== ");
-		Clock
 	}
 	
 

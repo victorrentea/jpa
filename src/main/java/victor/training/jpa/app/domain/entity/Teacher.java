@@ -6,49 +6,40 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
+import javax.persistence.*;
 
+@Entity
 public class Teacher {
 
 	public enum Grade {
 		LECTURER, PROFESSOR, CONF, ASSISTENT
 	}
-	
+
+	@Id
 	private Long id;
 	
 	private String name;
-	
+	@Enumerated(EnumType.STRING)
 	private Grade grade;
-	
-	private TeacherDetails details;
-	
-	private List<ContactChannel> channels = new ArrayList<>();
 
+	@OneToOne
+	@JoinColumn(name = "DETAILS_ID")
+	private TeacherDetails details;
+	@Transient
+	private List<ContactChannel> channels = new ArrayList<>();
+	@Transient
 	private Set<Subject> heldSubjects = new HashSet<>() ;
-	
+	@Transient
 	private Set<TeachingActivity> activities = new HashSet<>();
-	
+
 	private DayOfWeek counselingDay;
-	
 	private Integer counselingStartHour;
-	
 	private Integer counselingDurationInHours;
-	
 	private String counselingRoomId;
-	
+
 	public Teacher() {
 	}
-	
+
 	public Teacher(String name) {
 		this.name = name;
 	}
@@ -140,12 +131,12 @@ public class Teacher {
 	public void setHeldSubjects(Set<Subject> heldSubjects) {
 		this.heldSubjects = heldSubjects;
 	}
-	
-	
-	
-	
 
-	
-	
+
+
+
+
+
+
 
 }
