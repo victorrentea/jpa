@@ -29,6 +29,9 @@ public class Playground {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void secondTransaction() {
         log.debug("Halo2!");
+
+        ErrorLog errorLog = em.find(ErrorLog.class, 1L);
+        System.out.println(errorLog);
     }
 }
 

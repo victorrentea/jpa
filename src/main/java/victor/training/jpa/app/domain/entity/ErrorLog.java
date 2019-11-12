@@ -11,9 +11,9 @@ public class ErrorLog {
 	private Long id;
 	
 	private String message;
-//
-//	public ErrorLog() {
-//	}
+
+	private ErrorLog() {
+	}
 	
 	public ErrorLog(String message) {
 		this.message = message;
@@ -34,7 +34,12 @@ public class ErrorLog {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "ErrorLog{" +
+				"id=" + id +
+				", message='" + message + '\'' +
+				'}';
+	}
 }
