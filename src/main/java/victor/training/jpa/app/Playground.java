@@ -48,15 +48,9 @@ public class Playground {
     public void secondTransaction() {
         log.debug("Halo2!");
 
-        Teacher teacher = em.createQuery("FROM Teacher t WHERE t.name = ?", Teacher.class)
-                .setParameter(0, "Octavian Purdila")
-                .getResultList()
-                .get(0);
+        Teacher teacher = em.find(Teacher.class, 3L);
         Subject subject = new Subject("SO2");
 
-
-
-//        subject.setHolderTeacher(teacher);
         teacher.addSubject(subject);
 
         em.persist(subject);
