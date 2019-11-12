@@ -38,9 +38,12 @@ public class Playground {
         tavi.setName("Octavian Purdila");
         TeacherDetails teacherDetails = new TeacherDetails();
         tavi.setDetails(teacherDetails);
+        Teacher plagiator = new Teacher();
+        plagiator.setDetails(teacherDetails);
 
         em.persist(teacherDetails);
         em.persist(tavi);
+        em.persist(plagiator);
         alta();
     }
 

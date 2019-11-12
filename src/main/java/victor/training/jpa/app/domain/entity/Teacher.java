@@ -9,6 +9,9 @@ import java.util.Set;
 import javax.persistence.*;
 
 @Entity
+@Table(uniqueConstraints =
+	@UniqueConstraint(name = "UNIQUE_DETAILS_ID", columnNames = {"DETAILS_ID"})
+)
 public class Teacher {
 
 	public enum Grade {
@@ -18,7 +21,7 @@ public class Teacher {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	private String name;
 	@Enumerated(EnumType.STRING)
 	private Grade grade;
