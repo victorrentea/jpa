@@ -12,14 +12,19 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 
+@Entity
 public class StudentsYear {
 
+	@Id
 	private Long id;
 	
 	private String code;
-	
+
+	@OneToMany(mappedBy = "year")
+	@OrderColumn(name = "ORDER_FOR_YEAR")
 	private List<StudentsGroup> groups = new ArrayList<>();
 
+	@OneToMany(mappedBy = "year")
 	private Set<CourseActivity> courses = new HashSet<>();
 
 	public StudentsYear() {

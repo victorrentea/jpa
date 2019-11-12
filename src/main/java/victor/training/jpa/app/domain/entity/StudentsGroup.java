@@ -5,22 +5,23 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
+@Entity
 public class StudentsGroup {
+	@Id
 	private Long id;
 
 	private String code;
 
+	@ManyToOne
+	@JoinColumn(name = "YEAR_ID")
 	private StudentsYear year;
 
+	@OneToMany(mappedBy = "group")
 	private Set<LabActivity> labs = new HashSet<>();
-	
+
+	@ElementCollection
 	private List<String> emails = new ArrayList<>();
 
 	public StudentsGroup() {

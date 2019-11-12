@@ -36,10 +36,11 @@ public class Teacher {
 	@ManyToMany(mappedBy = "teachers")
 	private Set<TeachingActivity> activities = new HashSet<>();
 
-	private DayOfWeek counselingDay;
-	private Integer counselingStartHour;
-	private Integer counselingDurationInHours;
-	private String counselingRoomId;
+	@Embedded
+	@AttributeOverrides({
+			@AttributeOverride(name = "day", column = @Column(name = "COUNSELING_DAY"))
+	})
+	private TimeSlot timeSlot = new TimeSlot();
 
 	public Teacher() {
 	}
@@ -89,35 +90,19 @@ public class Teacher {
 	}
 
 	public DayOfWeek getCounselingDay() {
-		return counselingDay;
-	}
-
-	public void setCounselingDay(DayOfWeek counselingDay) {
-		this.counselingDay = counselingDay;
+		return timeSlot.getDay();
 	}
 
 	public Integer getCounselingStartHour() {
-		return counselingStartHour;
-	}
-
-	public void setCounselingStartHour(Integer counselingStartHour) {
-		this.counselingStartHour = counselingStartHour;
+		return timeSlot.getStartHour();
 	}
 
 	public Integer getCounselingDurationInHours() {
-		return counselingDurationInHours;
-	}
-
-	public void setCounselingDurationInHours(Integer counselingDurationInHours) {
-		this.counselingDurationInHours = counselingDurationInHours;
+		return timeSlot.getDurationInHours();
 	}
 
 	public String getCounselingRoomId() {
-		return counselingRoomId;
-	}
-
-	public void setCounselingRoomId(String counselingRoomId) {
-		this.counselingRoomId = counselingRoomId;
+		return timeSlot.getRoomId();
 	}
 
 	public List<ContactChannel> getChannels() {
