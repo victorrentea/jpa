@@ -23,7 +23,6 @@ public class Playground {
     public void firstTransaction() {
         log.debug("Halo!");
         ErrorLog errorLog = new ErrorLog("buba");
-        errorLog.setId(1l);
         em.persist(errorLog);
     }
 
