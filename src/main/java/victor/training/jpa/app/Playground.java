@@ -66,6 +66,15 @@ public class Playground {
         ErrorLog errorLog = em.find(ErrorLog.class, 1L);
         System.out.println(errorLog);
     }
+
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public void jsp(Teacher teacher) {
+        for (ContactChannel channel : teacher.getChannels()) {
+            System.out.println(channel);
+        }
+    }
+
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void thirdTransaction() {
 

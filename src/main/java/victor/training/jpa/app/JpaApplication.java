@@ -11,7 +11,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import victor.training.jpa.app.common.data.EntityRepositoryFactoryBean;
+import victor.training.jpa.app.domain.entity.Teacher;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.Clock;
 
 @SpringBootApplication
@@ -30,6 +33,9 @@ public class JpaApplication {
 	@Autowired
 	private PlatformTransactionManager txm;
 
+	@PersistenceContext
+	private EntityManager em;
+
 	@EventListener
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		System.out.println(txm.getClass());
@@ -39,6 +45,11 @@ public class JpaApplication {
 		playground.firstTransaction();
 		System.out.println(" ========= SECOND TRANSACTION ========== ");
 		playground.secondTransaction();
+		System.out.println("Start..");
+		Teacher teacher = em.createNamedQuery("Teacher.fetchChannels",Teacher.class)
+				.setParameter("id", 3L)
+				.getSingleResult();
+		playground.jsp(teacher);
 		System.out.println(" ========= 3 TRANSACTION ========== ");
 		playground.thirdTransaction();
 		System.out.println(" ========= END ========== ");

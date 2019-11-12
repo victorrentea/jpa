@@ -9,6 +9,9 @@ import javax.persistence.*;
 @Table(uniqueConstraints =
 	@UniqueConstraint(name = "UNIQUE_DETAILS_ID", columnNames = {"DETAILS_ID"})
 )
+@NamedQueries({
+		@NamedQuery(name = "Teacher.fetchChannels", query = "FROM Teacher t LEFT JOIN FETCH t.channels WHERE t.id=:id")
+})
 public class Teacher {
 
 	public enum Grade {
