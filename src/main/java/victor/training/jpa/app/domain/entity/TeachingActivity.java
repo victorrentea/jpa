@@ -5,38 +5,30 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@Entity
 public abstract class TeachingActivity {
+	@Id
 	private Long id;
-	
+
+	@ManyToOne
+	@JoinColumn(name = "SUBJECT_ID")
 	private Subject subject;
-	
-	private DayOfWeek day;
-	
-	private Integer startHour;
-	
-	private Integer durationInHours;
-	
-	private String roomId;
-	
+
+	@Embedded
+	private TimeSlot timeSlot = new TimeSlot();
+
 	private LocalDateTime lastModifiedDate;
 	
 	private String lastModifiedBy;
-	
+
+	@ManyToMany
+	@JoinTable(name="TEACHERS_ACTIVITieS")
 	private Set<Teacher> teachers = new HashSet<>();
 	
 	
@@ -59,35 +51,31 @@ public abstract class TeachingActivity {
 	}
 
 	public DayOfWeek getDay() {
-		return day;
+		return timeSlot.getDay();
 	}
 
 	public void setDay(DayOfWeek day) {
-		this.day = day;
-	}
-
-	public Integer getStartHour() {
-		return startHour;
+		timeSlot.setDay(day);
 	}
 
 	public void setStartHour(Integer startHour) {
-		this.startHour = startHour;
+		timeSlot.setStartHour(startHour);
 	}
 
 	public Integer getDurationInHours() {
-		return durationInHours;
+		return timeSlot.getDurationInHours();
 	}
 
 	public void setDurationInHours(Integer durationInHours) {
-		this.durationInHours = durationInHours;
+		timeSlot.setDurationInHours(durationInHours);
 	}
 
 	public String getRoomId() {
-		return roomId;
+		return timeSlot.getRoomId();
 	}
 
 	public void setRoomId(String roomId) {
-		this.roomId = roomId;
+		timeSlot.setRoomId(roomId);
 	}
 
 	public Set<Teacher> getTeachers() {

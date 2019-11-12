@@ -4,12 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -17,17 +12,21 @@ import org.springframework.data.annotation.LastModifiedDate;
 import victor.training.jpa.app.util.MyTrackingEntityListener;
 import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 
+@Entity
 public class Subject  {
+	@Id
 	private Long id;
 	
 	private String name;
 	
 	private boolean active;
-	
+	@ManyToOne
+	@JoinColumn(name = "TEACHER_ID")
 	private Teacher holderTeacher;
-	
+
+	@OneToMany(mappedBy = "subject")
 	private List<TeachingActivity> activities = new ArrayList<>();
-	
+
 	private LocalDateTime lastModifiedDate;
 	
 	private String lastModifiedBy;

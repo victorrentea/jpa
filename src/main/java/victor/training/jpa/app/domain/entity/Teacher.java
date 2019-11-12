@@ -30,9 +30,10 @@ public class Teacher {
 	@CollectionTable(name = "TEACHER_CONTACT_CHANNELS")
 	@OrderBy("type, value")
 	private List<ContactChannel> channels = new ArrayList<>();
-	@Transient
+	@OneToMany(mappedBy = "holderTeacher")
 	private Set<Subject> heldSubjects = new HashSet<>() ;
-	@Transient
+
+	@ManyToMany(mappedBy = "teachers")
 	private Set<TeachingActivity> activities = new HashSet<>();
 
 	private DayOfWeek counselingDay;
