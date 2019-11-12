@@ -1,10 +1,7 @@
 package victor.training.jpa.app.domain.entity;
 
 import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.*;
 
@@ -118,8 +115,13 @@ public class Teacher {
 	}
 
 	public Set<Subject> getHeldSubjects() {
-		return heldSubjects;
+		return Collections.unmodifiableSet(heldSubjects);
 	}
+
+	public void addSubject(Subject subject) {
+	    heldSubjects.add(subject);
+	    subject.setHolderTeacher(this);
+    }
 
 	public void setHeldSubjects(Set<Subject> heldSubjects) {
 		this.heldSubjects = heldSubjects;

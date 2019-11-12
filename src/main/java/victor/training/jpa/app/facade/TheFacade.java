@@ -57,7 +57,8 @@ public class TheFacade {
 	public Long createSubject(SubjectDto subjectDto) {
 		Subject subject = new Subject();
 		subject.setName(subjectDto.name);
-		subject.setHolderTeacher(em.find(Teacher.class, subjectDto.holderTeacherId));
+		Teacher holder = em.find(Teacher.class, subjectDto.holderTeacherId);
+		holder.addSubject(subject);
 		log.debug("ID before persist: " + subject.getId());
 		em.persist(subject);
 		return subject.getId();
@@ -84,7 +85,8 @@ public class TheFacade {
 		Subject subject = em.find(Subject.class, subjectDto.id);
 		em.lock(subject, LockModeType.PESSIMISTIC_WRITE); // SELECT FOR UPDATE
 		subject.setName(subjectDto.name);
-		subject.setHolderTeacher(em.find(Teacher.class, subjectDto.holderTeacherId));
+		Teacher holder = em.find(Teacher.class, subjectDto.holderTeacherId);
+		holder.addSubject(subject);
 	}
 	
 	// Remember to set OWNER side (not mappedBy side) of a relation!
@@ -131,7 +133,8 @@ public class TheFacade {
 		anotherService.checkPermissionsOnSubject(subjectDto.id);
 		Subject subject = em.find(Subject.class, subjectDto.id);
 		subject.setName(subjectDto.name);
-		subject.setHolderTeacher(em.find(Teacher.class, subjectDto.holderTeacherId));
+		Teacher holder = em.find(Teacher.class, subjectDto.holderTeacherId);
+		holder.addSubject(subject);
 		em.flush();
 //		throw new RuntimeException("Thrown on purpose");
 		try{ 
@@ -148,8 +151,9 @@ public class TheFacade {
 		anotherService.checkPermissionsOnSubject(subjectDto.id);
 		Subject subject = em.find(Subject.class, subjectDto.id);
 		subject.setName(subjectDto.name);
-		subject.setHolderTeacher(em.find(Teacher.class, subjectDto.holderTeacherId));
-		try{ 
+		Teacher holder = em.find(Teacher.class, subjectDto.holderTeacherId);
+		holder.addSubject(subject);
+			try{
 			anotherService.throwException(); // My Tx dies before returning from this call
 		} catch (Exception e) {
 			log.debug(e.getMessage(), e);

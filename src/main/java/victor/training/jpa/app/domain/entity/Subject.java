@@ -81,7 +81,7 @@ public class Subject  {
 		return holderTeacher;
 	}
 
-	public void setHolderTeacher(Teacher holder) {
+	void setHolderTeacher(Teacher holder) {
 		this.holderTeacher = holder;
 	}
 

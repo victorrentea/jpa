@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.domain.entity.ErrorLog;
+import victor.training.jpa.app.domain.entity.Subject;
 import victor.training.jpa.app.domain.entity.Teacher;
 import victor.training.jpa.app.domain.entity.TeacherDetails;
 
@@ -41,16 +42,24 @@ public class Playground {
 
         em.persist(teacher);
 //        em.persist(details);
-        alta();
-    }
-
-    private void alta() {
-
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void secondTransaction() {
         log.debug("Halo2!");
+
+        Teacher teacher = em.createQuery("FROM Teacher t WHERE t.name = ?", Teacher.class)
+                .setParameter(0, "Octavian Purdila")
+                .getResultList()
+                .get(0);
+        Subject subject = new Subject("SO2");
+
+
+
+//        subject.setHolderTeacher(teacher);
+        teacher.addSubject(subject);
+
+        em.persist(subject);
 
         ErrorLog errorLog = em.find(ErrorLog.class, 1L);
         System.out.println(errorLog);
