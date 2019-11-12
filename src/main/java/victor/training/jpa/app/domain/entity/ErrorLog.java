@@ -7,12 +7,13 @@ import javax.persistence.Id;
 public class ErrorLog {
 
 	@Id
+
 	private Long id;
 	
 	private String message;
-
-	public ErrorLog() {
-	}
+//
+//	public ErrorLog() {
+//	}
 	
 	public ErrorLog(String message) {
 		this.message = message;

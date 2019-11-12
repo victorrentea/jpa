@@ -6,24 +6,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import victor.training.jpa.app.domain.entity.ErrorLog;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 
 @Service
 public class Playground {
     public static final Logger log = LoggerFactory.getLogger(Playground.class);
-//    @Autowired
-//    private TeacherRepo teacherRepo;
 
-    @Autowired
-    private DataSource ds;
+    @PersistenceContext
+    private EntityManager em;
 
     @Transactional
     public void firstTransaction() {
         log.debug("Halo!");
-//        teacherRepo.findAll();
-//        new RuntimeException().printStackTrace();
-//        secondTransaction();
+        ErrorLog errorLog = new ErrorLog("buba");
+        errorLog.setId(1l);
+        em.persist(errorLog);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -32,15 +33,3 @@ public class Playground {
     }
 }
 
-
-//@Aspect
-//    @Order(1) // runs BEFORE the TxInterceptor
-//@Component
-//class Test {
-//    @Around("execution(* Playground.*(..))")
-//    public Object intercept(ProceedingJoinPoint point) throws Throwable {
-//        System.out.println("NOW");
-//        return point.proceed();
-//    }
-//
-//}
