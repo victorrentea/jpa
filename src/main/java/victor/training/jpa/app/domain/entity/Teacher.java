@@ -60,7 +60,7 @@ public class Teacher {
 	@GeneratedValue
 	private Long id;
 
-	@Length(max = 5/*, groups = DraftMode.class*/)
+//	@Length(max = 5/*, groups = DraftMode.class*/)
 //	@TeacherName
 	private String name;
 	@Enumerated(EnumType.STRING)
