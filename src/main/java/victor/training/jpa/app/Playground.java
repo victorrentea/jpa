@@ -11,7 +11,7 @@ import victor.training.jpa.app.domain.entity.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-@Service
+@Service // @Stateless
 public class Playground {
     public static final Logger log = LoggerFactory.getLogger(Playground.class);
 
@@ -147,16 +147,7 @@ public class Playground {
     public void day2_take3_lucian() {
         Teacher t = em.find(Teacher.class, 3L);
         t.setName("Rughinish");
-        cautalPePurdila();
-    }
-
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void cautalPePurdila() {
-        new RuntimeException("pt proxy, sus halba").printStackTrace();
-        Long n = em.createQuery("SELECT count(*) FROM Teacher t WHERE t.name = :name", Long.class)
-                .setParameter("name", "Octavian Purdila2")
-                .getSingleResult();
-        System.out.println("L-am gasit ? : " + n);
+        altu.cautalPePurdila();
     }
 }
 @Service
@@ -176,6 +167,14 @@ class AltEJB {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Teacher incarcaTeacher() {
         return em.find(Teacher.class, 3L);
+    }
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void cautalPePurdila() {
+        new RuntimeException("pt proxy, sus halba").printStackTrace();
+        Long n = em.createQuery("SELECT count(*) FROM Teacher t WHERE t.name = :name", Long.class)
+                .setParameter("name", "Octavian Purdila2")
+                .getSingleResult();
+        System.out.println("L-am gasit ? : " + n);
     }
 }
 
