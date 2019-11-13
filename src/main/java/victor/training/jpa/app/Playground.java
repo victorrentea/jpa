@@ -96,14 +96,17 @@ public class Playground {
     @Transactional
     public void day2_take1() {
         Teacher teacher = em.find(Teacher.class, 3L);
+        teacher.setName("Oups!");
         System.out.println(teacher.getName());
         Subject subject = em.find(Subject.class, 5L);
         System.out.println( subject.getHolderTeacher() == teacher);
-        Teacher teacher3 = em.createQuery(
-                "SELECT t from Teacher t where t.name='Octavian Purdila2'",
-                Teacher.class).getSingleResult();
-        System.out.println(teacher3 == teacher);
+//        Teacher teacher3 = em.createQuery(
+//                "SELECT t from Teacher t where t.name='Octavian Purdila2'",
+//                Teacher.class).getSingleResult();
+//        System.out.println(teacher3 == teacher);
         altu.altaMetoda(teacher);
+
+
     }
     @Autowired
     AltEJB altu;
