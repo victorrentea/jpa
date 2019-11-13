@@ -1,18 +1,56 @@
 package victor.training.jpa.app.domain.entity;
 
+import org.hibernate.validator.constraints.Length;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.Repeatable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.time.DayOfWeek;
 import java.util.*;
 
 import javax.persistence.*;
+import javax.validation.Constraint;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
+import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.ElementType.TYPE_USE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+//@Documented
+//@Constraint(validatedBy = TeacherNameValidator.class)
+//@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
+//@Retention(RUNTIME)
+//@interface TeacherName {
+//
+//}
+//
+//class TeacherNameValidator implements ConstraintValidator<TeacherName, String> {
+//
+//	@Override
+//	public void initialize(TeacherName constraintAnnotation) {
+//
+//	}
+//
+//	@Override
+//	public boolean isValid(String value, ConstraintValidatorContext context) {
+//		return value.equals(value.toUpperCase());
+//	}
+//}
 
 @Entity
 @Table(uniqueConstraints =
 	@UniqueConstraint(name = "UNIQUE_DETAILS_ID", columnNames = {"DETAILS_ID"})
 )
 @NamedQueries({
-		@NamedQuery(name = "Teacher.fetchChannels", query = "FROM Teacher t LEFT JOIN FETCH t.channels WHERE t.id=:id")
+		@NamedQuery(name = "Teacher.fetchChannels",
+				query = "FROM Teacher t LEFT JOIN FETCH t.channels WHERE t.id=:id")
 })
+
 public class Teacher {
+//	interface DraftMode {}
+//	interface SubmittedMode {}
 
 	public enum Grade {
 		LECTURER, PROFESSOR, CONF, ASSISTENT
@@ -22,6 +60,8 @@ public class Teacher {
 	@GeneratedValue
 	private Long id;
 
+	@Length(max = 5/*, groups = DraftMode.class*/)
+//	@TeacherName
 	private String name;
 	@Enumerated(EnumType.STRING)
 	private Grade grade;

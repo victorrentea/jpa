@@ -32,6 +32,7 @@ public class TeacherDao {
 
         System.out.println("jpql: " + jpql);
         TypedQuery<Teacher> query = em.createQuery(jpql, Teacher.class);
+//        query.fet
         for (String param : paramMap.keySet()) {
             query.setParameter(param, paramMap.get(param));
         }
