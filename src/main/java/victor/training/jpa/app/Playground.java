@@ -39,6 +39,7 @@ public class Playground {
         em.persist(teacher);
         teacher.setName("Octavian Purdila");
         em.persist(teacher);
+
         teacher.setName("Octavian Purdila2");
         teacher.getChannels().add(new ContactChannel(ContactChannel.Type.FACEBOOK, "Krueger"));
         teacher.getChannels().add(new ContactChannel(ContactChannel.Type.PERSONAL_EMAIL, "cosmar@gmail.com"));
@@ -88,12 +89,19 @@ public class Playground {
         System.out.println("Oare ce mama masii e subjectu asta: " + subject.getClass());
         course.setSubject(subject);
         em.persist(course);
+        em.persist(new Teacher("Sf. Giumale"));
     }
 
     @Transactional
     public void day2_take1() {
         Teacher teacher = em.find(Teacher.class, 3L);
+        System.out.println(teacher.getName());
         Teacher teacher2 = em.find(Teacher.class, 3L);
+        System.out.println(teacher2.getName());
+
+        System.out.println(teacher == teacher2);
+
+
     }
 }
 
