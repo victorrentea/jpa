@@ -108,15 +108,32 @@ public class Playground {
         Teacher teacher3 = em.createQuery(
                 "SELECT t from Teacher t where t.name='Octavian Purdila2'",
                 Teacher.class).getSingleResult();
-        teacher.setName("Oups!");
+        teacher.setName("Oups! Tranzactia s-a comis.");
         System.out.println(teacher3 == teacher);
 
         System.out.println("S-a intamplat ceva?");
-        if (true) throw new Exception();
+//        if (true) throw new Exception();
+
+        try {
+            altu.altaMetoda(teacher);
+            //B
+        }catch (Exception e) {
+            // gogaltz
+        }
+        System.out.println("Eu am cerut. Cere si ti se va da. Dar oare ce am primit? " + altu.getClass());
 
     }
     @Autowired
     AltEJB altu;
+//    = new AltEJB() {
+//        @Override
+//        public void altaMetoda(Teacher teacher) throws Exception {
+//            tx.start()
+//            super.altaMetoda(teacher);
+//            tx.commit;
+//        }catch () {tx.rollback
+//        }
+//    };
 }
 @Service
 class AltEJB {
@@ -124,13 +141,14 @@ class AltEJB {
     private EntityManager em;
 //    @Transactional(propagation = Propagation.REQUIRES_NEW)
 
-    @Transactional(propagation = Propagation.REQUIRED)
+//    @Transactional(propagation = Propagation.REQUIRED)
     public void altaMetoda(Teacher teacher) throws Exception {
         Teacher teacher2 = em.find(Teacher.class, 3L);
         System.out.println(teacher2.getName());
         System.out.println(teacher == teacher2);
-
-
+        new RuntimeException().printStackTrace();
+        throw new RuntimeException();
+//A
     }
 }
 
