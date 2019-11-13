@@ -141,7 +141,7 @@ class AltEJB {
     private EntityManager em;
 //    @Transactional(propagation = Propagation.REQUIRES_NEW)
 
-//    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional
     public void altaMetoda(Teacher teacher) throws Exception {
         Teacher teacher2 = em.find(Teacher.class, 3L);
         System.out.println(teacher2.getName());
