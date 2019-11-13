@@ -59,9 +59,10 @@ public class JpaApplication {
 		playground.jsp(teacher);
 		System.out.println(" ========= 3 TRANSACTION ========== ");
 		playground.thirdTransaction();
+		System.out.println(" ========= Day 2 - take 1 ========== ");
+		playground.day2_take1();
 		System.out.println(" ========= END ========== ");
 	}
-	
 
 //	@Bean
 //	public AuditorAware<String> auditorProvider() {

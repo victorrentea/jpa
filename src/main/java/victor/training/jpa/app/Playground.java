@@ -89,5 +89,10 @@ public class Playground {
         course.setSubject(subject);
         em.persist(course);
     }
+
+    public void day2_take1() {
+        Teacher teacher = em.find(Teacher.class, 3L);
+        Teacher teacher2 = em.find(Teacher.class, 3L);
+    }
 }
 
