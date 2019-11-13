@@ -60,7 +60,11 @@ public class JpaApplication {
 		System.out.println(" ========= 3 TRANSACTION ========== ");
 		playground.thirdTransaction();
 		System.out.println(" ========= Day 2 - take 1 ========== ");
-		playground.day2_take1();
+		try {
+			playground.day2_take1();
+		} catch (Exception e) {
+			// shawarma
+		}
 		System.out.println(" ========= END ========== ");
 	}
 
