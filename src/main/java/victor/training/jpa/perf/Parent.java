@@ -15,6 +15,8 @@ public class Parent {
     private Long id;
 
     private String name;
+    @OneToOne(cascade = CascadeType.ALL)
+    private History history = new History();
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "PARENT_ID")

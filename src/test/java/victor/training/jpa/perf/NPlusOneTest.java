@@ -53,7 +53,10 @@ public class NPlusOneTest {
 
 	@Test
 	public void nPlusOne() {
-		List<Parent> parents = em.createQuery("FROM Parent  p LEFT JOIN FETCH p.children", Parent.class).getResultList();
+		List<Parent> parents = em.createQuery("FROM Parent p " +
+				" LEFT JOIN FETCH p.children " +
+				" LEFT JOIN FETCH p.history "
+				, Parent.class).getResultList();
 
 		HashSet<Parent> distinctParents = new HashSet<>(parents);
 
