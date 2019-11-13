@@ -1,11 +1,8 @@
 package victor.training.jpa.app;
 
-import com.sun.org.apache.regexp.internal.RE;
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +10,6 @@ import victor.training.jpa.app.domain.entity.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.sql.DataSource;
 
 @Service
 public class Playground {
@@ -138,15 +134,35 @@ public class Playground {
 //    };
     @Transactional(propagation = Propagation.REQUIRED)
     public void day2_take2(Teacher teacher) {
-        teacher.setName("Altu");
+        teacher.setName("Altu"); // detasata deja cand e data param
+        Teacher teacher2 = altu.incarcaTeacher();
+        teacher2.setName("Altu2"); // detasata la finalul metodei apelate
+
+        Teacher teacher1 = em.find(Teacher.class, 3L);
+        System.out.println(teacher == teacher1);
+        System.out.println(teacher == teacher2);
+        System.out.println(teacher1 == teacher2);
+    }
+    @Transactional
+    public void day2_take3_lucian() {
+        Teacher t = em.find(Teacher.class, 3L);
+        t.setName("Rughinish");
+        cautalPePurdila();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void cautalPePurdila() {
+        new RuntimeException("pt proxy, sus halba").printStackTrace();
+        Long n = em.createQuery("SELECT count(*) FROM Teacher t WHERE t.name = :name", Long.class)
+                .setParameter("name", "Octavian Purdila2")
+                .getSingleResult();
+        System.out.println("L-am gasit ? : " + n);
     }
 }
 @Service
 class AltEJB {
     @PersistenceContext
     private EntityManager em;
-//    @Transactional(propagation = Propagation.REQUIRES_NEW)
-
     @Transactional
     public void altaMetoda(Teacher teacher) throws Exception {
         Teacher teacher2 = em.find(Teacher.class, 3L);
@@ -155,6 +171,11 @@ class AltEJB {
         new RuntimeException().printStackTrace();
         throw new RuntimeException();
 //A
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public Teacher incarcaTeacher() {
+        return em.find(Teacher.class, 3L);
     }
 }
 
