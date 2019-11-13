@@ -32,6 +32,8 @@ public class Playground {
         Teacher teacher = new Teacher();
         TeacherDetails details = new TeacherDetails();
         teacher.setDetails(details);
+        teacher.getPeriute().add(new Periuta("Colgate"));
+        teacher.getPeriute().add(new Periuta("Senodyne"));
 
         em.persist(teacher);
         teacher.setName("Octavian Purdila");
@@ -148,6 +150,7 @@ public class Playground {
         Teacher t = em.find(Teacher.class, 3L);
         t.setName("Rughinish");
         t.setDetails(null); // + orphan removal = dispare copilu
+        t.getPeriute().remove(0);
         altu.cautalPePurdila();
     }
 }

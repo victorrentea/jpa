@@ -46,6 +46,14 @@ public class Teacher {
 	})
 	private TimeSlot timeSlot = new TimeSlot();
 
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name="TEACHER_ID")
+	private List<Periuta> periute = new ArrayList<>();
+
+	public List<Periuta> getPeriute() {
+		return periute;
+	}
+
 	public Teacher() {
 	}
 
