@@ -34,6 +34,7 @@ public class Playground {
         teacher.setDetails(details);
         teacher.getPeriute().add(new Periuta("Colgate"));
         teacher.getPeriute().add(new Periuta("Senodyne"));
+teacher.setGrade(Teacher.Grade.LECTURER);
 
         em.persist(teacher);
         teacher.setName("Octavian Purdila");
