@@ -164,7 +164,7 @@ class AltEJB {
 //A
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Teacher incarcaTeacher() {
         return em.find(Teacher.class, 3L);
     }
