@@ -147,6 +147,7 @@ public class Playground {
     public void day2_take3_lucian() {
         Teacher t = em.find(Teacher.class, 3L);
         t.setName("Rughinish");
+        t.setDetails(null); // + orphan removal = dispare copilu
         altu.cautalPePurdila();
     }
 }
