@@ -1,5 +1,6 @@
 package victor.training.jpa.app;
 
+import com.sun.org.apache.regexp.internal.RE;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,12 +97,26 @@ public class Playground {
     public void day2_take1() {
         Teacher teacher = em.find(Teacher.class, 3L);
         System.out.println(teacher.getName());
+        Subject subject = em.find(Subject.class, 5L);
+        System.out.println( subject.getHolderTeacher() == teacher);
+        Teacher teacher3 = em.createQuery(
+                "SELECT t from Teacher t where t.name='Octavian Purdila2'",
+                Teacher.class).getSingleResult();
+        System.out.println(teacher3 == teacher);
+        altu.altaMetoda(teacher);
+    }
+    @Autowired
+    AltEJB altu;
+}
+@Service
+class AltEJB {
+    @PersistenceContext
+    private EntityManager em;
+//    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void altaMetoda(Teacher teacher) {
         Teacher teacher2 = em.find(Teacher.class, 3L);
         System.out.println(teacher2.getName());
-
         System.out.println(teacher == teacher2);
-
-
     }
 }
 
