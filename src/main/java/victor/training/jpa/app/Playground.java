@@ -90,6 +90,7 @@ public class Playground {
         em.persist(course);
     }
 
+    @Transactional
     public void day2_take1() {
         Teacher teacher = em.find(Teacher.class, 3L);
         Teacher teacher2 = em.find(Teacher.class, 3L);
