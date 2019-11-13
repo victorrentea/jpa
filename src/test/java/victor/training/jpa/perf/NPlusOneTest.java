@@ -39,9 +39,9 @@ public class NPlusOneTest {
 				.addChild(new Child("Emma"))
 				.addChild(new Child("Vlad"))
 		);
-		for (int i = 0; i < 1000; i++) {
-			em.persist(new Parent("Peter"));
-		}
+//		for (int i = 0; i < 1000; i++) {
+//			em.persist(new Parent("Peter"));
+//		}
 		em.persist(new Parent("Peter")
 				.addChild(new Child("Maria"))
 				.addChild(new Child("Stephan"))
@@ -53,7 +53,7 @@ public class NPlusOneTest {
 
 	@Test
 	public void nPlusOne() {
-		List<Parent> parents = em.createQuery("FROM Parent", Parent.class).getResultList();
+		List<Parent> parents = em.createQuery("FROM Parent  p LEFT JOIN FETCH p.children", Parent.class).getResultList();
 
 		int totalChildren = anotherMethod(parents);
 		assertThat(totalChildren).isEqualTo(5);
