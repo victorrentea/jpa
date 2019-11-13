@@ -65,6 +65,8 @@ public class JpaApplication {
 		} catch (Exception e) {
 			// shawarma
 		}
+		Teacher teacher2 = em.find(Teacher.class, 3L);
+		playground.day2_take2(teacher2);
 		System.out.println(" ========= END ========== ");
 	}
 

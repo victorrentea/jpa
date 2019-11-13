@@ -125,6 +125,8 @@ public class Playground {
     }
     @Autowired
     AltEJB altu;
+
+
 //    = new AltEJB() {
 //        @Override
 //        public void altaMetoda(Teacher teacher) throws Exception {
@@ -134,6 +136,10 @@ public class Playground {
 //        }catch () {tx.rollback
 //        }
 //    };
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void day2_take2(Teacher teacher) {
+        teacher.setName("Altu");
+    }
 }
 @Service
 class AltEJB {
