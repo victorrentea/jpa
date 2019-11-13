@@ -94,19 +94,20 @@ public class Playground {
     }
 
     @Transactional
-    public void day2_take1() {
+    public void day2_take1() throws Exception {
         Teacher teacher = em.find(Teacher.class, 3L);
         System.out.println(teacher.getName());
         Subject subject = em.find(Subject.class, 5L);
         System.out.println( subject.getHolderTeacher() == teacher);
-        teacher.setName("Oups!");
         Teacher teacher3 = em.createQuery(
                 "SELECT t from Teacher t where t.name='Octavian Purdila2'",
                 Teacher.class).getSingleResult();
+        teacher.setName("Oups!");
         System.out.println(teacher3 == teacher);
-        altu.altaMetoda(teacher);
 
-        if (true) throw new IllegalArgumentException();
+        System.out.println("S-a intamplat ceva?");
+        if (true) throw new Exception();
+
     }
     @Autowired
     AltEJB altu;
@@ -116,10 +117,14 @@ class AltEJB {
     @PersistenceContext
     private EntityManager em;
 //    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void altaMetoda(Teacher teacher) {
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void altaMetoda(Teacher teacher) throws Exception {
         Teacher teacher2 = em.find(Teacher.class, 3L);
         System.out.println(teacher2.getName());
         System.out.println(teacher == teacher2);
+
+
     }
 }
 
