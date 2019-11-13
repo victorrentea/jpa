@@ -29,7 +29,10 @@ public abstract class TeachingActivity {
 	private String lastModifiedBy;
 
 	@ManyToMany
-	@JoinTable(name="TEACHERS_ACTIVITieS")
+	@JoinTable(name="TEACHERS_ACTIVITieS",
+		inverseJoinColumns = @JoinColumn(name="T_ID"),
+		joinColumns = @JoinColumn(name="A_ID")
+	)
 	private Set<Teacher> teachers = new HashSet<>();
 	
 	

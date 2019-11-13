@@ -55,6 +55,10 @@ public class Playground {
         Subject subject = new Subject("SO2");
         teacher.addSubject(subject);
         em.persist(subject);
+        LabActivity labActivity = new LabActivity();
+        teacher.getActivities().add(labActivity);
+        labActivity.getTeachers().add(teacher);
+        em.persist(labActivity);
 
         System.out.println("--- linie ----");
         System.out.println("oare ce fel de lista e asta ?!!? "  +teacher.getChannels().getClass());
@@ -95,6 +99,8 @@ public class Playground {
 
     @Transactional
     public void day2_take1() throws Exception {
+
+        System.out.println("Oare ce implementare primesc de EntityManager ? " + em.getClass());
         Teacher teacher = em.find(Teacher.class, 3L);
         System.out.println(teacher.getName());
         Subject subject = em.find(Subject.class, 5L);
