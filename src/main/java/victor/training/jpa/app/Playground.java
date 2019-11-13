@@ -154,11 +154,27 @@ teacher.setGrade(Teacher.Grade.LECTURER);
         t.getPeriute().remove(0);
         altu.cautalPePurdila();
     }
+
+    public void merge() {
+        Teacher teacher = em.find(Teacher.class, 3L);
+        altu.m2(teacher);
+    }
+
 }
 @Service
 class AltEJB {
     @PersistenceContext
     private EntityManager em;
+
+    @Transactional
+    public void m2(Teacher teacher) { //techerul parmetru e detached ca nu a existat tx acolo de unde vine
+        System.out.println("Inainte de merge");
+        teacher.setName("Dan");
+        Teacher dinDb = em.merge(teacher);
+
+        System.out.println("==  " + (dinDb == teacher));
+        System.out.println("Dupa merge");
+    }
     @Transactional
     public void altaMetoda(Teacher teacher) throws Exception {
         Teacher teacher2 = em.find(Teacher.class, 3L);

@@ -47,7 +47,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 		@NamedQuery(name = "Teacher.fetchChannels",
 				query = "FROM Teacher t LEFT JOIN FETCH t.channels WHERE t.id=:id")
 })
-
 public class Teacher {
 //	interface DraftMode {}
 //	interface SubmittedMode {}

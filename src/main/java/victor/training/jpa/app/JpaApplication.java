@@ -68,6 +68,7 @@ public class JpaApplication {
 		Teacher teacher2 = em.find(Teacher.class, 3L);
 		playground.day2_take2(teacher2);
 		playground.day2_take3_lucian();
+		playground.merge();
 		System.out.println(" ========= END ========== ");
 	}
 
