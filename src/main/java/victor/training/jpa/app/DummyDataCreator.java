@@ -25,20 +25,11 @@ import victor.training.jpa.app.repo.TeacherRepo;
 @Component
 public class DummyDataCreator {
 
-	private final static Logger log = LoggerFactory.getLogger(DummyDataCreator.class);
-	
 	@PersistenceContext
 	private EntityManager em;
-	
-	@Autowired
-	private TeacherRepo teacherRepo;
-	
+
 	@Transactional
 	public void persistDummyData() {
-		if (teacherRepo.findByName("Victor").isPresent()) {
-			log.info("Skipping: Dummy data already in DB.YY");
-			return;
-		}
 		Teacher victor = new Teacher("Victor");
 		victor.setGrade(Teacher.Grade.ASSISTENT);
 		TeacherDetails teacherDetails = new TeacherDetails().setCv("A pimped CV");
