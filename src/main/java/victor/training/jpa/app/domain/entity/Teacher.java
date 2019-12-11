@@ -6,17 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
+import javax.persistence.*;
 
 @Entity
 public class Teacher {
@@ -28,13 +18,13 @@ public class Teacher {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	private String name;
 	
 	@Enumerated(EnumType.STRING)
 	private Grade grade;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private TeacherDetails details;
 	
 	@ElementCollection
