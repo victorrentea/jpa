@@ -32,7 +32,7 @@ public class JpaApplication {
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		System.out.println(txm.getClass());
 		System.out.println("Application started. Running playground code...");
-		dummyDataCreator.persistDummyData();
+//		dummyDataCreator.persistDummyData();
 		System.out.println(" ========= FIRST TRANSACTION ========== ");
 		playground.firstTransaction();
 		System.out.println(" ========= SECOND TRANSACTION ========== ");
