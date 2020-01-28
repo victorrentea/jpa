@@ -19,14 +19,17 @@ import java.util.Optional;
 public class Playground {
     private final TeacherRepo teacherRepo;
 
+    @Transactional
     public void firstTransaction() {
         log.debug("Halo!");
         Teacher teacher = new Teacher("Mishel");
-        teacherRepo.save(teacher);
-        System.out.println("Dupa save ");
+//        teacherRepo.save(teacher);
+        System.out.println("Dupa save teacher are id= " + teacher.getId());
         TeacherDetails details = new TeacherDetails();
         teacher.setDetails(details);
         teacherRepo.save(teacher);
+
+
 
     }
 
