@@ -1,5 +1,6 @@
 package victor.training.jpa.perf;
 
+import lombok.Value;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -13,6 +14,9 @@ import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -37,6 +41,7 @@ public class UberEntityTest {
 
 
         UberEntity uber = new UberEntity()
+                .setName("Advantage")
                 .setFiscalCountry(romania)
                 .setOriginCountry(romania)
                 .setInvoicingCountry(romania)
@@ -49,10 +54,23 @@ public class UberEntityTest {
         TestTransaction.start();
 
         log.info("Now, loading by id...");
-        UberEntity uberEntity = em.find(UberEntity.class, uber.getId());
+
+//        UberEntity uberEntity = em.find(UberEntity.class, uber.getId());
+        Object wow = em.createQuery(
+                "SELECT u.name, u.originCountry.name " +
+                        "FROM UberEntity u WHERE u.id = :id")
+                .setParameter("id", uber.getId())
+                .getSingleResult();
+
         log.info("Loaded");
         // TODO fetch only the necessary data
         // TODO change link types?
-        System.out.println(uberEntity.toString());
+//        System.out.println(uberEntity.getName() + ";" + uberEntity.getOriginCountry().getName());
+        System.out.println(Arrays.toString((Object[]) wow));
     }
+}
+
+@Value
+class UberLight {
+    String name, originCountryName;
 }

@@ -33,7 +33,7 @@ public class UberEntity {
         return name;
     }
 
-    public UberEntity setName(String name) {
+       public UberEntity setName(String name) {
         this.name = name;
         return this;
     }
