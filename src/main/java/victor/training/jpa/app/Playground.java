@@ -29,30 +29,6 @@ public class Playground implements IPlayground {
     private final ErrorLogRepo errorLogRepo;
 
     @Override
-    @Transactional
-    public void firstTransaction() {
-        log.debug("Halo!");
-        Teacher teacher = new Teacher("Mishel");
-        teacherRepo.save(teacher);
-//        teacherRepo.searchActivity(new ActivitySearchCriteria());
-
-//        teacherRepo.save(teacher);
-        System.out.println("Dupa save teacher are id= " + teacher.getId());
-        TeacherDetails details = new TeacherDetails();
-        teacher.setDetails(details);
-
-        try {
-            x.salveazaMaterie(teacher);
-        } catch (Exception e) {
-            log.trace("Eroarea: " + e ); //shaworma
-            x.persistError(e.getMessage());
-        }
-    }
-
-    @Autowired
-    X x;
-
-    @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void secondTransaction() {
         log.debug("Am gasit {} erori", errorLogRepo.count());
@@ -72,6 +48,34 @@ public class Playground implements IPlayground {
 
     }
 
+    @Override
+    @Transactional
+    public void firstTransaction() {
+        log.debug("Halo!");
+        Teacher teacher = new Teacher("Mishel");
+        teacherRepo.save(teacher);
+//        teacherRepo.searchActivity(new ActivitySearchCriteria());
+
+//        teacherRepo.save(teacher);
+        System.out.println("Dupa save teacher are id= " + teacher.getId());
+        TeacherDetails details = new TeacherDetails();
+        teacher.setDetails(details);
+
+        try {
+            x.salveazaMaterie(teacher);
+        } catch (Exception e) {
+            log.trace("Eroarea: " + e ); //shaworma
+            persistError(e.getMessage());
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW) // ESTI PROST GRAMADA. Proxy-urile nu intervin, un intercepteaza apeluri de metode locale
+    public void persistError(String error) {
+        errorLogRepo.save(new ErrorLog(error));
+    }
+
+    @Autowired
+    X x;
 
 }
 @RequiredArgsConstructor
@@ -96,10 +100,6 @@ class X {
         if (true) {
             throw new IllegalArgumentException("intentionat");
         }
-    }
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void persistError(String error) {
-        errorLogRepo.save(new ErrorLog(error));
     }
 
 }
