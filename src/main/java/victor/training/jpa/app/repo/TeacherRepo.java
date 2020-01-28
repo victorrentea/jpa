@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.springframework.data.jpa.repository.Query;
 
+import org.springframework.data.jpa.repository.query.Procedure;
 import victor.training.jpa.app.common.data.EntityRepository;
 import victor.training.jpa.app.domain.entity.Subject;
 import victor.training.jpa.app.domain.entity.Teacher;

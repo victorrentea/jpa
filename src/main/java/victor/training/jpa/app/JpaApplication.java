@@ -23,7 +23,7 @@ public class JpaApplication {
 	@Autowired
 	private DummyDataCreator dummyDataCreator;
 	@Autowired
-	private Playground playground;
+	private IPlayground playground;
 
 	@Autowired
 	private PlatformTransactionManager txm;
@@ -35,9 +35,10 @@ public class JpaApplication {
 //		dummyDataCreator.persistDummyData();
 		System.out.println(" ========= FIRST TRANSACTION ========== ");
 		try {
+			System.out.println("Oare cu cine vorbesc ? " + playground.getClass());
 			playground.firstTransaction();
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace(); // SHAWORMA
 		}
 		System.out.println(" ========= SECOND TRANSACTION ========== ");
 		playground.secondTransaction();
