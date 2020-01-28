@@ -36,7 +36,7 @@ public class TeacherRepoImpl implements TeacherRepoCustom{
 	@Override
 	public List<TeachingActivity> searchActivity(ActivitySearchCriteria criteria) {
 		Map<String, Object> params = new HashMap<>();
-		String jpql = "SELECT a FROM TeachingActivity a WHERE 1=1 ";
+		String jpql = "SELECT a FROM TeachingActivity a, Teacher t WHERE 1=1 ";
 		
 		if (StringUtils.isNotBlank(criteria.subject)) {
 			jpql += " AND UPPER(a.subject.name) LIKE UPPER('%' || :subject || '%') ";
