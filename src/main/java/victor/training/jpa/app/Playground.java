@@ -64,15 +64,12 @@ public class Playground implements IPlayground {
         try {
             x.salveazaMaterie(teacher);
         } catch (Exception e) {
-            log.trace("Eroarea: " + e ); //shaworma
-            persistError(e.getMessage());
+            log.error("Eroarea: " + e ); //shaworma
+            System.out.println(x.getClass());
+            x.persistError(e.getMessage());
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW) // ESTI PROST GRAMADA. Proxy-urile nu intervin, un intercepteaza apeluri de metode locale
-    public void persistError(String error) {
-        errorLogRepo.save(new ErrorLog(error));
-    }
 
     @Autowired
     X x;
@@ -86,19 +83,24 @@ class X {
     private final TeacherRepo teacherRepo;
     private final SubjectRepo subjectRepo;
     private final ErrorLogRepo errorLogRepo;
+    @Transactional(propagation = Propagation.REQUIRES_NEW) // ESTI PROST GRAMADA. Proxy-urile nu intervin, un intercepteaza apeluri de metode locale
+    public void persistError(String error) {
+        errorLogRepo.save(new ErrorLog(error));
+    }
     public void altaMetoda(Teacher teacher) {
         log.debug("Si-nco-data mai flacai");
         Teacher teacher2 = teacherRepo.findById(1L).get();
         log.debug("Dolly " + (teacher == teacher2));
     }
 
-    public void salveazaMaterie(Teacher teacher) {
+    public void salveazaMaterie(Teacher teacher) throws Exception {
+        // Checked exceptions cand trec prin proxy nu omoara Tranzactia
         Subject subject = new Subject("Cercetari Operationale");
         subject.setHolderTeacher(teacher);
         subject.setName("Masuratori Stiintifice");
         subjectRepo.save(subject);
         if (true) {
-            throw new IllegalArgumentException("intentionat");
+            throw new Exception("intentionat");
         }
     }
 
