@@ -56,9 +56,9 @@ public class UberEntityTest {
         log.info("Now, loading by id...");
 
 //        UberEntity uberEntity = em.find(UberEntity.class, uber.getId());
-        Object wow = em.createQuery(
-                "SELECT u.name, u.originCountry.name " +
-                        "FROM UberEntity u WHERE u.id = :id")
+        UberLight wow = em.createQuery(
+                "SELECT new victor.training.jpa.perf.UberLight(u.name, u.originCountry.name) " +
+                        "FROM UberEntity u WHERE u.id = :id", UberLight.class)
                 .setParameter("id", uber.getId())
                 .getSingleResult();
 
@@ -66,7 +66,7 @@ public class UberEntityTest {
         // TODO fetch only the necessary data
         // TODO change link types?
 //        System.out.println(uberEntity.getName() + ";" + uberEntity.getOriginCountry().getName());
-        System.out.println(Arrays.toString((Object[]) wow));
+        System.out.println(wow);
     }
 }
 
