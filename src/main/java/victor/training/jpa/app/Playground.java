@@ -29,7 +29,7 @@ public class Playground implements IPlayground {
     private final ErrorLogRepo errorLogRepo;
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(/*propagation = Propagation.REQUIRES_NEW,*/ readOnly = true)
     public void secondTransaction() {
         log.debug("Am gasit {} erori", errorLogRepo.count());
         log.debug("Halo2!");
@@ -64,7 +64,7 @@ public class Playground implements IPlayground {
         try {
             x.salveazaMaterie(teacher);
         } catch (Exception e) {
-            log.error("Eroarea: " + e ); //shaworma
+            log.error("Eroarea: " + e, e); //shaworma
             System.out.println(x.getClass());
             x.persistError(e.getMessage());
         }
@@ -83,7 +83,7 @@ class X {
     private final TeacherRepo teacherRepo;
     private final SubjectRepo subjectRepo;
     private final ErrorLogRepo errorLogRepo;
-    @Transactional(propagation = Propagation.REQUIRES_NEW) // ESTI PROST GRAMADA. Proxy-urile nu intervin, un intercepteaza apeluri de metode locale
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void persistError(String error) {
         errorLogRepo.save(new ErrorLog(error));
     }
@@ -93,7 +93,7 @@ class X {
         log.debug("Dolly " + (teacher == teacher2));
     }
 
-    public void salveazaMaterie(Teacher teacher) throws Exception {
+    public /*final*/ void salveazaMaterie(Teacher teacher) throws Exception {
         // Checked exceptions cand trec prin proxy nu omoara Tranzactia
         Subject subject = new Subject("Cercetari Operationale");
         subject.setHolderTeacher(teacher);
