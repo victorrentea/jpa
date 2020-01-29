@@ -14,9 +14,6 @@ import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -56,9 +53,9 @@ public class UberEntityTest {
         log.info("Now, loading by id...");
 
 //        UberEntity uberEntity = em.find(UberEntity.class, uber.getId());
-        UberLight wow = em.createQuery(
+        UberLightSearchResult wow = em.createQuery(
                 "SELECT new victor.training.jpa.perf.UberLight(u.name, u.originCountry.name) " +
-                        "FROM UberEntity u WHERE u.id = :id", UberLight.class)
+                        "FROM UberEntity u WHERE u.id = :id", UberLightSearchResult.class)
                 .setParameter("id", uber.getId())
                 .getSingleResult();
 
@@ -71,6 +68,6 @@ public class UberEntityTest {
 }
 
 @Value
-class UberLight {
+class UberLightSearchResult {
     String name, originCountryName;
 }
