@@ -63,6 +63,7 @@ public class NPlusOneTest {
 		log.debug("Start iterating over {} parents: {}", parents.size(), parents);
 		int total = 0;
 		for (Parent parent : parents) {
+			System.out.println("Oare ce lista e aia ? " + parent.getChildren().getClass());
 			total += parent.getChildren().size();
 		}
 		log.debug("Done counting: {} children", total);
