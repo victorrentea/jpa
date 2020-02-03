@@ -28,6 +28,7 @@ public class Playground {
     @Transactional
     public void firstTransaction() {
         log.debug("Halo!");
+        // THese share the same transaction:
         em.persist(new Teacher());
         jdbc.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
     }
