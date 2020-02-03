@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -14,6 +16,9 @@ import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -48,9 +53,18 @@ public class NPlusOneTest {
 		TestTransaction.start();
 	}
 
+	JdbcTemplate jdbcTemplate;
+	@Autowired
+	public void setDataSource(DataSource ds) {
+		jdbcTemplate = new JdbcTemplate(ds);
+	}
 	@Test
 	public void nPlusOne() {
-		List<Parent> parents = em.createQuery("FROM Parent", Parent.class).getResultList();
+
+		jdbcTemplate.update("INSERT INTO PARENT (ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
+
+		List<Parent> parents = em.createQuery("SELECT DISTINCT p FROM Parent p " +
+				" LEFT JOIN FETCH p.children", Parent.class).getResultList();
 
 		parents.forEach(p-> p.getChildren().size());
 
