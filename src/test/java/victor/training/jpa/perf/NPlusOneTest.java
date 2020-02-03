@@ -52,6 +52,8 @@ public class NPlusOneTest {
 	public void nPlusOne() {
 		List<Parent> parents = em.createQuery("FROM Parent", Parent.class).getResultList();
 
+		parents.forEach(p-> p.getChildren().size());
+
 		int totalChildren = anotherMethod(parents);
 		assertThat(totalChildren).isEqualTo(5);
 	}
