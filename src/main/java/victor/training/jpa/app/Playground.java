@@ -1,5 +1,6 @@
 package victor.training.jpa.app;
 
+import com.sun.deploy.security.CertStore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -28,12 +29,13 @@ public class Playground {
     private final JdbcTemplate jdbc;
     private final ErrorLogRepo errorLogRepo;
 
+    private final Alta alta;
     @Transactional
     public void firstTransaction() {
         log.debug("Halo!");
         // THese share the same transaction:
         errorLogRepo.save(new ErrorLog("Fatala"));
-        errorLogRepo.save(new ErrorLog("Fatala2"));
+        alta.altaMetoda();
         log.debug("Cate sunt in baza acum pe tx mea : " + errorLogRepo.count());
 //        errorLogRepo.flush(); // obliga Hibernate sa trimita in baza toate INSERT + UPDATE + DELETE pe care le avea de scris
         throw new IllegalArgumentException("Bine Intentionata");
@@ -44,4 +46,16 @@ public class Playground {
     public void secondTransaction() {
         log.debug("Halo2!");
     }
+}
+
+@Service
+@RequiredArgsConstructor
+class Alta {
+    private final ErrorLogRepo errorLogRepo;
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void altaMetoda() {
+        errorLogRepo.save(new ErrorLog("Fatala2"));
+    }
+
+
 }
