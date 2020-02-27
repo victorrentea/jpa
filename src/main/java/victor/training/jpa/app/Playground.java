@@ -54,8 +54,7 @@ public class Playground {
 @RequiredArgsConstructor
 class Alta {
     private final ErrorLogRepo errorLogRepo;
-
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional//(propagation = Propagation.REQUIRES_NEW)
     public void altaMetoda() {
         errorLogRepo.save(new ErrorLog("Fatala2"));
         throw new IllegalArgumentException("Bine Intentionata");
