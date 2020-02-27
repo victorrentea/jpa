@@ -1,25 +1,15 @@
 package victor.training.jpa.app;
 
-import com.sun.deploy.security.CertStore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.domain.entity.ErrorLog;
-import victor.training.jpa.app.domain.entity.Teacher;
 import victor.training.jpa.app.repo.ErrorLogRepo;
-import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.persistence.EntityManager;
-import javax.sql.DataSource;
-import java.util.List;
-
-import static java.util.Arrays.asList;
 
 @Slf4j
 @Service
@@ -33,6 +23,10 @@ public class Playground {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void secondTransaction() {
         log.debug("Halo2!");
+        ErrorLog errorLog = errorLogRepo.findById(13L).get();
+        ErrorLog dinAltQuery = alta.read();
+
+        System.out.println(errorLog == dinAltQuery);
     }
 
     @Transactional
@@ -53,6 +47,7 @@ public class Playground {
 @Service
 @RequiredArgsConstructor
 class Alta {
+    private final EntityManager em;
     private final ErrorLogRepo errorLogRepo;
 
     public void altaMetoda() {
@@ -60,4 +55,11 @@ class Alta {
         throw new IllegalArgumentException("Bine Intentionata");
     }
 
+    @Transactional
+    public ErrorLog read() {
+        ErrorLog errorLog = errorLogRepo.findById(13L).get();
+        ErrorLog log = em.createQuery("SELECT e FROM ErrorLog e where e.id = 13", ErrorLog.class)
+                .getSingleResult();
+        return log;
+    }
 }
