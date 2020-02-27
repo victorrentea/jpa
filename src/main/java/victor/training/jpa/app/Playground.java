@@ -35,7 +35,7 @@ public class Playground {
         errorLogRepo.save(new ErrorLog("Fatala"));
         errorLogRepo.save(new ErrorLog("Fatala2"));
         log.debug("Cate sunt in baza acum pe tx mea : " + errorLogRepo.count());
-        errorLogRepo.flush(); // obliga Hibernate sa trimita in baza toate INSERT + UPDATE + DELETE pe care le avea de scris
+//        errorLogRepo.flush(); // obliga Hibernate sa trimita in baza toate INSERT + UPDATE + DELETE pe care le avea de scris
         throw new IllegalArgumentException("Bine Intentionata");
 //        log.debug("Se termina metoda");
     }
