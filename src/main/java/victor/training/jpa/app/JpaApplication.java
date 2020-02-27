@@ -34,7 +34,11 @@ public class JpaApplication {
 		System.out.println("Application started. Running playground code...");
 		dummyDataCreator.persistDummyData();
 		System.out.println(" ========= FIRST TRANSACTION ========== ");
-		playground.firstTransaction();
+		try {
+			playground.firstTransaction();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		System.out.println(" ========= SECOND TRANSACTION ========== ");
 		playground.secondTransaction();
 		System.out.println(" ========= END ========== ");

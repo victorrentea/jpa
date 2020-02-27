@@ -9,7 +9,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import victor.training.jpa.app.domain.entity.ErrorLog;
 import victor.training.jpa.app.domain.entity.Teacher;
+import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.persistence.EntityManager;
@@ -24,13 +26,16 @@ import static java.util.Arrays.asList;
 public class Playground {
     private final EntityManager em;
     private final JdbcTemplate jdbc;
+    private final ErrorLogRepo errorLogRepo;
 
     @Transactional
     public void firstTransaction() {
         log.debug("Halo!");
         // THese share the same transaction:
-        em.persist(new Teacher());
-        jdbc.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
+        errorLogRepo.save(new ErrorLog("Fatala"));
+        errorLogRepo.save(new ErrorLog("Fatala2"));
+        throw new IllegalArgumentException("Bine Intentionata");
+
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
