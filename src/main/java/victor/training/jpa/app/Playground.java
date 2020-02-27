@@ -30,32 +30,35 @@ public class Playground {
     private final ErrorLogRepo errorLogRepo;
 
     private final Alta alta;
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void secondTransaction() {
+        log.debug("Halo2!");
+    }
+
     @Transactional
     public void firstTransaction() {
         log.debug("Halo!");
         // THese share the same transaction:
         errorLogRepo.save(new ErrorLog("Fatala"));
-        altaMetoda();
+        try {
+            alta.altaMetoda();
+        } catch (Exception e) {
+            log.debug("Shawarma. Gogaltz. Inghit exceptii.");
+        }
         log.debug("Cate sunt in baza acum pe tx mea : " + errorLogRepo.count());
 //        errorLogRepo.flush(); // obliga Hibernate sa trimita in baza toate INSERT + UPDATE + DELETE pe care le avea de scris
-        throw new IllegalArgumentException("Bine Intentionata");
 //        log.debug("Se termina metoda");
     }
-
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void secondTransaction() {
-        log.debug("Halo2!");
-    }
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void altaMetoda() {
-        errorLogRepo.save(new ErrorLog("Fatala2"));
-    }
 }
-
 @Service
 @RequiredArgsConstructor
 class Alta {
     private final ErrorLogRepo errorLogRepo;
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void altaMetoda() {
+        errorLogRepo.save(new ErrorLog("Fatala2"));
+        throw new IllegalArgumentException("Bine Intentionata");
+    }
 
 }
