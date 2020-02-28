@@ -31,6 +31,8 @@ public class StartDatabase {
 			boolean ok = FileSystemUtils.deleteRecursively(databasePath);
 			if (!ok) {
 				System.err.println("Could not delete folder " + databasePath.getAbsolutePath());
+			} else {
+				System.out.println("SUCCESS");
 			}
 		}
 	}
