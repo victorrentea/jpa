@@ -55,5 +55,10 @@ public class TeacherController {
 	public void setTeacherContactChannels(@PathVariable long teacherId, @RequestBody List<ContactChannelDto> channelDtos) {
 		facade.setTeacherChannels(teacherId, channelDtos);
 	}
+
+	@GetMapping("/name/{name}")
+	public void searchActivities(@PathVariable String name) {
+		System.out.println("Teacher: " + teacherRepo.findByName("Test"));
+	}
 	
 }

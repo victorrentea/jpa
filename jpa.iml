@@ -25,6 +25,7 @@
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
           <factory-entry name="Entities" />
+          <factory-entry name="jpa" />
         </datasource-mapping>
         <naming-strategy-map>
           <unit-entry name="Entities" />

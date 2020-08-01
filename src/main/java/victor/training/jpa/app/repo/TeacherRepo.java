@@ -25,6 +25,7 @@ public interface TeacherRepo extends EntityRepository<Teacher, Long>, TeacherRep
 	@Query("SELECT DISTINCT a.subject FROM TeachingActivity a WHERE a.roomId=?1")
 	public Set<Subject> getSubjectsInRoom(String roomId);
 
-	public Optional<Teacher> findByName(String name);
+	// TODO make return null!
+	Optional<Teacher> findByName(String name);
 
 }
