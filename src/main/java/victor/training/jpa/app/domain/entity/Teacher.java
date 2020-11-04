@@ -1,5 +1,8 @@
 package victor.training.jpa.app.domain.entity;
 
+import lombok.Data;
+import lombok.Getter;
+
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -7,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
+
 
 @Entity
 public class Teacher {
@@ -38,15 +42,18 @@ public class Teacher {
 	@ManyToMany(mappedBy = "teachers")
 	private Set<TeachingActivity> activities = new HashSet<>();
 	
-	@Enumerated(EnumType.STRING)
-	private DayOfWeek counselingDay;
-	
-	private Integer counselingStartHour;
-	
-	private Integer counselingDurationInHours;
-	
-	private String counselingRoomId;
-	
+	@Embedded
+	private CounselingTime counselingTime;
+
+	public Teacher setCounselingTime(CounselingTime counselingTime) {
+		this.counselingTime = counselingTime;
+		return this;
+	}
+
+	public CounselingTime getCounselingTime() {
+		return counselingTime;
+	}
+
 	public Teacher() {
 	}
 	
@@ -92,38 +99,6 @@ public class Teacher {
 
 	public void setActivities(Set<TeachingActivity> activities) {
 		this.activities = activities;
-	}
-
-	public DayOfWeek getCounselingDay() {
-		return counselingDay;
-	}
-
-	public void setCounselingDay(DayOfWeek counselingDay) {
-		this.counselingDay = counselingDay;
-	}
-
-	public Integer getCounselingStartHour() {
-		return counselingStartHour;
-	}
-
-	public void setCounselingStartHour(Integer counselingStartHour) {
-		this.counselingStartHour = counselingStartHour;
-	}
-
-	public Integer getCounselingDurationInHours() {
-		return counselingDurationInHours;
-	}
-
-	public void setCounselingDurationInHours(Integer counselingDurationInHours) {
-		this.counselingDurationInHours = counselingDurationInHours;
-	}
-
-	public String getCounselingRoomId() {
-		return counselingRoomId;
-	}
-
-	public void setCounselingRoomId(String counselingRoomId) {
-		this.counselingRoomId = counselingRoomId;
 	}
 
 	public List<ContactChannel> getChannels() {

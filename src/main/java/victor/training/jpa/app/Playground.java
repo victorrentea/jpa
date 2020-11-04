@@ -9,11 +9,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import victor.training.jpa.app.domain.entity.CounselingTime;
 import victor.training.jpa.app.domain.entity.Teacher;
 import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
+import java.time.DayOfWeek;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -29,7 +31,14 @@ public class Playground {
     public void firstTransaction() {
         log.debug("Halo!");
         // THese share the same transaction:
-        em.persist(new Teacher());
+        CounselingTime valueObject = new CounselingTime(
+            DayOfWeek.FRIDAY,
+            9,
+            2,
+            "2A");
+
+        em.persist(new Teacher().setCounselingTime(valueObject));
+
         jdbc.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
     }
 

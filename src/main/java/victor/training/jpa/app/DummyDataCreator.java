@@ -34,10 +34,10 @@ public class DummyDataCreator {
 		victor.setGrade(Teacher.Grade.ASSISTENT);
 		TeacherDetails teacherDetails = new TeacherDetails().setCv("A pimped CV");
 		victor.setDetails(teacherDetails);
-		victor.setCounselingDay(DayOfWeek.MONDAY);
-		victor.setCounselingDurationInHours(1);
-		victor.setCounselingRoomId("EF403");
-		victor.setCounselingStartHour(8);
+//		victor.setCounselingDay(DayOfWeek.MONDAY);
+//		victor.setCounselingDurationInHours(1);
+//		victor.setCounselingRoomId("EF403");
+//		victor.setCounselingStartHour(8);
 		em.persist(victor);
 		
 		
