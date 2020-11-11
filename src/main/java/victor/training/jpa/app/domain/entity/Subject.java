@@ -17,6 +17,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import victor.training.jpa.app.util.MyTrackingEntityListener;
 import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 
+
 @Entity
 @EntityListeners(MyTrackingEntityListener.class) // SOLUTION
 //public class Subject { // INITIAL
