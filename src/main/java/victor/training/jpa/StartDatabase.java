@@ -9,13 +9,12 @@ public class StartDatabase {
 	public static void main(String[] args) throws SQLException {
 		deletePreviousDBContents();
 
-		System.out.println("Check out folder: ~/source/db/database/db");
 		System.out.println("Started DB...");
 		//hsqldb does not support Nested Transactions (REQUIRES_NEW).
 //		org.hsqldb.server.Server.main("--database.0 mem:test --dbname.0 test".split(" "));
 
 		// H2 does :)
-		org.h2.tools.Server.createTcpServer().start();
+		org.h2.tools.Server.createTcpServer("-ifNotExists").start();
 
 	}
 
@@ -24,13 +23,13 @@ public class StartDatabase {
 		if (!userHomeFolder.isDirectory()) {
 			throw new IllegalArgumentException("Could not locate userHome");
 		}
-		System.out.println("Assuming user home folder is: " + userHomeFolder.getAbsolutePath());
-		File databasePath = new File(userHomeFolder, "source/db");
-		if (databasePath.isDirectory()) {
+		File databaseFile = new File(userHomeFolder, "test.mv.db");
+		System.out.println("Database file: " + databaseFile.getAbsolutePath());
+		if (databaseFile.isFile()) {
 			System.out.println("Deleting previous db contents...");
-			boolean ok = FileSystemUtils.deleteRecursively(databasePath);
+			boolean ok = databaseFile.delete();
 			if (!ok) {
-				System.err.println("Could not delete folder " + databasePath.getAbsolutePath());
+				System.err.println("Could not delete database file ");
 			} else {
 				System.out.println("SUCCESS");
 			}

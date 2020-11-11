@@ -18,17 +18,10 @@
 //    @Override
 //    protected void configure(HttpSecurity http) throws Exception {
 //        http
-//            .authorizeRequests()
-//                .anyRequest().authenticated()
-//                .and()
-//            .csrf()
-//            	.disable()
-//            .formLogin()
-//                .permitAll()
-//                .and()
-//            .logout()
-//                .permitAll();
-//
+//            .authorizeRequests().anyRequest().authenticated().and()
+//            .csrf().disable()
+//            .formLogin().permitAll().and()
+//            .logout().permitAll();
 //    }
 //
 //    @SuppressWarnings("deprecation")

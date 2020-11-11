@@ -21,7 +21,7 @@ import static java.util.Arrays.asList;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class Playground {
+public class TransactionPlayground {
     private final EntityManager em;
     private final JdbcTemplate jdbc;
 
