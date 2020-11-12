@@ -28,6 +28,6 @@ public interface TeacherRepo extends JpaRepository<Teacher, Long> {
       // TODO make return null!
    Optional<Teacher> findByName(String name);
 
-   @Query("SELECT t FROM Teacher t left join fetch t.heldSubjects s left join fetch s.y")
+   @Query("SELECT t FROM Teacher t ")
 	List<Teacher> findAllForExport();
 }
