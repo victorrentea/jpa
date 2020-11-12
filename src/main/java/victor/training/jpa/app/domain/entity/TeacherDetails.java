@@ -8,7 +8,8 @@ import javax.persistence.Lob;
 @Entity
 public class TeacherDetails {
 
-	@Id
+	@Id 	@GeneratedValue
+
 	private Long id;
 
 	@Lob

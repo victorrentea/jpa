@@ -19,7 +19,9 @@ public class Teacher {
 		LECTURER, PROFESSOR, CONF, ASSISTENT
 	}
 
-	@Id
+
+	@Id 	@GeneratedValue
+
 	private Long id;
 
 	private String name;
@@ -39,7 +41,7 @@ public class Teacher {
 	private Set<TeachingActivity> activities = new HashSet<>();
 
 	@Embedded
-	private TimeSlot counselingTime;
+	private TimeSlot counselingTime = new TimeSlot();
 
 	public Teacher() {
 	}

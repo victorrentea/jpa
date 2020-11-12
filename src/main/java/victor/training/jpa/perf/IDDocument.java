@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 public class IDDocument {
 
-    @Id
+    @Id 	@GeneratedValue
+
     private Long id;
 }

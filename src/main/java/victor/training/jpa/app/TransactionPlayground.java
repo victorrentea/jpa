@@ -42,8 +42,14 @@ public class TransactionPlayground {
       ErrorLog errorLog = errorLogRepo.findById(1L).get();
       log.debug("Before the change");
 
+      teacherRepo.save(new Teacher("Tavi"));
       errorLog.setMessage("CHANGE");
-      log.debug(errorLogRepo.findByMessageLike("%HANG%").toString());
+//      log.debug(errorLogRepo.findByMessageLike("%HANG%").toString());
+
+//      teacherRepo.flush(); // typically a code smell.
+      // useful: before calling a stored procedure or before using JDBCTemplate or MyBatis
+
+      errorLog.setMessage("BACK");
       log.debug("Is the update sent ABOVE this line ?");
    }
 }

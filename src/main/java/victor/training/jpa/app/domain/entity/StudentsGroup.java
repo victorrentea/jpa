@@ -14,7 +14,8 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class StudentsGroup {
-	@Id
+	@Id 	@GeneratedValue
+
 	private Long id;
 
 	private String code;

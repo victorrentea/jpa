@@ -18,14 +18,15 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class TeachingActivity {
 
-	@Id
+	@Id 	@GeneratedValue
+
 	private Long id;
 
 	@ManyToOne
 	private Subject subject;
 
 	@Embedded
-	private TimeSlot timeSlot;
+	private TimeSlot timeSlot = new TimeSlot();
 
 	private LocalDateTime lastModifiedDate;
 	

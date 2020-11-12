@@ -10,7 +10,8 @@ import javax.persistence.*;
 @Entity
 public class StudentsYear {
 
-	@Id
+	@Id 	@GeneratedValue
+
 	private Long id;
 	
 	private String code;
