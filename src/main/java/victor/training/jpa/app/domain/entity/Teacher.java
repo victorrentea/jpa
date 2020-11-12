@@ -1,11 +1,8 @@
 package victor.training.jpa.app.domain.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import java.time.DayOfWeek;
 import java.util.*;
 
 import javax.persistence.*;
@@ -60,9 +57,10 @@ public class Teacher {
 		return heldSubjects;
 	}
 
-	public void addHeldSubject(Subject subject) {
+	public Teacher addHeldSubject(Subject subject) {
 		heldSubjects.add(subject);
 		subject.setHolderTeacher(this);
+		return this;
 	}
 
 }

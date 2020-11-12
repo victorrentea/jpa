@@ -11,11 +11,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import victor.training.jpa.app.domain.entity.ContactChannel;
+import victor.training.jpa.app.domain.entity.*;
 import victor.training.jpa.app.domain.entity.ContactChannel.Type;
-import victor.training.jpa.app.domain.entity.ErrorLog;
-import victor.training.jpa.app.domain.entity.Subject;
-import victor.training.jpa.app.domain.entity.Teacher;
 import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.SubjectRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
@@ -51,9 +48,10 @@ public class TransactionPlayground {
       teacherRepo.save(teacher);
 
       Subject subject = new Subject();
+      subject.setY(new Y());
       teacher.addHeldSubject(subject);
 
-      IntStream.range(1,100).mapToObj(i -> new Teacher()).forEach(teacherRepo::save);
+      IntStream.range(1,100).mapToObj(i -> new Teacher().addHeldSubject(new Subject().setY(new Y()))).forEach(teacherRepo::save);
 
 //      subjectRepo.save(subject);
    }
@@ -75,9 +73,13 @@ public class TransactionPlayground {
       // -------
       // for this particular use case you know that you'll need both teachers and their subjects
       List<Teacher> teachers = teacherRepo.findAllForExport();
-      log.debug("I got the teachers");
+      log.debug("I got the teachers================");
       for (Teacher teacher : teachers) {
          log.debug("Teacher " + teacher +  " teaches "  + teacher.getHeldSubjects().size());
+         for (Subject subject : teacher.getHeldSubjects()) {
+
+            System.out.println("Y"+ subject.getY());
+         }
       }
 
       // getting someting out with SELECT JPQL does not automaticlly fetc the @..>ToOne links

@@ -29,6 +29,18 @@ public class Subject {
 	@Getter @Setter
 	private Long id;
 
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	 Y y;
+
+	public Y getY() {
+		return y;
+	}
+
+	public Subject setY(Y y) {
+		this.y = y;
+		return this;
+	}
+
 	@Getter
 	private Status status = Status.DRAFT;
 
