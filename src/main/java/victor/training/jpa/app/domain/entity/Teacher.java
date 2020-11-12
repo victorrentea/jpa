@@ -1,5 +1,7 @@
 package victor.training.jpa.app.domain.entity;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.HashSet;

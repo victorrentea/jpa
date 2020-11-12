@@ -2,6 +2,7 @@ package victor.training.jpa.app;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.ehcache.CacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import static java.util.Arrays.asList;
 public class TransactionPlayground {
     private final EntityManager em;
     private final JdbcTemplate jdbc;
+    private final TeacherRepo teacherRepo;
 
     @Transactional
     public void firstTransaction() {
@@ -36,5 +38,6 @@ public class TransactionPlayground {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void secondTransaction() {
         log.debug("Halo2!");
+        System.out.println(teacherRepo.findAll());
     }
 }

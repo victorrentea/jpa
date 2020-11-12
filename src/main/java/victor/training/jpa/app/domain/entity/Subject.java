@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -91,8 +93,9 @@ public class Subject implements Trackable { // SOLUTION
 		return holderTeacher;
 	}
 
-	public void setHolderTeacher(Teacher holder) {
+	public Subject setHolderTeacher(Teacher holder) {
 		this.holderTeacher = holder;
+		return this;
 	}
 
 	public List<TeachingActivity> getActivities() {
