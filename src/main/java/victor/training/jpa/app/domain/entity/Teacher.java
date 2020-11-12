@@ -18,6 +18,7 @@ public class Teacher {
 	@Id 	@GeneratedValue
 	private Long id;
 	@Getter @Setter
+	@Basic(fetch = FetchType.LAZY)
 	private String name;
 	@Getter @Setter
 	@Enumerated(EnumType.STRING)

@@ -75,8 +75,8 @@ public class TransactionPlayground {
       List<Teacher> teachers = teacherRepo.findAllForExport();
       log.debug("I got the teachers================");
       for (Teacher teacher : teachers) {
-         log.debug("the list of subjects : " + teacher.getHeldSubjects().getClass()); // PesistentSet and PersistentBag(List)
-         log.debug("Teacher " + teacher +  " teaches "  + teacher.getHeldSubjects().size());
+//         log.debug("the list of subjects : " + teacher.getHeldSubjects().getClass()); // PesistentSet and PersistentBag(List)
+         log.debug("Teacher " + teacher.getName() +  " teaches "  + teacher.getHeldSubjects().size());
          for (Subject subject : teacher.getHeldSubjects()) {
 
             System.out.println("Y"+ subject.getY());
