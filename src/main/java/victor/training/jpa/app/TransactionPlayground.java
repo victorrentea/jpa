@@ -31,9 +31,11 @@ public class TransactionPlayground {
    private final ErrorLogRepo errorLogRepo;
    private final TeacherRepo teacherRepo; // Spring Data JPA
 
+   @Transactional
    public void firstTransaction() {
       log.debug("Halo!");
-      errorLogRepo.save(new ErrorLog("Spring Data"));
+      ErrorLog logError = errorLogRepo.save(new ErrorLog("Spring Data"));
+      log.debug(logError.getId().toString());
    }
 
    @Transactional
@@ -43,6 +45,7 @@ public class TransactionPlayground {
       log.debug("Before the change");
 
       teacherRepo.save(new Teacher("Tavi"));
+
       errorLog.setMessage("CHANGE");
 //      log.debug(errorLogRepo.findByMessageLike("%HANG%").toString());
 
