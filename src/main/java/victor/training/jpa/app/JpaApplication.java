@@ -24,8 +24,8 @@ public class JpaApplication {
 
 //	@Autowired
 //	private DummyDataCreator dummyDataCreator;
-//	@Autowired
-//	private TransactionPlayground transactionPlayground;
+	@Autowired
+	private TransactionPlayground transactionPlayground;
 
 	@Autowired
 	private PlatformTransactionManager txm;
@@ -36,7 +36,7 @@ public class JpaApplication {
 		log.debug(">>>>>>>>>> Running Transaction Playground code... <<<<<<<<<<<<");
 //		dummyDataCreator.persistDummyData();
 		log.debug(" ========= FIRST TRANSACTION ========== ");
-//		transactionPlayground.firstTransaction();
+		transactionPlayground.firstTransaction();
 		log.debug(" ========= SECOND TRANSACTION ========== ");
 //		transactionPlayground.secondTransaction();
 		log.debug(" ========= END ========== ");
