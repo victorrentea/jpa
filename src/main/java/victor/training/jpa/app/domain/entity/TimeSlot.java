@@ -7,17 +7,12 @@ import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
-@Embeddable
 public class TimeSlot {
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "DAY")
 	private DayOfWeek day;
 	
-	@Column(name = "START_HOUR")
 	private int startHour;
 	
-	@Column(name = "DURATION_HOURS")
 	private int durationInHours;
 	
 	private String roomId;

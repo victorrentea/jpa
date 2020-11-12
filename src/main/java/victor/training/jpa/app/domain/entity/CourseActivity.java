@@ -4,10 +4,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
-@Entity
-@DiscriminatorValue("COURSE")
 public class CourseActivity extends TeachingActivity {
-	@ManyToOne
 	private StudentsYear year;
 
 	public StudentsYear getYear() {

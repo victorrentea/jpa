@@ -22,10 +22,10 @@ import victor.training.jpa.app.common.data.EntityRepositoryFactoryBean;
 //@EnableLoadTimeWeaving(aspectjWeaving= EnableLoadTimeWeaving.AspectJWeaving.ENABLED)
 public class JpaApplication {
 
-	@Autowired
-	private DummyDataCreator dummyDataCreator;
-	@Autowired
-	private TransactionPlayground transactionPlayground;
+//	@Autowired
+//	private DummyDataCreator dummyDataCreator;
+//	@Autowired
+//	private TransactionPlayground transactionPlayground;
 
 	@Autowired
 	private PlatformTransactionManager txm;
@@ -34,11 +34,11 @@ public class JpaApplication {
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		log.debug(txm.getClass().getSimpleName());
 		log.debug(">>>>>>>>>> Running Transaction Playground code... <<<<<<<<<<<<");
-		dummyDataCreator.persistDummyData();
+//		dummyDataCreator.persistDummyData();
 		log.debug(" ========= FIRST TRANSACTION ========== ");
-		transactionPlayground.firstTransaction();
+//		transactionPlayground.firstTransaction();
 		log.debug(" ========= SECOND TRANSACTION ========== ");
-		transactionPlayground.secondTransaction();
+//		transactionPlayground.secondTransaction();
 		log.debug(" ========= END ========== ");
 	}
 	
