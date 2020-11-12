@@ -1,16 +1,22 @@
 package victor.training.jpa.app.domain.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.*;
+
+
+@Entity
+class X {
+	@Id
+	private Long id;
+}
 
 @Entity
 public class TeacherDetails {
 
 	@Id 	@GeneratedValue
-
 	private Long id;
+
+	@ManyToOne
+	X x;
 
 	@Lob
 	private String cv;

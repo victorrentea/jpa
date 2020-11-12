@@ -58,25 +58,42 @@ public class TransactionPlayground {
 
    @Transactional
    public void secondTransaction() {
-//      log.debug("Halo2!");
-//      ErrorLog errorLog = errorLogRepo.findById(1L).get();
-//      log.debug("Before the change");
-//
-//      errorLog.setMessage("CHANGE");
-//      log.debug(errorLogRepo.findByMessageLike("%HANG%").toString());
-//      errorLog.setMessage("BACK");
-//      log.debug("Is the update sent ABOVE this line ?");
+      log.debug("Halo2!");
+      ErrorLog errorLog = errorLogRepo.findById(1L).get();
+      log.debug("Before the change");
 
+      errorLog.setMessage("CHANGE");
+      log.debug(errorLogRepo.findByMessageLike("%HANG%").toString());
+      errorLog.setMessage("BACK");
+      log.debug("Is the update sent ABOVE this line ?");
+   }
+//   @Transactional
+   public void thirdTransaction() {
       // -------
-      List<Teacher> teachers = teacherRepo.findAll();
+//      List<Teacher> teachers = teacherRepo.findAll();
+//      log.debug("I got the teachers");
 //      for (Teacher teacher : teachers) {
-//         log.debug("Teacher {} teaching {}", teacher, teacher.getHeldSubjects());
+//         log.debug("Teacher " + teacher +  " teaches "  + teacher.getHeldSubjects().size());
 //      }
 
-      subjectRepo.deleteAll();
+      // getting someting out with SELECT JPQL does not automaticlly fetc the @..>ToOne links
+//      Teacher teacher = entityManager.createQuery("SELECT t FROM Teacher t WHERE t.id = :id", Teacher.class)
+//          .setParameter("id", 2L)
+//          .getSingleResult();
 
-      entityManager.detach(teachers.get(0));
-      teacherRepo.delete(teachers.get(0));
+
+
+//      Teacher teacher = teacherRepo.getOne(2L);
+      // returns a proxy to what you believe it's in the database. On first access, it really loads the data from DB.
+      // but it's supposed NOT to be used to get attributes from it.
+      // USEFUL when INSERTing Customer referencing a Country by ID : you don;t technically need to SELECT that country. But your Entity model says Customer.country:Country
+
+      Teacher teacher = teacherRepo.findById(2L).get();
+
+      System.out.println("What did I get, again ?" + teacher.getClass());
+
+      log.debug("Teacher " + teacher +  " teaches "  + teacher.getHeldSubjects().size());
+
 
 
    }
