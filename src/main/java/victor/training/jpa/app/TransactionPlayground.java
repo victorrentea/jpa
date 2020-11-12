@@ -36,12 +36,14 @@ public class TransactionPlayground {
       errorLogRepo.save(new ErrorLog("Spring Data"));
    }
 
+   @Transactional
    public void secondTransaction() {
       log.debug("Halo2!");
       ErrorLog errorLog = errorLogRepo.findById(1L).get();
+      log.debug("Before the change");
 
       errorLog.setMessage("CHANGE");
+      log.debug(errorLogRepo.findByMessageLike("%HANG%").toString());
       log.debug("Is the update sent ABOVE this line ?");
-      errorLogRepo.save(errorLog);
    }
 }
