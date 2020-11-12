@@ -1,6 +1,8 @@
 package victor.training.jpa.app.domain.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.time.DayOfWeek;
@@ -11,7 +13,8 @@ import java.util.Set;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Teacher {
 

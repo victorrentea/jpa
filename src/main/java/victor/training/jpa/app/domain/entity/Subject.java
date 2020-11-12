@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.*;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -15,7 +17,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import victor.training.jpa.app.util.MyTrackingEntityListener;
 import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Subject {
 	@Id

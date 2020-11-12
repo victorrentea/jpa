@@ -45,8 +45,10 @@ public class TransactionPlayground {
       teacherRepo.save(teacher);
 
       Subject subject = new Subject();
+
       teacher.getHeldSubjects().add(subject);
       subject.setHolderTeacher(teacher);
+
       subjectRepo.save(subject);
    }
 
