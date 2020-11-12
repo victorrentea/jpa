@@ -24,6 +24,7 @@ import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import static java.util.Arrays.asList;
 
@@ -52,6 +53,8 @@ public class TransactionPlayground {
       Subject subject = new Subject();
       teacher.addHeldSubject(subject);
 
+      IntStream.range(1,100).mapToObj(i -> new Teacher()).forEach(teacherRepo::save);
+
 //      subjectRepo.save(subject);
    }
 
@@ -67,14 +70,15 @@ public class TransactionPlayground {
       errorLog.setMessage("BACK");
       log.debug("Is the update sent ABOVE this line ?");
    }
-//   @Transactional
+   @Transactional
    public void thirdTransaction() {
       // -------
-//      List<Teacher> teachers = teacherRepo.findAll();
-//      log.debug("I got the teachers");
-//      for (Teacher teacher : teachers) {
-//         log.debug("Teacher " + teacher +  " teaches "  + teacher.getHeldSubjects().size());
-//      }
+      // for this particular use case you know that you'll need both teachers and their subjects
+      List<Teacher> teachers = teacherRepo.findAllForExport();
+      log.debug("I got the teachers");
+      for (Teacher teacher : teachers) {
+         log.debug("Teacher " + teacher +  " teaches "  + teacher.getHeldSubjects().size());
+      }
 
       // getting someting out with SELECT JPQL does not automaticlly fetc the @..>ToOne links
 //      Teacher teacher = entityManager.createQuery("SELECT t FROM Teacher t WHERE t.id = :id", Teacher.class)
@@ -88,11 +92,13 @@ public class TransactionPlayground {
       // but it's supposed NOT to be used to get attributes from it.
       // USEFUL when INSERTing Customer referencing a Country by ID : you don;t technically need to SELECT that country. But your Entity model says Customer.country:Country
 
-      Teacher teacher = teacherRepo.findById(2L).get();
 
-      System.out.println("What did I get, again ?" + teacher.getClass());
 
-      log.debug("Teacher " + teacher +  " teaches "  + teacher.getHeldSubjects().size());
+//      Teacher teacher = teacherRepo.findById(2L).get();
+//
+//      System.out.println("What did I get, again ?" + teacher.getClass());
+//
+//      log.debug("Teacher " + teacher +  " teaches "  + teacher.getHeldSubjects().size());
 
 
 

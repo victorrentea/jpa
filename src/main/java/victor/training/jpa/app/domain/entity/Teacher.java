@@ -32,7 +32,7 @@ public class Teacher {
 	@ElementCollection
 	private List<ContactChannel> channels = new ArrayList<>();
 	@Setter
-	@OneToMany(mappedBy = "holderTeacher",cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)  // NEVER use fetch=EAGER
+	@OneToMany(mappedBy = "holderTeacher",cascade = CascadeType.PERSIST)  // NEVER use fetch=EAGER
 	private Set<Subject> heldSubjects = new HashSet<>() ;
 	@Getter @Setter
 	@ManyToMany(mappedBy = "teachers")

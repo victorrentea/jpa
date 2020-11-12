@@ -1,6 +1,7 @@
 package victor.training.jpa.app.repo;
 
 import java.time.DayOfWeek;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -27,4 +28,6 @@ public interface TeacherRepo extends JpaRepository<Teacher, Long> {
       // TODO make return null!
    Optional<Teacher> findByName(String name);
 
+   @Query("SELECT t FROM Teacher t left join fetch t.heldSubjects")
+	List<Teacher> findAllForExport();
 }
