@@ -4,8 +4,10 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
+@Entity
 public class LabActivity extends TeachingActivity {
 
+	@ManyToOne
 	private StudentsGroup group;
 
 	public StudentsGroup getGroup() {

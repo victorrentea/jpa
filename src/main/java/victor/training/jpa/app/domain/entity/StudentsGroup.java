@@ -12,15 +12,17 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+@Entity
 public class StudentsGroup {
+	@Id
 	private Long id;
 
 	private String code;
 
-	private StudentsYear year;
-
+	@OneToMany(mappedBy = "group")
 	private Set<LabActivity> labs = new HashSet<>();
-	
+
+	@ElementCollection
 	private List<String> emails = new ArrayList<>();
 
 	public StudentsGroup() {
@@ -46,13 +48,6 @@ public class StudentsGroup {
 		this.code = code;
 	}
 
-	public StudentsYear getYear() {
-		return year;
-	}
-
-	public void setYear(StudentsYear year) {
-		this.year = year;
-	}
 
 	public Set<LabActivity> getLabs() {
 		return labs;

@@ -4,13 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
+import lombok.Data;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -19,7 +15,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import victor.training.jpa.app.util.MyTrackingEntityListener;
 import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 
-
+@Data
+@Entity
 public class Subject {
 	@Id
 	@GeneratedValue
@@ -30,11 +27,12 @@ public class Subject {
 	private boolean active;
 	
 	@ManyToOne
+	@JoinColumn(name = "T_ID")
 	private Teacher holderTeacher;
 	
 	@OneToMany(mappedBy="subject")
 	private List<TeachingActivity> activities = new ArrayList<>();
-	
+
 //	@LastModifiedDate // SOLUTION
 	private LocalDateTime lastModifiedDate;
 	
@@ -95,28 +93,4 @@ public class Subject {
 		return this;
 	}
 
-	public List<TeachingActivity> getActivities() {
-		return activities;
-	}
-
-	public void setActivities(List<TeachingActivity> activities) {
-		this.activities = activities;
-	}
-	
-	public String getLastModifiedBy() {
-		return lastModifiedBy;
-	}
-	
-	public LocalDateTime getLastModifiedDate() {
-		return lastModifiedDate;
-	}
-
-	public void setLastModifiedBy(String lastModifiedBy) {
-		this.lastModifiedBy = lastModifiedBy;
-	}
-	
-	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-	
 }

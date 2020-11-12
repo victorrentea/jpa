@@ -22,8 +22,8 @@ public class SubjectWithActivitiesDto {
 		if (subject.getHolderTeacher() != null) {
 			holderTeacherId = subject.getHolderTeacher().getId();
 		}
-		for (TeachingActivity activity : subject.getActivities()) {
-			activities.add(new ActivityDto(activity));
-		}
+//		for (TeachingActivity activity : subject.getActivities()) {
+//			activities.add(new ActivityDto(activity));
+//		}
 	}
 }
