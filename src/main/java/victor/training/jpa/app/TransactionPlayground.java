@@ -50,13 +50,11 @@ public class TransactionPlayground {
       teacherRepo.save(teacher);
 
       Subject subject = new Subject();
-
-//      teacher.getHeldSubjects().add(subject);
-
       teacher.addHeldSubject(subject);
 
-      subjectRepo.save(subject);
+//      subjectRepo.save(subject);
    }
+
 
    @Transactional
    public void secondTransaction() {

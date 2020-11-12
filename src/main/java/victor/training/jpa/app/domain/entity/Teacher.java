@@ -17,8 +17,6 @@ public class Teacher {
 	public enum Grade {
 		LECTURER, PROFESSOR, CONF, ASSISTENT
 	}
-
-
 	@Getter @Setter
 	@Id 	@GeneratedValue
 	private Long id;
@@ -34,7 +32,7 @@ public class Teacher {
 	@ElementCollection
 	private List<ContactChannel> channels = new ArrayList<>();
 	@Setter
-	@OneToMany(mappedBy = "holderTeacher")
+	@OneToMany(mappedBy = "holderTeacher",cascade = CascadeType.PERSIST)
 	private Set<Subject> heldSubjects = new HashSet<>() ;
 	@Getter @Setter
 	@ManyToMany(mappedBy = "teachers")
