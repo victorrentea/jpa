@@ -17,28 +17,46 @@ import org.springframework.data.annotation.LastModifiedDate;
 import victor.training.jpa.app.util.MyTrackingEntityListener;
 import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 
-@Getter
-@Setter
+
 @Entity
 public class Subject {
+
+	enum Status  {
+		DRAFT, ACTIVE,  DELETED
+	}
 	@Id
 	@GeneratedValue
+	@Getter @Setter
 	private Long id;
-	
+
+	@Getter
+	private Status status = Status.DRAFT;
+
+	private LocalDateTime activationTime;
+
+	public void activate() {
+		if (status != Status.DRAFT) {
+			throw new IllegalStateException();
+		}
+		status = Status.ACTIVE;
+		activationTime = LocalDateTime.now();
+	}
+
+	@Getter @Setter
 	private String name;
-	
+	@Getter @Setter
 	private boolean active;
-	
+	@Getter @Setter
 	@ManyToOne
 	@JoinColumn(name = "T_ID")
 	private Teacher holderTeacher;
-	
+	@Getter @Setter
 	@OneToMany(mappedBy="subject")
 	private List<TeachingActivity> activities = new ArrayList<>();
-
+	@Getter @Setter
 //	@LastModifiedDate // SOLUTION
 	private LocalDateTime lastModifiedDate;
-	
+	@Getter @Setter
 //	@LastModifiedBy // SOLUTION
 	private String lastModifiedBy;
 
@@ -91,7 +109,7 @@ public class Subject {
 		return holderTeacher;
 	}
 
-	public Subject setHolderTeacher(Teacher holder) {
+	Subject setHolderTeacher(Teacher holder) {
 		this.holderTeacher = holder;
 		return this;
 	}

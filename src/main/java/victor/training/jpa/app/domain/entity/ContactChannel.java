@@ -22,7 +22,7 @@ public class ContactChannel {
 	
 	private String value;
 	
-	public ContactChannel() {
+	protected ContactChannel() { // for the eyes of Hibernate
 	}
 
 	public ContactChannel(Type type, String value) {
@@ -34,17 +34,8 @@ public class ContactChannel {
 		return type;
 	}
 
-	public void setType(Type type) {
-		this.type = type;
-	}
-
 	public String getValue() {
 		return value;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
-	}
-	
-	
 }

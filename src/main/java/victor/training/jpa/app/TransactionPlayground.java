@@ -11,6 +11,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import victor.training.jpa.app.domain.entity.ContactChannel;
+import victor.training.jpa.app.domain.entity.ContactChannel.Type;
 import victor.training.jpa.app.domain.entity.ErrorLog;
 import victor.training.jpa.app.domain.entity.Subject;
 import victor.training.jpa.app.domain.entity.Teacher;
@@ -42,12 +44,16 @@ public class TransactionPlayground {
 
       /// ------------
       Teacher teacher = new Teacher("Tavi");
+      ContactChannel contactChannel = new ContactChannel(Type.PERSONAL_PHONE, "10321938193");
+
+      teacher.addChannel(contactChannel);
       teacherRepo.save(teacher);
 
       Subject subject = new Subject();
 
-      teacher.getHeldSubjects().add(subject);
-      subject.setHolderTeacher(teacher);
+//      teacher.getHeldSubjects().add(subject);
+
+      teacher.addHeldSubject(subject);
 
       subjectRepo.save(subject);
    }
