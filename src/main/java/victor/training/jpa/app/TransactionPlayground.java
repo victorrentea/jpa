@@ -58,20 +58,25 @@ public class TransactionPlayground {
 
    @Transactional
    public void secondTransaction() {
-      log.debug("Halo2!");
-      ErrorLog errorLog = errorLogRepo.findById(1L).get();
-      log.debug("Before the change");
-
-      errorLog.setMessage("CHANGE");
-      log.debug(errorLogRepo.findByMessageLike("%HANG%").toString());
-      errorLog.setMessage("BACK");
-      log.debug("Is the update sent ABOVE this line ?");
+//      log.debug("Halo2!");
+//      ErrorLog errorLog = errorLogRepo.findById(1L).get();
+//      log.debug("Before the change");
+//
+//      errorLog.setMessage("CHANGE");
+//      log.debug(errorLogRepo.findByMessageLike("%HANG%").toString());
+//      errorLog.setMessage("BACK");
+//      log.debug("Is the update sent ABOVE this line ?");
 
       // -------
       List<Teacher> teachers = teacherRepo.findAll();
-      for (Teacher teacher : teachers) {
-         log.debug("Teacher {} teaching {}", teacher, teacher.getHeldSubjects());
-      }
+//      for (Teacher teacher : teachers) {
+//         log.debug("Teacher {} teaching {}", teacher, teacher.getHeldSubjects());
+//      }
+
+      subjectRepo.deleteAll();
+
+      entityManager.detach(teachers.get(0));
+      teacherRepo.delete(teachers.get(0));
 
 
    }
