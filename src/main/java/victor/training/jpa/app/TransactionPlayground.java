@@ -13,11 +13,13 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.domain.entity.ErrorLog;
 import victor.training.jpa.app.domain.entity.Teacher;
+import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Arrays.asList;
 
@@ -26,18 +28,19 @@ import static java.util.Arrays.asList;
 @RequiredArgsConstructor
 public class TransactionPlayground {
    private final EntityManager entityManager; // JPA
+   private final ErrorLogRepo errorLogRepo;
    private final TeacherRepo teacherRepo; // Spring Data JPA
 
-   @Transactional
    public void firstTransaction() {
       log.debug("Halo!");
-
-      entityManager.persist(new ErrorLog("First "));
+      errorLogRepo.save(new ErrorLog("Spring Data"));
    }
 
-   @Transactional(propagation = Propagation.REQUIRES_NEW)
+   @Transactional
    public void secondTransaction() {
       log.debug("Halo2!");
-//        System.out.println(teacherRepo.findAll());
+      ErrorLog errorLog = errorLogRepo.findById(1L).get();
+
+      errorLog.setMessage("CHANGE");
    }
 }
