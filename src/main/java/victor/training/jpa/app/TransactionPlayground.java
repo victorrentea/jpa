@@ -42,5 +42,6 @@ public class TransactionPlayground {
       ErrorLog errorLog = errorLogRepo.findById(1L).get();
 
       errorLog.setMessage("CHANGE");
+      log.debug("Is the update sent ABOVE this line ?");
    }
 }
