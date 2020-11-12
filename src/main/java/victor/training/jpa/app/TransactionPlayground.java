@@ -36,7 +36,6 @@ public class TransactionPlayground {
       errorLogRepo.save(new ErrorLog("Spring Data"));
    }
 
-   @Transactional
    public void secondTransaction() {
       log.debug("Halo2!");
       ErrorLog errorLog = errorLogRepo.findById(1L).get();

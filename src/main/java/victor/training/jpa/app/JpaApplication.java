@@ -40,6 +40,7 @@ public class JpaApplication {
 		log.debug(" ========= SECOND TRANSACTION ========== ");
 		transactionPlayground.secondTransaction();
 		log.debug(" ========= END ========== ");
+		log.debug("Wow! what a ride. What was that ?!" + transactionPlayground.getClass());
 	}
 	
 
