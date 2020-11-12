@@ -42,5 +42,6 @@ public class TransactionPlayground {
 
       errorLog.setMessage("CHANGE");
       log.debug("Is the update sent ABOVE this line ?");
+      errorLogRepo.save(errorLog);
    }
 }
