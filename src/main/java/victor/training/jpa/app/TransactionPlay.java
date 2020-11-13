@@ -66,10 +66,14 @@ class A {
 @RequiredArgsConstructor
 class B {
    private final EntityManager entityManager;
+   private final ErrorLogRepo repo;
    @Transactional
    public ErrorLog method() {
 //      entityManager.persist(new ErrorLog("B"));
-      return entityManager.find(ErrorLog.class, 1L);
+//      return entityManager.find(ErrorLog.class, 1L);
+      //
+//      return repo.findById(1L).get();
+      return repo.findLikeAHipster(1L);
    }
 
 }
