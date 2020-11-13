@@ -7,10 +7,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableLoadTimeWeaving;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -29,12 +31,28 @@ public class JpaApplication {
 
 //	@Autowired
 //	private DummyDataCreator dummyDataCreator;
-	@Autowired
-	private TransactionPlayground transactionPlayground;
 
+
+
+//	@Bean
+//	public AuditorAware<String> auditorProvider() {
+//		return MyUtil::getUserOnCurrentThread;
+//	}
+
+	public static void main(String[] args) {
+		SpringApplication.run(JpaApplication.class, args);
+	}
+}
+
+
+@Slf4j
+@Component
+@Profile("!test")
+class ProdOnly {
 	@Autowired
 	private PlatformTransactionManager txm;
-
+	@Autowired
+	private TransactionPlayground transactionPlayground;
 	@EventListener
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		log.debug(txm.getClass().getSimpleName());
@@ -49,16 +67,5 @@ public class JpaApplication {
 
 		log.debug(" ========= END ========== ");
 		log.debug("Wow! what a ride. What was that ?!" + transactionPlayground.getClass());
-	}
-
-
-
-//	@Bean
-//	public AuditorAware<String> auditorProvider() {
-//		return MyUtil::getUserOnCurrentThread;
-//	}
-
-	public static void main(String[] args) {
-		SpringApplication.run(JpaApplication.class, args);
 	}
 }

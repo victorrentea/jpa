@@ -11,8 +11,9 @@ import org.springframework.data.jpa.repository.Query;
 import victor.training.jpa.app.common.data.EntityRepository;
 import victor.training.jpa.app.domain.entity.Subject;
 import victor.training.jpa.app.domain.entity.Teacher;
+import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
 
-public interface TeacherRepo extends JpaRepository<Teacher, Long> {
+public interface TeacherRepo extends EntityRepository<Teacher, Long>, TeacherRepoCustom {
 
 	@Query("SELECT DISTINCT a.timeSlot.day FROM Teacher t JOIN t.activities a WHERE t.id=?1")
 	public Set<DayOfWeek> getBusyDaysOfTeacher(long teacherId);
@@ -30,4 +31,6 @@ public interface TeacherRepo extends JpaRepository<Teacher, Long> {
 
    @Query("SELECT t FROM Teacher t left join fetch t.heldSubjects s left join fetch s.y")
 	List<Teacher> findAllForExport();
+
+
 }
