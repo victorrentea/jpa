@@ -12,6 +12,7 @@ import victor.training.jpa.app.repo.SubjectRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.persistence.EntityManager;
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -29,6 +30,7 @@ public class TransactionPlayground {
       log.debug("Halo!");
       ErrorLog logError = errorLogRepo.save(new ErrorLog("Spring Data"));
       log.debug(logError.getId().toString());
+
 
       /// ------------
       Teacher teacher = new Teacher("Tavi").setGrade(Grade.PROFESSOR);
@@ -92,8 +94,11 @@ public class TransactionPlayground {
 //      System.out.println("What did I get, again ?" + teacher.getClass());
 //
 //      log.debug("Teacher " + teacher +  " teaches "  + teacher.getHeldSubjects().size());
+   }
 
 
-
+   @Transactional(readOnly = true)
+   public void iterateOver10Mrows () {
+      teacherRepo.findAllAsStream().forEach(System.out::println);
    }
 }

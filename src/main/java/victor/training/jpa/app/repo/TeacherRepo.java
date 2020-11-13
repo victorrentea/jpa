@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -27,6 +28,7 @@ public interface TeacherRepo extends EntityRepository<Teacher, Long>, JpaSpecifi
 
    @Query(value = "INSERT INTO TEACHER(ID) VALUES (?)", nativeQuery = true)
    void insertStuff(long id);
+
       // TODO make return null!
    Optional<Teacher> findByName(String name);
 
@@ -34,4 +36,6 @@ public interface TeacherRepo extends EntityRepository<Teacher, Long>, JpaSpecifi
 	List<Teacher> findAllForExport();
 
 
+   @Query("FROM Teacher  t")
+	Stream<Teacher> findAllAsStream();
 }
