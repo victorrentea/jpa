@@ -89,7 +89,7 @@ class B {
    private final EntityManager entityManager;
    private final ErrorLogRepo repo;
 
-   @Transactional
+   @Transactional(rollbackFor = Exception.class)
    public void write() throws IOException {
       entityManager.persist(new ErrorLog("B"));
       throw new IOException();
