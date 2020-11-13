@@ -15,10 +15,12 @@ import javax.persistence.EntityManager;
 @RequiredArgsConstructor
 public class TransactionPlay {
    private final TransactionsAllAroundUs tr;
+
    @PostConstruct
    public void init() {
       System.out.println("Shaking hands with a proxy : " + tr.getClass()); // contains CGLIB
-       tr.run();
+      tr.first();
+      tr.second();
    }
 }
 
@@ -28,9 +30,45 @@ public class TransactionPlay {
 class TransactionsAllAroundUs {
    private final EntityManager em;
    private final ErrorLogRepo repo;
+   private final A a;
+   private final B b;
 
-   @Transactional // doesn't work on @PostConstruct
-   public void run() {
+   @Transactional
+   public void first() {
+      log.info("START 1");
       em.persist(new ErrorLog("ONE"));
    }
+   @Transactional
+   public void second() {
+      log.info("START 2");
+      a.method();
+      b.method();
+      log.info("END 2");
+   }
+}
+
+@Component
+@Slf4j
+@RequiredArgsConstructor
+class A {
+   private final EntityManager entityManager;
+   @Transactional
+   public void method() {
+      entityManager.persist(new ErrorLog("A"));
+//      return entityManager.find(ErrorLog.class, 1L);
+   }
+
+}
+
+@Component
+@Slf4j
+@RequiredArgsConstructor
+class B {
+   private final EntityManager entityManager;
+   @Transactional
+   public void method() {
+      entityManager.persist(new ErrorLog("B"));
+//      return entityManager.find(ErrorLog.class, 1L);
+   }
+
 }
