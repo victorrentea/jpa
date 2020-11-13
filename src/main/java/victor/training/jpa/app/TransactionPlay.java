@@ -9,6 +9,7 @@ import victor.training.jpa.app.repo.ErrorLogRepo;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
+import java.io.IOException;
 
 @Component
 @Slf4j
@@ -88,10 +89,10 @@ class B {
    private final EntityManager entityManager;
    private final ErrorLogRepo repo;
 
-//   @Transactional
-   public void write() {
+   @Transactional
+   public void write() throws IOException {
       entityManager.persist(new ErrorLog("B"));
-      throw new IllegalArgumentException();
+      throw new IOException();
    }
 
    @Transactional
