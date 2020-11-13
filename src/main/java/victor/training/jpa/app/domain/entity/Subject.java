@@ -19,6 +19,7 @@ import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE) // second level cache not transaction-bound but application-global
 public class Subject {
 
 	enum Status  {
