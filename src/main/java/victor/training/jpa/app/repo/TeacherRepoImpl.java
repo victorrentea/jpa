@@ -4,27 +4,13 @@ import java.util.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.jpa.impl.JPAQuery;
-import org.apache.commons.lang3.StringUtils;
+import lombok.Value;
 
-import victor.training.jpa.app.domain.entity.QTeacher;
 import victor.training.jpa.app.domain.entity.Teacher;
 import victor.training.jpa.app.domain.entity.Teacher.Grade;
-import victor.training.jpa.app.domain.entity.Teacher_;
-import victor.training.jpa.app.domain.entity.TeachingActivity;
-import victor.training.jpa.app.facade.dto.ActivitySearchCriteria;
 import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
-
-import static victor.training.jpa.app.domain.entity.QTeacher.teacher;
 
 public class TeacherRepoImpl implements TeacherRepoCustom {
 
@@ -35,8 +21,10 @@ public class TeacherRepoImpl implements TeacherRepoCustom {
    // in the UI you only display id and name;
 
    @Override
-   public List<Object[]> searchEfficient(TeacherSearchCriteria searchCriteria) {
-      String jpql = "SELECT t.id, t.name FROM Teacher t WHERE 1=1 ";
+
+   public List<TeacherSearchResult> searchEfficient(TeacherSearchCriteria searchCriteria) {
+      String jpql = "SELECT new victor.training.jpa.app.repo.TeacherSearchResult(t.id, t.name)" +
+                    " FROM Teacher t WHERE 1=1 ";
       Map<String, Object> params = new HashMap<>();
 
       if (searchCriteria.name != null) {
@@ -50,7 +38,7 @@ public class TeacherRepoImpl implements TeacherRepoCustom {
       }
 
 
-      Query query = em.createQuery(jpql);
+      TypedQuery<TeacherSearchResult> query = em.createQuery(jpql, TeacherSearchResult.class);
       for (String param : params.keySet()) {
          query.setParameter(param, params.get(param));
       }
@@ -138,4 +126,17 @@ public class TeacherRepoImpl implements TeacherRepoCustom {
 //   }
 //}
 
+}
+
+//thrown as JSON/XML/RMI
+@Value
+class TeacherSearchResult {
+  long id;
+  String name;
+}
+@Value
+class TeacherSearchResultInDetailsPage {
+  long id;
+  String name;
+  Grade grader;
 }
