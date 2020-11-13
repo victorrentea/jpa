@@ -51,7 +51,7 @@ public class UberEntityTest {
         log.info("Now, loading by id...");
 
 //        UberEntity uberEntity = em.find(UberEntity.class, uber.getId());
-        UberEntitySearchResult uberEntity = em.createQuery("SELECT new victor.training.jpa.perf.UberEntitySearchResult(u.id, u.name, fc) " +
+        UberEntitySearchResult uberEntity = em.createQuery("SELECT new victor.training.jpa.perf.UberEntitySearchResult(u.id, u.name, fc.name) " +
                                                            "FROM UberEntity u LEFT JOIN Country fc ON fc.id = u.fiscalCountryId WHERE u.id =:id", UberEntitySearchResult.class)
             .setParameter("id", uber.getId()).getSingleResult();
         // suppose in UI search results or exports you really need the label of the country.
@@ -72,6 +72,10 @@ public class UberEntityTest {
 class UberEntitySearchResult {
     long id;
     String name;
-//    String fiscalCountryName;
-    Country fiscalCountry;
+    String fiscalCountryName;
+//    Country fiscalCountry;
 }
+
+// create or replace view UBERFULL as select * from UBER
+// ENTITY mappnd on view.
+// and this new entity to have the @ManyToOne
