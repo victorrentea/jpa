@@ -16,8 +16,10 @@ public class UberEntity {
     private Country originCountry;
     @ManyToOne
     private Country nationality;
-    @ManyToOne
-    private Country fiscalCountry;
+//    @ManyToOne
+//    private Country fiscalCountry;
+    private Long fiscalCountryId;
+
     @ManyToOne
     private Country invoicingCountry;
     @ManyToOne
@@ -48,10 +50,15 @@ public class UberEntity {
         return this;
     }
 
-    public UberEntity setFiscalCountry(Country fiscalCountry) {
-        this.fiscalCountry = fiscalCountry;
+    public UberEntity setFiscalCountryId(Long fiscalCountryId) {
+        this.fiscalCountryId = fiscalCountryId;
         return this;
     }
+
+    //    public UberEntity setFiscalCountry(Country fiscalCountry) {
+//        this.fiscalCountry = fiscalCountry;
+//        return this;
+//    }
 
     public UberEntity setInvoicingCountry(Country invoicingCountry) {
         this.invoicingCountry = invoicingCountry;

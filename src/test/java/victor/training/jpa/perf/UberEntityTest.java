@@ -36,7 +36,7 @@ public class UberEntityTest {
         em.persist(globalScope);
 
         UberEntity uber = new UberEntity()
-                .setFiscalCountry(romania)
+                .setFiscalCountryId(romania.getId()) // IN THE DB SCHEMA PLEASE DO KEEP THE FK. the hibernate generated schema will now NOT have the FK by default
                 .setOriginCountry(romania)
                 .setInvoicingCountry(romania)
                 .setCreatedBy(testUser)
@@ -51,6 +51,13 @@ public class UberEntityTest {
 
         UberEntity uberEntity = em.find(UberEntity.class, uber.getId());
 //        UberEntity uberEntity = em.createQuery("FROM UberEntity u WHERE u.id =:id", UberEntity.class).setParameter("id", uber.getId()).getSingleResult();
+        // suppose in UI search results or exports you really need the label of the country.
+
+        // A : export  keep all the countryies in mem / @Cacheable or a simple HashMap loaded for that request/
+
+        // TODO B) search: select new bla.bla.MySearchResult(country)
+
+        //uberEntity.getOriginCountry().getName() // DO I EVER EVER DO THIS IN MY APP !? - ask yourselves very honestly
         log.info("Loaded");
         // TODO fetch only the necessary data
         // TODO change link types?
