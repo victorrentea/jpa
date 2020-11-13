@@ -38,11 +38,16 @@ public class NPlusOneTest {
 		em.persist(new Parent("Victor")
 				.addChild(new Child("Emma"))
 				.addChild(new Child("Vlad"))
+				.addChild2(new Child("Emma"))
+				.addChild2(new Child("Vlad"))
 		);
 		em.persist(new Parent("Peter")
 				.addChild(new Child("Maria"))
 				.addChild(new Child("Stephan"))
 				.addChild(new Child("Paul"))
+				.addChild2(new Child("Maria"))
+				.addChild2(new Child("Stephan"))
+				.addChild2(new Child("Paul"))
 		);
 		TestTransaction.end();
 		TestTransaction.start();
@@ -50,7 +55,8 @@ public class NPlusOneTest {
 
 	@Test
 	public void nPlusOne() {
-		Set<Parent> parents = new HashSet<>(em.createQuery("SELECT p FROM Parent p LEFT JOIN FETCH p.children", Parent.class).getResultList());
+//		Set<Parent> parents = new HashSet<>(em.createQuery("SELECT p FROM Parent p LEFT JOIN FETCH p.children", Parent.class).getResultList());
+		Set<Parent> parents = new HashSet<>(em.createQuery("SELECT p FROM Parent p", Parent.class).getResultList());
 
 		int totalChildren = anotherMethod(parents);
 		assertThat(totalChildren).isEqualTo(5);
@@ -61,6 +67,7 @@ public class NPlusOneTest {
 		int total = 0;
 		for (Parent parent : parents) {
 			total += parent.getChildren().size();
+			total += parent.getChildren2().size();
 		}
 		log.debug("Done counting: {} children", total);
 		return total;
