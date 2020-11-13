@@ -19,7 +19,7 @@ import java.util.stream.IntStream;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class TransactionPlayground {
+public class KindergardenPlaygroundBasics {
    private final EntityManager entityManager; // JPA
    private final ErrorLogRepo errorLogRepo;
    private final TeacherRepo teacherRepo; // Spring Data JPA

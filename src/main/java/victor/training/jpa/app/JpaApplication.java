@@ -4,9 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.EnableLoadTimeWeaving;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -17,8 +14,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import victor.training.jpa.app.common.data.EntityRepositoryFactoryBean;
-
-import javax.sql.XADataSource;
 
 @SpringBootApplication
 @EnableJpaRepositories(repositoryFactoryBeanClass = EntityRepositoryFactoryBean.class)
@@ -52,22 +47,22 @@ class ProdOnly {
 	@Autowired
 	private PlatformTransactionManager txm;
 	@Autowired
-	private TransactionPlayground transactionPlayground;
+	private KindergardenPlaygroundBasics kindergardenPlaygroundBasics;
 	@EventListener
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		log.debug(txm.getClass().getSimpleName());
 		log.debug(">>>>>>>>>> Running Transaction Playground code... <<<<<<<<<<<<");
 //		dummyDataCreator.persistDummyData();
 		log.debug(" ========= FIRST TRANSACTION ========== ");
-		transactionPlayground.firstTransaction();
+		kindergardenPlaygroundBasics.firstTransaction();
 		log.debug(" ========= SECOND TRANSACTION ========== ");
-		transactionPlayground.secondTransaction();
+		kindergardenPlaygroundBasics.secondTransaction();
 		log.debug(" ========= 3 ========== ");
-		transactionPlayground.thirdTransaction();
+		kindergardenPlaygroundBasics.thirdTransaction();
 		log.debug(" ========= 4 ========== ");
-		transactionPlayground.four();
+		kindergardenPlaygroundBasics.four();
 
 		log.debug(" ========= END ========== ");
-		log.debug("Wow! what a ride. What was that ?!" + transactionPlayground.getClass());
+		log.debug("Wow! what a ride. What was that ?!" + kindergardenPlaygroundBasics.getClass());
 	}
 }
