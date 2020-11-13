@@ -96,6 +96,10 @@ public class TransactionPlayground {
 //      log.debug("Teacher " + teacher +  " teaches "  + teacher.getHeldSubjects().size());
    }
 
+   @Transactional
+   public void four() {
+      System.out.println(teacherRepo.findByName("Tavi"));
+   }
 
    @Transactional(readOnly = true)
    public void iterateOver10Mrows () {

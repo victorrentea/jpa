@@ -64,6 +64,8 @@ class ProdOnly {
 		transactionPlayground.secondTransaction();
 		log.debug(" ========= 3 ========== ");
 		transactionPlayground.thirdTransaction();
+		log.debug(" ========= 4 ========== ");
+		transactionPlayground.four();
 
 		log.debug(" ========= END ========== ");
 		log.debug("Wow! what a ride. What was that ?!" + transactionPlayground.getClass());
