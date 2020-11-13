@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import victor.training.jpa.app.common.data.EntityRepository;
@@ -13,7 +14,7 @@ import victor.training.jpa.app.domain.entity.Subject;
 import victor.training.jpa.app.domain.entity.Teacher;
 import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
 
-public interface TeacherRepo extends EntityRepository<Teacher, Long>, TeacherRepoCustom {
+public interface TeacherRepo extends EntityRepository<Teacher, Long>, JpaSpecificationExecutor<Teacher>, TeacherRepoCustom {
 
 	@Query("SELECT DISTINCT a.timeSlot.day FROM Teacher t JOIN t.activities a WHERE t.id=?1")
 	public Set<DayOfWeek> getBusyDaysOfTeacher(long teacherId);

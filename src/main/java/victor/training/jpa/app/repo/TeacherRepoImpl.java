@@ -57,16 +57,24 @@ public class TeacherRepoImpl implements TeacherRepoCustom {
 
       if (searchCriteria.grade != null) {
          //  jpql += " AND t.grade = :grade ";
-         predicates.add(cb.equal(root.get(Teacher_.grade), searchCriteria.grade));
+         predicates.add(namePredicate(searchCriteria, cb, root));
       }
 
       if (searchCriteria.name != null) {
          //  jpql += " AND t.name = :grade ";
-         predicates.add(cb.like(cb.upper(root.get(Teacher_.name)), "%" + searchCriteria.name.toUpperCase() + "%"));
+         predicates.add(getLike(searchCriteria, cb, root));
       }
 
       criteriaQuery.select(root).where(cb.and(predicates.toArray(new Predicate[0])));
 
       return em.createQuery(criteriaQuery).getResultList();
+   }
+
+   private Predicate getLike(TeacherSearchCriteria searchCriteria, CriteriaBuilder cb, Root<Teacher> root) {
+      return cb.like(cb.upper(root.get(Teacher_.name)), "%" + searchCriteria.name.toUpperCase() + "%");
+   }
+
+   private Predicate namePredicate(TeacherSearchCriteria searchCriteria, CriteriaBuilder cb, Root<Teacher> root) {
+      return cb.equal(root.get(Teacher_.grade), searchCriteria.grade);
    }
 }
