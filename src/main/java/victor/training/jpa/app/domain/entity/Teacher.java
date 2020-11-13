@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.persistence.*;
 
@@ -36,7 +37,7 @@ public class Teacher {
 	private List<ContactChannel> channels = new ArrayList<>();
 	@Setter
 	@OneToMany(mappedBy = "holderTeacher",cascade = CascadeType.PERSIST, orphanRemoval = true)  // NEVER use fetch=EAGER
-	@OrderBy("name")
+	@OrderColumn
 	private List<Subject> heldSubjects = new ArrayList<>() ;
 	@Getter @Setter
 	@ManyToMany(mappedBy = "teachers")
@@ -61,8 +62,8 @@ public class Teacher {
 		this.name = name;
 	}
 
-	public Collection<Subject> getHeldSubjects() {
-		return heldSubjects;
+	public List<Subject> getHeldSubjects() {
+		return heldSubjects;//.stream().sorted(Subjcet::getMyIndex).collect(Collectors.toList());
 	}
 
 	public Teacher addHeldSubject(Subject subject) {

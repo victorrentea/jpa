@@ -35,7 +35,6 @@ public class UberEntityTest {
         em.persist(testUser);
         em.persist(globalScope);
 
-
         UberEntity uber = new UberEntity()
                 .setFiscalCountry(romania)
                 .setOriginCountry(romania)
@@ -49,7 +48,9 @@ public class UberEntityTest {
         TestTransaction.start();
 
         log.info("Now, loading by id...");
+
         UberEntity uberEntity = em.find(UberEntity.class, uber.getId());
+//        UberEntity uberEntity = em.createQuery("FROM UberEntity u WHERE u.id =:id", UberEntity.class).setParameter("id", uber.getId()).getSingleResult();
         log.info("Loaded");
         // TODO fetch only the necessary data
         // TODO change link types?

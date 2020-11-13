@@ -14,11 +14,10 @@ import victor.training.jpa.app.repo.TeacherRepo;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ElementCollectionPLay implements CommandLineRunner
+public class ElementCollectionPLay //implements CommandLineRunner
 {
    private final Work work;
 
-   @Override
    public void run(String... args) throws Exception {
       log.debug("Coll start");
       Long id = work.insertTeacher();

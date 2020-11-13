@@ -3,6 +3,8 @@ package victor.training.jpa.app;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.domain.entity.ErrorLog;
@@ -18,12 +20,13 @@ import java.io.IOException;
 public class TransactionPlay {
    private final TransactionsAllAroundUs tr;
 
-//   @PostConstruct
+   @PostConstruct
    public void init() {
       System.out.println("Shaking hands with a proxy : " + tr.getClass()); // contains CGLIB
       tr.first();
       tr.second();
-      tr.write();
+//      tr.write();
+      tr.readWriteTx();
    }
 }
 
@@ -63,6 +66,12 @@ class TransactionsAllAroundUs {
       em.flush();
       log.info("END 3");
    }
+   @Transactional(readOnly = true)
+   public void readWriteTx() {
+      log.info("START 4");
+      a.writeTx();
+      log.info("END 4");
+   }
 }
 
 @Component
@@ -70,6 +79,7 @@ class TransactionsAllAroundUs {
 @RequiredArgsConstructor
 class A {
    private final EntityManager entityManager;
+private final PlatformTransactionManager transactionManager;
 
 
    @Transactional
@@ -82,6 +92,11 @@ class A {
       return entityManager.find(ErrorLog.class, 1L);
    }
 
+   @Transactional(readOnly = false)
+   public void writeTx() {
+//      transactionManager.getTransaction(TransactionDefinition.withDefaults()).
+      entityManager.persist(new ErrorLog("WRITE OR READ"));
+   }
 }
 
 @Component
