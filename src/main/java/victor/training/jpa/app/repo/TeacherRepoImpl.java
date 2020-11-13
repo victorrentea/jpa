@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import victor.training.jpa.app.domain.entity.Teacher;
 import victor.training.jpa.app.domain.entity.Teacher.Grade;
+import victor.training.jpa.app.domain.entity.Teacher_;
 import victor.training.jpa.app.domain.entity.TeachingActivity;
 import victor.training.jpa.app.facade.dto.ActivitySearchCriteria;
 import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
@@ -56,12 +57,12 @@ public class TeacherRepoImpl implements TeacherRepoCustom {
 
       if (searchCriteria.grade != null) {
          //  jpql += " AND t.grade = :grade ";
-         predicates.add(cb.equal(root.get("grade"), searchCriteria.grade));
+         predicates.add(cb.equal(root.get(Teacher_.grade), searchCriteria.grade));
       }
 
       if (searchCriteria.name != null) {
          //  jpql += " AND t.name = :grade ";
-         predicates.add(cb.like(cb.upper(root.get("name")), "%" + searchCriteria.name.toUpperCase() + "%"));
+         predicates.add(cb.like(cb.upper(root.get(Teacher_.name)), "%" + searchCriteria.name.toUpperCase() + "%"));
       }
 
       criteriaQuery.select(root).where(cb.and(predicates.toArray(new Predicate[0])));
