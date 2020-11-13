@@ -19,7 +19,7 @@ public class TransactionPlay {
 
 
    @PostConstruct
-   @Transactional
+   @Transactional // doesn't work on @PostConstruct
    public void run() {
       em.persist(new ErrorLog("ONE"));
    }
