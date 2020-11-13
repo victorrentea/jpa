@@ -11,6 +11,11 @@ import javax.persistence.*;
 @Entity
 public class Teacher {
 
+	public void removeSubject(Subject subject) {
+		heldSubjects.remove(subject);
+//		subject.setHolderTeacher(null);
+	}
+
 	public enum Grade {
 		LECTURER, PROFESSOR, CONF, ASSISTENT
 	}
@@ -30,7 +35,7 @@ public class Teacher {
 	@ElementCollection
 	private List<ContactChannel> channels = new ArrayList<>();
 	@Setter
-	@OneToMany(mappedBy = "holderTeacher",cascade = CascadeType.PERSIST)  // NEVER use fetch=EAGER
+	@OneToMany(mappedBy = "holderTeacher",cascade = CascadeType.PERSIST, orphanRemoval = true)  // NEVER use fetch=EAGER
 	private Set<Subject> heldSubjects = new HashSet<>() ;
 	@Getter @Setter
 	@ManyToMany(mappedBy = "teachers")

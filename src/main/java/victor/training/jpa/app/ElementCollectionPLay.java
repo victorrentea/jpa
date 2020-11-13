@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.domain.entity.ContactChannel;
 import victor.training.jpa.app.domain.entity.ContactChannel.Type;
+import victor.training.jpa.app.domain.entity.Subject;
 import victor.training.jpa.app.domain.entity.Teacher;
 import victor.training.jpa.app.repo.TeacherRepo;
 
@@ -33,14 +34,14 @@ class Work {
    private final TeacherRepo teacherRepo;
    public Long insertTeacher() {
       return teacherRepo.save(new Teacher()
-          .addChannel(new ContactChannel(Type.PERSONAL_PHONE, "asdadsad"))
-          .addChannel(new ContactChannel(Type.PERSONAL_PHONE, "two"))
+          .addHeldSubject(new Subject("A"))
+          .addHeldSubject(new Subject("B"))
       ).getId();
    }
 
    @Transactional
    public void changeTeacher(Long id) {
       Teacher teacher = teacherRepo.findById(id).get();
-      teacher.addChannel(new ContactChannel(Type.PERSONAL_PHONE, "threee"));
+      teacher.removeSubject(teacher.getHeldSubjects().iterator().next());
    }
 }
