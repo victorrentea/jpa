@@ -34,14 +34,16 @@ class Work {
    private final TeacherRepo teacherRepo;
    public Long insertTeacher() {
       return teacherRepo.save(new Teacher()
-          .addHeldSubject(new Subject("A"))
           .addHeldSubject(new Subject("B"))
+          .addHeldSubject(new Subject("A"))
+          .addHeldSubject(new Subject("C"))
       ).getId();
    }
 
    @Transactional
    public void changeTeacher(Long id) {
       Teacher teacher = teacherRepo.findById(id).get();
+      System.out.println(teacher.getHeldSubjects());
       teacher.removeSubject(teacher.getHeldSubjects().iterator().next());
 
 

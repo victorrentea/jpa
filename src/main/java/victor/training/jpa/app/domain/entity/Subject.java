@@ -41,6 +41,15 @@ public class Subject {
 		return this;
 	}
 
+	@Override
+	public String toString() {
+		return "Subject{" +
+				 "id=" + id +
+				 ", status=" + status +
+				 ", name='" + name + '\'' +
+				 '}';
+	}
+
 	@Getter
 	private Status status = Status.DRAFT;
 

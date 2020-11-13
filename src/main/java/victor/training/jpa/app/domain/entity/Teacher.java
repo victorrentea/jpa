@@ -36,7 +36,8 @@ public class Teacher {
 	private List<ContactChannel> channels = new ArrayList<>();
 	@Setter
 	@OneToMany(mappedBy = "holderTeacher",cascade = CascadeType.PERSIST, orphanRemoval = true)  // NEVER use fetch=EAGER
-	private Set<Subject> heldSubjects = new HashSet<>() ;
+	@OrderBy("name")
+	private List<Subject> heldSubjects = new ArrayList<>() ;
 	@Getter @Setter
 	@ManyToMany(mappedBy = "teachers")
 	private Set<TeachingActivity> activities = new HashSet<>();
@@ -60,7 +61,7 @@ public class Teacher {
 		this.name = name;
 	}
 
-	public Set<Subject> getHeldSubjects() {
+	public Collection<Subject> getHeldSubjects() {
 		return heldSubjects;
 	}
 
