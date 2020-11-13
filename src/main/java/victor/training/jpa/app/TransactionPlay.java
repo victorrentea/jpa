@@ -41,8 +41,9 @@ class TransactionsAllAroundUs {
    @Transactional
    public void second() {
       log.info("START 2");
-      a.method();
-      b.method();
+      ErrorLog a = this.a.method();
+      ErrorLog b = this.b.method();
+      System.out.println(a == b);
       log.info("END 2");
    }
 }
@@ -53,9 +54,9 @@ class TransactionsAllAroundUs {
 class A {
    private final EntityManager entityManager;
    @Transactional
-   public void method() {
-      entityManager.persist(new ErrorLog("A"));
-//      return entityManager.find(ErrorLog.class, 1L);
+   public ErrorLog method() {
+//      entityManager.persist(new ErrorLog("A"));
+      return entityManager.find(ErrorLog.class, 1L);
    }
 
 }
@@ -66,9 +67,9 @@ class A {
 class B {
    private final EntityManager entityManager;
    @Transactional
-   public void method() {
-      entityManager.persist(new ErrorLog("B"));
-//      return entityManager.find(ErrorLog.class, 1L);
+   public ErrorLog method() {
+//      entityManager.persist(new ErrorLog("B"));
+      return entityManager.find(ErrorLog.class, 1L);
    }
 
 }
