@@ -1,5 +1,6 @@
 package victor.training.jpa.perf;
 
+import lombok.Value;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -49,8 +50,10 @@ public class UberEntityTest {
 
         log.info("Now, loading by id...");
 
-        UberEntity uberEntity = em.find(UberEntity.class, uber.getId());
-//        UberEntity uberEntity = em.createQuery("FROM UberEntity u WHERE u.id =:id", UberEntity.class).setParameter("id", uber.getId()).getSingleResult();
+//        UberEntity uberEntity = em.find(UberEntity.class, uber.getId());
+        UberEntitySearchResult uberEntity = em.createQuery("SELECT new victor.training.jpa.perf.UberEntitySearchResult(u.id, u.name, fc) " +
+                                                           "FROM UberEntity u LEFT JOIN Country fc ON fc.id = u.fiscalCountryId WHERE u.id =:id", UberEntitySearchResult.class)
+            .setParameter("id", uber.getId()).getSingleResult();
         // suppose in UI search results or exports you really need the label of the country.
 
         // A : export  keep all the countryies in mem / @Cacheable or a simple HashMap loaded for that request/
@@ -63,4 +66,12 @@ public class UberEntityTest {
         // TODO change link types?
         System.out.println(uberEntity.toString());
     }
+}
+
+@Value
+class UberEntitySearchResult {
+    long id;
+    String name;
+//    String fiscalCountryName;
+    Country fiscalCountry;
 }
