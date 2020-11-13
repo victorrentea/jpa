@@ -88,7 +88,7 @@ class B {
    private final EntityManager entityManager;
    private final ErrorLogRepo repo;
 
-   @Transactional
+//   @Transactional
    public void write() {
       entityManager.persist(new ErrorLog("B"));
       throw new IllegalArgumentException();
