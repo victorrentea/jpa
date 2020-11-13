@@ -40,7 +40,7 @@ public class DynamicQueryTest {
 
 
       searchCriteria.name = "Victor";
-      assertThat(teacherRepo.search(searchCriteria)).hasSize(1);
+      assertThat(teacherRepo.searchEfficient(searchCriteria)).hasSize(1);
 
       searchCriteria.name = "IC";
       assertThat(teacherRepo.search(searchCriteria)).hasSize(1);

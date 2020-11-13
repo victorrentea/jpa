@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -31,51 +32,78 @@ public class TeacherRepoImpl implements TeacherRepoCustom {
    private EntityManager em;
 
 
-//   @Override
-//   public List<Teacher> search(TeacherSearchCriteria searchCriteria) {
-//      String jpql = "SELECT t FROM Teacher t WHERE 1=1 ";
-//      Map<String, Object> params = new HashMap<>();
-//
-//      if (searchCriteria.name != null) {
-//         jpql += " AND UPPER(t.name) LIKE UPPER('%' || :name || '%') ";
-//         params.put("name", searchCriteria.name);
-//      }
-//
-//      if (searchCriteria.grade != null) {
-//         jpql += " AND t.grade = :grade ";
-//         params.put("grade", searchCriteria.grade);
-//      }
-//
-//
-//      TypedQuery<Teacher> query = em.createQuery(jpql, Teacher.class);
-//      for (String param : params.keySet()) {
-//         query.setParameter(param, params.get(param));
-//      }
-//      return query.getResultList();
-//   }
+   // in the UI you only display id and name;
+
+   @Override
+   public List<Object[]> searchEfficient(TeacherSearchCriteria searchCriteria) {
+      String jpql = "SELECT t.id, t.name FROM Teacher t WHERE 1=1 ";
+      Map<String, Object> params = new HashMap<>();
+
+      if (searchCriteria.name != null) {
+         jpql += " AND UPPER(t.name) LIKE UPPER('%' || :name || '%') ";
+         params.put("name", searchCriteria.name);
+      }
+
+      if (searchCriteria.grade != null) {
+         jpql += " AND t.grade = :grade ";
+         params.put("grade", searchCriteria.grade);
+      }
+
+
+      Query query = em.createQuery(jpql);
+      for (String param : params.keySet()) {
+         query.setParameter(param, params.get(param));
+      }
+      return query.getResultList();
+   }
 
 
 
    @Override
    public List<Teacher> search(TeacherSearchCriteria searchCriteria) {
+      String jpql = "SELECT t FROM Teacher t WHERE 1=1 ";
+      Map<String, Object> params = new HashMap<>();
 
-      JPAQuery<?> query = new JPAQuery<Void>(em);
-      BooleanExpression pred = Expressions.TRUE;
-
+      if (searchCriteria.name != null) {
+         jpql += " AND UPPER(t.name) LIKE UPPER('%' || :name || '%') ";
+         params.put("name", searchCriteria.name);
+      }
 
       if (searchCriteria.grade != null) {
-         pred = pred.and(teacher.grade.eq(searchCriteria.grade));
+         jpql += " AND t.grade = :grade ";
+         params.put("grade", searchCriteria.grade);
       }
-         if (searchCriteria.name != null) {
-            pred = pred.and(teacher.name.upper().like("%" + searchCriteria.name.toUpperCase() + "%"));
-         }
 
-      return query.select(teacher)
-             .from(teacher)
-             .where(pred)
-             .fetchAll()
-             .fetch();
+
+      TypedQuery<Teacher> query = em.createQuery(jpql, Teacher.class);
+      for (String param : params.keySet()) {
+         query.setParameter(param, params.get(param));
+      }
+      return query.getResultList();
    }
+
+
+
+//   @Override
+//   public List<Teacher> search(TeacherSearchCriteria searchCriteria) {
+//
+//      JPAQuery<?> query = new JPAQuery<Void>(em);
+//      BooleanExpression pred = Expressions.TRUE;
+//
+//
+//      if (searchCriteria.grade != null) {
+//         pred = pred.and(teacher.grade.eq(searchCriteria.grade));
+//      }
+//         if (searchCriteria.name != null) {
+//            pred = pred.and(teacher.name.upper().like("%" + searchCriteria.name.toUpperCase() + "%"));
+//         }
+//
+//      return query.select(teacher)
+//             .from(teacher)
+//             .where(pred)
+//             .fetchAll()
+//             .fetch();
+//   }
 
 
 //   @Override
