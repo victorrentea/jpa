@@ -43,7 +43,7 @@ public class KindergardenPlaygroundBasics {
       subject.setY(new Y());
       teacher.addHeldSubject(subject);
 
-      IntStream.range(1,100).mapToObj(i -> new Teacher().addHeldSubject(new Subject().setY(new Y()))).forEach(teacherRepo::save);
+      IntStream.range(1,3).mapToObj(i -> new Teacher().addHeldSubject(new Subject().setY(new Y()))).forEach(teacherRepo::save);
 
 //      subjectRepo.save(subject);
    }

@@ -14,14 +14,21 @@ import javax.persistence.EntityManager;
 @Slf4j
 @RequiredArgsConstructor
 public class TransactionPlay {
+   private final TransactionsAllAroundUs tr;
+   @PostConstruct
+   public void init() {
+      System.out.println("Shaking hands with a proxy : " + tr.getClass()); // contains CGLIB
+       tr.run();
+   }
+}
+
+@Component
+@RequiredArgsConstructor
+@Slf4j
+class TransactionsAllAroundUs {
    private final EntityManager em;
    private final ErrorLogRepo repo;
 
-
-   @PostConstruct
-   public void init() {
-       run();
-   }
    @Transactional // doesn't work on @PostConstruct
    public void run() {
       em.persist(new ErrorLog("ONE"));
