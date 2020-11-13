@@ -1,17 +1,19 @@
 package victor.training.jpa.app.repo;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
 
 import victor.training.jpa.app.domain.entity.Teacher;
+import victor.training.jpa.app.domain.entity.Teacher.Grade;
 import victor.training.jpa.app.domain.entity.TeachingActivity;
 import victor.training.jpa.app.facade.dto.ActivitySearchCriteria;
 import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
@@ -22,26 +24,48 @@ public class TeacherRepoImpl implements TeacherRepoCustom {
    private EntityManager em;
 
 
+//   @Override
+//   public List<Teacher> search(TeacherSearchCriteria searchCriteria) {
+//      String jpql = "SELECT t FROM Teacher t WHERE 1=1 ";
+//      Map<String, Object> params = new HashMap<>();
+//
+//      if (searchCriteria.name != null) {
+//         jpql += " AND UPPER(t.name) LIKE UPPER('%' || :name || '%') ";
+//         params.put("name", searchCriteria.name);
+//      }
+//
+//      if (searchCriteria.grade != null) {
+//         jpql += " AND t.grade = :grade ";
+//         params.put("grade", searchCriteria.grade);
+//      }
+//
+//
+//      TypedQuery<Teacher> query = em.createQuery(jpql, Teacher.class);
+//      for (String param : params.keySet()) {
+//         query.setParameter(param, params.get(param));
+//      }
+//      return query.getResultList();
+//   }
    @Override
    public List<Teacher> search(TeacherSearchCriteria searchCriteria) {
-      String jpql = "SELECT t FROM Teacher t WHERE 1=1 ";
-      Map<String, Object> params = new HashMap<>();
+      CriteriaBuilder cb = em.getCriteriaBuilder();
+      CriteriaQuery<Teacher> criteriaQuery = cb.createQuery(Teacher.class);
+      Root<Teacher> root = criteriaQuery.from(Teacher.class);
 
-      if (searchCriteria.name != null) {
-         jpql += " AND UPPER(t.name) LIKE UPPER('%' || :name || '%') ";
-         params.put("name", searchCriteria.name);
-      }
+      List<Predicate> predicates = new ArrayList<>();
 
       if (searchCriteria.grade != null) {
-         jpql += " AND t.grade = :grade ";
-         params.put("grade", searchCriteria.grade);
+         //  jpql += " AND t.grade = :grade ";
+         predicates.add(cb.equal(root.get("grade"), searchCriteria.grade));
       }
 
-
-      TypedQuery<Teacher> query = em.createQuery(jpql, Teacher.class);
-      for (String param : params.keySet()) {
-         query.setParameter(param, params.get(param));
+      if (searchCriteria.name != null) {
+         //  jpql += " AND t.name = :grade ";
+         predicates.add(cb.like(cb.upper(root.get("name")), "%" + searchCriteria.name.toUpperCase() + "%"));
       }
-      return query.getResultList();
+
+      criteriaQuery.select(root).where(cb.and(predicates.toArray(new Predicate[0])));
+
+      return em.createQuery(criteriaQuery).getResultList();
    }
 }
