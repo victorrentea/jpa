@@ -19,10 +19,11 @@ public class TransactionPlay {
 
 
    @PostConstruct
+   public void init() {
+       run();
+   }
    @Transactional // doesn't work on @PostConstruct
    public void run() {
       em.persist(new ErrorLog("ONE"));
    }
-
-
 }
