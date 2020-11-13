@@ -43,8 +43,9 @@ public class Teacher {
 	public Iterable<ContactChannel> getChannels() {
 		return channels;
 	}
-	public void addChannel(ContactChannel contactChannel) {
+	public Teacher addChannel(ContactChannel contactChannel) {
 		channels.add(contactChannel);
+		return this;
 	}
 
 	public Teacher() {

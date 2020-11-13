@@ -3,6 +3,7 @@ package victor.training.jpa.app;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.domain.entity.ErrorLog;
 import victor.training.jpa.app.repo.ErrorLogRepo;
@@ -17,7 +18,7 @@ import java.io.IOException;
 public class TransactionPlay {
    private final TransactionsAllAroundUs tr;
 
-   @PostConstruct
+//   @PostConstruct
    public void init() {
       System.out.println("Shaking hands with a proxy : " + tr.getClass()); // contains CGLIB
       tr.first();
@@ -56,6 +57,7 @@ class TransactionsAllAroundUs {
          b.write();
       } catch (Exception e) {
          //shaworma-style error handling. That's your future job
+         b.insertError(e.getMessage());
       }
       a.write();
       em.flush();
@@ -85,6 +87,7 @@ class A {
 @Component
 @Slf4j
 @RequiredArgsConstructor
+//@Transactional
 class B {
    private final EntityManager entityManager;
    private final ErrorLogRepo repo;
@@ -95,7 +98,7 @@ class B {
       throw new IOException();
    }
 
-   @Transactional
+   @Transactional//(propagation = Propagation.NOT_SUPPORTED)
    public ErrorLog method() {
 //      return entityManager.find(ErrorLog.class, 1L);
       //
@@ -103,4 +106,8 @@ class B {
       return repo.findLikeAHipster(1L);
    }
 
+   @Transactional(propagation = Propagation.REQUIRES_NEW)
+   public void insertError(String message) {
+      repo.save(new ErrorLog(message));
+   }
 }
