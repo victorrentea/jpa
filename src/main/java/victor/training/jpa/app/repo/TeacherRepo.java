@@ -30,7 +30,7 @@ public interface TeacherRepo extends EntityRepository<Teacher, Long>, JpaSpecifi
    void insertStuff(long id);
 
       // TODO make return null!
-   Teacher findByName(String name);
+   Optional<Teacher> findByName(String name);
 
    @Query("SELECT t FROM Teacher t left join fetch t.heldSubjects s left join fetch s.y")
 	List<Teacher> findAllForExport();

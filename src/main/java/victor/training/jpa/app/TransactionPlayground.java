@@ -98,7 +98,7 @@ public class TransactionPlayground {
 
    @Transactional
    public void four() {
-      System.out.println(teacherRepo.findByName("Tavi"));
+      System.out.println(teacherRepo.findByName("TaviXXX").map(Teacher::getId).orElse(-1L));
    }
 
    @Transactional(readOnly = true)
