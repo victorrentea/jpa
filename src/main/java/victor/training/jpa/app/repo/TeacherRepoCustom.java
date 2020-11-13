@@ -10,4 +10,10 @@
 //	List<Teacher> getAllTeachersForYear(long yearId);
 //
 //	List<TeachingActivity> searchActivity(ActivitySearchCriteria criteria);
+
+// TODO +
+// TODO cb
+// TODO cb + metamodel
+// TODO Specification
+// TODO QueryDSL
 //}

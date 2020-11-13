@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableLoadTimeWeaving;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -13,6 +15,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import victor.training.jpa.app.common.data.EntityRepositoryFactoryBean;
+
+import javax.sql.XADataSource;
 
 @SpringBootApplication
 @EnableJpaRepositories(repositoryFactoryBeanClass = EntityRepositoryFactoryBean.class)
@@ -42,10 +46,12 @@ public class JpaApplication {
 		transactionPlayground.secondTransaction();
 		log.debug(" ========= 3 ========== ");
 		transactionPlayground.thirdTransaction();
+
 		log.debug(" ========= END ========== ");
 		log.debug("Wow! what a ride. What was that ?!" + transactionPlayground.getClass());
 	}
-	
+
+
 
 //	@Bean
 //	public AuditorAware<String> auditorProvider() {

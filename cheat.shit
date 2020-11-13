@@ -1,0 +1,23 @@
+CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+      CriteriaQuery<Teacher> criteriaQuery = cb.createQuery(Teacher.class);
+
+      Root<Teacher> root = criteriaQuery.from(Teacher.class);
+      Predicate gradePredicate = cb.equal(root.get(Teacher_.grade), Grade.PROFESSOR);
+      criteriaQuery.select(root).where(gradePredicate);
+
+      List<Teacher> list = entityManager.createQuery(criteriaQuery).getResultList();
+      System.out.println("CRITERIA:" + list);
+
+
+
+
+
+
+
+
+
+      JPAQuery<?> query = new JPAQuery<Void>(entityManager);
+      //      Teacher prof = query.select(QTeacher.teacher)
+      //          .from(QTeacher.teacher)
+      //          .where(QTeacher.teacher.grade.eq(Grade.PROFESSOR))
+      //          .fetchOne();
