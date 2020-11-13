@@ -21,6 +21,7 @@ public class TransactionPlay {
       System.out.println("Shaking hands with a proxy : " + tr.getClass()); // contains CGLIB
       tr.first();
       tr.second();
+      tr.write();
    }
 }
 
@@ -46,6 +47,19 @@ class TransactionsAllAroundUs {
       System.out.println(a == b);
       log.info("END 2");
    }
+   @Transactional
+   public void write() {
+      log.info("START 3");
+      a.write();
+      try {
+         b.write();
+      } catch (Exception e) {
+         //shaworma-style error handling. That's your future job
+      }
+      a.write();
+      em.flush();
+      log.info("END 3");
+   }
 }
 
 @Component
@@ -53,9 +67,15 @@ class TransactionsAllAroundUs {
 @RequiredArgsConstructor
 class A {
    private final EntityManager entityManager;
+
+
+   @Transactional
+   public void write() {
+      entityManager.persist(new ErrorLog("A"));
+   }
+
    @Transactional
    public ErrorLog method() {
-//      entityManager.persist(new ErrorLog("A"));
       return entityManager.find(ErrorLog.class, 1L);
    }
 
@@ -67,9 +87,15 @@ class A {
 class B {
    private final EntityManager entityManager;
    private final ErrorLogRepo repo;
+
+   @Transactional
+   public void write() {
+      entityManager.persist(new ErrorLog("B"));
+      throw new IllegalArgumentException();
+   }
+
    @Transactional
    public ErrorLog method() {
-//      entityManager.persist(new ErrorLog("B"));
 //      return entityManager.find(ErrorLog.class, 1L);
       //
 //      return repo.findById(1L).get();
