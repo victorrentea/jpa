@@ -33,7 +33,7 @@ class CachePlaygroundLauncher {
       playground.read(subjectId);
       playground.read(subjectId);
 
-//      log.debug("Subject cache size: " + CacheManager.ALL_CACHE_MANAGERS.get(0).getCache("victor.training.jpa.app.domain.entity.Subject").getSize());
+      log.debug("Subject cache size: " + CacheManager.ALL_CACHE_MANAGERS.get(0).getCache("victor.training.jpa.app.domain.entity.Subject").getSize());
    }
 
 
