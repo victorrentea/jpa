@@ -43,5 +43,7 @@ class Work {
    public void changeTeacher(Long id) {
       Teacher teacher = teacherRepo.findById(id).get();
       teacher.removeSubject(teacher.getHeldSubjects().iterator().next());
+
+
    }
 }

@@ -20,6 +20,9 @@ public interface TeacherRepo extends EntityRepository<Teacher, Long>, JpaSpecifi
 	@Query("SELECT DISTINCT a.timeSlot.day FROM Teacher t JOIN t.activities a WHERE t.id=?1")
 	public Set<DayOfWeek> getBusyDaysOfTeacher(long teacherId);
 
+//	@Query("DELETE FROM Subject s WHERE s.date < SYSDATE")
+//	void deletePastSubject();
+
 	@Query("SELECT DISTINCT a.subject FROM Teacher t JOIN t.activities a WHERE t.id=?1")
 	public Set<Subject> getSubjectsKnownByTeacher(long teacherId);
 
