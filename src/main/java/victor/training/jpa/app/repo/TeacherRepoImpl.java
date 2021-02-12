@@ -1,10 +1,12 @@
 package victor.training.jpa.app.repo;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.impl.JPAQuery;
+import victor.training.jpa.app.domain.entity.Teacher;
+import victor.training.jpa.app.domain.entity.Teacher.Grade;
+import victor.training.jpa.app.domain.entity.Teacher_;
+import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,18 +15,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.xml.ws.ServiceMode;
-
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.jpa.impl.JPAQuery;
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.domain.Specification;
-import victor.training.jpa.app.domain.entity.Teacher;
-import victor.training.jpa.app.domain.entity.Teacher.Grade;
-import victor.training.jpa.app.domain.entity.Teacher_;
-import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static victor.training.jpa.app.domain.entity.QTeacher.teacher;
 

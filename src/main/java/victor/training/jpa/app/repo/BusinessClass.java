@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import victor.training.jpa.app.domain.entity.Teacher;
 import victor.training.jpa.app.domain.entity.Teacher.Grade;
 
-import javax.xml.ws.ServiceMode;
 import java.util.List;
 
 @RequiredArgsConstructor
