@@ -1,5 +1,6 @@
 package victor.training.jpa.app.facade.dto;
 
+import victor.training.jpa.app.domain.entity.Teacher.Grade;
 import victor.training.jpa.app.domain.entity.TeachingActivity;
 
 public class ActivityDto {
@@ -13,3 +14,4 @@ public class ActivityDto {
 		timeSlot =  new TimeSlotDto(activity.getDay(), activity.getDurationInHours(), activity.getDurationInHours(), activity.getRoomId());
 	}
 }
+

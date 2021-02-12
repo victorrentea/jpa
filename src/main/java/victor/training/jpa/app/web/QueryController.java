@@ -61,9 +61,4 @@ public class QueryController {
 		return teacherRepo.getAllTeachersForYear(yearId).stream().map(TeacherDto::new).collect(toList());
 	}
 	
-	@PostMapping("/activities/search")	
-	public List<ActivityDto> searchActivities(@RequestBody ActivitySearchCriteria searchCriteria) {
-		return teacherRepo.searchActivity(searchCriteria).stream().map(ActivityDto::new).collect(toList());
-	}
-	
 }
