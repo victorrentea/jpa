@@ -73,7 +73,8 @@ public class TeacherRepoImpl implements TeacherRepoCustom {
          pred = pred.and(teacher.grade.eq(searchCriteria.grade));
       }
       if (searchCriteria.name != null) {
-         pred = pred.and(teacher.name.upper().like("%" + searchCriteria.name.toUpperCase() + "%"));
+         pred = pred.and(teacher.name.upper()
+             .like("%" + searchCriteria.name.toUpperCase() + "%"));
       }
 
       return query.select(teacher)
