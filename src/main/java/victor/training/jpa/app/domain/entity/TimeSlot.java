@@ -22,37 +22,47 @@ public class TimeSlot {
 	
 	private String roomId;
 
-	public DayOfWeek getDay() {
-		return day;
+	protected TimeSlot() {}
+
+	public TimeSlot(DayOfWeek day, int startHour, int durationInHours, String roomId) {
+		this.day = day;
+		this.startHour = startHour;
+		this.durationInHours = durationInHours;
+		this.roomId = roomId;
 	}
 
-	public void setDay(DayOfWeek day) {
-		this.day = day;
+	public DayOfWeek getDay() {
+		return day;
 	}
 
 	public int getStartHour() {
 		return startHour;
 	}
 
-	public void setStartHour(int startHour) {
-		this.startHour = startHour;
-	}
-
 	public int getDurationInHours() {
 		return durationInHours;
-	}
-
-	public void setDurationInHours(int durationInHours) {
-		this.durationInHours = durationInHours;
 	}
 
 	public String getRoomId() {
 		return roomId;
 	}
 
-	public void setRoomId(String roomId) {
-		this.roomId = roomId;
+
+	public TimeSlot withDurationInHours(int hours) {
+		return new TimeSlot(day,startHour, durationInHours, roomId);
 	}
-	
-	
+
+	public TimeSlot withRoomId(String newRoom) {
+		return new TimeSlot(day, startHour, durationInHours, newRoom);
+	}
+
+	@Override
+	public String toString() {
+		return "TimeSlot{" +
+				 "day=" + day +
+				 ", startHour=" + startHour +
+				 ", durationInHours=" + durationInHours +
+				 ", roomId='" + roomId + '\'' +
+				 '}';
+	}
 }
