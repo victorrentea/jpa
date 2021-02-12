@@ -61,4 +61,61 @@ public class TeacherRepoImpl implements TeacherRepoCustom{
 		return query.getResultList();
 	}
 
+
+
+//   @Override
+//   public List<Teacher> search(TeacherSearchCriteria searchCriteria) {
+//
+//      JPAQuery<?> query = new JPAQuery<Void>(em);
+//      BooleanExpression pred = Expressions.TRUE;
+//
+//
+//      if (searchCriteria.grade != null) {
+//         pred = pred.and(teacher.grade.eq(searchCriteria.grade));
+//      }
+//         if (searchCriteria.name != null) {
+//            pred = pred.and(teacher.name.upper().like("%" + searchCriteria.name.toUpperCase() + "%"));
+//         }
+//
+//      return query.select(teacher)
+//             .from(teacher)
+//             .where(pred)
+//             .fetchAll()
+//             .fetch();
+//   }
+
+
+//   @Override
+//   public List<Teacher> search(TeacherSearchCriteria searchCriteria) {
+//      CriteriaBuilder cb = em.getCriteriaBuilder();
+//      CriteriaQuery<Teacher> criteriaQuery = cb.createQuery(Teacher.class);
+//      Root<Teacher> root = criteriaQuery.from(Teacher.class);
+//
+//      List<Predicate> predicates = new ArrayList<>();
+//
+//      if (searchCriteria.grade != null) {
+//         //  jpql += " AND t.grade = :grade ";
+//         predicates.add(namePredicate(searchCriteria, cb, root));
+//      }
+//
+//      if (searchCriteria.name != null) {
+//         //  jpql += " AND t.name = :grade ";
+//         predicates.add(getLike(searchCriteria, cb, root));
+//      }
+//
+//      criteriaQuery.select(root).where(cb.and(predicates.toArray(new Predicate[0])));
+//
+//      return em.createQuery(criteriaQuery).getResultList();
+//   }
+//
+//   private Predicate getLike(TeacherSearchCriteria searchCriteria, CriteriaBuilder cb, Root<Teacher> root) {
+//      return cb.like(cb.upper(root.get(Teacher_.name)), "%" + searchCriteria.name.toUpperCase() + "%");
+//   }
+//
+//   private Predicate namePredicate(TeacherSearchCriteria searchCriteria, CriteriaBuilder cb, Root<Teacher> root) {
+//      return cb.equal(root.get(Teacher_.grade), searchCriteria.grade);
+//   }
+//}
+
+
 }
