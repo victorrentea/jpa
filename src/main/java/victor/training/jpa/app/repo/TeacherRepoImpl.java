@@ -39,7 +39,7 @@ public class TeacherRepoImpl implements TeacherRepoCustom {
 
    @Override
    public List<Teacher> search(TeacherSearchCriteria searchCriteria) {
-      String jpql = "SELECT t FROM Teacher t WHERE 1=1 ";
+      String jpql = "SELECT t FROM Teacher t WHERE 1=1";
       Map<String, Object> params = new HashMap<>();
 
       if (searchCriteria.name != null) {
@@ -51,6 +51,7 @@ public class TeacherRepoImpl implements TeacherRepoCustom {
          jpql += " AND t.grade = :grade ";
          params.put("grade", searchCriteria.grade);
       }
+//      jpql += " LIM"
 
       TypedQuery<Teacher> query = em.createQuery(jpql, Teacher.class);
       for (String param : params.keySet()) {

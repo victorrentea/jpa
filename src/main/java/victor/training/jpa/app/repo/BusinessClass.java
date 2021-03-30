@@ -8,14 +8,16 @@ import victor.training.jpa.app.domain.entity.Teacher.Grade;
 
 import java.util.List;
 
+import static victor.training.jpa.app.repo.TeacherSpecifications.*;
+import static victor.training.jpa.app.repo.TeacherSpecifications.hasGrade;
+
 @RequiredArgsConstructor
 @Service
 public class BusinessClass {
    private final TeacherRepo teacherRepo;
 
    public void method() {
-      Specification<Teacher> spec = TeacherSpecifications.hasGrade(Grade.CONF)
-          .or(TeacherSpecifications.hasNameLike("a"));
-      List<Teacher> teachers = teacherRepo.findAll(spec);
+      List<Teacher> teachers = teacherRepo.findAll(
+            hasGrade(Grade.CONF).or(hasNameLike("a")));
    }
 }
