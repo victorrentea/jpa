@@ -29,7 +29,7 @@ public class StartDatabase {
 			System.out.println("Deleting previous db contents...");
 			boolean ok = databaseFile.delete();
 			if (!ok) {
-				System.err.println("Could not delete database file ");
+				System.err.println("Could not delete database file: in use?");
 			} else {
 				System.out.println("SUCCESS");
 			}
