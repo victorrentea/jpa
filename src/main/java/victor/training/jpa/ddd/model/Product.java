@@ -4,24 +4,21 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Data
 public class Product {
-   @Id
-   @GeneratedValue
-   private Long id;
+   @EmbeddedId
+   private ProductId id;
 
    private String name;
 
    @Lob
    private String description;
 
-   private int shippingDaysEst;
-   private int shippingCost;
-   private boolean shippingToEasyBox;
-   private String shippingProvider;
-   private boolean shippingViaRegularPostOption;
+   @Embedded
+   private ShippingDetails shippingDetails = new ShippingDetails();
 
    private boolean returnable;
    private int returnMaxDays;
@@ -31,7 +28,14 @@ public class Product {
    @Enumerated(EnumType.STRING)
    private ProductCategory category;
 
-   @ManyToOne
+   @ManyToOne//(fetch = FetchType.LAZY)
    private Supplier supplier;
 
+
+   Product() {} // for hibernate
+
+   public Product(ShippingDetails shippingDetails) {
+      this.shippingDetails = Objects.requireNonNull(shippingDetails);
+   }
 }
+
