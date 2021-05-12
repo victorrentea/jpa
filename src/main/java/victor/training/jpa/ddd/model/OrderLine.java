@@ -2,10 +2,7 @@ package victor.training.jpa.ddd.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Data
@@ -14,6 +11,9 @@ public class OrderLine {
    @Id
    @GeneratedValue
    private Long id;
+
+//   @Column(updatable = false, insertable = false)
+//   private Long orderId;
 
    @ManyToOne
    private Order order;

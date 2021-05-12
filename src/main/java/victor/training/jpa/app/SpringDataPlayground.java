@@ -32,6 +32,8 @@ public class SpringDataPlayground {
       Teacher oneById = repo.findOneById(1L);
       System.out.println(oneById);
 
+//      repo.savean
+
       long groupIdDePeDto = 2L;
 //      StudentsGroup ref = studentGroupRepo.findOneById(groupIdDePeDto);
       StudentsGroup ref = studentGroupRepo.getOne(groupIdDePeDto);
