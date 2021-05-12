@@ -5,9 +5,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DddApp implements CommandLineRunner {
+public class DddTacticsApp implements CommandLineRunner {
    public static void main(String[] args) {
-       SpringApplication.run(DddApp.class, args);
+       SpringApplication.run(DddTacticsApp.class, args);
    }
 
    @Override
