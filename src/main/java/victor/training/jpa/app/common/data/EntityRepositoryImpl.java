@@ -23,11 +23,6 @@ public class EntityRepositoryImpl<T, ID extends Serializable> extends SimpleJpaR
     }
 
     @Override
-    public T getReference(ID id) {
-        return entityManager.getReference(getDomainClass(), id);
-    }
-    
-    @Override
     public void detach(T entity) {
     	entityManager.detach(entity);
     }

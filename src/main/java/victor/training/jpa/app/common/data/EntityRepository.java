@@ -10,7 +10,6 @@ import org.springframework.data.repository.NoRepositoryBean;
 @NoRepositoryBean
 public interface EntityRepository<T, ID extends Serializable> extends JpaRepository<T, ID> {
     
-    T getReference(ID id);
     void detach(T oldRecord);
 
     T getExactlyOne(ID id);
