@@ -25,6 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @SpringBootApplication
 @EnableJpaAuditing
+@EnableJpaRepositories(repositoryFactoryBeanClass = CustomJpaRepositoryFactoryBean.class)
 public class MagicApp implements CommandLineRunner {
    private final MagicService service;
    private final MagicRepo repo;

@@ -14,6 +14,9 @@ import victor.training.jpa.magic.repo.MagicRepo;
 import java.time.LocalDateTime;
 
 import static java.time.LocalDateTime.*;
+import static victor.training.jpa.magic.MagicSpec.createdBetween;
+import static victor.training.jpa.magic.entity.QMagic.*;
+import static victor.training.jpa.magic.entity.QMagic.magic;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -24,7 +27,7 @@ public class MagicService {
 
    @Transactional
    public Long one() {
-      Magic magic = new Magic("C");
+      Magic magic = new Magic("Longer name");
       magic.perform();
       return repo.save(magic).getId();
    }
@@ -34,7 +37,16 @@ public class MagicService {
       Magic magic = repo.findById(1L).get();
       magic.setName("New Name");
       magic.perform();
+
       repo.save(magic);
+      Magic magic1 = repo.findById(1L).orElseThrow(() -> new RuntimeException("Angry!"));
+      Magic magic2 = repo.findOneById(1L);
+      System.out.println(magic2);
+
+      repo.findAll(createdBetween(now().minusYears(1), now())); // Specification + JPA Metamodel
+      repo.findAll(QMagic.magic.createdTime.between(now().minusYears(1), now()).and(QMagic.magic.name.like("%Name%")));
+
+      System.out.println(repo.getByNameSimilar("NaXXXXXXXme"));
    }
 
 }

@@ -31,6 +31,8 @@ public class Magic {
    @Id
    @GeneratedValue
    private Long id;
+//   @Column(nullable = false)
+   @Size(min = 2)
    private String name;
 
 
