@@ -39,7 +39,6 @@ public class MagicApp implements CommandLineRunner {
       log.debug("===ONE===");
       service.one();
       log.debug("===TWO===");
-      Thread.sleep(1000);
       service.two();
       log.debug("=========");
    }
