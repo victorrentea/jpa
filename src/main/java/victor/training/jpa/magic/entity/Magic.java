@@ -25,7 +25,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Entity
 @Data
 @NoArgsConstructor(access = PRIVATE)
-@EntityListeners(AuditingEntityListener.class) // or global via 11orm.xml
+//@EntityListeners(AuditingEntityListener.class) // or global via orm.xml
 public class Magic {
    @Id
    @GeneratedValue
