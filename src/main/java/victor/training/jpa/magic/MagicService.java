@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionalEventListener;
 import victor.training.jpa.magic.entity.Magic;
 import victor.training.jpa.magic.entity.QMagic;
 import victor.training.jpa.magic.event.MagicHappenedEvent;
@@ -23,15 +24,19 @@ public class MagicService {
 
    @Transactional
    public Long one() {
-      Magic magic = repo.save(new Magic("C"));
-      return magic.getId();
+      Magic magic = new Magic("C");
+      magic.perform();
+      return repo.save(magic).getId();
    }
 
-   @Transactional
+//   @Transactional
    public void two() {
       Magic magic = repo.findById(1L).get();
       magic.setName("New Name");
+      magic.perform();
+      repo.save(magic);
    }
+
 }
 // TODO List:
 // @CreatedBy/Time Spring Data+Security
@@ -53,10 +58,14 @@ class OtherService {
    public void someMethod() {
 
    }
-   @EventListener
+   @TransactionalEventListener
+   @Transactional
    public void afterMagic(MagicHappenedEvent magicHappened) {
       log.debug("Magic happened: " + magicHappened);
       repo.save(new Magic(magicHappened.getMagicName() + " Reversed"));
-//      throw new RuntimeException("Bad Magic");
    }
+//   @EventListener
+//   public void afterMagic2(MagicHappenedEvent magicHappened) {
+//      log.debug("Magic happenedWOW!: " + magicHappened);
+//   }
 }

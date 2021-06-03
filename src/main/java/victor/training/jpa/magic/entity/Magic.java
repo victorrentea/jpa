@@ -2,6 +2,7 @@ package victor.training.jpa.magic.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -46,12 +47,18 @@ public class Magic {
       this.name = name;
    }
 
-   @Transient
-   private final List<DomainEvent> domainEvents = new ArrayList<>();
+//   @Transient
+//   private final List<DomainEvent> domainEvents = new ArrayList<>();
 
    public void perform() {
+      /// LOGIC
       // do some changes to this Aggregate that should trigger further things
+//      domainEvents.add(new MagicHappenedEvent(name));
+      EventPublisherHolder.getEventPublisher().publish(new MagicHappenedEvent(name));
    }
 
-
+//   @DomainEvents
+//   public List<DomainEvent> getDomainEvents() {
+//      return domainEvents;
+//   }
 }
