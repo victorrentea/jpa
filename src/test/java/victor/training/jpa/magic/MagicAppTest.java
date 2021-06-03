@@ -28,7 +28,7 @@ public class MagicAppTest {
    public void test() {
       Long id = service.one();
 
-      Magic magic = repo.findOneById(id);
+      Magic magic = repo.findById(id).get();
       assertThat(magic.getCreatedBy()).isEqualTo("superuser");
       assertThat(magic.getCreatedTime()).isCloseTo(now(), byLessThan(1, SECONDS));
    }

@@ -33,30 +33,21 @@ public class Magic {
    private String name;
 
 
-   @CreatedBy
    private String createdBy;
-   @CreatedDate
    private LocalDateTime createdTime;
-   @LastModifiedBy
    private String lastModifiedBy;
-   @LastModifiedDate
    private LocalDateTime lastModifiedTime;
 
    public Magic(String name) {
       this.name = name;
    }
 
-//   @Transient
-//   private final List<DomainEvent> domainEvents = new ArrayList<>();
+   @Transient
+   private final List<DomainEvent> domainEvents = new ArrayList<>();
 
    public void perform() {
-      EventPublisherHolder.getEventPublisher().publish(new MagicHappenedEvent(name));
-//      domainEvents.add(new MagicHappenedEvent(name));
+      // do some changes to this Aggregate that should trigger further things
    }
 
-//   @DomainEvents
-//   public Collection<DomainEvent> events() {
-//      return domainEvents;
-//   }
 
 }

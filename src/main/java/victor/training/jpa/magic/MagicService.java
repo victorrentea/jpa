@@ -6,8 +6,13 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.magic.entity.Magic;
+import victor.training.jpa.magic.entity.QMagic;
 import victor.training.jpa.magic.event.MagicHappenedEvent;
 import victor.training.jpa.magic.repo.MagicRepo;
+
+import java.time.LocalDateTime;
+
+import static java.time.LocalDateTime.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -18,27 +23,24 @@ public class MagicService {
 
    @Transactional
    public Long one() {
-      Magic magic = new Magic("C");
-      repo.save(magic);
+      Magic magic = repo.save(new Magic("C"));
       return magic.getId();
    }
 
    @Transactional
    public void two() {
-      Magic magic = repo.findOneById(1L);
-      magic.setName("New Name");
-      // System.out.println(repo.myQuery(100L));
+//      System.out.println(repo.findAll());
    }
 }
 // TODO List:
 // @CreatedBy/Time Spring Data+Security
 // javax.validation
 // @DomainEvents + AbstractAggregateRoot + EventPublisherHolder
+// Custom Repo Base
 // QueryDSL + Specifications / Criteria Metamodel
 // @NonNullApi on package-info
-// Custom Repo Base
 // JPA: Auto-flushing, Write Cache
-// TX: propagation
+// TX: propagation [brief] -> https://victorrentea.teachable.com/p/transactions-in-spring
 
 
 @Slf4j
