@@ -25,7 +25,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Entity
 @Data
 @NoArgsConstructor(access = PRIVATE)
-//@EntityListeners(AuditingEntityListener.class) // or global via orm.xml
+@EntityListeners(AuditingEntityListener.class) // or global via 11orm.xml
 public class Magic {
    @Id
    @GeneratedValue
@@ -33,9 +33,13 @@ public class Magic {
    private String name;
 
 
+   @CreatedBy
    private String createdBy;
+   @CreatedDate
    private LocalDateTime createdTime;
+   @LastModifiedBy
    private String lastModifiedBy;
+   @LastModifiedDate
    private LocalDateTime lastModifiedTime;
 
    public Magic(String name) {

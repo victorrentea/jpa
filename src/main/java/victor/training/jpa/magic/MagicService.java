@@ -29,7 +29,8 @@ public class MagicService {
 
    @Transactional
    public void two() {
-//      System.out.println(repo.findAll());
+      Magic magic = repo.findById(1L).get();
+      magic.setName("New Name");
    }
 }
 // TODO List:
