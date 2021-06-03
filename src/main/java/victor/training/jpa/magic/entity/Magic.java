@@ -7,14 +7,13 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.DomainEvents;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import victor.training.jpa.magic.event.DomainEvent;
 import victor.training.jpa.magic.event.MagicHappenedEvent;
 import victor.training.jpa.magic.event.publisher.EventPublisherHolder;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -26,16 +25,14 @@ import static lombok.AccessLevel.PRIVATE;
 @Entity
 @Data
 @NoArgsConstructor(access = PRIVATE)
-//@EntityListeners(AuditingEntityListener.class) or global via orm.xml
+//@EntityListeners(AuditingEntityListener.class) // or global via orm.xml
 public class Magic {
    @Id
    @GeneratedValue
    private Long id;
    private String name;
 
-   private String pledge;
-   private String turn;
-   private String prestige;
+
    @CreatedBy
    private String createdBy;
    @CreatedDate
