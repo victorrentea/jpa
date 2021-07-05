@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import victor.training.jpa.app.domain.entity.Subject;
 import victor.training.jpa.app.domain.entity.Teacher;
 
 import javax.persistence.EntityManager;
@@ -29,6 +30,22 @@ public class TransactionPlayground {
     @Transactional
     public void firstTransaction() {
         log.debug("Halo!");
+
+        Teacher t = new Teacher();
+        Subject s = new Subject();
+
+        // TREBUIE SA SE INTAMPLE MEREU IMPREUNA! Temporal Coupling
+
+        t.addSubject(s);
+
+        // t.getHeldSubjects().add(s); // exception
+//        s.setTeacher(t); // nu compileaza
+
+        em.persist(t);
+        em.persist(s);
+
+
+
         // THese share the same transaction:
 //        em.persist(new Teacher());
 //        jdbc.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");

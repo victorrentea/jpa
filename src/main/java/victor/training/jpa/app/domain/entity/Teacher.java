@@ -3,30 +3,39 @@ package victor.training.jpa.app.domain.entity;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.*;
 
+import static java.util.Collections.*;
+
+@Entity
 public class Teacher {
 
-	public enum Grade {
-		LECTURER, PROFESSOR, CONF, ASSISTENT
-	}
 
+
+	public enum Grade {
+		LECTURER, PROFESSOR, CONF, ASSISTENT;
+	}
+	@Id
+	@GeneratedValue
 	private Long id;
 
 	private String name;
-	
+
+	@Enumerated(EnumType.STRING)
 	private Grade grade;
-	
-//	private TeacherDetails details;
-//
+
+	@OneToOne
+	@JoinColumn(name = "TD_ID", foreignKey = @ForeignKey(name = "FK_TEACHER_DETAILS"))
+	private TeacherDetails details;
+
+	//
 //	private List<ContactChannel> channels = new ArrayList<>();
 //
-//	private Set<Subject> heldSubjects = new HashSet<>() ;
+	@OneToMany(mappedBy = "holderTeacher")
+	private Set<Subject> heldSubjects = new HashSet<>() ;
+
 //
 //	private Set<TeachingActivity> activities = new HashSet<>();
 //
@@ -45,6 +54,18 @@ public class Teacher {
 //		this.name = name;
 //	}
 //
+//	public Iterable<Subject> getHeldSubjects() {
+//		return heldSubjects;
+//	}
+
+	public void addSubject(Subject subject) {
+		heldSubjects.add(subject);
+		subject.setHolderTeacher(this);
+	}
+
+	public Set<Subject> getHeldSubjects() {
+		return unmodifiableSet(heldSubjects);
+	}
 //	public Long getId() {
 //		return id;
 //	}
