@@ -1,18 +1,20 @@
-//package victor.training.jpa.app.repo;
-//
-//import java.time.DayOfWeek;
-//import java.util.Optional;
-//import java.util.Set;
-//
-//import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-//import org.springframework.data.jpa.repository.Query;
-//
-//import victor.training.jpa.app.common.data.EntityRepository;
-//import victor.training.jpa.app.domain.entity.Subject;
-//import victor.training.jpa.app.domain.entity.Teacher;
-//
-//public interface TeacherRepo extends EntityRepository<Teacher, Long>, TeacherRepoCustom, JpaSpecificationExecutor<Teacher> {
-//
+package victor.training.jpa.app.repo;
+
+import java.time.DayOfWeek;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+
+import victor.training.jpa.app.common.data.EntityRepository;
+import victor.training.jpa.app.domain.entity.CalendarEntry;
+import victor.training.jpa.app.domain.entity.Subject;
+import victor.training.jpa.app.domain.entity.Teacher;
+
+public interface TeacherRepo extends EntityRepository<Teacher, Long>, TeacherRepoCustom, JpaSpecificationExecutor<Teacher> {
+
 //	@Query("SELECT DISTINCT a.day FROM Teacher t JOIN t.activities a WHERE t.id=?1")
 //	public Set<DayOfWeek> getBusyDaysOfTeacher(long teacherId);
 //
@@ -28,5 +30,11 @@
 //
 //	// TODO make return null!
 //	Optional<Teacher> findByName(String name);
-//
-//}
+
+
+   List<Teacher> findByCounselingCalendarEntry(CalendarEntry entry); // a mers
+    @Query("SELECT t.counselingCalendarEntry FROM Teacher t")
+//    @Query("SELECT t.counselingCalendarEntry FROM Teacher t")
+   List<CalendarEntry> findByCounselingCalendarEntryRoomId(String roomId);
+
+}

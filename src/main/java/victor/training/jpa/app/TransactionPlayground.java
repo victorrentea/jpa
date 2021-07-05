@@ -13,9 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.domain.entity.*;
 import victor.training.jpa.app.domain.entity.ContactChannel.Type;
 import victor.training.jpa.app.repo.SubjectRepo;
+import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
+import java.time.DayOfWeek;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -27,7 +29,7 @@ public class TransactionPlayground {
     private final EntityManager em;
     private final JdbcTemplate jdbc;
     private final SubjectRepo subjectRepo;
-//    private final TeacherRepo teacherRepo;
+    private final TeacherRepo teacherRepo;
 
     @Transactional
     public void firstTransaction() {
@@ -48,6 +50,7 @@ public class TransactionPlayground {
 
         em.persist(new CourseActivity());
         em.persist(new LabActivity());
+        t.setCounselingCalendarEntry(new CalendarEntry(DayOfWeek.WEDNESDAY, 10, 1, "EC105"));
         t.getChannels().add(new ContactChannel(Type.FACEBOOK, "contu_profu"));
         t.getChannels().add(new ContactChannel(Type.PERSONAL_PHONE, "8989989"));
         t.getChannels().add(new ContactChannel(Type.PERSONAL_EMAIL, "ptSubscribeLa....."));
@@ -66,5 +69,7 @@ public class TransactionPlayground {
         log.debug("Halo2!");
         em.find(Teacher.class, 1L).getChannels().remove(0);
 //        System.out.println(teacherRepo.findAll());
+        System.out.println(teacherRepo.findByCounselingCalendarEntry(new CalendarEntry(DayOfWeek.WEDNESDAY, 10, 1, "EC105")));
+        System.out.println(teacherRepo.findByCounselingCalendarEntryRoomId("EC105"));
     }
 }

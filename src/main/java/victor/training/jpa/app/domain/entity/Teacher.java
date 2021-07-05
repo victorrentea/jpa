@@ -2,6 +2,7 @@ package victor.training.jpa.app.domain.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.time.DayOfWeek;
@@ -38,6 +39,7 @@ public class Teacher {
 
 	@OneToMany(mappedBy = "holderTeacher")
 	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
 	private Set<Subject> heldSubjects = new HashSet<>() ;
 
 	@ManyToMany
@@ -46,14 +48,26 @@ public class Teacher {
 		inverseJoinColumns = @JoinColumn(name = "ACTIVITY_ID"))
 	private Set<TeachingActivity> activities = new HashSet<>();
 
-	@Enumerated(EnumType.STRING)
-	private DayOfWeek counselingDay;
+//	@Enumerated(EnumType.STRING)
+//	private DayOfWeek counselingDay;
+//
+//	private Integer counselingStartHour;
+//
+//	private Integer counselingDurationInHours;
+//
+//	private String counselingRoomId;
 
-	private Integer counselingStartHour;
+	@Embedded
+	@AttributeOverrides({
+		@AttributeOverride(name = "day", column = @Column(name = "COUNSELING_DAY")),
+		@AttributeOverride(name = "durationInHours", column = @Column(name = "COUNSELING_DURATION_IN_HOURS")),
+		@AttributeOverride(name = "startHour", column = @Column(name = "COUNSELING_START_HOUR")),
+		@AttributeOverride(name = "roomId", column = @Column(name = "COUNSELING_ROOM_ID"))
+	})
+	private CalendarEntry counselingCalendarEntry = new CalendarEntry();
 
-	private Integer counselingDurationInHours;
 
-	private String counselingRoomId;
+
 //
 //	public Teacher() {
 //	}

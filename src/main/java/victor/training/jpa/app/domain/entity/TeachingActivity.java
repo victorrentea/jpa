@@ -22,14 +22,16 @@ public abstract class TeachingActivity {
 	@JoinColumn(name = "SUBJECT_ID")
 	private Subject subject;
 
-	@Enumerated(EnumType.STRING)
-	private DayOfWeek day;
-
-	private Integer startHour;
-
-	private Integer durationInHours;
-
-	private String roomId;
+	@Embedded
+	private CalendarEntry calendarEntry = new CalendarEntry();
+//	@Enumerated(EnumType.STRING)
+//	private DayOfWeek day;
+//
+//	private Integer startHour;
+//
+//	private Integer durationInHours;
+//
+//	private String roomId;
 
 	private LocalDateTime lastModifiedDate;
 
