@@ -20,28 +20,19 @@ import victor.training.jpa.app.util.MyTrackingEntityListener;
 import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 
 
-@Entity
-@EntityListeners(MyTrackingEntityListener.class) // SOLUTION
-//public class Subject { // INITIAL
-public class Subject implements Trackable { // SOLUTION
-	@Id
-	@GeneratedValue
+public class Subject { // SOLUTION
 	private Long id;
 	
 	private String name;
 	
 	private boolean active;
 	
-	@ManyToOne
 	private Teacher holderTeacher;
 	
-	@OneToMany(mappedBy="subject")
 	private List<TeachingActivity> activities = new ArrayList<>();
 	
-	@LastModifiedDate // SOLUTION
 	private LocalDateTime lastModifiedDate;
 	
-	@LastModifiedBy // SOLUTION
 	private String lastModifiedBy;
 
 	
