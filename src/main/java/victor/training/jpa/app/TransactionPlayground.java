@@ -10,8 +10,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import victor.training.jpa.app.domain.entity.CourseActivity;
+import victor.training.jpa.app.domain.entity.LabActivity;
 import victor.training.jpa.app.domain.entity.Subject;
 import victor.training.jpa.app.domain.entity.Teacher;
+import victor.training.jpa.app.repo.SubjectRepo;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
@@ -25,6 +28,7 @@ import static java.util.Arrays.asList;
 public class TransactionPlayground {
     private final EntityManager em;
     private final JdbcTemplate jdbc;
+    private final SubjectRepo subjectRepo;
 //    private final TeacherRepo teacherRepo;
 
     @Transactional
@@ -44,6 +48,11 @@ public class TransactionPlayground {
         em.persist(t);
         em.persist(s);
 
+        em.persist(new CourseActivity());
+        em.persist(new LabActivity());
+
+
+        System.out.println(subjectRepo.searchByCeva());
 
 
         // THese share the same transaction:
