@@ -4,16 +4,11 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
+@Entity
 public class LabActivity extends TeachingActivity {
 
-	private StudentsGroup group;
+//	private StudentsGroup group;
 
-	public StudentsGroup getGroup() {
-		return group;
-	}
-
-	public void setGroup(StudentsGroup group) {
-		this.group = group;
-	}
+   private int sieu;
 
 }

@@ -1,15 +1,22 @@
 package victor.training.jpa.app.domain.entity;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-
+@Data
 @Entity
 public class Subject { // SOLUTION
 	@Id
 	@GeneratedValue
+	@Getter
 	private Long id;
-	
+
+//	@Getter
+//	@Setter
 	private String name;
 	
 	private boolean active;
