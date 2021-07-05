@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.domain.entity.Teacher;
-import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
@@ -25,19 +24,19 @@ import static java.util.Arrays.asList;
 public class TransactionPlayground {
     private final EntityManager em;
     private final JdbcTemplate jdbc;
-    private final TeacherRepo teacherRepo;
+//    private final TeacherRepo teacherRepo;
 
     @Transactional
     public void firstTransaction() {
         log.debug("Halo!");
         // THese share the same transaction:
-        em.persist(new Teacher());
-        jdbc.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
+//        em.persist(new Teacher());
+//        jdbc.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void secondTransaction() {
         log.debug("Halo2!");
-        System.out.println(teacherRepo.findAll());
+//        System.out.println(teacherRepo.findAll());
     }
 }
