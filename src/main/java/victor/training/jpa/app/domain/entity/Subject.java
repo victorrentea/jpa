@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -25,7 +27,8 @@ public class Subject { // SOLUTION
 	@JoinColumn(nullable = false, name = "TEACHER_ID") // OWNER SIDE
 	private Teacher holderTeacher;
 
-//	private List<TeachingActivity> activities = new ArrayList<>();
+	@OneToMany(mappedBy = "subject")
+	private List<TeachingActivity> activities = new ArrayList<>();
 	
 	private LocalDateTime lastModifiedDate;
 	

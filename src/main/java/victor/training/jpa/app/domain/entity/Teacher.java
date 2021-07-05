@@ -1,5 +1,7 @@
 package victor.training.jpa.app.domain.entity;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.time.DayOfWeek;
@@ -9,15 +11,14 @@ import javax.persistence.*;
 
 import static java.util.Collections.*;
 
+@Data
 @Entity
 public class Teacher {
-
-
-
 	public enum Grade {
 		LECTURER, PROFESSOR, CONF, ASSISTENT;
 	}
 	@Id
+	@EqualsAndHashCode.Exclude
 	@GeneratedValue
 	private Long id;
 
@@ -30,22 +31,29 @@ public class Teacher {
 	@JoinColumn(name = "TD_ID", foreignKey = @ForeignKey(name = "FK_TEACHER_DETAILS"))
 	private TeacherDetails details;
 
-	//
-//	private List<ContactChannel> channels = new ArrayList<>();
-//
+
+//	@OneToMany
+	@ElementCollection // DOAR PENTRU COLECTII MICI:2-10 elem. atentie: la orice remove, se reinsera toate -1.
+	private List<ContactChannel> channels = new ArrayList<>();
+
 	@OneToMany(mappedBy = "holderTeacher")
+	@EqualsAndHashCode.Exclude
 	private Set<Subject> heldSubjects = new HashSet<>() ;
 
-//
-//	private Set<TeachingActivity> activities = new HashSet<>();
-//
-//	private DayOfWeek counselingDay;
-//
-//	private Integer counselingStartHour;
-//
-//	private Integer counselingDurationInHours;
-//
-//	private String counselingRoomId;
+	@ManyToMany
+	@JoinTable(name = "TEACHER_ACTIVITIES",
+		joinColumns = @JoinColumn(name = "TEACHER_ID"),
+		inverseJoinColumns = @JoinColumn(name = "ACTIVITY_ID"))
+	private Set<TeachingActivity> activities = new HashSet<>();
+
+	@Enumerated(EnumType.STRING)
+	private DayOfWeek counselingDay;
+
+	private Integer counselingStartHour;
+
+	private Integer counselingDurationInHours;
+
+	private String counselingRoomId;
 //
 //	public Teacher() {
 //	}

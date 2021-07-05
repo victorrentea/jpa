@@ -1,14 +1,13 @@
 package victor.training.jpa.app.domain.entity;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @DiscriminatorValue("COURSE")
 public class CourseActivity extends TeachingActivity {
-//	private StudentsYear year;
+   @ManyToOne
+   @JoinColumn(name = "YEAR_ID")
+	private StudentsYear year;
 
 //   @Column(nullable = false)
    private String siea;

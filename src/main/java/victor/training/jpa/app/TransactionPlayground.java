@@ -10,10 +10,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import victor.training.jpa.app.domain.entity.CourseActivity;
-import victor.training.jpa.app.domain.entity.LabActivity;
-import victor.training.jpa.app.domain.entity.Subject;
-import victor.training.jpa.app.domain.entity.Teacher;
+import victor.training.jpa.app.domain.entity.*;
+import victor.training.jpa.app.domain.entity.ContactChannel.Type;
 import victor.training.jpa.app.repo.SubjectRepo;
 
 import javax.persistence.EntityManager;
@@ -50,6 +48,9 @@ public class TransactionPlayground {
 
         em.persist(new CourseActivity());
         em.persist(new LabActivity());
+        t.getChannels().add(new ContactChannel(Type.FACEBOOK, "contu_profu"));
+        t.getChannels().add(new ContactChannel(Type.PERSONAL_PHONE, "8989989"));
+        t.getChannels().add(new ContactChannel(Type.PERSONAL_EMAIL, "ptSubscribeLa....."));
 
 
         System.out.println(subjectRepo.searchByCeva());
@@ -63,6 +64,7 @@ public class TransactionPlayground {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void secondTransaction() {
         log.debug("Halo2!");
+        em.find(Teacher.class, 1L).getChannels().remove(0);
 //        System.out.println(teacherRepo.findAll());
     }
 }

@@ -6,8 +6,11 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import static javax.persistence.InheritanceType.SINGLE_TABLE;
+
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) // de ce nu MappedSuperclass ?
+@Inheritance(strategy = SINGLE_TABLE)
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) // de ce nu MappedSuperclass ?
 @DiscriminatorColumn(name = "DISCR")
 public abstract class TeachingActivity {
 
@@ -15,9 +18,12 @@ public abstract class TeachingActivity {
 	@GeneratedValue
 	private Long id;
 
-//	private Subject subject;
+	@ManyToOne
+	@JoinColumn(name = "SUBJECT_ID")
+	private Subject subject;
 
-//	private DayOfWeek day;
+	@Enumerated(EnumType.STRING)
+	private DayOfWeek day;
 
 	private Integer startHour;
 
@@ -29,7 +35,8 @@ public abstract class TeachingActivity {
 
 	private String lastModifiedBy;
 
-//	private Set<Teacher> teachers = new HashSet<>();
+	@ManyToMany(mappedBy = "activities")
+	private Set<Teacher> teachers = new HashSet<>();
 
 
 }
