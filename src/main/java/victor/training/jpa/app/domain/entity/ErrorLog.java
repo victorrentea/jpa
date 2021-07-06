@@ -18,12 +18,9 @@ public class ErrorLog {
    @Column(nullable = false)
    private String message;
 
-   @JoinColumn
-   @OneToMany(cascade = ALL, orphanRemoval = true)
-   private List<ErrorComment> comments = new ArrayList<>();
+//   private List<ErrorComment> comments = new ArrayList<>();
 
-   @ManyToMany
-   private Set<ErrorTag> tags = new HashSet<>();
+//   private Set<ErrorTag> tags = new HashSet<>();
 
    public ErrorLog() {
    }

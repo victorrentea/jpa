@@ -35,10 +35,7 @@ public class MergePlayground {
       feTag= errorTagRepo.save(new ErrorTag("FE"));
       beTag= errorTagRepo.save(new ErrorTag("BE"));
 
-      logId = errorLogRepo.save(new ErrorLog("Buuum")
-          .setComments(Arrays.asList(new ErrorComment("Comment1")))
-          .setTags(Collections.singleton(beTag))
-      ).getId();
+      logId = errorLogRepo.save(new ErrorLog("Buuum")).getId();
    }
 
    @Transactional
@@ -50,10 +47,8 @@ public class MergePlayground {
    @Transactional
    public void client1() throws JsonProcessingException {
       ErrorLog copy1 = jackson.readValue(json, ErrorLog.class);
-      copy1.setMessage("Name 1");
-      copy1.getComments().clear();
-      copy1.getComments().add(new ErrorComment("Comment2"));
-      copy1.getTags().add(errorTagRepo.findById(feTag.getId()).get());
+      // TODO change fields
+      // TODO change collections
       log.debug("Client1 sends back updated JSON: " + jackson.writeValueAsString(copy1));
       errorLogRepo.save(copy1);
    }
