@@ -1,15 +1,15 @@
 package victor.training.jpa.app.domain.entity;
 
+import lombok.Data;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.util.Objects;
+import javax.persistence.*;
+import java.util.*;
 
+import static javax.persistence.CascadeType.ALL;
+
+@Data
 @Entity
-@ToString
 public class ErrorLog {
    @Id
    @GeneratedValue
@@ -18,6 +18,12 @@ public class ErrorLog {
    @Column(nullable = false)
    private String message;
 
+   @JoinColumn
+   @OneToMany(cascade = ALL, orphanRemoval = true)
+   private List<ErrorComment> comments = new ArrayList<>();
+
+   @ManyToMany
+   private Set<ErrorTag> tags = new HashSet<>();
 
    public ErrorLog() {
    }
@@ -26,21 +32,6 @@ public class ErrorLog {
       this.message = message;
    }
 
-   public Long getId() {
-      return id;
-   }
-
-   public void setId(Long id) {
-      this.id = id;
-   }
-
-   public String getMessage() {
-      return message;
-   }
-
-   public void setMessage(String message) {
-      this.message = message;
-   }
 
 
 }

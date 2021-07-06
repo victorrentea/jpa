@@ -1,5 +1,6 @@
 package victor.training.jpa.app;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -26,6 +27,8 @@ public class JpaApplication {
 //	private DummyDataCreator dummyDataCreator;
 	@Autowired
 	private TransactionPlayground transactionPlayground;
+	@Autowired
+	private MergePlayground mergePlayground;
 
 	@Autowired
 	private PlatformTransactionManager txm;
@@ -33,17 +36,24 @@ public class JpaApplication {
 	private PropagationAndExceptions propagationAndExceptions;
 
 	@EventListener
-	public void onApplicationEvent(ContextRefreshedEvent event) {
+	public void onApplicationEvent(ContextRefreshedEvent event) throws JsonProcessingException {
 		log.debug(transactionPlayground.getClass().getName());
 		log.debug(">>>>>>>>>> Running Transaction Playground code... <<<<<<<<<<<<");
 
 //		propagationAndExceptions.first();
 
-		log.debug(" ========= FIRST TRANSACTION ========== ");
-		transactionPlayground.firstTransaction();
-		log.debug(" ========= SECOND TRANSACTION ========== ");
-		transactionPlayground.secondTransaction();
-		log.debug(" ========= END ========== ");
+//		log.debug(" ========= FIRST TRANSACTION ========== ");
+//		transactionPlayground.firstTransaction();
+//		log.debug(" ========= SECOND TRANSACTION ========== ");
+//		transactionPlayground.secondTransaction();
+//		log.debug(" ========= END ========== ");
+
+		log.debug("=== Merge:Persist init ===");
+		mergePlayground.persistInitialData();
+		log.debug("=== Merge:READ ===");
+		mergePlayground.readFromDb();
+		log.debug("=== Merge:WRITE1 ===");
+		mergePlayground.client1();
 	}
 	
 

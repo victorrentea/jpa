@@ -1,5 +1,6 @@
 package victor.training.jpa.app.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -39,6 +40,7 @@ public class Teacher {
 	@OneToMany(mappedBy = "holderTeacher", cascade = PERSIST)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
+	@JsonIgnore
 	private Set<Subject> heldSubjects = new HashSet<>() ;
 
 	@ManyToMany

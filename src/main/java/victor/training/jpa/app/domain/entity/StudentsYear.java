@@ -7,6 +7,8 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import static javax.persistence.CascadeType.PERSIST;
+
 @Entity
 public class StudentsYear {
 @Id@GeneratedValue
@@ -14,7 +16,7 @@ public class StudentsYear {
 	
 	private String code;
 
-	@OneToMany
+	@OneToMany(cascade = PERSIST)
 	@JoinColumn(name = "YEAR_ID")
 	private List<StudentsGroup> groups = new ArrayList<>();
 
@@ -51,8 +53,9 @@ public class StudentsYear {
 		return groups;
 	}
 
-	public void setGroups(List<StudentsGroup> groups) {
+	public StudentsYear setGroups(List<StudentsGroup> groups) {
 		this.groups = groups;
+		return this;
 	}
 
 	public Set<CourseActivity> getCourses() {

@@ -24,6 +24,8 @@ public abstract class TeachingActivity {
 	@Embedded
 	private CalendarEntry calendarEntry = new CalendarEntry();
 
+	private String details;
+
 	private LocalDateTime lastModifiedDate;
 
 	private String lastModifiedBy;
@@ -33,5 +35,19 @@ public abstract class TeachingActivity {
 
 	void setSubject(Subject subject) {
 		this.subject = subject;
+	}
+
+	public TeachingActivity setCalendarEntry(CalendarEntry calendarEntry) {
+		this.calendarEntry = calendarEntry;
+		return this;
+	}
+
+	public String getDetails() {
+		return details;
+	}
+
+	public TeachingActivity setDetails(String details) {
+		this.details = details;
+		return this;
 	}
 }

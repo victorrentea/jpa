@@ -47,11 +47,11 @@ public class Subject { // SOLUTION
 		this.holderTeacher = holderTeacher;
 	}
 
-	public Subject addActivities(LabActivity ...activities) {
+	public Subject addActivities(TeachingActivity ...activities) {
 		Stream.of(activities).forEach(this::addActivity);
 		return this;
 	}
-	public void addActivity(LabActivity activity) {
+	public void addActivity(TeachingActivity activity) {
 		activities.add(activity);
 		activity.setSubject(this);
 	}
