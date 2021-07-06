@@ -1,41 +1,38 @@
 package victor.training.jpa.app.domain.entity;
 
+import lombok.Data;
+import lombok.ToString;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Objects;
 
+import static javax.persistence.CascadeType.ALL;
+
+@Data
 @Entity
+@ToString
 public class ErrorLog {
+   @Id
+   @GeneratedValue
+   private Long id;
 
-	@Id
-	@GeneratedValue
-	private Long id;
-	
-	private String message;
+   @Column(nullable = false)
+   private String message;
 
-	public ErrorLog() {
-	}
-	
-	public ErrorLog(String message) {
-		this.message = message;
-	}
+//   private List<ErrorComment> comments = new ArrayList<>();
 
-	public Long getId() {
-		return id;
-	}
+//   private Set<ErrorTag> tags = new HashSet<>();
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+   public ErrorLog() {
+   }
 
-	public String getMessage() {
-		return message;
-	}
+   public ErrorLog(String message) {
+      this.message = message;
+   }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
-	
-	
-	
+
+
 }
