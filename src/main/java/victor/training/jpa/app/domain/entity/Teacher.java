@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class Teacher {
 
 	public enum Grade {
-		LECTURER, PROFESSOR, CONF, ASSISTENT
+		LECTURER, PROFESSOR, CONF, ASSISTANT
 	}
 	
 	@Id

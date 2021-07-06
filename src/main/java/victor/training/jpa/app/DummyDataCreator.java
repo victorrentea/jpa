@@ -7,9 +7,6 @@ import java.time.DayOfWeek;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +17,6 @@ import victor.training.jpa.app.domain.entity.StudentsYear;
 import victor.training.jpa.app.domain.entity.Subject;
 import victor.training.jpa.app.domain.entity.Teacher;
 import victor.training.jpa.app.domain.entity.TeacherDetails;
-import victor.training.jpa.app.repo.TeacherRepo;
 
 @Component
 public class DummyDataCreator {
@@ -31,7 +27,7 @@ public class DummyDataCreator {
 	@Transactional
 	public void persistDummyData() {
 		Teacher victor = new Teacher("Victor");
-		victor.setGrade(Teacher.Grade.ASSISTENT);
+		victor.setGrade(Teacher.Grade.ASSISTANT);
 		TeacherDetails teacherDetails = new TeacherDetails().setCv("A pimped CV");
 		victor.setDetails(teacherDetails);
 		victor.setCounselingDay(DayOfWeek.MONDAY);
@@ -42,11 +38,11 @@ public class DummyDataCreator {
 		
 		
 		Teacher ionut = new Teacher("Ionut");
-		ionut.setGrade(Teacher.Grade.ASSISTENT);
+		ionut.setGrade(Teacher.Grade.ASSISTANT);
 		em.persist(ionut);
 
 		Teacher bianca = new Teacher("Bianca");
-		bianca.setGrade(Teacher.Grade.ASSISTENT);
+		bianca.setGrade(Teacher.Grade.ASSISTANT);
 		em.persist(bianca);
 		
 		Subject subject = new Subject("OOP");
