@@ -19,7 +19,7 @@ import victor.training.jpa.app.repo.TeacherRepo;
 class CachePlaygroundGate {
    private final CachePlayground playground;
 
-   @EventListener
+//   @EventListener
    public void launchPlay(ContextRefreshedEvent event) {
       log.debug(">>>>>>>>>> Running Cache Playground code... <<<<<<<<<<<<");
 

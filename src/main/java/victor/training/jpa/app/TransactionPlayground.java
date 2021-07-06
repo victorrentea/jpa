@@ -10,7 +10,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import victor.training.jpa.app.domain.entity.ErrorLog;
 import victor.training.jpa.app.domain.entity.Teacher;
+import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.persistence.EntityManager;
@@ -26,13 +28,16 @@ public class TransactionPlayground {
     private final EntityManager em;
     private final JdbcTemplate jdbc;
     private final TeacherRepo teacherRepo;
+    private final ErrorLogRepo repo;
 
     @Transactional
     public void firstTransaction() {
-        log.debug("Halo!");
-        // THese share the same transaction:
-        em.persist(new Teacher());
+        log.debug("Function Begin");
+
+        repo.save(new ErrorLog("Halo!"));
+
         jdbc.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
+        log.debug("Function End");
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)

@@ -27,12 +27,9 @@ public class JpaApplication {
 	@Autowired
 	private TransactionPlayground transactionPlayground;
 
-	@Autowired
-	private PlatformTransactionManager txm;
 
 	@EventListener
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		log.debug(txm.getClass().getSimpleName());
 		log.debug(">>>>>>>>>> Running Transaction Playground code... <<<<<<<<<<<<");
 		dummyDataCreator.persistDummyData();
 		log.debug(" ========= FIRST TRANSACTION ========== ");
