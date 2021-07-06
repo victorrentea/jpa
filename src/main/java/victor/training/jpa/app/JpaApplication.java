@@ -14,6 +14,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import victor.training.jpa.app.common.data.EntityRepositoryFactoryBean;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 @SpringBootApplication
 @EnableJpaRepositories(repositoryFactoryBeanClass = EntityRepositoryFactoryBean.class)
 @EnableJpaAuditing
@@ -29,24 +32,31 @@ public class JpaApplication {
 	private TransactionPlayground transactionPlayground;
 	@Autowired
 	private MergePlayground mergePlayground;
+	@Autowired
+	private LobPlayground lobPlayground;
 
 
 	@EventListener
-	public void onApplicationEvent(ContextRefreshedEvent event) throws JsonProcessingException {
+	public void onApplicationEvent(ContextRefreshedEvent event) throws IOException, SQLException {
 		log.debug(">>>>>>>>>> Running Transaction Playground code... <<<<<<<<<<<<");
-		dummyDataCreator.persistDummyData();
 //		log.debug(" ========= FIRST TRANSACTION ========== ");
 //		transactionPlayground.firstTransaction();
 //		log.debug(" ========= SECOND TRANSACTION ========== ");
 //		transactionPlayground.secondTransaction();
 //		log.debug(" ========= END ========== ");
 
-		log.debug("=== Merge:Persist init ===");
-		mergePlayground.persistInitialData();
-		log.debug("=== Merge:READ ===");
-		mergePlayground.readFromDb();
-		log.debug("=== Merge:WRITE1 ===");
-		mergePlayground.client1();
+//		log.debug("=== Merge:Persist init ===");
+//		mergePlayground.persistInitialData();
+//		log.debug("=== Merge:READ ===");
+//		mergePlayground.readFromDb();
+//		log.debug("=== Merge:WRITE1 ===");
+//		mergePlayground.client1();
+
+//		log.debug("Uploading file...");
+//		lobPlayground.uploadLargeClob();
+//		log.debug("Downloading file...");
+//		lobPlayground.downloadLargeClob();
+
 	}
 	
 
