@@ -13,7 +13,8 @@ import static java.util.Objects.requireNonNull;
 
 @Data
 @Embeddable
-public class CalendarEntry { // cum zice bizu, daca are un termen consacrat pentru asta.
+public class CalendarEntry {
+   // cum zice bizu, daca are un termen consacrat pentru asta.
 
    @Enumerated(EnumType.STRING)
    private DayOfWeek day;

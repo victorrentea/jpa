@@ -29,12 +29,16 @@ public class JpaApplication {
 
 	@Autowired
 	private PlatformTransactionManager txm;
+	@Autowired
+	private PropagationAndExceptions propagationAndExceptions;
 
 	@EventListener
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		log.debug(txm.getClass().getSimpleName());
+		log.debug(transactionPlayground.getClass().getName());
 		log.debug(">>>>>>>>>> Running Transaction Playground code... <<<<<<<<<<<<");
-//		dummyDataCreator.persistDummyData();
+
+//		propagationAndExceptions.first();
+
 		log.debug(" ========= FIRST TRANSACTION ========== ");
 		transactionPlayground.firstTransaction();
 		log.debug(" ========= SECOND TRANSACTION ========== ");

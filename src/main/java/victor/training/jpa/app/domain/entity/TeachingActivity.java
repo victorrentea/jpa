@@ -1,7 +1,6 @@
 package victor.training.jpa.app.domain.entity;
 
 import javax.persistence.*;
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,14 +23,6 @@ public abstract class TeachingActivity {
 
 	@Embedded
 	private CalendarEntry calendarEntry = new CalendarEntry();
-//	@Enumerated(EnumType.STRING)
-//	private DayOfWeek day;
-//
-//	private Integer startHour;
-//
-//	private Integer durationInHours;
-//
-//	private String roomId;
 
 	private LocalDateTime lastModifiedDate;
 
@@ -40,5 +31,7 @@ public abstract class TeachingActivity {
 	@ManyToMany(mappedBy = "activities")
 	private Set<Teacher> teachers = new HashSet<>();
 
-
+	void setSubject(Subject subject) {
+		this.subject = subject;
+	}
 }

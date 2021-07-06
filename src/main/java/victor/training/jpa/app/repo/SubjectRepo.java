@@ -11,6 +11,9 @@ public interface SubjectRepo extends EntityRepository<Subject, Long> {
 
    @Query("SELECT x from TeachingActivity x")
    List<TeachingActivity> searchByCeva();
+
+   @Query("SELECT s FROM Subject s LEFT JOIN FETCH s.activities LEFT JOIN FETCH s.holderTeacher")
+   Subject findWithActivities(long id);
 //	public Subject getByName(String name);
 //
 //	public List<Subject> getByHolderTeacherName(String teacherName);

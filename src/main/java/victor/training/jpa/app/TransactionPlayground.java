@@ -2,74 +2,98 @@ package victor.training.jpa.app;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.ehcache.CacheManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.domain.entity.*;
-import victor.training.jpa.app.domain.entity.ContactChannel.Type;
+import victor.training.jpa.app.domain.entity.Teacher.Grade;
+import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.SubjectRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.persistence.EntityManager;
-import javax.sql.DataSource;
-import java.time.DayOfWeek;
-import java.util.List;
-
-import static java.util.Arrays.asList;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+//@Transactional(readOnly = true)
 public class TransactionPlayground {
     private final EntityManager em;
     private final JdbcTemplate jdbc;
     private final SubjectRepo subjectRepo;
     private final TeacherRepo teacherRepo;
+    private final Other other;
 
-    @Transactional
+    private final ErrorLogRepo errorLogRepo;
+
+    @Transactional // proxyul de aici vede ca vii la fct fara tx din caller, creeaza tx, o salveaza pe ThreadLocal
     public void firstTransaction() {
         log.debug("Halo!");
 
-        Teacher t = new Teacher();
-        Subject s = new Subject();
+         errorLogRepo.save(new ErrorLog("Salut!")); // proxy-ul din fata lui save @Transactional. vede pe threadlocal tx si o ia
+         errorLogRepo.save(new ErrorLog("Pa!"));
+         jdbc.update("INSERT INTO ERROR_LOG(id, message) VALUES ( -1, 'din jdbc curat' )");
+//         errorLogRepo.flush(); // 1
+//         System.out.println(errorLogRepo.findMy()); 2 JPQL
+//        System.out.println(errorLogRepo.findAll()); // 3. api de SpringDATA
+//        System.out.println(errorLogRepo.cheamaProcedura()); 4. // query nativ
+        log.debug("Se termina metoda");
 
-        // TREBUIE SA SE INTAMPLE MEREU IMPREUNA! Temporal Coupling
+        errorLogRepo.callProcedureViaJpa();
+        log.debug("Dupa Procedura");
+//        System.out.println(errorLogRepo.callFunc());
 
-        t.addSubject(s);
+        Subject chimie = new Subject("Chimie")
+            .addActivities(new LabActivity(), new LabActivity());
 
-        // t.getHeldSubjects().add(s); // exception
-//        s.setTeacher(t); // nu compileaza
+        Teacher teacher = new Teacher()
+            .setName("Einstein")
+            .setGrade(Grade.PROFESSOR)
+            .addSubject(chimie);
 
-        em.persist(t);
-        em.persist(s);
-
-        em.persist(new CourseActivity());
-        em.persist(new LabActivity());
-        t.setCounselingCalendarEntry(new CalendarEntry(DayOfWeek.WEDNESDAY, 10, 1, "EC105"));
-        t.getChannels().add(new ContactChannel(Type.FACEBOOK, "contu_profu"));
-        t.getChannels().add(new ContactChannel(Type.PERSONAL_PHONE, "8989989"));
-        t.getChannels().add(new ContactChannel(Type.PERSONAL_EMAIL, "ptSubscribeLa....."));
-
-
-        System.out.println(subjectRepo.searchByCeva());
-
-
-        // THese share the same transaction:
-//        em.persist(new Teacher());
-//        jdbc.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
+        teacherRepo.save(teacher);
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void secondTransaction() {
+    @Transactional
+    public void secondTransaction() { // modifica
         log.debug("Halo2!");
-        em.find(Teacher.class, 1L).getChannels().remove(0);
-//        System.out.println(teacherRepo.findAll());
-        System.out.println(teacherRepo.findByCounselingCalendarEntry(new CalendarEntry(DayOfWeek.WEDNESDAY, 10, 1, "EC105")));
-        System.out.println(teacherRepo.findByCounselingCalendarEntryRoomId("EC105"));
+
+
+//        Connection c;
+//        ResultSet rs = c.createStatement().executeQuery("SELECT COALESCE(e.MESSAGE, ',') FROM ERROR_LOG e");
+//        if (!rs.next()) throw new IllegalArgumentException("No rows");
+//        return rs.getInt(1);
+
+        ErrorLog errorLog1 = errorLogRepo.findById(1L).get();
+        ErrorLog errorLog2 = other.met();
+        System.out.println(errorLog1 == errorLog2);
+        errorLogRepo.save(errorLog1);
+
+//        Subject subject = subjectRepo.findById(4L).get();
+
+        Subject subject = subjectRepo.findWithActivities(4L);
+
+
+        log.debug("Aici am luat subject din DB cu o lista: ");
+        for (TeachingActivity activity : subject.getActivities()) {
+            System.out.println("Activity : " + activity);
+        }
+
+
+    }
+}
+
+@RequiredArgsConstructor
+@Component
+class Other {
+    private final ErrorLogRepo errorLogRepo;
+    public ErrorLog met() {
+        System.out.println("Alta clasa");
+        ErrorLog errorLog = errorLogRepo.findById(1L).get();
+        errorLog.setMessage("alt mesaj");
+        errorLogRepo.flush();
+        System.out.println(errorLogRepo.findAll());
+        return errorLog;
     }
 }

@@ -3,14 +3,13 @@ package victor.training.jpa.app.domain.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import java.time.DayOfWeek;
 import java.util.*;
 
 import javax.persistence.*;
 
 import static java.util.Collections.*;
+import static javax.persistence.CascadeType.PERSIST;
 
 @Data
 @Entity
@@ -37,7 +36,7 @@ public class Teacher {
 	@ElementCollection // DOAR PENTRU COLECTII MICI:2-10 elem. atentie: la orice remove, se reinsera toate -1.
 	private List<ContactChannel> channels = new ArrayList<>();
 
-	@OneToMany(mappedBy = "holderTeacher")
+	@OneToMany(mappedBy = "holderTeacher", cascade = PERSIST)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	private Set<Subject> heldSubjects = new HashSet<>() ;
@@ -80,9 +79,10 @@ public class Teacher {
 //		return heldSubjects;
 //	}
 
-	public void addSubject(Subject subject) {
+	public Teacher addSubject(Subject subject) {
 		heldSubjects.add(subject);
 		subject.setHolderTeacher(this);
+		return this;
 	}
 
 	public Set<Subject> getHeldSubjects() {
