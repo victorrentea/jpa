@@ -7,18 +7,21 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import victor.training.jpa.app.common.data.EntityRepositoryFactoryBean;
+import victor.training.jpa.app.repo.common.CustomJpaRepositoryFactoryBean;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 @SpringBootApplication
-@EnableJpaRepositories(repositoryFactoryBeanClass = EntityRepositoryFactoryBean.class)
+@EnableJpaRepositories(repositoryFactoryBeanClass = CustomJpaRepositoryFactoryBean.class)
 @EnableJpaAuditing
 @EnableTransactionManagement/*(mode = AdviceMode.ASPECTJ)*/
 @Slf4j
@@ -45,13 +48,14 @@ public class JpaApplication {
 		log.debug(transactionPlayground.getClass().getName());
 		log.debug(">>>>>>>>>> Running Transaction Playground code... <<<<<<<<<<<<");
 
+
 //		propagationAndExceptions.first();
 
-		log.debug(" ========= FIRST TRANSACTION ========== ");
-		transactionPlayground.firstTransaction();
-		log.debug(" ========= SECOND TRANSACTION ========== ");
-		transactionPlayground.secondTransaction();
-		log.debug(" ========= END ========== ");
+//		log.debug(" ========= FIRST TRANSACTION ========== ");
+//		transactionPlayground.firstTransaction();
+//		log.debug(" ========= SECOND TRANSACTION ========== ");
+//		transactionPlayground.secondTransaction();
+//		log.debug(" ========= END ========== ");
 
 //		log.debug("=== Merge:Persist init ===");
 //		mergePlayground.persistInitialData();
@@ -67,8 +71,16 @@ public class JpaApplication {
 //		log.debug("Downloading file...");
 //		lobPlayground.downloadLargeClob();
 
+
+//		dataPlayground.method();
+		proasta.method();
 	}
-	
+
+	@Autowired
+	private StreamingDataDinDBEOIdeeProasta proasta;
+
+	@Autowired
+	private SpringDataPlayground dataPlayground;
 
 //	@Bean
 //	public AuditorAware<String> auditorProvider() {

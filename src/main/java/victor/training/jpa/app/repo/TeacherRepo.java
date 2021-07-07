@@ -4,16 +4,25 @@ import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
-import victor.training.jpa.app.common.data.EntityRepository;
 import victor.training.jpa.app.domain.entity.CalendarEntry;
 import victor.training.jpa.app.domain.entity.Subject;
 import victor.training.jpa.app.domain.entity.Teacher;
+import victor.training.jpa.app.domain.entity.Teacher.Grade;
+import victor.training.jpa.app.repo.common.CustomJpaRepository;
 
-public interface TeacherRepo extends EntityRepository<Teacher, Long>, TeacherRepoCustom, JpaSpecificationExecutor<Teacher> {
+public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, TeacherRepoCustom, JpaSpecificationExecutor<Teacher> {
+
+   Optional<Teacher> findByNameLikeAndGrade(String namePart, Grade grade);
+
+   @Query("FROM Teacher")
+   Stream<Teacher> totiCasMulti();
+
+
 
 //	@Query("SELECT DISTINCT a.day FROM Teacher t JOIN t.activities a WHERE t.id=?1")
 //	public Set<DayOfWeek> getBusyDaysOfTeacher(long teacherId);

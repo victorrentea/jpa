@@ -1,7 +1,10 @@
 package victor.training.jpa.app.domain.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
+@Data
 @Entity
 @DiscriminatorValue("LAB")
 public class LabActivity extends TeachingActivity {
