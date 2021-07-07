@@ -18,9 +18,19 @@ public class ErrorLog {
    @Column(nullable = false)
    private String message;
 
-//   private List<ErrorComment> comments = new ArrayList<>();
+   private Integer i = -1;
 
-//   private Set<ErrorTag> tags = new HashSet<>();
+   @Version
+   private Long version;
+
+   @OneToMany(cascade = ALL, orphanRemoval = true) // pt copiii a caror existenta e conditionata de a parintelui
+   @JoinColumn(name = "ERROR_ID")
+   private List<ErrorComment> comments = new ArrayList<>();
+
+   @ManyToMany
+   private Set<ErrorTag> tags = new HashSet<>();
+   @ManyToOne
+   private ErrorTag mainTag;
 
    public ErrorLog() {
    }
