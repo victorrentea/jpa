@@ -40,6 +40,7 @@ public class TransactionPlayground {
 //        System.out.println(errorLogRepo.cheamaProcedura()); 4. // query nativ
         log.debug("Se termina metoda");
 
+        errorLogRepo.flush();
         errorLogRepo.callProcedureViaJpa();
         log.debug("Dupa Procedura");
 //        System.out.println(errorLogRepo.callFunc());

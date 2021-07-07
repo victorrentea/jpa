@@ -52,7 +52,16 @@ public class MergePlayground {
    @Transactional
    public void client1() throws JsonProcessingException {
       // dupa 1 min de gandire cu ecranul de EDIT in fata, userul apasa butonul "save"
+      // bad practice sa demarshallizezi din JSON direct in @Entity!!
+          // >>>> ne creem obiecte *Dto care sa se mapeze direct pe structura JSONului.
+
+//      ErrorLogDto dto = ja
+////      toMerge.setComments(dto.comments.stream().map().toListckson.readValue(json, ErrorLogDto.class); // facuta de spring maparea
+//      ErrorLog toMerge =  new ErrorLog(dto.message);)
+
       ErrorLog copy1 = jackson.readValue(json, ErrorLog.class); // pute a JS
+
+
       copy1.setMessage("Diferit");
       copy1.setI(42);
       copy1.getComments().get(0).setText("AltMesajInitial");

@@ -47,18 +47,18 @@ public class JpaApplication {
 
 //		propagationAndExceptions.first();
 
-//		log.debug(" ========= FIRST TRANSACTION ========== ");
-//		transactionPlayground.firstTransaction();
-//		log.debug(" ========= SECOND TRANSACTION ========== ");
-//		transactionPlayground.secondTransaction();
-//		log.debug(" ========= END ========== ");
+		log.debug(" ========= FIRST TRANSACTION ========== ");
+		transactionPlayground.firstTransaction();
+		log.debug(" ========= SECOND TRANSACTION ========== ");
+		transactionPlayground.secondTransaction();
+		log.debug(" ========= END ========== ");
 
-		log.debug("=== Merge:Persist init ===");
-		mergePlayground.persistInitialData();
-		log.debug("=== Merge:READ ===");
-		mergePlayground.readFromDb();
-		log.debug("=== Merge:WRITE1 ===");
-		mergePlayground.client1();
+//		log.debug("=== Merge:Persist init ===");
+//		mergePlayground.persistInitialData();
+//		log.debug("=== Merge:READ ===");
+//		mergePlayground.readFromDb();
+//		log.debug("=== Merge:WRITE1 ===");
+//		mergePlayground.client1();
 //		log.debug("=== Merge:WRITE2 ===");
 //		mergePlayground.client2();
 
