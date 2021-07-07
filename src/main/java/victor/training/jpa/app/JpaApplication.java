@@ -73,9 +73,13 @@ public class JpaApplication {
 
 
 //		dataPlayground.method();
-		proasta.method();
+//		proasta.method();
+
+		costinJoinCascade.method();
 	}
 
+	@Autowired
+	CostinJoinCascade costinJoinCascade;
 	@Autowired
 	private StreamingDataDinDBEOIdeeProasta proasta;
 

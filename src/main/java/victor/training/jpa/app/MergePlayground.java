@@ -75,7 +75,7 @@ public class MergePlayground {
 //      copy1.
       // TODO change collections
       log.debug("Client1 sends back updated JSON: " + jackson.writeValueAsString(copy1));
-      copy1 = errorLogRepo.save(copy1);
+      copy1 = errorLogRepo.save(copy1); // intoarce alta instanta daca la acest moment in Tx curenta deja fusese incarcata entitate cu acel id
       em.lock(copy1, LockModeType.PESSIMISTIC_WRITE);
    }
 
