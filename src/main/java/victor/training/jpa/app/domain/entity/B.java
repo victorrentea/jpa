@@ -13,9 +13,15 @@ public class B {
    @Id
    @GeneratedValue
    private Long id;
-   @OneToMany
+   @OneToMany(cascade = CascadeType.ALL)
    @JoinColumn
    private Set<C> cList = new HashSet<>();
    private String name;
 //   private List<C> cList;
+   public B() {}
+
+   public B(String name) {
+
+      this.name = name;
+   }
 }

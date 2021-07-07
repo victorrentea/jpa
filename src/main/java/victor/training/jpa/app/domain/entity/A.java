@@ -8,6 +8,8 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.*;
 
+import static javax.persistence.CascadeType.ALL;
+
 @Entity
 @Getter
 @Setter
@@ -16,7 +18,7 @@ public class A {
    @Id
    @GeneratedValue
    private Long id;
-   @OneToMany
+   @OneToMany(cascade = ALL)
    @JoinColumn
 //   private Set<B> bList = new HashSet<>(); // daca nu iti pasa de ordine
 //   @OrderBy("name ASC")

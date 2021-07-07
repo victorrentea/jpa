@@ -17,5 +17,9 @@ public class C {
    private Long id;
    private String name;
 
+   public C() {}
+   public C(String name) {
+      this.name = name;
+   }
 
 }
