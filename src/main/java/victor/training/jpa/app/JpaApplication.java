@@ -75,7 +75,10 @@ public class JpaApplication {
 //		dataPlayground.method();
 //		proasta.method();
 
-		costinJoinCascade.method();
+//		costinJoinCascade.method();
+
+		bulkUpdate.persistInitData();
+		bulkUpdate.modify();
 	}
 
 	@Autowired
@@ -85,6 +88,9 @@ public class JpaApplication {
 
 	@Autowired
 	private SpringDataPlayground dataPlayground;
+
+	@Autowired
+	private BulkUpdate bulkUpdate;
 
 //	@Bean
 //	public AuditorAware<String> auditorProvider() {

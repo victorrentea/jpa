@@ -22,4 +22,8 @@ public interface ErrorLogRepo extends JpaRepository<ErrorLog, Long> {
 
    @Procedure("PROC_MESSAGES") // this does NOT flush the Persistence Context
    void callProcedureViaJpa();
+
+   @Modifying(clearAutomatically = true)
+   @Query("UPDATE ErrorLog e SET e.message = 'BULK' ")
+   void bulkUpdate();
 }

@@ -20,8 +20,8 @@ public class ErrorLog {
 
    private Integer i = -1;
 
-   @Version
-   private Long version;
+//   @Version
+//   private Long version;
 
    @OneToMany(cascade = ALL, orphanRemoval = true) // pt copiii a caror existenta e conditionata de a parintelui
    @JoinColumn(name = "ERROR_ID")
