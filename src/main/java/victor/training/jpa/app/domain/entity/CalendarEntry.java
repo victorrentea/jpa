@@ -42,6 +42,6 @@ public class CalendarEntry {
       this.startHour = startHour;
       this.durationInHours = durationInHours;
       this.roomId = requireNonNull(roomId);
-      magicObtineUnValidatorDeLaSpring.validate(this);
+//      magicObtineUnValidatorDeLaSpring.validate(this);
    }
 }
