@@ -66,10 +66,10 @@ public class JpaApplication {
 //		log.debug("=== Merge:WRITE2 ===");
 //		mergePlayground.client2();
 
-//		log.debug("Uploading file...");
-//		lobPlayground.uploadLargeClob();
-//		log.debug("Downloading file...");
-//		lobPlayground.downloadLargeClob();
+		log.debug("Uploading file...");
+		lobPlayground.uploadLargeClob();
+		log.debug("Downloading file...");
+		lobPlayground.downloadLargeClob();
 
 
 //		dataPlayground.method();
@@ -77,8 +77,8 @@ public class JpaApplication {
 
 //		costinJoinCascade.method();
 
-		bulkUpdate.persistInitData();
-		bulkUpdate.modify();
+//		bulkUpdate.persistInitData();
+//		bulkUpdate.modify();
 	}
 
 	@Autowired

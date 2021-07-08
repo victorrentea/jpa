@@ -1,15 +1,21 @@
 package victor.training.jpa.app;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.hibernate.engine.jdbc.ClobProxy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 import victor.training.jpa.app.domain.entity.TeacherDetails;
 import victor.training.jpa.app.repo.TeacherDetailsRepo;
 
 import java.io.*;
+import java.sql.Clob;
 import java.sql.SQLException;
 
 @Component
@@ -25,16 +31,33 @@ public class LobPlayground {
       if (!file.isFile()) {
          throw new IllegalArgumentException("File not found: " + file.getAbsolutePath());
       }
-      FileReader fileReader = new FileReader(file);
-//      String blob = ClobProxy.generateProxy(fileReader, file.length());
-      String allContents = IOUtils.toString(fileReader);
-      TeacherDetails entity = new TeacherDetails().setCv(allContents);
-      id = repo.save(entity).getId();
+      try (FileReader fileReader = new FileReader(file)) {
+         Clob clob = ClobProxy.generateProxy(fileReader, file.length());
+         TeacherDetails entity = new TeacherDetails().setCv(clob);
+         id = repo.save(entity).getId();
+         repo.flush();
+         publisher.publishEvent(new DeleteFileEvent(file));
+      }
    }
+
+   @Autowired
+   ApplicationEventPublisher publisher;
+   @Value
+   static class DeleteFileEvent {
+      private final File toDelete;
+//      private final Reader reader;
+   }
+
+   @TransactionalEventListener(phase = TransactionPhase.AFTER_COMPLETION)
+   public void deRulatLaFinal(DeleteFileEvent event) {
+//      reader.c
+      event.toDelete.delete();
+   }
+
    @Transactional
    public void downloadLargeClob() throws IOException, SQLException {
       TeacherDetails teacherDetails = repo.findById(id).get();
 
-      IOUtils.write(teacherDetails.getCv(), new OutputStreamWriter(System.out));
+      IOUtils.copy(teacherDetails.getCv().getCharacterStream(), new OutputStreamWriter(System.out));
    }
 }

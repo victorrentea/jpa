@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import java.sql.Clob;
 
 @Entity
 public class TeacherDetails {
@@ -13,7 +14,7 @@ public class TeacherDetails {
 	private Long id;
 
 	@Lob
-	private String cv;
+	private Clob cv;
 
 	public Long getId() {
 		return id;
@@ -23,11 +24,11 @@ public class TeacherDetails {
 		this.id = id;
 	}
 
-	public String getCv() {
+	public Clob getCv() {
 		return cv;
 	}
 
-	public TeacherDetails setCv(String cv) {
+	public TeacherDetails setCv(Clob cv) {
 		this.cv = cv;
 		return this;
 	}
