@@ -11,7 +11,7 @@ public class TeacherSpecifications {
           cb.like(cb.upper(root.get(Teacher_.name)), "%" + name.toUpperCase() + "%"); // identic code to CriteriaMetamodel
    }
 
-   public static Specification<Teacher> hasGrade(Grade grade) {
+   public static Specification<Teacher> hasGrade(Grade grade) {// ~ Predicate<Teacher>
       return (root, query, cb) ->
           cb.lessThan(root.get(Teacher_.grade), grade);
    }

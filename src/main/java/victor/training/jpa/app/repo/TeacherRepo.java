@@ -23,6 +23,9 @@ public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, Teacher
    Stream<Teacher> totiCasMulti();
 
 
+   List<Teacher> findByGrade(Grade grade);
+
+
 
 //	@Query("SELECT DISTINCT a.day FROM Teacher t JOIN t.activities a WHERE t.id=?1")
 //	public Set<DayOfWeek> getBusyDaysOfTeacher(long teacherId);

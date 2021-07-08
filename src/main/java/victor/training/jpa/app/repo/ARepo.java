@@ -21,7 +21,7 @@ public interface ARepo extends JpaRepository<A, Long> {
    @Query("SELECT b FROM A a left join B b WHERE a.id IN ?1")
    List<B> getChildrenOfManyParents(List<Long> ids);
 
-
    @Query("SELECT distinct new victor.training.jpa.app.repo.BCNameDto(b.name, c.name) FROM B b left join b.cList c")
    Set<BCNameDto> findAllBC(PageRequest page);
+   // faci un VIEW cu queryul tau nativ si MAPEZI o ENTITATE pe VIEW!!!!! MERGE!!
 }
