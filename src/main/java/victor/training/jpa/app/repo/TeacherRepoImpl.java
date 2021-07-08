@@ -7,6 +7,7 @@ import victor.training.jpa.app.domain.entity.Teacher;
 import victor.training.jpa.app.domain.entity.Teacher.Grade;
 import victor.training.jpa.app.domain.entity.Teacher_;
 import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
+import victor.training.jpa.app.facade.dto.TeacherSearchResult;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -39,7 +40,7 @@ public class TeacherRepoImpl implements TeacherRepoCustom {
    }
 
    @Override
-   public List<Teacher> search(TeacherSearchCriteria searchCriteria) {
+   public List<Teacher> search(TeacherSearchCriteria searchCriteria) { // TODO query directly TeacherSearchResult objects
       String jpql = "SELECT t FROM Teacher t WHERE 1=1";
       Map<String, Object> params = new HashMap<>();
 
@@ -52,7 +53,6 @@ public class TeacherRepoImpl implements TeacherRepoCustom {
          jpql += " AND t.grade = :grade ";
          params.put("grade", searchCriteria.grade);
       }
-//      jpql += " LIM"
 
       TypedQuery<Teacher> query = em.createQuery(jpql, Teacher.class);
       for (String param : params.keySet()) {
@@ -81,9 +81,9 @@ public class TeacherRepoImpl implements TeacherRepoCustom {
    }
 
 
-   public List<Teacher> searchCriteriaMetamodel(TeacherSearchCriteria searchCriteria) {
+   public List<TeacherSearchResult> searchCriteriaMetamodel(TeacherSearchCriteria searchCriteria) {
       CriteriaBuilder cb = em.getCriteriaBuilder();
-      CriteriaQuery<Teacher> criteriaQuery = cb.createQuery(Teacher.class);
+      CriteriaQuery<TeacherSearchResult> criteriaQuery = cb.createQuery(TeacherSearchResult.class);
       Root<Teacher> root = criteriaQuery.from(Teacher.class);
 
       List<Predicate> predicates = new ArrayList<>();
@@ -96,7 +96,13 @@ public class TeacherRepoImpl implements TeacherRepoCustom {
          predicates.add(hasNameLike(searchCriteria.name, cb, root));
       }
 
-      criteriaQuery.select(root).where(cb.and(predicates.toArray(new Predicate[0])));
+      criteriaQuery.select(cb.construct(
+             TeacherSearchResult.class,
+             root.get(Teacher_.id),
+             root.get(Teacher_.name),
+             root.get(Teacher_.grade)
+          ))
+          .where(cb.and(predicates.toArray(new Predicate[0])));
 
       return em.createQuery(criteriaQuery).getResultList();
    }

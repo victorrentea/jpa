@@ -18,7 +18,7 @@ public class MyTrackingEntityListener {
 	
 	@PreUpdate
     @PrePersist
-    public void setLastUpdate(Trackable trackable) {
+    public void setLastUpdate(Object trackable) {
 //		log.debug("Updating tracking columns of: {}", trackable);
 //		trackable.setLastModifiedDate(LocalDateTime.now());
 //		trackable.setLastModifiedBy(MyUtil.getUserOnCurrentThread());

@@ -2,7 +2,6 @@ package victor.training.jpa.app.domain.entity;
 
 import java.time.DayOfWeek;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -11,23 +10,21 @@ import javax.persistence.Enumerated;
 public class TimeSlot {
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "DAY")
 	private DayOfWeek day;
+	// embeddable names are contextualized using spring.jpa.hibernate.naming.implicit-strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
 	
-	@Column(name = "START_HOUR")
 	private int startHour;
 	
-	@Column(name = "DURATION_HOURS")
-	private int durationInHours;
+	private int hours;
 	
 	private String roomId;
 
 	protected TimeSlot() {}
 
-	public TimeSlot(DayOfWeek day, int startHour, int durationInHours, String roomId) {
+	public TimeSlot(DayOfWeek day, int startHour, int hours, String roomId) {
 		this.day = day;
 		this.startHour = startHour;
-		this.durationInHours = durationInHours;
+		this.hours = hours;
 		this.roomId = roomId;
 	}
 
@@ -39,8 +36,8 @@ public class TimeSlot {
 		return startHour;
 	}
 
-	public int getDurationInHours() {
-		return durationInHours;
+	public int getHours() {
+		return hours;
 	}
 
 	public String getRoomId() {
@@ -49,11 +46,11 @@ public class TimeSlot {
 
 
 	public TimeSlot withDurationInHours(int hours) {
-		return new TimeSlot(day,startHour, durationInHours, roomId);
+		return new TimeSlot(day,startHour, hours, roomId);
 	}
 
 	public TimeSlot withRoomId(String newRoom) {
-		return new TimeSlot(day, startHour, durationInHours, newRoom);
+		return new TimeSlot(day, startHour, hours, newRoom);
 	}
 
 	@Override
@@ -61,7 +58,7 @@ public class TimeSlot {
 		return "TimeSlot{" +
 				 "day=" + day +
 				 ", startHour=" + startHour +
-				 ", durationInHours=" + durationInHours +
+				 ", durationInHours=" + hours +
 				 ", roomId='" + roomId + '\'' +
 				 '}';
 	}

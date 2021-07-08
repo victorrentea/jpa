@@ -1,6 +1,8 @@
 package victor.training.jpa.app.domain.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Column;
@@ -11,7 +13,8 @@ import java.util.Objects;
 
 import static javax.persistence.CascadeType.ALL;
 
-@Data
+@Getter
+@Setter
 @Entity
 @ToString
 public class ErrorLog {

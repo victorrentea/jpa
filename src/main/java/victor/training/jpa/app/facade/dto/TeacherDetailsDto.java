@@ -21,11 +21,11 @@ public class TeacherDetailsDto {
 		if (teacher.getDetails() != null) {
 			cv = teacher.getDetails().getCv();
 		}
-		counselingInterval = new TimeSlotDto(
-				teacher.getCounselingDay(), 
-				teacher.getCounselingStartHour(), 
-				teacher.getCounselingDurationInHours(),
-				teacher.getCounselingRoomId()
-				);
+//		counselingInterval = new TimeSlotDto(
+//				teacher.getCounselingDay(),
+//				teacher.getCounselingStartHour(),
+//				teacher.getCounselingDurationInHours(),
+//				teacher.getCounselingRoomId()
+//				);
 	}
 }

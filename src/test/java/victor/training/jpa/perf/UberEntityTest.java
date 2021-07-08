@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.transaction.TestTransaction;
@@ -18,7 +19,7 @@ import javax.persistence.EntityManager;
 @SpringBootTest
 @Transactional
 @Rollback(false)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class UberEntityTest {
     private static final Logger log = LoggerFactory.getLogger(UberEntityTest.class);
 
@@ -45,6 +46,7 @@ public class UberEntityTest {
                 .setScope(globalScope);
         em.persist(uber);
 
+        // these are roughly equivalent to em.flush(); + em.clear();
         TestTransaction.end();
         TestTransaction.start();
 

@@ -1,10 +1,14 @@
 package victor.training.jpa.app.domain.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @Embeddable
+@Getter
 public class ContactChannel {
 
 	public enum Type {
@@ -22,7 +26,7 @@ public class ContactChannel {
 	
 	private String value;
 	
-	public ContactChannel() {
+	private ContactChannel() {
 	}
 
 	public ContactChannel(Type type, String value) {
@@ -30,21 +34,4 @@ public class ContactChannel {
 		this.value = value;
 	}
 
-	public Type getType() {
-		return type;
-	}
-
-	public void setType(Type type) {
-		this.type = type;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
-	}
-	
-	
 }

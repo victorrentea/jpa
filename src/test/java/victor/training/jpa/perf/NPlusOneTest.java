@@ -1,7 +1,10 @@
 package victor.training.jpa.perf;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,20 +24,20 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
+@Slf4j
 @SpringBootTest
 @Transactional
-@Rollback(false)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@Rollback(false) // allow data to remain in DB for later inspectin
 public class NPlusOneTest {
-
-	private static final Logger log = LoggerFactory.getLogger(NPlusOneTest.class);
 
 	@Autowired
 	private EntityManager em;
+	@Autowired
+	private ParentRepo parentRepo;
 
-	@Before
+	@BeforeEach
 	public void persistData() {
+		parentRepo.deleteAll();
 		em.persist(new Parent("Victor")
 				.addChild(new Child("Emma"))
 				.addChild(new Child("Vlad"))
@@ -44,13 +47,14 @@ public class NPlusOneTest {
 				.addChild(new Child("Stephan"))
 				.addChild(new Child("Paul"))
 		);
-		TestTransaction.end();
-		TestTransaction.start();
+
+		em.flush();
+		em.clear();
 	}
 
 	@Test
 	public void nPlusOne() {
-		List<Parent> parents = em.createQuery("FROM Parent", Parent.class).getResultList();
+		List<Parent> parents = em.createQuery("SELECT p FROM Parent p", Parent.class).getResultList();
 
 		int totalChildren = anotherMethod(parents);
 		assertThat(totalChildren).isEqualTo(5);

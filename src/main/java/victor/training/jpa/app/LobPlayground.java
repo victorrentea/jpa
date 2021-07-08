@@ -26,7 +26,7 @@ public class LobPlayground {
          throw new IllegalArgumentException("File not found: " + file.getAbsolutePath());
       }
       FileReader fileReader = new FileReader(file);
-//      String blob = ClobProxy.generateProxy(fileReader, file.length());
+//      String clob = ClobProxy.generateProxy(fileReader, file.length());
       String allContents = IOUtils.toString(fileReader);
       TeacherDetails entity = new TeacherDetails().setCv(allContents);
       id = repo.save(entity).getId();

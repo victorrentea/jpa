@@ -1,5 +1,8 @@
 package victor.training.jpa.app.domain.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+@Getter
+@Setter
 @Entity
 public class StudentsGroup {
 	@Id
@@ -31,50 +36,8 @@ public class StudentsGroup {
 
 	public StudentsGroup() {
 	}
-
 	public StudentsGroup(String code) {
 		this.code = code;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public StudentsYear getYear() {
-		return year;
-	}
-
-	public void setYear(StudentsYear year) {
-		this.year = year;
-	}
-
-	public Set<LabActivity> getLabs() {
-		return labs;
-	}
-
-	public void setLabs(Set<LabActivity> labs) {
-		this.labs = labs;
-	}
-
-	public List<String> getEmails() {
-		return emails;
-	}
-
-	public void setEmails(List<String> emails) {
-		this.emails = emails;
-	}
-
-	
 }
