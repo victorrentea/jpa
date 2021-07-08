@@ -1,9 +1,11 @@
 package victor.training.jpa.perf;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+
+
+class UberEntityHistory {
+    String originCountryName;
+}
 
 @Entity
 public class UberEntity {
@@ -12,8 +14,12 @@ public class UberEntity {
     private Long id;
     private String name;
     private String firstName, lastName, ibanCode, cnp, ssn, passportNumber;
-    @ManyToOne
-    private Country originCountry;
+//    @ManyToOne(fetch = FetchType.LAZY)// idee
+//    @ManyToOne
+//    private Country originCountry; // referntiale
+
+    private Long originCountryId; // !! FKul ramane!!
+
     @ManyToOne
     private Country nationality;
     @ManyToOne
@@ -38,8 +44,18 @@ public class UberEntity {
         return this;
     }
 
-    public UberEntity setOriginCountry(Country originCountry) {
-        this.originCountry = originCountry;
+//    public UberEntity setOriginCountry(Country originCountry) {
+//        this.originCountry = originCountry;
+//        return this;
+//    }
+
+
+    public Long getOriginCountryId() {
+        return originCountryId;
+    }
+
+    public UberEntity setOriginCountryId(Long originCountryId) {
+        this.originCountryId = originCountryId;
         return this;
     }
 
@@ -68,12 +84,13 @@ public class UberEntity {
         return this;
     }
 
-    public Country getOriginCountry() {
-        return originCountry;
-    }
+//    public Country getOriginCountry() {
+//        return originCountry;
+//    }
 }
 
 @Entity
+public
 class Country {
     @Id
     private Long id;
@@ -81,6 +98,7 @@ class Country {
     private String region;
     private String continent;
     private int population;
+    private boolean active;
     private Country() {
     }
     public Country(Long id, String name) {

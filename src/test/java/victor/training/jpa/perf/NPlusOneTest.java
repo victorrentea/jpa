@@ -25,10 +25,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @Transactional
 @Rollback(false)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class NPlusOneTest {
 
 	private static final Logger log = LoggerFactory.getLogger(NPlusOneTest.class);
+
 
 	@Autowired
 	private EntityManager em;
@@ -50,14 +50,12 @@ public class NPlusOneTest {
 
 	@Test
 	public void nPlusOne() {
-		List<Parent> parents = em.createQuery("FROM Parent", Parent.class).getResultList();
+
+		Set<Parent> parents = new HashSet<>(em.createQuery("SELECT p FROM Parent p LEFT JOIN FETCH p.children", Parent.class).getResultList());
 
 		int totalChildren = anotherMethod(parents);
 		assertThat(totalChildren).isEqualTo(5);
 	}
-
-
-
 
 	private int anotherMethod(Collection<Parent> parents) {
 		log.debug("Start iterating over {} parents: {}", parents.size(), parents);
@@ -65,7 +63,7 @@ public class NPlusOneTest {
 		for (Parent parent : parents) {
 			total += parent.getChildren().size();
 		}
-		log.debug("Done counting: {} children", total);
+		log.info("Done counting: {} children", total);
 		return total;
 	}
 

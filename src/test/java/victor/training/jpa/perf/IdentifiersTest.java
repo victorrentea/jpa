@@ -20,7 +20,6 @@ import static java.lang.System.currentTimeMillis;
 @SpringBootTest
 @Transactional
 @Rollback(false)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class IdentifiersTest {
     private static final Logger log = LoggerFactory.getLogger(IdentifiersTest.class);
 
