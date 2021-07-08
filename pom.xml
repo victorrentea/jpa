@@ -92,7 +92,14 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
     </dependency>
-
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-batch</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-oxm</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
@@ -121,7 +128,7 @@
 
       <!-- the following plugin is supposed to enhance the compiled entity .class files with lazy properties -->
       <!-- but launched from IntelliJ, it doesn't seem to work -->
-   <!--   <plugin>
+      <plugin>
         <groupId>org.hibernate.orm.tooling</groupId>
         <artifactId>hibernate-enhance-maven-plugin</artifactId>
         <version>${hibernate.version}</version>
@@ -136,7 +143,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>-->
+      </plugin>
       <plugin>
         <groupId>com.mysema.maven</groupId>
         <artifactId>apt-maven-plugin</artifactId>
