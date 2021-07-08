@@ -48,25 +48,31 @@ public class SubjectController {
 		return facade.getSubjectWithActivities(subjectId);
 	}
 	
+	@PostMapping
+	public Long create(@RequestBody SubjectDto subjectDto) {
+		return facade.createSubject(subjectDto);
+	}
+
 	@GetMapping("search")
 	public SubjectDto getByName(@RequestParam("name") String name) {
 		return new SubjectDto(subjectRepo.getByName(name));
 	}
-	
-	@PostMapping
-	public Long create(@RequestBody SubjectDto subjectDto) {
-		return facade.createSubject(subjectDto);
+
+	@GetMapping("open-edit/{id}")
+	public SubjectDto openEdit(@PathVariable long id) {
+		return facade.openUpdate(id);
 	}
 	
 	@PutMapping
 	public void update(@RequestBody SubjectDto subjectDto) {
 		facade.updateSubject(subjectDto);
 	}
-	
+
 	@PutMapping("/ko")
 	public void updateSubjectFailing(@RequestBody SubjectDto subjectDto) {
 		facade.updateSubjectFailing(subjectDto);
 	}
+
 	@PutMapping("/ko-logged")
 	public void updateSubjectFailingLogged(@RequestBody SubjectDto subjectDto) {
 		facade.updateSubjectFailingLogged(subjectDto);
