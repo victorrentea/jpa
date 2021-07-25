@@ -10,13 +10,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import victor.training.jpa.app.domain.entity.CourseActivity;
-import victor.training.jpa.app.domain.entity.LabActivity;
-import victor.training.jpa.app.domain.entity.StudentsGroup;
-import victor.training.jpa.app.domain.entity.StudentsYear;
-import victor.training.jpa.app.domain.entity.Subject;
-import victor.training.jpa.app.domain.entity.Teacher;
-import victor.training.jpa.app.domain.entity.TeacherDetails;
+import victor.training.jpa.app.domain.entity.*;
 
 @Component
 public class DummyDataCreator {
@@ -34,6 +28,10 @@ public class DummyDataCreator {
 //		victor.setCounselingDurationInHours(1);
 //		victor.setCounselingRoomId("EF403");
 //		victor.setCounselingStartHour(8);
+		Room room = new Room();
+		em.persist(room);
+		TimeSlot timeSlot = new TimeSlot(DayOfWeek.MONDAY, 10, 2, room);
+		victor.setCounselingTimeSlot(timeSlot);
 		em.persist(victor);
 		
 		

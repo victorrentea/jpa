@@ -46,14 +46,17 @@ public class Teacher {
 	@ManyToMany(mappedBy = "teachers")
 	private Set<TeachingActivity> activities = new HashSet<>();
 	
-	@Enumerated(EnumType.STRING)
-	private DayOfWeek counselingDay;
+//	@Enumerated(EnumType.STRING)
+//	private DayOfWeek counselingDay;
+//
+//	private Integer counselingStartHour;
+//
+//	private Integer counselingDurationInHours;
+//
+//	private String counselingRoomId;
 
-	private Integer counselingStartHour;
-
-	private Integer counselingDurationInHours;
-
-	private String counselingRoomId;
+	@Embedded
+	private TimeSlot counselingTimeSlot = new TimeSlot();
 
 	public Teacher() {
 	}

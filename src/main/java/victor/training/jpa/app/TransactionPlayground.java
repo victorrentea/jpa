@@ -36,7 +36,7 @@ public class TransactionPlayground {
 
         repo.save(new ErrorLog("Halo!"));
 
-        jdbc.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
+//        jdbc.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
         log.debug("Function End");
     }
 

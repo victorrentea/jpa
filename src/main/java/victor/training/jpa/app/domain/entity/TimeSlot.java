@@ -5,6 +5,7 @@ import java.time.DayOfWeek;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ManyToOne;
 
 @Embeddable
 public class TimeSlot {
@@ -16,16 +17,17 @@ public class TimeSlot {
 	private int startHour;
 	
 	private int hours;
-	
-	private String roomId;
+
+	@ManyToOne
+	private Room room;
 
 	protected TimeSlot() {}
 
-	public TimeSlot(DayOfWeek day, int startHour, int hours, String roomId) {
+	public TimeSlot(DayOfWeek day, int startHour, int hours, Room room) {
 		this.day = day;
 		this.startHour = startHour;
 		this.hours = hours;
-		this.roomId = roomId;
+		this.room = room;
 	}
 
 	public DayOfWeek getDay() {
@@ -40,16 +42,16 @@ public class TimeSlot {
 		return hours;
 	}
 
-	public String getRoomId() {
-		return roomId;
+	public Room getRoom() {
+		return room;
 	}
 
 
 	public TimeSlot withDurationInHours(int hours) {
-		return new TimeSlot(day,startHour, hours, roomId);
+		return new TimeSlot(day,startHour, hours, room);
 	}
 
-	public TimeSlot withRoomId(String newRoom) {
+	public TimeSlot withRoomId(Room newRoom) {
 		return new TimeSlot(day, startHour, hours, newRoom);
 	}
 
@@ -59,7 +61,7 @@ public class TimeSlot {
 				 "day=" + day +
 				 ", startHour=" + startHour +
 				 ", durationInHours=" + hours +
-				 ", roomId='" + roomId + '\'' +
+				 ", roomId='" + room + '\'' +
 				 '}';
 	}
 }
