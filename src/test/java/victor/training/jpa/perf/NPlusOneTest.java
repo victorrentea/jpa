@@ -54,23 +54,24 @@ public class NPlusOneTest {
 
 	@Test
 	public void nPlusOne() {
-		List<Parent> parents = em.createQuery("SELECT p FROM Parent p", Parent.class).getResultList();
+		// SELECT P FROM PARENT P JOIN CHILDREN1 C1 JOIN CHILDREN2 C2
+		List<Parent> parents = em.createQuery(
+			"SELECT p FROM Parent p LEFT JOIN FETCH p.children", Parent.class).getResultList(); // 1 query> N
 
 		int totalChildren = anotherMethod(parents);
 		assertThat(totalChildren).isEqualTo(5);
 	}
 
-
-
-
 	private int anotherMethod(Collection<Parent> parents) {
 		log.debug("Start iterating over {} parents: {}", parents.size(), parents);
 		int total = 0;
 		for (Parent parent : parents) {
-			total += parent.getChildren().size();
+			total += parent.getChildren().size(); // +N
 		}
 		log.debug("Done counting: {} children", total);
 		return total;
 	}
+
+	// N+1 queries
 
 }

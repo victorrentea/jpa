@@ -11,9 +11,15 @@ public class UberEntity {
     @GeneratedValue
     private Long id;
     private String name;
-    private String firstName, lastName, ibanCode, cnp, ssn, passportNumber;
-    @ManyToOne
-    private Country originCountry;
+    private String firstName;
+    private String lastName;
+    private String ibanCode;
+    private String cnp;
+    private String ssn;
+    private String passportNumber;
+//    @ManyToOne
+//    private Country originCountry;
+    private Long originCountryId; // lasi FK in DB
     @ManyToOne
     private Country nationality;
     @ManyToOne
@@ -38,10 +44,6 @@ public class UberEntity {
         return this;
     }
 
-    public UberEntity setOriginCountry(Country originCountry) {
-        this.originCountry = originCountry;
-        return this;
-    }
 
     public UberEntity setNationality(Country nationality) {
         this.nationality = nationality;
@@ -68,8 +70,13 @@ public class UberEntity {
         return this;
     }
 
-    public Country getOriginCountry() {
-        return originCountry;
+    public Long getOriginCountryId() {
+        return originCountryId;
+    }
+
+    public UberEntity setOriginCountryId(Long originCountryId) {
+        this.originCountryId = originCountryId;
+        return this;
     }
 }
 

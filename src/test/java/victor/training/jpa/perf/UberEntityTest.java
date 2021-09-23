@@ -1,5 +1,6 @@
 package victor.training.jpa.perf;
 
+import lombok.Value;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -39,7 +42,7 @@ public class UberEntityTest {
 
         UberEntity uber = new UberEntity()
                 .setFiscalCountry(romania)
-                .setOriginCountry(romania)
+                .setOriginCountryId(romania.getId())
                 .setInvoicingCountry(romania)
                 .setCreatedBy(testUser)
                 .setNationality(romania)
@@ -51,10 +54,33 @@ public class UberEntityTest {
         TestTransaction.start();
 
         log.info("Now, loading by id...");
+//        repo.findById
         UberEntity uberEntity = em.find(UberEntity.class, uber.getId());
+//        uberEntity.getOriginCountry().getId();
         log.info("Loaded");
-        // TODO fetch only the necessary data
         // TODO change link types?
+        // TODO fetch only the necessary data
         System.out.println(uberEntity.toString());
+
+        // Din REST api aduci countryId=23 in FE tii o mapa intre countryid-nume
+        // daca vrei sa exporti in CSV/XLS NUME: preincarci in Java intr-un Map<Lng,String> countryNames si exporti facand map.get(id)
+
+
+        List<UberEntityDto> dtos = em.createQuery(
+            "SELECT new victor.training.jpa.perf.UberEntityDto(u.id, u.name, u.cnp, c.name) " +
+            " FROM UberEntity u " +
+            " JOIN Country c ON c.id = u.originCountryId",UberEntityDto.class).getResultList();
+
+        System.out.println(dtos);
+        // sa pp ca faci un search dupa  Uber Entity
+        // |id|name|cnp|OriginCOuntryName|
+        // |  |   |
     }
+}
+@Value
+class UberEntityDto {
+    Long id;
+    String name;
+    String cnp;
+    String originCountry;
 }
