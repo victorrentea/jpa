@@ -32,6 +32,7 @@ public class TransactionPlayground {
     private final TeacherRepo teacherRepo;
     private final ErrorLogRepo repo;
 
+    @Transactional
     public void firstTransaction() {
         log.debug("Function Begin");
 
