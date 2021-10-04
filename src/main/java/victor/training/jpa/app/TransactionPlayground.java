@@ -32,7 +32,7 @@ public class TransactionPlayground {
     private final TeacherRepo teacherRepo;
     private final ErrorLogRepo repo;
 
-    @Transactional
+    @Transactional // @TransactionAttribute
     public void firstTransaction() {
         log.debug("Function Begin");
 
@@ -43,8 +43,9 @@ public class TransactionPlayground {
         log.debug("ID nou: " + persistedId);
 
         ErrorLog error2 = repo.findById(persistedId).get();
-
         log.debug("Sunt aceeeai instanta ? " + (error2 == error));
+        ErrorLog error3 = repo.findById(persistedId).get();
+        log.debug("Sunt aceeeai instanta ? " + (error3 == error2));
 
         log.debug("Function End");
     }
