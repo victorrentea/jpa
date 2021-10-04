@@ -32,28 +32,19 @@ public class TransactionPlayground {
     private final TeacherRepo teacherRepo;
     private final ErrorLogRepo repo;
 
-    @Transactional
     public void firstTransaction() {
         log.debug("Function Begin");
 
         ErrorLog error = new ErrorLog("Halo!");
-        Set<ErrorLog> erori = new HashSet<>();
-
-        erori.add(error);
-
-        System.out.println(erori.contains(error));
-        System.out.println(error.hashCode());
-
         repo.save(error);
+        Long persistedId = error.getId();
 
-        System.out.println(error.hashCode());
-        System.out.println("WTF" + erori.contains(error));
-        erori.add(error);
+        log.debug("ID nou: " + persistedId);
 
-        System.out.println(erori.size());
-        System.out.println(erori);
+        ErrorLog error2 = repo.findById(persistedId).get();
 
-//        jdbc.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
+        log.debug("Sunt aceeeai instanta ? " + (error2 == error));
+
         log.debug("Function End");
     }
 
