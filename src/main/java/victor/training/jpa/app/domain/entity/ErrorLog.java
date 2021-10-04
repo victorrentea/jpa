@@ -35,16 +35,4 @@ public class ErrorLog {
       this.message = message;
    }
 
-   @Override
-   public boolean equals(Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
-      ErrorLog errorLog = (ErrorLog) o;
-      return Objects.equals(id, errorLog.id) && Objects.equals(message, errorLog.message);
-   }
-
-   @Override
-   public int hashCode() {
-      return Objects.hash(id, message);
-   }
 }
