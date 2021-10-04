@@ -12,8 +12,6 @@ import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.persistence.EntityManager;
-import javax.sql.DataSource;
-import java.sql.Connection;
 
 @Slf4j
 @Service
@@ -26,17 +24,27 @@ public class TransactionControlPlayground {
     private final AltService altService;
 
     @Transactional // deschide TX noua pentru ca inca nu exista una deschisa pe th curent
-    public void firstTransaction() {
+    public ErrorLog firstTransaction() {
         log.debug("Function Begin");
 
-        repo.save(new ErrorLog("Fara @Tr in jur"));
-        altService.metodaDeBiz();
+        ErrorLog e = new ErrorLog("Fara @Tr in jur");
+        repo.save(e);
+        try {
+            altService.metodaDeBiz();
+        } catch (Exception ex) {
+            // ce exceptie?!
+            secondTransaction(ex.getMessage());
+        }
 
+//        em.flush();
+        System.out.println(repo.count());// >> rezulta in SELECT * FROM ERROR_LOG >> il oblica pe Hib sa flush() la tot ce are
         log.debug("Function End");
+        return e;
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void secondTransaction() {
+    @Transactional(propagation = Propagation.REQUIRES_NEW) // NOT_SUPPORTED also works here
+    public void secondTransaction(String message) {
+        repo.save(new ErrorLog("Eroare: " + message));
         log.debug("Halo2!");
     }
 }
@@ -48,5 +56,8 @@ class AltService {
     @Transactional // prelua Tx deschisa la linia 28
     public void metodaDeBiz() {
         repo.save(new ErrorLog("#sieu"));
+        throw new RuntimeException("BUBA");
+        // daca o exceptie "strabate" un proxy de @Transactional ==> tx curenta este distrusa
+        // se marcheaza tx ca "rollback only"
     }
 }

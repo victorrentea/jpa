@@ -64,3 +64,5 @@ public class TransactionPlayground {
 //        repo.save(errorLog);
     }
 }
+// changing an entitate "attached" to a Persistence COntext bound to the current thread
+// is auto-flushed at the end of the current Tx

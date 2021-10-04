@@ -1,6 +1,5 @@
 package victor.training.jpa.app;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -10,7 +9,6 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import springfox.documentation.builders.PathSelectors;
@@ -59,9 +57,9 @@ public class JpaApplication {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
 		log.debug(" ========= FIRST TRANSACTION ========== ");
 		log.debug("Oare ce clasa mi-a injectat spring ? " + transactionPlayground.getClass());
-		transactionPlayground.firstTransaction();
+		transactionPlayground.firstTransaction().setMessage("nu conteaza");
 		log.debug(" ========= SECOND TRANSACTION ========== ");
-		transactionPlayground.secondTransaction();
+//		transactionPlayground.secondTransaction(ex.getMessage());
 		log.debug(" ========= END ========== ");
 
 //		log.debug("=== Merge:Persist init ===");
