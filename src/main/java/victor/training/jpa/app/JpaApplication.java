@@ -44,21 +44,21 @@ public class JpaApplication {
 
 	@Autowired
 	private DummyDataCreator dummyDataCreator;
-	@Autowired
-	private TransactionPlayground transactionPlayground;
-	@Autowired
-	private MergePlayground mergePlayground;
-	@Autowired
-	private LobPlayground lobPlayground;
+//	@Autowired
+//	private TransactionPlayground transactionPlayground;
+//	@Autowired
+//	private MergePlayground mergePlayground;
+//	@Autowired
+//	private LobPlayground lobPlayground;
 
 
 	@EventListener
 	public void onApplicationEvent(ContextRefreshedEvent event) throws IOException, SQLException {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
 		log.debug(" ========= FIRST TRANSACTION ========== ");
-		transactionPlayground.firstTransaction();
+//		transactionPlayground.firstTransaction();
 		log.debug(" ========= SECOND TRANSACTION ========== ");
-		transactionPlayground.secondTransaction();
+//		transactionPlayground.secondTransaction();
 		log.debug(" ========= END ========== ");
 
 //		log.debug("=== Merge:Persist init ===");
