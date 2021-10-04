@@ -44,7 +44,8 @@ public class TransactionPlayground {
 
         log.debug("ID nou: " + persistedId);
 
-        ErrorLog error2 = //repo.findById(persistedId).get();
+        ErrorLog error2 =
+//            repo.findById(persistedId).get();
             repo.customFind(persistedId);
         // orice query pe care Hibe trebuie sa-l trimita in
         // DB ca SQL va fi mereu precedat de un AUTO-FLUSH al PersistenceContext

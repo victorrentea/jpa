@@ -23,6 +23,8 @@ public class ErrorLog {
    @Column(nullable = false)
    private String message;
 
+   private String incaCeva;
+
 //   private List<ErrorComment> comments = new ArrayList<>();
 
 //   private Set<ErrorTag> tags = new HashSet<>();

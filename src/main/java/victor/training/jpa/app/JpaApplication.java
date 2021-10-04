@@ -45,7 +45,9 @@ public class JpaApplication {
 	@Autowired
 	private DummyDataCreator dummyDataCreator;
 	@Autowired
-	private TransactionPlayground transactionPlayground;
+	private TransactionControlPlayground transactionPlayground; // spring injecteaza un proxy
+	/// ( o subclasa generata dinamic care permite interceptarea tuturor metodelor public)
+
 //	@Autowired
 //	private MergePlayground mergePlayground;
 //	@Autowired
@@ -56,6 +58,7 @@ public class JpaApplication {
 	public void onApplicationEvent(ContextRefreshedEvent event) throws IOException, SQLException {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
 		log.debug(" ========= FIRST TRANSACTION ========== ");
+		log.debug("Oare ce clasa mi-a injectat spring ? " + transactionPlayground.getClass());
 		transactionPlayground.firstTransaction();
 		log.debug(" ========= SECOND TRANSACTION ========== ");
 		transactionPlayground.secondTransaction();
