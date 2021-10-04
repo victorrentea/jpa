@@ -17,7 +17,6 @@ import javax.persistence.OneToMany;
 
 @Getter
 @Setter
-@Entity
 public class StudentsGroup {
 	@Id
 	@GeneratedValue
@@ -25,13 +24,10 @@ public class StudentsGroup {
 
 	private String code;
 
-	@ManyToOne
 	private StudentsYear year;
 
-	@OneToMany(mappedBy = "group")
 	private Set<LabActivity> labs = new HashSet<>();
 	
-	@ElementCollection
 	private List<String> emails = new ArrayList<>();
 
 	public StudentsGroup() {

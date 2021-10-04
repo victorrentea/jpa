@@ -9,14 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 @Getter
 @Setter
-@Entity
 public class TeacherDetails {
 	
-	@Id
-	@GeneratedValue
 	private Long id;
 	
-	@Lob
 	private String cv;
 
 }
