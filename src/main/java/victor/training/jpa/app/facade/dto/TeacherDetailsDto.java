@@ -18,9 +18,9 @@ public class TeacherDetailsDto {
 		id = teacher.getId();
 		name = teacher.getName();
 		grade = teacher.getGrade();
-		if (teacher.getDetails() != null) {
-			cv = teacher.getDetails().getCv();
-		}
+//		if (teacher.getDetails() != null) {
+//			cv = teacher.getDetails().getCv();
+//		}
 //		counselingInterval = new TimeSlotDto(
 //				teacher.getCounselingDay(),
 //				teacher.getCounselingStartHour(),

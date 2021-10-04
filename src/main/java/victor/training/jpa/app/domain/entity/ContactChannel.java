@@ -1,14 +1,17 @@
 package victor.training.jpa.app.domain.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 @Getter
+@Embeddable
+@EqualsAndHashCode
 public class ContactChannel {
+//	@Id
+//	private Long id;
 
 	public enum Type {
 		PERSONAL_PHONE,
@@ -19,7 +22,7 @@ public class ContactChannel {
 		FACEBOOK,
 		LINKED_IN
 	}
-	
+
 	@Enumerated(EnumType.STRING)
 	private Type type;
 	

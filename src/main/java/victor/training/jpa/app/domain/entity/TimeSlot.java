@@ -1,11 +1,17 @@
 package victor.training.jpa.app.domain.entity;
 
+import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.PersistenceConstructor;
+
 import java.time.DayOfWeek;
+import java.util.Objects;
 
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+@EqualsAndHashCode
+@Embeddable // ~ Value Objects
 public class TimeSlot {
 
 	@Enumerated(EnumType.STRING)
@@ -18,13 +24,17 @@ public class TimeSlot {
 	
 	private String roomId;
 
-	protected TimeSlot() {}
+	private TimeSlot() {} // doar pt ochii lui Hibernate
 
 	public TimeSlot(DayOfWeek day, int startHour, int hours, String roomId) {
-		this.day = day;
+		this.day = Objects.requireNonNull(day);
 		this.startHour = startHour;
 		this.hours = hours;
-		this.roomId = roomId;
+		this.roomId = Objects.requireNonNull(roomId);
+	}
+
+	public int getEndHour() {
+		return startHour + hours;
 	}
 
 	public DayOfWeek getDay() {

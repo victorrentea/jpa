@@ -10,13 +10,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import victor.training.jpa.app.domain.entity.CourseActivity;
-import victor.training.jpa.app.domain.entity.LabActivity;
-import victor.training.jpa.app.domain.entity.StudentsGroup;
-import victor.training.jpa.app.domain.entity.StudentsYear;
-import victor.training.jpa.app.domain.entity.Subject;
-import victor.training.jpa.app.domain.entity.Teacher;
-import victor.training.jpa.app.domain.entity.TeacherDetails;
+import victor.training.jpa.app.domain.entity.*;
 
 @Component
 public class DummyDataCreator {
@@ -29,7 +23,7 @@ public class DummyDataCreator {
 		Teacher victor = new Teacher("Victor");
 		victor.setGrade(Teacher.Grade.ASSISTANT);
 		TeacherDetails teacherDetails = new TeacherDetails().setCv("A pimped CV");
-		victor.setDetails(teacherDetails);
+//		victor.setDetails(teacherDetails);
 //		victor.setCounselingDay(DayOfWeek.MONDAY);
 //		victor.setCounselingDurationInHours(1);
 //		victor.setCounselingRoomId("EF403");
@@ -49,27 +43,18 @@ public class DummyDataCreator {
 		subject.setHolderTeacher(victor);
 		CourseActivity course = new CourseActivity();
 		course.setSubject(subject);
-		course.setDay(DayOfWeek.MONDAY);
-		course.setStartHour(8);
-		course.setDurationInHours(3);
-		course.setRoomId("EC105");
+		course.setTimeSlot(new TimeSlot(DayOfWeek.MONDAY, 8, 3, "EC105"));
 		course.getTeachers().add(victor);
 		
 		LabActivity lab1 = new LabActivity();
 		lab1.setSubject(subject);
-		lab1.setDay(DayOfWeek.MONDAY);
-		lab1.setStartHour(11);
-		lab1.setDurationInHours(2);
-		lab1.setRoomId("EC202");
+		lab1.setTimeSlot(new TimeSlot(DayOfWeek.MONDAY, 11, 2, "EC202"));
 		lab1.getTeachers().add(bianca);
 		lab1.getTeachers().add(ionut);
 		
 		LabActivity lab2 = new LabActivity();
 		lab2.setSubject(subject);
-		lab2.setDay(DayOfWeek.TUESDAY);
-		lab2.setStartHour(11);
-		lab2.setDurationInHours(2);
-		lab2.setRoomId("EC203");
+		lab2.setTimeSlot(new TimeSlot(DayOfWeek.TUESDAY, 11, 2, "EC203"));
 		lab2.getTeachers().add(ionut);
 		
 		StudentsYear year = new StudentsYear("3CA");
