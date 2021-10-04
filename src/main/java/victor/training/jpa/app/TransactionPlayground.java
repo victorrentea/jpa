@@ -37,12 +37,17 @@ public class TransactionPlayground {
         log.debug("Function Begin");
 
         ErrorLog error = new ErrorLog("Halo!");
-        repo.save(error);
+        repo.save(error); // map.put(error.id, error);
+
+        error.setMessage("Slim Shady");
         Long persistedId = error.getId();
 
         log.debug("ID nou: " + persistedId);
 
-        ErrorLog error2 = repo.findById(persistedId).get();
+        ErrorLog error2 = //repo.findById(persistedId).get();
+            repo.customFind(persistedId);
+        // orice query pe care Hibe trebuie sa-l trimita in
+        // DB ca SQL va fi mereu precedat de un AUTO-FLUSH al PersistenceContext
         log.debug("Sunt aceeeai instanta ? " + (error2 == error));
         ErrorLog error3 = repo.findById(persistedId).get();
         log.debug("Sunt aceeeai instanta ? " + (error3 == error2));
@@ -53,6 +58,8 @@ public class TransactionPlayground {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void secondTransaction() {
         log.debug("Halo2!");
-        System.out.println(teacherRepo.findAll());
+        ErrorLog errorLog = repo.findById(1L).get();
+        errorLog.setMessage("Uau! Auto-flushing Uite modelul asta de lucru te cupleaza intr-adevar la Hiberate");
+//        repo.save(errorLog);
     }
 }

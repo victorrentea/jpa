@@ -21,4 +21,6 @@ public interface ErrorLogRepo extends JpaRepository<ErrorLog, Long> {
    @Procedure("PROC_MESSAGES") // this does NOT flush the Persistence Context
    void callProcedureViaJpa();
 
+   @Query("SELECT m FROM ErrorLog m WHERE m.id = ?1")
+   ErrorLog customFind(Long persistedId);
 }

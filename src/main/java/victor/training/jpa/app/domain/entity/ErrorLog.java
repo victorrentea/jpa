@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 import static javax.persistence.CascadeType.ALL;
@@ -17,6 +14,7 @@ import static javax.persistence.CascadeType.ALL;
 @Setter
 @Entity
 @ToString
+//@NamedQueries(@NamedQuery(name="ceva1", "SELECT "))
 public class ErrorLog {
    @Id
    @GeneratedValue
