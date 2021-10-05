@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.REFRESH;
 
 @Getter
 @Setter
@@ -29,7 +30,7 @@ public class ErrorLog {
 
 //   private List<ErrorComment> comments = new ArrayList<>();
 
-   @OneToMany // Vlad si Thorben te alearga la faza asta (fetch = FetchType.EAGER) // are send NUMAI SI NUMAI pentru Aggregate (DDD) - > private Entity
+   @OneToMany(cascade = ALL, orphanRemoval = true) // Vlad si Thorben te alearga la faza asta (fetch = FetchType.EAGER) // are send NUMAI SI NUMAI pentru Aggregate (DDD) - > private Entity
    @JoinColumn
    private Set<ErrorTag> tags = new HashSet<>();
 
