@@ -41,21 +41,44 @@ public class PersistMergePlayground {
     }
 
     public void secondTransaction() {
-        ErrorLog error = anotherClass.openEditDialog(1L);
+        ErrorLogDto dto = loadDto(1L);
+
+        // USERUL1
+        dto.incaCeva = "date";
+        dto.tags.get(0).label = "altTag";
+        // aici userul da clik si tasteaza in UI   20min
+
+        altu();
+
+        updateFlow(dto);
+
+    }
+
+    private void altu() {
+        // USERUL2
+        ErrorLogDto dto = loadDto(1L);
+        dto.message = "Mesaj updatat rapid (un user mai tanar)";
+        // aici userul da clik si tasteaza in UI in 2min
+        updateFlow(dto);
+    }
+
+    private ErrorLogDto loadDto(long id) {
+        ErrorLog error = anotherClass.openEditDialog(id);
         ErrorLogDto dto = new ErrorLogDto();
         dto.id = error.getId();
         dto.message = error.getMessage();
         dto.incaCeva = error.getIncaCeva();
+        dto.lastChange = error.getLastChange();
         dto.tags = error.getTags().stream().map(ErrorTagDto::new).collect(Collectors.toList());
+        return dto;
+    }
 
-        // in FE
-        dto.message = "Alt mesaj";
-        dto.tags.get(0).label = "altTag";
-
+    private void updateFlow(ErrorLogDto dto) {
         //mapez
         ErrorLog input = new ErrorLog(dto.message);
         input.setIncaCeva(dto.incaCeva);
         input.setId(dto.id);
+        input.setLastChange(dto.lastChange);
         input.setTags(dto.tags.stream().map(ErrorTagDto::toEntity).collect(Collectors.toSet()));
 
         anotherClass.update(input);
@@ -81,6 +104,7 @@ class ErrorLogDto {
     public List<ErrorTagDto> tags;
     public String incaCeva;
     public Long id;
+    public LocalDateTime lastChange;
 }
 
 @Component
@@ -88,6 +112,7 @@ class ErrorLogDto {
 class AnotherClassToGoThroughProxies {
     private final ErrorLogRepo repo;
     private final EntityManager em;
+    private final JdbcTemplate jdbc;
 
     public ErrorLog openEditDialog(long id) {
         return repo.queryCustomizat(id);
@@ -98,6 +123,7 @@ class AnotherClassToGoThroughProxies {
         existing.setMessage(newError.getMessage());
         existing.setIncaCeva(newError.getIncaCeva());
         existing.setTags(newError.getTags());
+        existing.setLastChange(newError.getLastChange());
         repo.save(existing); // save va face merge pentru ca error are ID setat DEJA
     }
 }

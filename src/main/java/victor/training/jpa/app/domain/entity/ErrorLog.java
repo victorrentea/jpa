@@ -37,6 +37,9 @@ public class ErrorLog {
    @JoinColumn
    private Set<ErrorTag> tags = new HashSet<>();
 
+   @Version
+   private LocalDateTime lastChange;
+
    private ErrorLog() {
    }
    public ErrorLog(String message) {
@@ -45,6 +48,6 @@ public class ErrorLog {
 
 
    public void setMessage(String message) {
-      this.message = Objects.requireNonNull(message);
+      this.message = Objects.requireNonNull(message.trim());
    }
 }
