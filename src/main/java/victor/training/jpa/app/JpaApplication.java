@@ -17,6 +17,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import victor.training.jpa.app.common.data.EntityRepositoryFactoryBean;
+import victor.training.jpa.app.domain.entity.ErrorLog;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -43,7 +44,8 @@ public class JpaApplication {
 	@Autowired
 	private DummyDataCreator dummyDataCreator;
 	@Autowired
-	private TransactionControlPlayground transactionPlayground; // spring injecteaza un proxy
+	private TransactionPlayground transactionPlayground; // spring injecteaza un proxy
+//	private TransactionControlPlayground transactionPlayground; // spring injecteaza un proxy
 	/// ( o subclasa generata dinamic care permite interceptarea tuturor metodelor public)
 
 //	@Autowired
@@ -57,9 +59,9 @@ public class JpaApplication {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
 		log.debug(" ========= FIRST TRANSACTION ========== ");
 		log.debug("Oare ce clasa mi-a injectat spring ? " + transactionPlayground.getClass());
-		transactionPlayground.firstTransaction().setMessage("nu conteaza");
+		transactionPlayground.firstTransaction();//.setMessage("nu conteaza");
 		log.debug(" ========= SECOND TRANSACTION ========== ");
-//		transactionPlayground.secondTransaction(ex.getMessage());
+		transactionPlayground.secondTransaction();
 		log.debug(" ========= END ========== ");
 
 //		log.debug("=== Merge:Persist init ===");

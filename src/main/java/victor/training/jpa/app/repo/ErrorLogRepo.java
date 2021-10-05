@@ -23,4 +23,7 @@ public interface ErrorLogRepo extends JpaRepository<ErrorLog, Long> {
 
    @Query("SELECT m FROM ErrorLog m WHERE m.id = ?1")
    ErrorLog customFind(Long persistedId);
+
+   @Query("SELECT e FROM ErrorLog e LEFT JOIN FETCH e.tags")
+   ErrorLog queryCustomizat(Long id);
 }
