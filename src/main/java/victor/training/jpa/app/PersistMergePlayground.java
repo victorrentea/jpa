@@ -35,9 +35,17 @@ public class PersistMergePlayground {
 
         ErrorTag child = new ErrorTag("tag");
         error.getTags().add(child);
+        System.out.println("Inainte de save: " + error.getId());
         repo.save(error); // face persist ca ID= null
+        System.out.println("Dupa de save: " + error.getId());
 
         log.debug("Function End");
+    }
+
+    @Transactional
+    public void method() {
+        ErrorLog log = repo.findById(1L).get();
+        log.setMessage("nimic dupa");
     }
 
     public void secondTransaction() {
@@ -50,7 +58,7 @@ public class PersistMergePlayground {
 
         altu();
 
-        updateFlow(dto);
+//        updateFlow(dto); // crashes with ex
 
     }
 

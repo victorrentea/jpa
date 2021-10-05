@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.CascadeType.REFRESH;
@@ -19,10 +20,12 @@ import static javax.persistence.CascadeType.REFRESH;
 @Entity
 @ToString
 //@NamedQueries(@NamedQuery(name="ceva1", "SELECT "))
+@SequenceGenerator(name = "ErrorLogSeq", sequenceName = "ERROR_LOG_SEQ")
 public class ErrorLog {
    @Id
-   @GeneratedValue
+   @GeneratedValue(generator = "ErrorLogSeq")
    private Long id;
+//   private String id = UUID.randomUUID().toString();
 
    @Column(nullable = false)
    private String message;

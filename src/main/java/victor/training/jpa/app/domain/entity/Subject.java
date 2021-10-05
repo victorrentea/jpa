@@ -36,7 +36,7 @@ public class Subject implements Trackable { // SOLUTION
 	private String name;
 	
 	private boolean active;
-	
+
 	@ManyToOne
 	private Teacher holderTeacher;
 	
