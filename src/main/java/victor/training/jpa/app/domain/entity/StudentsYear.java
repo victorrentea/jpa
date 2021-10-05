@@ -17,6 +17,7 @@ import javax.persistence.OrderColumn;
 
 @Getter
 @Setter
+@Entity
 public class StudentsYear {
 
 	@Id
@@ -25,8 +26,11 @@ public class StudentsYear {
 	
 	private String code;
 	
+	@OneToMany(mappedBy = "year", orphanRemoval = true, cascade = CascadeType.ALL)
+	@OrderColumn(name = "POSITION")
 	private List<StudentsGroup> groups = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "year")
 	private Set<CourseActivity> courses = new HashSet<>();
 
 	public StudentsYear() {

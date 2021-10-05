@@ -15,14 +15,19 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @Setter
+@Entity
+@DiscriminatorColumn(name = "DISCR")
+@EntityListeners(AuditingEntityListener.class)
 public abstract class TeachingActivity {
 	
 	@Id
 	@GeneratedValue
 	private Long id;
 	
+	@ManyToOne
 	private Subject subject;
 	
+	@Enumerated(EnumType.STRING)
 	private DayOfWeek day;
 	
 	private Integer startHour;
@@ -31,10 +36,14 @@ public abstract class TeachingActivity {
 	
 	private String roomId;
 	
+	@LastModifiedDate
 	private LocalDateTime lastModifiedDate;
 	
+	@LastModifiedBy
 	private String lastModifiedBy;
 	
+	@ManyToMany
+//	@OrderColumn(name="INDEX") + the collection must become List
 	private Set<Teacher> teachers = new HashSet<>();
 	
 }

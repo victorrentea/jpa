@@ -25,7 +25,10 @@ import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 
 @Getter
 @Setter
-public class Subject {
+@Entity
+@EntityListeners(MyTrackingEntityListener.class) // SOLUTION
+//public class Subject { // INITIAL
+public class Subject implements Trackable { // SOLUTION
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -34,14 +37,16 @@ public class Subject {
 	
 	private boolean active;
 	
+	@ManyToOne
 	private Teacher holderTeacher;
 	
+	@OneToMany(mappedBy="subject")
 	private List<TeachingActivity> activities = new ArrayList<>();
 	
-//	@LastModifiedDate
+	@LastModifiedDate
 	private LocalDateTime lastModifiedDate;
 	
-//	@LastModifiedBy
+	@LastModifiedBy
 	private String lastModifiedBy;
 
 	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {

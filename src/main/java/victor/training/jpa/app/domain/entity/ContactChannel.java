@@ -7,6 +7,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+@Embeddable
 @Getter
 public class ContactChannel {
 

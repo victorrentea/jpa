@@ -44,8 +44,9 @@ public class JpaApplication {
 	@Autowired
 	private DummyDataCreator dummyDataCreator;
 	@Autowired
-	private TransactionPlayground transactionPlayground; // spring injecteaza un proxy
-//	private TransactionControlPlayground transactionPlayground; // spring injecteaza un proxy
+	private PersistMergePlayground playground; // spring injecteaza un proxy
+//	private TransactionPlayground playground; // spring injecteaza un proxy
+//	private TransactionControlPlayground playground; // spring injecteaza un proxy
 	/// ( o subclasa generata dinamic care permite interceptarea tuturor metodelor public)
 
 //	@Autowired
@@ -58,10 +59,10 @@ public class JpaApplication {
 	public void onApplicationEvent(ContextRefreshedEvent event) throws IOException, SQLException {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
 		log.debug(" ========= FIRST TRANSACTION ========== ");
-		log.debug("Oare ce clasa mi-a injectat spring ? " + transactionPlayground.getClass());
-		transactionPlayground.firstTransaction();//.setMessage("nu conteaza");
+		log.debug("Oare ce clasa mi-a injectat spring ? " + playground.getClass());
+//		playground.firstTransaction();//.setMessage("nu conteaza");
 		log.debug(" ========= SECOND TRANSACTION ========== ");
-		transactionPlayground.secondTransaction();
+//		playground.secondTransaction();
 		log.debug(" ========= END ========== ");
 
 //		log.debug("=== Merge:Persist init ===");

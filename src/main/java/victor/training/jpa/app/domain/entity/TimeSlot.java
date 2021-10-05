@@ -6,6 +6,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+@Embeddable
 public class TimeSlot {
 
 	@Enumerated(EnumType.STRING)
