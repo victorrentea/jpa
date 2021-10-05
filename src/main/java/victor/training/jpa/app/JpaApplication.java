@@ -60,9 +60,9 @@ public class JpaApplication {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
 		log.debug(" ========= FIRST TRANSACTION ========== ");
 		log.debug("Oare ce clasa mi-a injectat spring ? " + playground.getClass());
-//		playground.firstTransaction();//.setMessage("nu conteaza");
+		playground.firstTransaction();//.setMessage("nu conteaza");
 		log.debug(" ========= SECOND TRANSACTION ========== ");
-//		playground.secondTransaction();
+		playground.secondTransaction();
 		log.debug(" ========= END ========== ");
 
 //		log.debug("=== Merge:Persist init ===");
