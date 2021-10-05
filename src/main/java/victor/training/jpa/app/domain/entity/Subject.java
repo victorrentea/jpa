@@ -4,12 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import lombok.Data;
 import lombok.Getter;
@@ -26,6 +21,7 @@ import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 @Getter
 @Setter
 @Entity
+//@NamedQueries(@NamedQuery(name="q1", query = "SELECT s FROM Subject s LEFT JOIN FETCH s.students WHERE s.holderTeacher.name = ?1"))
 @EntityListeners(MyTrackingEntityListener.class) // SOLUTION
 //public class Subject { // INITIAL
 public class Subject implements Trackable { // SOLUTION
