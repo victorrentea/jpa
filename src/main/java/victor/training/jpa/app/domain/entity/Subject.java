@@ -4,7 +4,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.Data;
 import lombok.Getter;
@@ -20,7 +25,6 @@ import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 
 @Getter
 @Setter
-@Entity
 public class Subject {
 	@Id
 	@GeneratedValue
@@ -29,11 +33,9 @@ public class Subject {
 	private String name;
 	
 	private boolean active;
-
-	@ManyToOne
+	
 	private Teacher holderTeacher;
-
-	@Transient
+	
 	private List<TeachingActivity> activities = new ArrayList<>();
 	
 //	@LastModifiedDate

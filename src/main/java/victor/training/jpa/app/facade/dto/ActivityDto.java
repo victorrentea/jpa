@@ -11,9 +11,7 @@ public class ActivityDto {
 	public ActivityDto(TeachingActivity activity) {
 		id = activity.getId();
 		type = activity.getClass().getSimpleName();
-//		timeSlot =  new TimeSlotDto(activity.getTimeSlot().getDay(),
-//			activity.getTimeSlot().getDurationInHours(),
-//			activity.getDurationInHours(), activity.getRoomId());
+		timeSlot =  new TimeSlotDto(activity.getDay(), activity.getDurationInHours(), activity.getDurationInHours(), activity.getRoomId());
 	}
 }
 
