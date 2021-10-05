@@ -93,10 +93,11 @@ class AnotherClassToGoThroughProxies {
         return repo.queryCustomizat(id);
     }
 
-    public void update(ErrorLog error) {
-        ErrorLog existing = repo.findById(error.getId()).get();
-        error.setCreatedAt(existing.getCreatedAt()); // propag campul ascuns care nu e editabil
-//        em.merge(error);
-        repo.save(error); // save va face merge pentru ca error are ID setat DEJA
+    public void update(ErrorLog newError) {
+        ErrorLog existing = repo.findById(newError.getId()).get();
+        existing.setMessage(newError.getMessage());
+        existing.setIncaCeva(newError.getIncaCeva());
+        existing.setTags(newError.getTags());
+        repo.save(existing); // save va face merge pentru ca error are ID setat DEJA
     }
 }
