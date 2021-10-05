@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -28,16 +29,22 @@ public class ErrorLog {
 
    private String incaCeva;
 
+   private LocalDateTime createdAt;
+
 //   private List<ErrorComment> comments = new ArrayList<>();
 
    @OneToMany(cascade = ALL, orphanRemoval = true) // Vlad si Thorben te alearga la faza asta (fetch = FetchType.EAGER) // are send NUMAI SI NUMAI pentru Aggregate (DDD) - > private Entity
    @JoinColumn
    private Set<ErrorTag> tags = new HashSet<>();
 
-   public ErrorLog() {
+   private ErrorLog() {
    }
    public ErrorLog(String message) {
-      this.message = message;
+      setMessage(message);
    }
 
+
+   public void setMessage(String message) {
+      this.message = Objects.requireNonNull(message);
+   }
 }

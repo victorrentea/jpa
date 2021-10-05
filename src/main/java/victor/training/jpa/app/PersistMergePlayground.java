@@ -12,6 +12,7 @@ import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,7 @@ public class PersistMergePlayground {
     public void firstTransaction() {
         log.debug("Function Begin");
         ErrorLog error = new ErrorLog("mesaj");
+        error.setCreatedAt(LocalDateTime.now());
 
         ErrorTag child = new ErrorTag("tag");
         error.getTags().add(child);
@@ -51,8 +53,7 @@ public class PersistMergePlayground {
         dto.tags.get(0).label = "altTag";
 
         //mapez
-        ErrorLog input = new ErrorLog();
-        input.setMessage(dto.message);
+        ErrorLog input = new ErrorLog(dto.message);
         input.setIncaCeva(dto.incaCeva);
         input.setId(dto.id);
         input.setTags(dto.tags.stream().map(ErrorTagDto::toEntity).collect(Collectors.toSet()));
@@ -93,6 +94,8 @@ class AnotherClassToGoThroughProxies {
     }
 
     public void update(ErrorLog error) {
+        ErrorLog existing = repo.findById(error.getId()).get();
+        error.setCreatedAt(existing.getCreatedAt()); // propag campul ascuns care nu e editabil
 //        em.merge(error);
         repo.save(error); // save va face merge pentru ca error are ID setat DEJA
     }
