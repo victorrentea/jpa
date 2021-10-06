@@ -14,6 +14,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.transaction.TestTransaction;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -21,6 +22,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,29 +40,33 @@ public class NPlusOneTest {
 	@BeforeEach
 	public void persistData() {
 		parentRepo.deleteAll();
-		em.persist(new Parent("Victor")
+		parentRepo.save(new Parent("Victor")
 				.addChild(new Child("Emma"))
 				.addChild(new Child("Vlad"))
 		);
-		em.persist(new Parent("Peter")
+		parentRepo.save(new Parent("Peter")
 				.addChild(new Child("Maria"))
 				.addChild(new Child("Stephan"))
 				.addChild(new Child("Paul"))
 		);
 
-		em.flush();
-		em.clear();
 	}
 
 	@Test
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public void nPlusOne() {
-		List<Parent> parents = em.createQuery("SELECT p FROM Parent p", Parent.class).getResultList();
+		List<Parent> parents = em.createQuery("SELECT  DISTINCT  p FROM Parent p" +
+														  " LEFT JOIN FETCH p.children "
+				, Parent.class)
+			.setFirstResult(0).setMaxResults(4) // pag 1 max 4 parinti >>> LIMIT OFFSET
+			.getResultList() // daca ai in baza 10M de randuri >>
+			;
+//			.getResultStream().collect(Collectors.toSet());
+//		repo.findAll();
 
 		int totalChildren = anotherMethod(parents);
 		assertThat(totalChildren).isEqualTo(5);
 	}
-
-
 
 
 	private int anotherMethod(Collection<Parent> parents) {
