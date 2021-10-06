@@ -25,7 +25,6 @@ import java.sql.SQLException;
 @SpringBootApplication
 @EnableJpaRepositories(repositoryFactoryBeanClass = EntityRepositoryFactoryBean.class)
 @EnableJpaAuditing
-@EnableTransactionManagement/*(mode = AdviceMode.ASPECTJ)*/
 @Slf4j
 @EnableSwagger2
 //-javaagent:spring-instrument.jar -javaagent:aspectjweaver.jar

@@ -18,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import victor.training.jpa.app.domain.entity.*;
 import victor.training.jpa.app.facade.dto.ContactChannelDto;
 import victor.training.jpa.app.facade.dto.StudentsGroupDto;
@@ -26,9 +29,10 @@ import victor.training.jpa.app.facade.dto.SubjectWithActivitiesDto;
 import victor.training.jpa.app.facade.dto.TeacherDetailsDto;
 import victor.training.jpa.app.facade.dto.TimeSlotDto;
 import victor.training.jpa.app.facade.dto.YearWithGroupsDto;
+import victor.training.jpa.app.repo.TeacherRepo;
 import victor.training.jpa.app.util.MyUtil;
 
-@Service
+@RestController
 @Transactional
 public class TheFacade {
 	private final static Logger log = LoggerFactory.getLogger(TheFacade.class);
@@ -38,23 +42,39 @@ public class TheFacade {
 	
 	@Autowired
 	private AnotherService anotherService;
-	
+
+	@Autowired
+	private TeacherRepo teacherRepo;
+
 	@Autowired
 	private NonTransactedService nonTransactedService;
-	
-	
+
+	// Object references a transient object.  Cascade or .persist ?
+	@PostMapping("teacher")
+	public Long createTeacher(@RequestBody TeacherDetailsDto teacherDto) {
+		Teacher entity = new Teacher();
+		entity.setName(teacherDto.name);
+		entity.setGrade(teacherDto.grade);
+		TimeSlot timeSlot = new TimeSlot(teacherDto.day,
+			teacherDto.startHour,
+			teacherDto.durationInHours,
+			teacherDto.roomId);
+		entity.setCounselingSlot(timeSlot);
+		TeacherDetails details = new TeacherDetails().setCv(teacherDto.cv);
+		entity.setDetails(details);
+		teacherRepo.save(entity);
+		em.persist(details);
+		return entity.getId();
+	}
+
 	// 1. persist. when IDs are assigned?
 	// 2. link existing entity from DB. check != null
 	// 3. getReference
 	public Long createSubject(SubjectDto subjectDto) {
 		return null;
 	}
-	
-	// Object references a transient object.  Cascade or .persist ?
-	public Long createTeacher(TeacherDetailsDto teacherDto) {
-		return null;
-	}
-	
+
+
 	// 1. TODO observe: auto flush at Tx end
 	// 2. TODO EntityManager = 1st level cache (see logged SQLs). return the Subject from checkPermissions and compare them with ==
 	// 3. TODO If not Transaction -> no save. Use propagation=NOT_SUPPORTED or readOnly=true

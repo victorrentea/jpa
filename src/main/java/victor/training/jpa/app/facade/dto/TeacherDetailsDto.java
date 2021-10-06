@@ -3,14 +3,20 @@ package victor.training.jpa.app.facade.dto;
 import victor.training.jpa.app.domain.entity.Teacher;
 import victor.training.jpa.app.domain.entity.Teacher.Grade;
 
+import java.time.DayOfWeek;
+
 public class TeacherDetailsDto {
 
 	public Long id;
 	public String name;
 	public String cv;
 	public Grade grade;
-	public TimeSlotDto counselingInterval;
-	
+
+	public DayOfWeek day;
+	public int startHour;
+	public int durationInHours;
+	public String roomId;
+
 	public TeacherDetailsDto() {
 	}
 	

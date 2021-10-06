@@ -19,7 +19,7 @@ public class TimeSlot {
 	
 	private String roomId;
 
-	protected TimeSlot() {}
+	protected TimeSlot() {} // pt cand il crreaza Hib din baza
 
 	public TimeSlot(DayOfWeek day, int startHour, int hours, String roomId) {
 		this.day = day;
