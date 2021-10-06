@@ -1,5 +1,6 @@
 package victor.training.jpa.perf;
 
+import lombok.Value;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.Arrays;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -51,12 +54,20 @@ public class UberEntityTest {
         TestTransaction.start();
 
         log.info("Now, loading by id...");
-        UberEntity uberEntity = em.find(UberEntity.class, uber.getId());
+//        UberEntity uberEntity = em.find(UberEntity.class, uber.getId());
+
+        List<UberEntitySearchResultDto> results = repo.search();
+
         log.info("Loaded");
         // imagine a search screen result table
         // |id| name | origin country name | CNP |
         // TODO fetch only the necessary data: name s
         // TODO change link types?
-        System.out.println(uberEntity.toString());
+        for (UberEntitySearchResultDto result : results) {
+            System.out.println("Adus: " + result);
+        }
     }
+    @Autowired
+    private UberRepo repo;
 }
+
