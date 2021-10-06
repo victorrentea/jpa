@@ -6,5 +6,6 @@ import lombok.Value;
 public class UberEntitySearchResultDto {
    Long id;
    String name;
+   String originCountryName;
    String cnp;
 }
