@@ -47,24 +47,12 @@ public class TheFacade {
 	// 2. link existing entity from DB. check != null
 	// 3. getReference
 	public Long createSubject(SubjectDto subjectDto) {
-		Subject subject = new Subject();
-		subject.setName(subjectDto.name);
-		subject.setHolderTeacher(em.find(Teacher.class, subjectDto.holderTeacherId));
-		log.debug("ID before persist: " + subject.getId());
-		em.persist(subject);
-		return subject.getId();
+		return null;
 	}
 	
 	// Object references a transient object.  Cascade or .persist ?
 	public Long createTeacher(TeacherDetailsDto teacherDto) {
-		Teacher teacher = new Teacher();
-		teacher.setName(teacherDto.name);
-		teacher.setGrade(teacherDto.grade);
-		TeacherDetails details = new TeacherDetails();
-		details.setCv(teacherDto.cv);
-		teacher.setDetails(details);
-		em.persist(teacher);
-		return teacher.getId();
+		return null;
 	}
 	
 	// 1. TODO observe: auto flush at Tx end
@@ -73,9 +61,6 @@ public class TheFacade {
 	// 4. lock PESSIMISTIC_WRITE ==>  SELECT FOR UPDATE
 	public void updateSubject(SubjectDto subjectDto) {
 		anotherService.checkPermissionsOnSubject(subjectDto.id);
-		Subject subject = em.find(Subject.class, subjectDto.id, LockModeType.PESSIMISTIC_WRITE); // SELECT FOR UPDATE
-		subject.setName(subjectDto.name);
-		subject.setHolderTeacher(em.find(Teacher.class, subjectDto.holderTeacherId));
 	}
 
 	// Remember to set OWNER side (not mappedBy side) of a relation!
@@ -83,10 +68,6 @@ public class TheFacade {
 	public long addLab(long subjectId, TimeSlotDto timeSlotDto) {
 		LabActivity lab = new LabActivity();
 		// TODO introduce @Embeddable in the TeachingActivity. Refactor here
-		lab.setDay(timeSlotDto.day);
-		lab.setDurationInHours(timeSlotDto.durationInHours);
-		lab.setStartHour(timeSlotDto.startHour);
-		lab.setRoomId(timeSlotDto.roomId);
 
 		// TODO save the new lab for the given subject
 		// TODO try em.getReference / repo.getOne
@@ -97,8 +78,6 @@ public class TheFacade {
 	}
 
 	public void assignTeacherToLab(long teacherId, long labId) {
-		LabActivity lab = em.find(LabActivity.class, labId); // TODO replace with Repos
-		Teacher teacher = em.find(Teacher.class, teacherId);
 		// TODO
 		// Remember to update OWNER side (not mappedBy side) of a relation!
 	}

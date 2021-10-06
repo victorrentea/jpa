@@ -22,8 +22,9 @@ public class SearchTest {
 
    @Test
    public void search() {
-      repo.save(new Teacher("a"));
+      Long id = repo.save(new Teacher("a")).getId();
       List<TeacherSearchResult> results = repo.searchCriteriaMetamodel(criteria);
+      System.out.println(repo.findById(id));
       assertThat(results).hasSize(1);
    }
    @Test

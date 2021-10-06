@@ -1,21 +1,15 @@
 package victor.training.jpa.app.repo;
 
-import java.time.DayOfWeek;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Stream;
-
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
-
-import victor.training.jpa.app.common.data.EntityRepository;
-import victor.training.jpa.app.domain.entity.Subject;
+import org.springframework.data.repository.Repository;
 import victor.training.jpa.app.domain.entity.Teacher;
 
-public interface TeacherRepo extends EntityRepository<Teacher, Long>, TeacherRepoCustom,
+public interface TeacherRepo extends Repository<Teacher, Long>, TeacherRepoCustom,
     JpaSpecificationExecutor<Teacher> {
 
+   Teacher save(Teacher teacher);
+
+   Teacher findById(Long id);
 //	@Query("SELECT DISTINCT a.day FROM Teacher t JOIN t.activities a WHERE t.id=?1")
 //	public Set<DayOfWeek> getBusyDaysOfTeacher(long teacherId);
 //
@@ -32,7 +26,5 @@ public interface TeacherRepo extends EntityRepository<Teacher, Long>, TeacherRep
 //	// TODO make return null!
 //	Optional<Teacher> findByName(String name);
 
-
-   Stream<Teacher> streamBy(Specification<Teacher> spec);
 
 }

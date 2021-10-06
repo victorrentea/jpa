@@ -30,6 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @SuppressWarnings("deprecation")
     @Bean
     public UserDetailsService userDetailsService() {
+        System.out.println("AA");
         UserDetails userDetails = User.withDefaultPasswordEncoder()
                 .username("user")
                 .password("user")

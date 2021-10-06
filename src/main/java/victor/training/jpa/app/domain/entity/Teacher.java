@@ -32,7 +32,7 @@ public class Teacher {
 	private Grade grade;
 	
 	// fetch=LAZY or invert the link to retrieve details by teacher via repo
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@OneToOne
 	private TeacherDetails details;
 	
 	@ElementCollection
