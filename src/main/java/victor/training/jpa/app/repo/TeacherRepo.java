@@ -8,6 +8,7 @@ public interface TeacherRepo extends Repository<Teacher, Long>, TeacherRepoCusto
     JpaSpecificationExecutor<Teacher> {
 
    Teacher save(Teacher teacher);
+   Teacher getOne(Long id);
 
    Teacher findById(Long id);
 //	@Query("SELECT DISTINCT a.day FROM Teacher t JOIN t.activities a WHERE t.id=?1")

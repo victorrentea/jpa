@@ -16,5 +16,6 @@ public class TimeSlotDto {
 		this.durationInHours = durationInHours;
 		this.roomId = roomId;
 	}
-	
+//	setStatus(newStatus)
+//	activate();
 }

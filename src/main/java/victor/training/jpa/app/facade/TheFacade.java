@@ -3,6 +3,7 @@ package victor.training.jpa.app.facade;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,11 +17,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import victor.training.jpa.app.domain.entity.*;
 import victor.training.jpa.app.facade.dto.ContactChannelDto;
 import victor.training.jpa.app.facade.dto.StudentsGroupDto;
@@ -29,6 +29,8 @@ import victor.training.jpa.app.facade.dto.SubjectWithActivitiesDto;
 import victor.training.jpa.app.facade.dto.TeacherDetailsDto;
 import victor.training.jpa.app.facade.dto.TimeSlotDto;
 import victor.training.jpa.app.facade.dto.YearWithGroupsDto;
+import victor.training.jpa.app.repo.LabRepo;
+import victor.training.jpa.app.repo.SubjectRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 import victor.training.jpa.app.util.MyUtil;
 
@@ -45,6 +47,8 @@ public class TheFacade {
 
 	@Autowired
 	private TeacherRepo teacherRepo;
+	@Autowired
+	private SubjectRepo subjectRepo;
 
 	@Autowired
 	private NonTransactedService nonTransactedService;
@@ -60,18 +64,45 @@ public class TheFacade {
 			teacherDto.durationInHours,
 			teacherDto.roomId);
 		entity.setCounselingSlot(timeSlot);
-		TeacherDetails details = new TeacherDetails().setCv(teacherDto.cv);
-		entity.setDetails(details);
+		entity.setDetails(new TeacherDetails().setCv(teacherDto.cv));
 		teacherRepo.save(entity);
-		em.persist(details);
 		return entity.getId();
 	}
 
 	// 1. persist. when IDs are assigned?
 	// 2. link existing entity from DB. check != null
 	// 3. getReference
-	public Long createSubject(SubjectDto subjectDto) {
-		return null;
+	@PostMapping("subject")
+	public Long createSubject(@RequestBody SubjectDto subjectDto) {
+		Subject subject = new Subject(subjectDto.name);
+
+
+		// face SELECT in DB DEGEABA pt ca eu in SUBJECT
+		// am nevoie doar sa iNsert teacher_id
+		// nu e o problema majora pt endpointuri web
+//		Teacher teacher = teacherRepo.findById(subjectDto.holderTeacherId);;
+
+		// nu face SELECT
+		Teacher teacher = teacherRepo.getOne(subjectDto.holderTeacherId); // proxy
+
+		subject.setHolderTeacher(teacher);
+
+		return subjectRepo.save(subject).getId();
+	}
+	@GetMapping("subject/{id}")
+	public SubjectDto getSubject(@PathVariable Long id) {
+		//daca in toata app dupa findById faci .get sau .orElseThrows
+//		Subject subject = subjectRepo.findById(id).get(); // code smell
+
+		Subject entity = subjectRepo.getExactlyOne(id);
+
+		SubjectDto dto = new SubjectDto();
+		dto.id = entity.getId();
+		dto.name = entity.getName();
+		dto.holderTeacherId = entity.getHolderTeacher().getId();
+		dto.lastModifiedDate = entity.getLastModifiedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		dto.lastModifiedByUsername = entity.getLastModifiedBy();
+		return dto;
 	}
 
 
@@ -79,16 +110,25 @@ public class TheFacade {
 	// 2. TODO EntityManager = 1st level cache (see logged SQLs). return the Subject from checkPermissions and compare them with ==
 	// 3. TODO If not Transaction -> no save. Use propagation=NOT_SUPPORTED or readOnly=true
 	// 4. lock PESSIMISTIC_WRITE ==>  SELECT FOR UPDATE
-	public void updateSubject(SubjectDto subjectDto) {
+	@PutMapping("subject")
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
+	public void updateSubject(@RequestBody SubjectDto subjectDto) {
 		anotherService.checkPermissionsOnSubject(subjectDto.id);
+		Subject entity = subjectRepo.getExactlyOne(subjectDto.id);
+
+		entity.setName(subjectDto.name);
+		entity.setHolderTeacher(teacherRepo.getOne(subjectDto.holderTeacherId));
+		subjectRepo.save(entity); // merge
 	}
 
 	// Remember to set OWNER side (not mappedBy side) of a relation!
 
 	public long addLab(long subjectId, TimeSlotDto timeSlotDto) {
 		LabActivity lab = new LabActivity();
-		// TODO introduce @Embeddable in the TeachingActivity. Refactor here
 
+		lab.setSubject(subjectRepo.getOne(subjectId));
+		lab.setTimeSlot(new TimeSlot(timeSlotDto.day, timeSlotDto.startHour, timeSlotDto.durationInHours, timeSlotDto.roomId));
+		em.persist(lab);
 		// TODO save the new lab for the given subject
 		// TODO try em.getReference / repo.getOne
 		return lab.getId();
@@ -97,10 +137,21 @@ public class TheFacade {
 		// TODO using 1) EntityManager 2) Spring Data Repo 3) @Query("DELETE WHERE") - jpql
 	}
 
-	public void assignTeacherToLab(long teacherId, long labId) {
+	@PostMapping("/teacher/{teacherId}/lab/{labId}")
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
+	public void assignTeacherToLab(@PathVariable long teacherId, @PathVariable long labId) {
 		// TODO
-		// Remember to update OWNER side (not mappedBy side) of a relation!
+		LabActivity lab = labRepo.getExactlyOne(labId);
+		Teacher teacher = teacherRepo.findById(teacherId);
+
+		lab.addTeacher(teacher);
+
+		labRepo.save(lab);
+		teacherRepo.save(teacher);
 	}
+
+	@Autowired
+	private LabRepo labRepo;
 
 	public void removeTeacherFromLab(long teacherId, long labId) {
 		// TODO

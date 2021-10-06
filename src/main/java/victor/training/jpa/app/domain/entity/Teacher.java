@@ -6,16 +6,16 @@ import lombok.Setter;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.*;
+
+import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @Getter
 @Setter
+@SequenceGenerator(name="TeacherSeq", sequenceName = "TEACHER_SEQ")
 public class Teacher {
 
 	public enum Grade {
@@ -23,7 +23,7 @@ public class Teacher {
 	}
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(generator = "TeacherSeq")
 	private Long id;
 
 	private String name;
@@ -32,7 +32,7 @@ public class Teacher {
 	private Grade grade;
 	
 	// fetch=LAZY or invert the link to retrieve details by teacher via repo
-	@OneToOne
+	@OneToOne(cascade = ALL)
 	private TeacherDetails details;
 	
 	@ElementCollection
@@ -44,14 +44,18 @@ public class Teacher {
 	private Set<Subject> heldSubjects = new HashSet<>() ;
 	
 	@ManyToMany(mappedBy = "teachers")
-	private Set<TeachingActivity> activities = new HashSet<>();
+	Set<TeachingActivity> activities = new HashSet<>();
 
 	@Embedded
 	private TimeSlot counselingSlot;
 
 	public Teacher() {
 	}
-	
+
+	public Set<TeachingActivity> getActivities() {
+		return Collections.unmodifiableSet(activities);
+	}
+
 	public Teacher(String name) {
 		this.name = name;
 	}

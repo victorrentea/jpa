@@ -1,6 +1,7 @@
 package victor.training.jpa.app.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import victor.training.jpa.app.domain.entity.ErrorLog;

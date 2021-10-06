@@ -14,6 +14,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import victor.training.jpa.app.util.MyTrackingEntityListener;
 import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 
@@ -22,7 +23,8 @@ import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 @Setter
 @Entity
 //@NamedQueries(@NamedQuery(name="q1", query = "SELECT s FROM Subject s LEFT JOIN FETCH s.students WHERE s.holderTeacher.name = ?1"))
-@EntityListeners(MyTrackingEntityListener.class) // SOLUTION
+//@EntityListeners(MyTrackingEntityListener.class) // SOLUTION
+@EntityListeners(AuditingEntityListener.class)
 //public class Subject { // INITIAL
 public class Subject implements Trackable { // SOLUTION
 	@Id
