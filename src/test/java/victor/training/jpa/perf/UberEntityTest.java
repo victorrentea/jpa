@@ -39,7 +39,7 @@ public class UberEntityTest {
 
         UberEntity uber = new UberEntity()
                 .setFiscalCountry(romania)
-                .setOriginCountry(romania)
+                .setOriginCountryId(romania.getId())
                 .setInvoicingCountry(romania)
                 .setCreatedBy(testUser)
                 .setNationality(romania)
@@ -53,7 +53,9 @@ public class UberEntityTest {
         log.info("Now, loading by id...");
         UberEntity uberEntity = em.find(UberEntity.class, uber.getId());
         log.info("Loaded");
-        // TODO fetch only the necessary data
+        // imagine a search screen result table
+        // |id| name | origin country name | CNP |
+        // TODO fetch only the necessary data: name s
         // TODO change link types?
         System.out.println(uberEntity.toString());
     }

@@ -12,8 +12,9 @@ public class UberEntity {
     private Long id;
     private String name;
     private String firstName, lastName, ibanCode, cnp, ssn, passportNumber;
-    @ManyToOne
-    private Country originCountry;
+//    @ManyToOne
+//    private Country originCountry;
+    private Long originCountryId; // adaugi FK manual la schema generata
     @ManyToOne
     private Country nationality;
     @ManyToOne
@@ -38,8 +39,8 @@ public class UberEntity {
         return this;
     }
 
-    public UberEntity setOriginCountry(Country originCountry) {
-        this.originCountry = originCountry;
+    public UberEntity setOriginCountryId(Long originCountryId) {
+        this.originCountryId = originCountryId;
         return this;
     }
 
@@ -68,9 +69,17 @@ public class UberEntity {
         return this;
     }
 
-    public Country getOriginCountry() {
-        return originCountry;
+    public Long getOriginCountryId() {
+        return originCountryId;
     }
+}
+
+@Entity
+class Region {
+    @Id
+    @GeneratedValue
+    private Long id;
+    private String name;
 }
 
 @Entity
@@ -78,7 +87,8 @@ class Country {
     @Id
     private Long id;
     private String name;
-    private String region;
+    @ManyToOne
+    private Region region;
     private String continent;
     private int population;
     private Country() {
