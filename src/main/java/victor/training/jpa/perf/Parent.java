@@ -13,7 +13,6 @@ public class Parent {
     @Id
     @GeneratedValue
     private Long id;
-
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL)

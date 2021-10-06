@@ -55,13 +55,22 @@ public class NPlusOneTest {
 	@Test
 	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public void nPlusOne() {
-		List<Parent> parents = em.createQuery("SELECT  DISTINCT  p FROM Parent p" +
-														  " LEFT JOIN FETCH p.children "+
-														  " LEFT JOIN FETCH p.children2 "
+		List<Parent> parents = em.createQuery("SELECT  DISTINCT  p FROM Parent p"
+//														  + " LEFT JOIN FETCH p.children "
 				, Parent.class)
 			.setFirstResult(0).setMaxResults(4) // pag 1 max 4 parinti >>> LIMIT OFFSET
 			.getResultList() // daca ai in baza 10M de randuri >>
 			;
+
+		List allChildren = em.createQuery("SELECT c FROM Child c WHERE c.id IN (:parentIds)")
+			.setParameter("parentIds", parents.stream().map(Parent::getId).collect(Collectors.toList()))
+			.getResultList();
+
+		System.out.println(allChildren);
+
+		// paginare pe parinti
+
+
 //			.getResultStream().collect(Collectors.toSet());
 //		repo.findAll();
 
