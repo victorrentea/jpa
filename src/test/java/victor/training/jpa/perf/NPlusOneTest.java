@@ -65,8 +65,7 @@ public class NPlusOneTest {
 //		List allChildren = em.createQuery("SELECT c FROM Child c WHERE c.id IN (:parentIds)")
 //			.setParameter("parentIds", parents.stream().map(Parent::getId).collect(Collectors.toList()))
 //			.getResultList();
-
-		System.out.println(allChildren);
+//		System.out.println(allChildren);
 
 		// paginare pe parinti
 
