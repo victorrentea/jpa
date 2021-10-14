@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
-public interface EntityRepository<T, ID extends Serializable> extends JpaRepository<T, ID> {
+public interface CustomJpaRepository<T, ID extends Serializable> extends JpaRepository<T, ID> {
     
     void detach(T oldRecord);
 

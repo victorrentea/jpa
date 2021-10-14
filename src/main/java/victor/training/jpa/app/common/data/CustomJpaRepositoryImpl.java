@@ -4,20 +4,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
-import org.springframework.data.repository.core.RepositoryInformation;
 
-public class EntityRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements EntityRepository<T, ID> {
+public class CustomJpaRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements CustomJpaRepository<T, ID> {
 
     protected EntityManager entityManager;
     
-    public EntityRepositoryImpl(JpaEntityInformation<T,?> entityInformation, EntityManager entityManager) {
+    public CustomJpaRepositoryImpl(JpaEntityInformation<T,?> entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
         this.entityManager = entityManager;
     }

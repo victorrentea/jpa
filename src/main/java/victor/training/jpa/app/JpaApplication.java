@@ -1,6 +1,5 @@
 package victor.training.jpa.app;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -10,7 +9,6 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import springfox.documentation.builders.PathSelectors;
@@ -18,13 +16,13 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-import victor.training.jpa.app.common.data.EntityRepositoryFactoryBean;
+import victor.training.jpa.app.common.data.CustomJpaRepositoryFactoryBean;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 @SpringBootApplication
-@EnableJpaRepositories(repositoryFactoryBeanClass = EntityRepositoryFactoryBean.class)
+@EnableJpaRepositories(repositoryFactoryBeanClass = CustomJpaRepositoryFactoryBean.class)
 @EnableJpaAuditing
 @EnableTransactionManagement/*(mode = AdviceMode.ASPECTJ)*/
 @Slf4j
