@@ -9,7 +9,6 @@ import victor.training.jpa.app.domain.entity.Teacher.Grade;
 import java.util.List;
 
 import static victor.training.jpa.app.repo.TeacherSpecifications.*;
-import static victor.training.jpa.app.repo.TeacherSpecifications.hasGrade;
 
 @RequiredArgsConstructor
 @Service
