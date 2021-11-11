@@ -1,6 +1,7 @@
 package victor.training.jpa.app.repo;
 
 import java.time.DayOfWeek;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -26,7 +27,12 @@ public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, Teacher
 	@Query("SELECT DISTINCT a.subject FROM TeachingActivity a WHERE a.roomId=?1")
 	public Set<Subject> getSubjectsInRoom(String roomId);
 
+
 	// TODO make return null!
 	Optional<Teacher> findByName(String name);
 
+	@Query("SELECT t FROM TeachingActivity a JOIN a.teachers t WHERE "
+			 + "a.id IN (SELECT c.id FROM StudentsYear y JOIN y.courses c WHERE y.id = ?1) "
+			 + "OR a.id IN (SELECT lab.id FROM StudentsYear y JOIN y.groups g JOIN g.labs lab WHERE y.id = ?1)")
+	List<Teacher> getAllTeachersForYear(long yearId);
 }

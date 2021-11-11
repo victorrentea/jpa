@@ -18,6 +18,6 @@ public class BusinessClass {
 
    public void method() {
       List<Teacher> teachers = teacherRepo.findAll(
-            hasGrade(Grade.CONF).or(hasNameLike("a")));
+          hasGradeSpec(Grade.CONF).or(hasNameLikeSpec("a")));
    }
 }

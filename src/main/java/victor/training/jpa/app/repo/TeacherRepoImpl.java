@@ -3,6 +3,7 @@ package victor.training.jpa.app.repo;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
+import org.springframework.data.jpa.domain.Specification;
 import victor.training.jpa.app.domain.entity.Teacher;
 import victor.training.jpa.app.domain.entity.Teacher.Grade;
 import victor.training.jpa.app.domain.entity.Teacher_;
@@ -30,31 +31,40 @@ public class TeacherRepoImpl implements TeacherRepoCustom {
    private EntityManager em;
 
    // TODO do a mistake in JPQL
-   public List<Teacher> getAllTeachersForYear(long yearId) {
-      TypedQuery<Teacher> query = em.createQuery("SELECT t FROM TeachingActivity a JOIN a.teachers t WHERE "
-                                                 + "a.id IN (SELECT c.id FROM StudentsYear y JOIN y.courses c WHERE y.id = :yearId) "
-                                                 + "OR a.id IN (SELECT lab.id FROM StudentsYear y JOIN y.groups g JOIN g.labs lab WHERE y.id = :yearId)",
-          Teacher.class);
-      query.setParameter("yearId", yearId);
-      return query.getResultList();
-   }
+
+//
+//   public List<Teacher> getAllTeachersForYear(long yearId) {
+//      TypedQuery<Teacher> query = em.createQuery(
+//          "SELECT t FROM TeachingActivity a JOIN a.teachers t WHERE "
+//          + "a.id IN (SELECT c.id FROM StudentsYear y JOIN y.courses c WHERE y.id = :yearId) "
+//          + "OR a.id IN (SELECT lab.id FROM StudentsYear y JOIN y.groups g JOIN g.labs lab WHERE y.id = :yearId)",
+//          Teacher.class);
+//      query.setParameter("yearId", yearId);
+//      return query.getResultList();
+//   }
 
    @Override
    public List<Teacher> search(TeacherSearchCriteria searchCriteria) { // TODO query directly TeacherSearchResult objects
-      String jpql = "SELECT t FROM Teacher t WHERE 1=1";
+      List<String> jpql= new ArrayList<>();
+      jpql.add("SELECT new t FROM Teacher t WHERE 1=1");
       Map<String, Object> params = new HashMap<>();
 
+
       if (searchCriteria.name != null) {
-         jpql += " AND UPPER(t.name) LIKE UPPER('%' || :name || '%') ";
+         jpql.add("AND UPPER(t.name) LIKE UPPER('%' || :name || '%')");
          params.put("name", searchCriteria.name);
       }
 
       if (searchCriteria.grade != null) {
-         jpql += " AND t.grade = :grade ";
+         jpql.add("AND t.grade = :grade");
          params.put("grade", searchCriteria.grade);
       }
+//      if (searchCriteria.grade != null) {
+//         jpql.add("AND EXISTS (SELECT * FROM Students s where t IN s.teachers)");
+//         params.put("grade", searchCriteria.grade);
+//      }
 
-      TypedQuery<Teacher> query = em.createQuery(jpql, Teacher.class);
+      TypedQuery<Teacher> query = em.createQuery(String.join("    ", jpql), Teacher.class);
       for (String param : params.keySet()) {
          query.setParameter(param, params.get(param));
       }
@@ -66,7 +76,7 @@ public class TeacherRepoImpl implements TeacherRepoCustom {
       BooleanExpression pred = Expressions.TRUE;
 
       if (searchCriteria.grade != null) {
-         pred = pred.and(teacher.grade.eq(searchCriteria.grade));
+         pred = pred.and(teacher.grade2.eq(searchCriteria.grade));
       }
       if (searchCriteria.name != null) {
          pred = pred.and(teacher.name.upper()
@@ -89,11 +99,11 @@ public class TeacherRepoImpl implements TeacherRepoCustom {
       List<Predicate> predicates = new ArrayList<>();
 
       if (searchCriteria.grade != null) {
-         predicates.add(hasGrade(searchCriteria.grade, cb, root));
+         predicates.add(hasGrade(cb, root, searchCriteria.grade));
       }
 
       if (searchCriteria.name != null) {
-         predicates.add(hasNameLike(searchCriteria.name, cb, root));
+         predicates.add(hasNameLike(cb, root, searchCriteria.name));
       }
 
       criteriaQuery.select(cb.construct(
@@ -107,13 +117,26 @@ public class TeacherRepoImpl implements TeacherRepoCustom {
       return em.createQuery(criteriaQuery).getResultList();
    }
 
-   private Predicate hasNameLike(String name, CriteriaBuilder cb, Root<Teacher> root) {
+   private Predicate hasNameLike(CriteriaBuilder cb, Root<Teacher> root, String name) {
       return cb.like(cb.upper(root.get(Teacher_.name)), "%" + name.toUpperCase() + "%");
    }
 
-   private Predicate hasGrade(Grade grade, CriteriaBuilder cb, Root<Teacher> root) {
+   private Predicate hasGrade(CriteriaBuilder cb, Root<Teacher> root, Grade grade) {
       return cb.equal(root.get(Teacher_.grade), grade);
    }
+
+
+
+   public static java.util.function.Predicate<Teacher> hasNameLikePred(String name) {
+      return t -> t.getName().equals(name);
+   }
+
+
+   private Predicate hasGradeSpec(CriteriaBuilder cb, Root<Teacher> root, Grade grade) {
+      return cb.equal(root.get(Teacher_.grade), grade);
+   }
+
+
 
 }
 

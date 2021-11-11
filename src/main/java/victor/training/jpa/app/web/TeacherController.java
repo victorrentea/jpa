@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import victor.training.jpa.app.domain.entity.Teacher;
 import victor.training.jpa.app.facade.TheFacade;
 import victor.training.jpa.app.facade.dto.ContactChannelDto;
 import victor.training.jpa.app.facade.dto.TeacherDetailsDto;
@@ -52,7 +53,11 @@ public class TeacherController {
 		return facade.getTeacherChannels(teacherId);
 	}
 	@PutMapping("{teacherId}/channels")
+
+
 	public void setTeacherContactChannels(@PathVariable long teacherId, @RequestBody List<ContactChannelDto> channelDtos) {
+		Teacher teacher = teacherRepo.getExactlyOne(teacherId);// arunca eL exceptie daca nu gaseste id
+
 		facade.setTeacherChannels(teacherId, channelDtos);
 	}
 
