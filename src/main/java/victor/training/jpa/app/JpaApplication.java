@@ -41,8 +41,6 @@ public class JpaApplication {
 	}
 
 	@Autowired
-	private DummyDataCreator dummyDataCreator;
-	@Autowired
 	private TransactionPlayground transactionPlayground;
 	@Autowired
 	private MergePlayground mergePlayground;
@@ -50,7 +48,7 @@ public class JpaApplication {
 	private LobPlayground lobPlayground;
 
 
-	@EventListener
+//	@EventListener
 	public void onApplicationEvent(ContextRefreshedEvent event) throws IOException, SQLException {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
 		log.debug(" ========= FIRST TRANSACTION ========== ");

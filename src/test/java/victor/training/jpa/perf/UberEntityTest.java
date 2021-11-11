@@ -1,7 +1,6 @@
 package victor.training.jpa.perf;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
 @Rollback(false)

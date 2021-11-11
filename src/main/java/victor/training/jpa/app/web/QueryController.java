@@ -3,6 +3,7 @@ package victor.training.jpa.app.web;
 import static java.util.stream.Collectors.toList;
 
 import java.time.DayOfWeek;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -58,7 +59,8 @@ public class QueryController {
 	
 	@GetMapping("/years/{yearId}/teachers")	
 	public List<TeacherDto> getAllTeachersForYear(@PathVariable long yearId) {
-		return teacherRepo.getAllTeachersForYear(yearId).stream().map(TeacherDto::new).collect(toList());
+//		return teacherRepo.getAllTeachersForYear(yearId).stream().map(TeacherDto::new).collect(toList());
+		return Collections.emptyList();
 	}
 	
 }

@@ -8,7 +8,5 @@ import victor.training.jpa.app.facade.dto.ActivitySearchCriteria;
 import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
 
 public interface TeacherRepoCustom {
-	List<Teacher> getAllTeachersForYear(long yearId);
-
 	List<Teacher> search(TeacherSearchCriteria searchCriteria);
 }

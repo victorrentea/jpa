@@ -4,8 +4,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,7 +18,6 @@ import javax.persistence.*;
 import java.time.DayOfWeek;
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
 public class ImmutableEmbeddableTest {
    @Autowired
    private MutableEntityService service;
