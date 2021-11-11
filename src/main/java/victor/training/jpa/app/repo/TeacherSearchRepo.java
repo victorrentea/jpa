@@ -1,14 +1,12 @@
 package victor.training.jpa.app.repo;
 
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
-import victor.training.jpa.app.domain.entity.CourseActivity;
-import victor.training.jpa.app.domain.entity.CourseActivity_;
-import victor.training.jpa.app.domain.entity.Teacher;
-import victor.training.jpa.app.domain.entity.Teacher_;
+import victor.training.jpa.app.domain.entity.*;
 import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
 import victor.training.jpa.app.facade.dto.TeacherSearchResult;
 
@@ -16,9 +14,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.springframework.data.domain.Sort.Direction.ASC;
+import static victor.training.jpa.app.domain.entity.QCourseActivity.courseActivity;
 import static victor.training.jpa.app.domain.entity.QTeacher.teacher;
 
 @Repository
@@ -94,7 +96,7 @@ public class TeacherSearchRepo {
          Root<CourseActivity> subqueryRoot = subquery.from(CourseActivity.class);
          SetJoin<CourseActivity, Teacher> join = subqueryRoot.join(CourseActivity_.teachers);
          subquery.where(cb.equal(root.get(Teacher_.id), join.get(Teacher_.id)));
-         predicates.add(cb.exists(subquery));
+         predicates.add(cb.exists(subquery.select(cb.literal(1))));
       }
       // Exception on the way: java.lang.IllegalStateException: No explicit selection and an implicit one could not be determined
 
@@ -111,13 +113,22 @@ public class TeacherSearchRepo {
       if (searchCriteria.grade != null) {
          spec = spec.and(TeacherSpecifications.hasGrade(searchCriteria.grade));
       }
+      if (searchCriteria.teachingCourses) {
+         spec = spec.and(TeacherSpecifications.teachingCourses());
+      }
       // xtra: pagination
       return teacherRepo.findAll(spec, PageRequest.of(0, 10, ASC, "name")).getContent();
    }
+
    public List<Teacher> queryDSL(TeacherSearchCriteria searchCriteria) {
       JPAQuery<?> query = new JPAQuery<Void>(entityManager);
-      List<com.querydsl.core.types.Predicate> predicates = new ArrayList<>();
 
+      QTeacher teacher = QTeacher.teacher;
+      JPAQuery<Teacher> outerQuery = query.select(teacher)
+          .from(teacher);
+
+
+      List<com.querydsl.core.types.Predicate> predicates = new ArrayList<>();
       if (searchCriteria.grade != null) {
          predicates.add(teacher.grade.eq(searchCriteria.grade));
       }
@@ -125,9 +136,17 @@ public class TeacherSearchRepo {
          predicates.add(teacher.name.upper()
              .like("%" + searchCriteria.name.toUpperCase() + "%"));
       }
+      if (searchCriteria.teachingCourses) {
+         QTeacher tt = new QTeacher("tt");
 
-      return query.select(teacher)
-          .from(teacher)
+         predicates.add(new JPAQuery<Integer>()
+             .select(Expressions.constant(1))
+             .from(courseActivity)
+             .join(courseActivity.teachers, tt)
+             .where(tt.id.eq(teacher.id)).exists());
+      }
+
+      return outerQuery
           .where(predicates.toArray(new com.querydsl.core.types.Predicate[0]))
           .fetchAll()
           .fetch();

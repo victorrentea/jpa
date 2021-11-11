@@ -1,9 +1,15 @@
 package victor.training.jpa.app.repo;
 
 import org.springframework.data.jpa.domain.Specification;
+import victor.training.jpa.app.domain.entity.CourseActivity;
+import victor.training.jpa.app.domain.entity.CourseActivity_;
 import victor.training.jpa.app.domain.entity.Teacher;
 import victor.training.jpa.app.domain.entity.Teacher.Grade;
 import victor.training.jpa.app.domain.entity.Teacher_;
+
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.SetJoin;
+import javax.persistence.criteria.Subquery;
 
 public class TeacherSpecifications {
    public static Specification<Teacher> all() {
@@ -16,5 +22,14 @@ public class TeacherSpecifications {
 
    public static Specification<Teacher> hasGrade(Grade grade) {
       return (root, query, cb) -> cb.equal(root.get(Teacher_.grade), grade);
+   }
+   public static Specification<Teacher> teachingCourses() {
+      return (root, query, cb) -> {
+         Subquery<Integer> subquery = query.subquery(Integer.class);
+         Root<CourseActivity> subqueryRoot = subquery.from(CourseActivity.class);
+         SetJoin<CourseActivity, Teacher> join = subqueryRoot.join(CourseActivity_.teachers);
+         subquery.where(cb.equal(root.get(Teacher_.id), join.get(Teacher_.id)));
+         return cb.exists(subquery.select(cb.literal(1)));
+      };
    }
 }
