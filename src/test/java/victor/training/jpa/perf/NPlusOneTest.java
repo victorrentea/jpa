@@ -27,6 +27,9 @@ public class NPlusOneTest {
 
 	@BeforeEach
 	public void persistData() {
+
+
+//		WrappedConnection { Connection conn } /// reflection
 		parentRepo.deleteAll();
 		em.persist(new Parent("Victor")
 				.addChild(new Child("Emma"))

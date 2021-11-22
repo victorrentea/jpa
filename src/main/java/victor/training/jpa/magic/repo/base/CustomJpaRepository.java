@@ -10,7 +10,7 @@ public interface CustomJpaRepository<T, ID extends Serializable> extends JpaRepo
    /**
     * @param id the PK to lookup
     * @return the Entity. Never null.
-    * @throws javax.persistence.EntityNotFoundException when ID not found ind DB
+    * @throws javax.persistence.EntityNotFoundException when ID not found in DB
     */
    T findOneById(ID id);
 }

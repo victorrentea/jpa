@@ -16,13 +16,10 @@ public class CustomJpaRepositoryImpl<T, ID extends Serializable> extends SimpleJ
         this.entityManager = entityManager;
     }
 
-
-
 	@Override
 	public T findOneById(ID id) {
-		return findById(id)
-                .orElseThrow(() ->
-                        new EntityNotFoundException("No " + getDomainClass().getSimpleName() + " with id " + id));
+		return findById(id).orElseThrow(() ->
+               new EntityNotFoundException("No " + getDomainClass().getSimpleName() + " with id " + id));
 	}
 	
 }
