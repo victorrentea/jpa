@@ -55,7 +55,7 @@ public class Magic /*extends AbstractAggregateRoot*/ {
 
    public void perform() {
       EventPublisherHolder.getEventPublisher().publish(new MagicHappenedEvent(name));
-      registerEvent(new MagicHappenedEvent(name));
+//      registerEvent(new MagicHappenedEvent(name));
 //      domainEvents.add(new MagicHappenedEvent(name));
    }
 
