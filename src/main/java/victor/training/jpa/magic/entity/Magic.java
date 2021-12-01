@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.domain.AbstractAggregateRoot;
 import org.springframework.data.domain.DomainEvents;
 import victor.training.jpa.magic.event.DomainEvent;
 import victor.training.jpa.magic.event.MagicHappenedEvent;
@@ -27,7 +28,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Data
 @NoArgsConstructor(access = PRIVATE)
 //@EntityListeners(AuditingEntityListener.class) or global via orm.xml
-public class Magic {
+public class Magic /*extends AbstractAggregateRoot*/ {
    @Id
    @GeneratedValue
    private Long id;
@@ -54,6 +55,7 @@ public class Magic {
 
    public void perform() {
       EventPublisherHolder.getEventPublisher().publish(new MagicHappenedEvent(name));
+      registerEvent(new MagicHappenedEvent(name));
 //      domainEvents.add(new MagicHappenedEvent(name));
    }
 
