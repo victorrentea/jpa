@@ -17,11 +17,8 @@ public class Product {
    @Lob
    private String description;
 
-   private int shippingDaysEst;
-   private int shippingCost;
-   private boolean shippingToEasyBox;
-   private String shippingProvider;
-   private boolean shippingViaRegularPostOption;
+   @Embedded
+   private ShippingDetails shippingDetails;
 
    private boolean returnable;
    private int returnMaxDays;
@@ -31,7 +28,8 @@ public class Product {
    @Enumerated(EnumType.STRING)
    private ProductCategory category;
 
-   @ManyToOne
-   private Supplier supplier;
+//   @ManyToOne
+//   private Supplier supplier;
+   private Long supplierId; // ! leave the FK in DB of course
 
 }
