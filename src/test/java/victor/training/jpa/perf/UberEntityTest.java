@@ -8,9 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
+import victor.training.jpa.perf.entity.Country;
+import victor.training.jpa.perf.entity.Scope;
+import victor.training.jpa.perf.entity.UberEntity;
+import victor.training.jpa.perf.entity.User;
 
 import javax.persistence.EntityManager;
 

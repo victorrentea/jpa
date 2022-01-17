@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
+import victor.training.jpa.perf.entity.Comment;
+import victor.training.jpa.perf.entity.Post;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -31,12 +31,12 @@ public class QueryOnViewTest {
 
    @BeforeEach
    public void persistData() {
-      em.persist(new Parent("Victor")
-          .addChild(new Child("Emma").setAge(7))
-          .addChild(new Child("Vlad").setAge(3))
+      em.persist(new Post("Victor")
+          .addComment(new Comment("Emma"))
+          .addComment(new Comment("Vlad"))
       );
-      em.persist(new Parent("Sanda")
-          .addChild(new Child("Maria").setAge(10))
+      em.persist(new Post("Sanda")
+          .addComment(new Comment("Maria"))
       );
    }
 
@@ -66,7 +66,7 @@ class ParentSearchView {
 
 interface ParentSearchRepo extends JpaRepository<ParentSearchView, Long> {
    @Query("SELECT pv " +
-          " FROM ParentSearchView pv JOIN Parent p ON pv.id = p.id " +
+          " FROM ParentSearchView pv JOIN Post p ON pv.id = p.id " +
           " JOIN p.children c" +
           " WHERE c.age < 3") // you can go back to your Entity to select via your entity model
    List<ParentSearchView> queryViaRootEntityModel();

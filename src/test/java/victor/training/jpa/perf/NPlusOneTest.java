@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+import victor.training.jpa.perf.entity.Comment;
+import victor.training.jpa.perf.entity.Post;
+import victor.training.jpa.perf.repo.PostRepo;
 
 import javax.persistence.EntityManager;
 import java.util.Collection;
@@ -21,46 +24,43 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class NPlusOneTest {
 
 	@Autowired
-	private EntityManager em;
+	private EntityManager entityManager;
 	@Autowired
-	private ParentRepo parentRepo;
+	private PostRepo postRepo;
 
 	@BeforeEach
 	public void persistData() {
-
-
-//		WrappedConnection { Connection conn } /// reflection
-		parentRepo.deleteAll();
-		em.persist(new Parent("Victor")
-				.addChild(new Child("Emma"))
-				.addChild(new Child("Vlad"))
+		postRepo.deleteAll();
+		entityManager.persist(new Post("ORM Mapping")
+				.addComment(new Comment("Obvious"))
+				.addComment(new Comment("Useful"))
 		);
-		em.persist(new Parent("Peter")
-				.addChild(new Child("Maria"))
-				.addChild(new Child("Stephan"))
-				.addChild(new Child("Paul"))
+		entityManager.persist(new Post("JPA Performance")
+				.addComment(new Comment("Obvious"))
+				.addComment(new Comment("Cool"))
+				.addComment(new Comment("Great"))
 		);
 
-		em.flush();
-		em.clear();
+		entityManager.flush();
+		entityManager.clear();
 	}
 
 	@Test
 	public void nPlusOne() {
-		List<Parent> parents = em.createQuery("SELECT p FROM Parent p", Parent.class).getResultList();
+		List<Post> posts = entityManager.createQuery("SELECT p FROM Post p", Post.class).getResultList();
 
-		int totalChildren = anotherMethod(parents);
+		int totalChildren = countComments(posts);
 		assertThat(totalChildren).isEqualTo(5);
 	}
 
 
 
 
-	private int anotherMethod(Collection<Parent> parents) {
-		log.debug("Start iterating over {} parents: {}", parents.size(), parents);
+	private int countComments(Collection<Post> posts) {
+		log.debug("Start iterating over {} parents: {}", posts.size(), posts);
 		int total = 0;
-		for (Parent parent : parents) {
-			total += parent.getChildren().size();
+		for (Post post : posts) {
+			total += post.getComments().size();
 		}
 		log.debug("Done counting: {} children", total);
 		return total;
