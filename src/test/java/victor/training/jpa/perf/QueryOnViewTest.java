@@ -1,6 +1,5 @@
 package victor.training.jpa.perf;
 
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,11 +12,10 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.perf.entity.Comment;
 import victor.training.jpa.perf.entity.Post;
+import victor.training.jpa.perf.repo.PostRepo;
+import victor.training.jpa.perf.repo.PostSearchViewRepo;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.List;
 
 @Slf4j
@@ -25,7 +23,7 @@ import java.util.List;
 @Transactional
 public class QueryOnViewTest {
    @Autowired
-   private ParentSearchRepo searchRepo;
+   private PostSearchViewRepo searchRepo;
    @Autowired
    private EntityManager em;
 
@@ -40,34 +38,19 @@ public class QueryOnViewTest {
       );
    }
 
+
    @Test
-   @Sql("/create-view.sql")
+//   @Sql("/create-view.sql")
    public void entityOnView() {
       searchRepo.findAll().forEach(System.out::println);
 
       Assertions.assertThat(searchRepo.findAll())
-          .anyMatch(ps -> ps.getChildrenNames().contains("Vlad,Emma"));
+          .anyMatch(ps -> ps.getCommentTitles().contains("Vlad,Emma"));
 
       Assertions.assertThat(searchRepo.queryViaRootEntityModel())
           .hasSize(1)
-          .anyMatch(ps -> ps.getChildrenNames().contains("Vlad,Emma"));
+          .anyMatch(ps -> ps.getCommentTitles().contains("Vlad,Emma"));
    }
-}
-@Table(name = "PARENT_SEARCH_VIEW")
-@Entity
-@Data
-class ParentSearchView {
-   @Id
-   private Long id;
-   private String name;
-   private String childrenNames;
+
 }
 
-
-interface ParentSearchRepo extends JpaRepository<ParentSearchView, Long> {
-   @Query("SELECT pv " +
-          " FROM ParentSearchView pv JOIN Post p ON pv.id = p.id " +
-          " JOIN p.children c" +
-          " WHERE c.age < 3") // you can go back to your Entity to select via your entity model
-   List<ParentSearchView> queryViaRootEntityModel();
-}

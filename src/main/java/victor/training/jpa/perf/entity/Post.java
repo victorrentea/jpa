@@ -35,7 +35,7 @@ public class Post {
     private PostType postType;
 
     @OneToMany(cascade = ALL)
-    @JoinColumn
+    @JoinColumn(name = "POST_ID")
     private Set<Comment> comments = new HashSet<>();
 
     private LocalDate publishDate;

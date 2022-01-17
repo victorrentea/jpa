@@ -1,11 +1,13 @@
 package victor.training.jpa.perf;
 
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.perf.entity.Comment;
 import victor.training.jpa.perf.entity.Post;
@@ -26,21 +28,22 @@ public class NPlusOneTest {
 	@Autowired
 	private EntityManager entityManager;
 	@Autowired
-	private PostRepo postRepo;
+	private PostRepo repo;
 
 	@BeforeEach
 	public void persistData() {
-		postRepo.deleteAll();
-		entityManager.persist(new Post("ORM Mapping")
+		repo.deleteAll();
+		repo.save(new Post("ORM Mapping")
 				.addComment(new Comment("Obvious"))
-				.addComment(new Comment("Useful"))
+				.addComment(new Comment("Duh!"))
 		);
-		entityManager.persist(new Post("JPA Performance")
-				.addComment(new Comment("Obvious"))
+		repo.save(new Post("JPA Performance")
+				.addComment(new Comment("Wow"))
 				.addComment(new Comment("Cool"))
 				.addComment(new Comment("Great"))
 		);
 
+		// emulate separate future transaction
 		entityManager.flush();
 		entityManager.clear();
 	}
@@ -53,17 +56,16 @@ public class NPlusOneTest {
 		assertThat(totalChildren).isEqualTo(5);
 	}
 
-
-
-
 	private int countComments(Collection<Post> posts) {
-		log.debug("Start iterating over {} parents: {}", posts.size(), posts);
+		log.debug("Start iterating over {} posts: {}", posts.size(), posts);
 		int total = 0;
 		for (Post post : posts) {
 			total += post.getComments().size();
 		}
-		log.debug("Done counting: {} children", total);
+		log.debug("Done counting: {} comments", total);
 		return total;
 	}
+
+
 
 }
