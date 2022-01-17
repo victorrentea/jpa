@@ -28,7 +28,7 @@ public class UberEntityTest {
     private EntityManager entityManager;
 
     private Country romania = new Country(1L, "Romania");
-    private User testUser = new User(1L,"test");
+    private User testUser = new User("test");
     private Scope globalScope = new Scope(1L,"Global");
 
     @Test

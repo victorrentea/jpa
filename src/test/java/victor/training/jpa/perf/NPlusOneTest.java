@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 @SpringBootTest
 @Transactional
-@Rollback(false) // allow data to remain in DB for later inspection. useful for demos: avoid in normal tests
+@Rollback(false) // allow data to remain in DB for later inspection. useful for demos, but avoid pushing it on your project `remote`: leaves state in DB
 public class NPlusOneTest {
 	@Autowired
 	private EntityManager entityManager;

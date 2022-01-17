@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-public class Comment {
+public class Comment implements Comment1 {
     @Id
     @GeneratedValue
     private Long id;

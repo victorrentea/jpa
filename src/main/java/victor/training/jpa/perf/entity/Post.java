@@ -14,15 +14,19 @@ import static javax.persistence.EnumType.STRING;
 @Setter
 @Getter
 @Entity
-public class Post {
+@NamedEntityGraphs({
 
+@NamedEntityGraph(name = "Post.forCommenters",
+    attributeNodes = @NamedAttributeNode(value = "comments", subgraph = "comment"),
+    subgraphs = {@NamedSubgraph(name = "comment", attributeNodes = @NamedAttributeNode("user"))}),
+})
+public class Post implements Post1{
     public enum PostType {
         THOUGHT,
         QUICK_TIP,
         BEST_PRACTICES,
-        PHILOSOPHY
+        PHILOSOPHY;
     }
-
     @Id
     @GeneratedValue
     private Long id;
@@ -40,8 +44,11 @@ public class Post {
 
     private LocalDate publishDate;
 
-    @ManyToOne
-    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User author;
+
+    @ManyToMany
+    private Set<Tag> tags = new HashSet<>();
 
     public Post() {
     }
@@ -53,5 +60,13 @@ public class Post {
     public Post addComment(Comment comment) {
         comments.add(comment);
         return this;
+    }
+
+    public boolean isHeavilyCommented() {
+        return comments.size() > 10;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
     }
 }

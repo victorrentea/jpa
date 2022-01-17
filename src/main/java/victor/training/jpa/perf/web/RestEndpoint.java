@@ -26,11 +26,13 @@ public class RestEndpoint {
    @Autowired
    private PostRepo postRepo;
 
+   // TODO in interface I need title + author name + number of comments
    @GetMapping
    @Transactional
    public Page<Post> query() {
 //      Page<Post> page = postRepo.findByTitleLike("%os%", PageRequest.of(0, 20));
 
+      // TODO delete below
       Page<Long> idPage = postRepo.findIdsByTitleLike("%os%", PageRequest.of(0, 20));
 
       Set<Post> posts = postRepo.fetchForSearch(idPage.toList());

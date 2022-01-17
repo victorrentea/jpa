@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 @SpringBootTest
 @Transactional
-@Rollback(false) // allow data to remain in DB for later inspection. useful for demos: avoid in normal tests
+@Rollback(false)
 public class QueryOnViewTest {
    @Autowired
    private PostSearchViewRepo searchRepo;

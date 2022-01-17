@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Subselect;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @ToString
+// TODO @Subselect vs schema.sql
 public class PostSearchView {
    @Id
    private Long id;
