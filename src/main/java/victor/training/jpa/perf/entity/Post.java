@@ -20,7 +20,7 @@ import static javax.persistence.EnumType.STRING;
     attributeNodes = @NamedAttributeNode(value = "comments", subgraph = "comment"),
     subgraphs = {@NamedSubgraph(name = "comment", attributeNodes = @NamedAttributeNode("user"))}),
 })
-public class Post implements Post1{
+public class Post{
     public enum PostType {
         THOUGHT,
         QUICK_TIP,

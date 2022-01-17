@@ -79,16 +79,5 @@ public class FetchGraphsTest {
       targetPosts.forEach(p -> System.out.println(p.getAuthor()));
    }
 
-   @Test
-   void springProjections() {
-      Set<Post1> list = postRepo.findPostsAfter2(now().minusYears(1));
-      System.out.println("Found: "+ list);
-      for (Post1 post1 : list) {
-         System.out.println(post1.getTitle());
-         for (Comment1 comment : post1.getComments()) {
-            System.out.println(comment.getUser());
-
-         }
-      }
-   }
+   // TODO reimplement above with restricted Spring Projections
 }
