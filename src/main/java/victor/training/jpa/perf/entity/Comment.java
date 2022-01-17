@@ -15,7 +15,7 @@ public class Comment {
     private Long id;
     private String title;
     private String text;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
     private Comment() {

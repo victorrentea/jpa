@@ -44,7 +44,7 @@ public class Post{
 
     private LocalDate publishDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private User author;
 
     @ManyToMany

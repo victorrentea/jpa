@@ -9,6 +9,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
+//@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class Country {
    @Id
    private Long id;
@@ -17,7 +18,7 @@ public class Country {
    private String continent;
    private int population;
 
-   private Country() {
+   protected Country() {
    }
 
    public Country(Long id, String name) {

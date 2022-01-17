@@ -60,6 +60,7 @@ public class FetchGraphsTest {
 
    @Test
    void analyzeComments() {
+      // DO I need to load Charlie ?
       Set<Post> targetPosts = postRepo.findPostsAfter(now().minusYears(1));
 
       Map<String, Integer> commenters = new HashMap<>();

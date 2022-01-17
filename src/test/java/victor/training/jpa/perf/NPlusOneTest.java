@@ -51,7 +51,9 @@ public class NPlusOneTest {
 
 		int totalChildren = countComments(posts);
 		assertThat(totalChildren).isEqualTo(5);
+		// TODO explain @BatchSize
 	}
+
 
 	private int countComments(Collection<Post> posts) {
 		log.debug("Start iterating over {} posts: {}", posts.size(), posts);
