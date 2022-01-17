@@ -1,12 +1,13 @@
 package victor.training.jpa.perf.entity;
 
-import lombok.Getter;
 import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Table(name = "USERS")
 @Entity
 @ToString
 public class User {

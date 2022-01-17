@@ -9,6 +9,7 @@ import victor.training.jpa.perf.entity.Post;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public interface PostRepo extends JpaRepository<Post, Long>, PostRepoCustom {
    @Query("SELECT p FROM Post p WHERE p.title LIKE ?1")
@@ -26,4 +27,6 @@ public interface PostRepo extends JpaRepository<Post, Long>, PostRepoCustom {
    @Query("SELECT p FROM Post p WHERE p.publishDate > ?1")
    Set<Post> findPostsAfter(LocalDate when);
 
+   @Query("FROM Post")
+   Stream<Post> streamAll();
 }
