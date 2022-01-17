@@ -3,10 +3,7 @@ package victor.training.jpa.perf.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Table(name = "COMMENTS")
 @Entity
@@ -18,6 +15,8 @@ public class Comment {
     private Long id;
     private String title;
     private String text;
+    @ManyToOne
+    private User user;
 
     private Comment() {
     }

@@ -40,6 +40,9 @@ public class Post {
 
     private LocalDate publishDate;
 
+    @ManyToOne
+    private User user;
+
     public Post() {
     }
 

@@ -17,6 +17,6 @@ import javax.persistence.Table;
 public class PostSearchView {
    @Id
    private Long id;
-   private String name;
+   private String title;
    private String commentTitles;
 }

@@ -6,48 +6,54 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.perf.entity.Comment;
 import victor.training.jpa.perf.entity.Post;
+import victor.training.jpa.perf.entity.Post.PostType;
 import victor.training.jpa.perf.repo.PostRepo;
 import victor.training.jpa.perf.repo.PostSearchViewRepo;
 
 import javax.persistence.EntityManager;
-import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 @SpringBootTest
 @Transactional
+@Rollback(false) // allow data to remain in DB for later inspection. useful for demos: avoid in normal tests
 public class QueryOnViewTest {
    @Autowired
    private PostSearchViewRepo searchRepo;
    @Autowired
-   private EntityManager em;
+   private PostRepo postRepo;
 
    @BeforeEach
    public void persistData() {
-      em.persist(new Post("Victor")
+      postRepo.deleteAll();
+      postRepo.save(new Post("Victor")
+          .setPostType(PostType.PHILOSOPHY)
           .addComment(new Comment("Emma"))
           .addComment(new Comment("Vlad"))
       );
-      em.persist(new Post("Sanda")
+      postRepo.save(new Post("Sanda")
           .addComment(new Comment("Maria"))
       );
+
+      TestTransaction.end();
+      TestTransaction.start();
    }
 
-
    @Test
-//   @Sql("/create-view.sql")
    public void entityOnView() {
       searchRepo.findAll().forEach(System.out::println);
 
-      Assertions.assertThat(searchRepo.findAll())
-          .anyMatch(ps -> ps.getCommentTitles().contains("Vlad,Emma"));
+      assertThat(searchRepo.findAll())
+          .anyMatch(ps -> ps.getCommentTitles().contains("Vlad,Emma"))
+          .anyMatch(ps -> ps.getCommentTitles().contains("Maria"));
 
-      Assertions.assertThat(searchRepo.queryViaRootEntityModel())
+      assertThat(searchRepo.queryViaRootEntityModel())
           .hasSize(1)
           .anyMatch(ps -> ps.getCommentTitles().contains("Vlad,Emma"));
    }

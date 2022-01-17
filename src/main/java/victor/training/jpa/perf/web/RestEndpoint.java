@@ -1,6 +1,5 @@
 package victor.training.jpa.perf.web;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -18,35 +17,19 @@ import victor.training.jpa.perf.repo.PostRepo;
 
 @Slf4j
 @RestController
-@RequestMapping("profile/nplus1")
-public class Profile2_NPlusOne {
+@RequestMapping
+public class RestEndpoint {
    @Autowired
-   private PostRepo repo;
-
-   @Component
-   @Profile("massiveData")
-   public static class MassiveDataInsert implements CommandLineRunner {
-      @Autowired
-      private JdbcTemplate jdbc;
-      @Override
-      public void run(String... args) throws Exception {
-         log.warn("INSERTING data ...");
-         jdbc.update("INSERT INTO COUNTRY(ID, NAME) SELECT X, 'Country ' || X  FROM SYSTEM_RANGE(1, 20)");
-         jdbc.update("INSERT INTO PARENT(ID, NAME, COUNTRY_ID) SELECT X, 'Parent' || X, 1 + MOD(X,20)  FROM SYSTEM_RANGE(1, 1000)");
-
-         // jdbc.update("INSERT INTO PARENT(ID, NAME) SELECT X, 'Parent ' || X FROM SYSTEM_RANGE(1, 1000)");
-         jdbc.update("INSERT INTO CHILD(ID, NAME, PARENT_ID) SELECT X, 'Child' || X || '-1',X FROM SYSTEM_RANGE(1, 1000)");
-         jdbc.update("INSERT INTO CHILD(ID, NAME, PARENT_ID) SELECT X + 1000, 'Child' || X || '-2', X FROM SYSTEM_RANGE(1, 1000)");
-         log.info("DONE");
-      }
-   }
+   private PostRepo postRepo;
 
    @GetMapping
    @Transactional
    public Page<Post> query() {
-      Page<Post> parentPage = repo.findByTitleLike("%ar%", PageRequest.of(0, 20));
-      log.info("Returning");
-      return parentPage;
+      Page<Post> page = postRepo.findByTitleLike("%os%", PageRequest.of(0, 20));
+
+      log.info("Returning data " + page);
+
+      return page;
 
 //      Page<Long> idPage = repo.findByNameLike("%ar%", PageRequest.of(0, 10));
 //      List<Long> parentIds = idPage.getContent();
