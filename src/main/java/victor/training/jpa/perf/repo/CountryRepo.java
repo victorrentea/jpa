@@ -8,7 +8,7 @@ import javax.persistence.QueryHint;
 import java.util.List;
 
 public interface CountryRepo extends JpaRepository<Country, Long> {
-   //@QueryHints(@QueryHint(name = "org.hibernate.cacheable", value = "true"))
+   @QueryHints(@QueryHint(name = "org.hibernate.cacheable", value = "true"))
    @Override
    List<Country> findAll();
 }

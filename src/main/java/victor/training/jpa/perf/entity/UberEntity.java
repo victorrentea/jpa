@@ -24,8 +24,13 @@ public class UberEntity {
     private String ssn;
     private String passportNumber;
 
-    @ManyToOne
-    private Country originCountry;
+    // naive OOP  : wake up we are not in highschool anymore. ANY @ManyToOne costs: JOIN (findById) or +1 select if your do SELECT FROM UberEntity
+//    @ManyToOne
+//    private Country originCountry; // static referential data
+
+    private Long originCountryId; // + leave the FK in place.
+
+
     @ManyToOne
     private Country nationality;
     @ManyToOne
@@ -47,11 +52,6 @@ public class UberEntity {
 
     public UberEntity setName(String name) {
         this.name = name;
-        return this;
-    }
-
-    public UberEntity setOriginCountry(Country originCountry) {
-        this.originCountry = originCountry;
         return this;
     }
 
@@ -80,8 +80,13 @@ public class UberEntity {
         return this;
     }
 
-    public Country getOriginCountry() {
-        return originCountry;
+    public Long getOriginCountryId() {
+        return originCountryId;
+    }
+
+    public UberEntity setOriginCountryId(Long originCountryId) {
+        this.originCountryId = originCountryId;
+        return this;
     }
 }
 

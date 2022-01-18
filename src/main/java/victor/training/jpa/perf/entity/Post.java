@@ -2,6 +2,7 @@ package victor.training.jpa.perf.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -14,8 +15,8 @@ import static javax.persistence.EnumType.STRING;
 @Setter
 @Getter
 @Entity
+@ToString
 @NamedEntityGraphs({
-
 @NamedEntityGraph(name = "Post.forCommenters",
     attributeNodes = @NamedAttributeNode(value = "comments", subgraph = "comment"),
     subgraphs = {@NamedSubgraph(name = "comment", attributeNodes = @NamedAttributeNode("user"))}),

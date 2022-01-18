@@ -13,6 +13,7 @@ import victor.training.jpa.perf.entity.Country;
 import victor.training.jpa.perf.entity.Scope;
 import victor.training.jpa.perf.entity.UberEntity;
 import victor.training.jpa.perf.entity.User;
+import victor.training.jpa.perf.repo.UberRepo;
 
 import javax.persistence.EntityManager;
 
@@ -24,6 +25,8 @@ import javax.persistence.EntityManager;
 public class UberEntityTest {
     @Autowired
     private EntityManager entityManager;
+    @Autowired
+    private UberRepo uberRepo;
 
     private Country romania = new Country(1L, "Romania");
     private User testUser = new User("test");
@@ -37,7 +40,7 @@ public class UberEntityTest {
 
         UberEntity uber = new UberEntity()
                 .setFiscalCountry(romania)
-                .setOriginCountry(romania)
+                .setOriginCountryId(romania.getId()) // One less JOIN or -1 SELECT
                 .setInvoicingCountry(romania)
                 .setCreatedBy(testUser)
                 .setNationality(romania)
@@ -48,10 +51,13 @@ public class UberEntityTest {
         TestTransaction.start();
 
         log.info("Now, loading by id...");
-        UberEntity uberEntity = entityManager.find(UberEntity.class, uber.getId());
+//        UberEntity uberEntity = entityManager.find(UberEntity.class, uber.getId());
+//        UberEntity uberEntity = uberRepo.findAll().get(0);
+        UberDto dto =  uberRepo.loadForUI(uber.getId());
         log.info("Loaded");
         // TODO fetch only the necessary data to display in UI: id, name, originCountryName
         // TODO change link types?
-        System.out.println(uberEntity.toString());
+        System.out.println(dto.toString());
     }
 }
+

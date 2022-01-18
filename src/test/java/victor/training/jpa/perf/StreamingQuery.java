@@ -41,6 +41,7 @@ public class StreamingQuery  {
       long t0 = currentTimeMillis();
 
       long n = postRepo.streamAll()
+          .peek(entity -> entityManager.detach(entity))
           .peek(p -> { if (p.getId() % 10000 == 0) printUsedHeap("At #" + p.getId()); })
           .count();
 

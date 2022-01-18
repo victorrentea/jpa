@@ -1,11 +1,17 @@
 package victor.training.jpa.perf.entity;
 
 import lombok.ToString;
+import org.hibernate.annotations.Cache;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE;
 
 @Entity
 @ToString
+@Cache(usage = READ_WRITE)
 public class User {
    @Id
    @GeneratedValue
@@ -22,6 +28,7 @@ public class User {
    public Long getId() {
       return id;
    }
+
 
    public String getUsername() {
       return username;

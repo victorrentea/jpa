@@ -10,6 +10,7 @@ import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.perf.entity.Comment;
 import victor.training.jpa.perf.entity.Post;
+import victor.training.jpa.perf.entity.Tag;
 import victor.training.jpa.perf.repo.PostRepo;
 
 import javax.persistence.EntityManager;
@@ -31,7 +32,7 @@ public class NPlusOneTest {
 	public void persistData() {
 		postRepo.deleteAll();
 		postRepo.save(new Post("ORM Mapping")
-				.addComment(new Comment("Obvious"))
+				.addComment(new Comment("Obvious").addTag(new Tag("a")).addTag(new Tag("b")))
 				.addComment(new Comment("Duh!"))
 		);
 		postRepo.save(new Post("ORM Mapping#2")
@@ -56,7 +57,6 @@ public class NPlusOneTest {
 //			.getResultList();
 
 		Collection<Post> posts = postRepo.fetchWithComments();
-		System.out.println(posts.getClass());
 		int totalChildren = countComments(posts);
 		assertThat(totalChildren).isEqualTo(7);
 		// TODO explain @BatchSize

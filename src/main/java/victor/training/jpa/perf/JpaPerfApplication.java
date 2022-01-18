@@ -11,13 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import victor.training.jpa.perf.entity.Country;
-import victor.training.jpa.perf.entity.Post;
 import victor.training.jpa.perf.repo.CountryRepo;
 import victor.training.jpa.perf.repo.PostRepo;
 
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @SpringBootApplication
@@ -33,39 +30,40 @@ public class JpaPerfApplication {
 
    @Autowired
    private CountryRepo countryRepo;
+
    @GetMapping("/country")
    public List<Country> getAllCountries() {
       return countryRepo.findAll();
    }
 
 
+
    @Autowired
    private PostRepo postRepo;
+
+
+   @GetMapping("unoptimized-find-all")
+   public List<PostDto> method() { // 1st level cache = PersistenceContext cache.
+      // the same user with id 7 is needed in the same Tx > the same User == entity is used.
+      return postRepo.findAll().stream().map(PostDto::new).collect(Collectors.toList());
+   }
 
    // TODO in interface I need title + author name + number of comments
    @GetMapping
    @Transactional
    public Page<PostDto> query() {
 //      Page<Post> page = postRepo.findByTitleLike("%os%", PageRequest.of(0, 20));
-      Page<Long> idPage = postRepo.findIdByTitleLike("%os%",
-          PageRequest.of(0, 20));
+      Page<PostDto> page = postRepo.findDtosByTitleLike("%os%", PageRequest.of(0, 20));
+      return page;
+//      Map<Long, Post> postsAsMap = postRepo.fetchManyWithChildren(idPage.getContent())
+//          .stream()
+//          .collect(toMap(Post::getId, Function.identity()));
+//
+//      Page<Post> page = idPage.map(postsAsMap::get);
+//
+//      log.info("Returning data " + page);
+//      return page.map(entity -> new PostDto(entity));
 
-      Map<Long, Post> postsAsMap = postRepo.fetchManyWithChildren(idPage.getContent())
-          .stream().collect(Collectors.toMap(Post::getId, Function.identity()));
-
-      Page<Post> page = idPage.map(postsAsMap::get);
-
-      log.info("Returning data " + page);
-      return page.map(entity -> new PostDto(entity));
    }
 }
-class PostDto {
-   public String title;
-   public String author;
-   public int commentCount;
-   public PostDto(Post entity) {
-      title = entity.getTitle();
-      author = entity.getAuthor().getUsername();
-      commentCount = entity.getComments().size();
-   }
-}
+
