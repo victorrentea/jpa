@@ -21,7 +21,10 @@ public class Comment {
     private String text;
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
-//    @ManyToOne Post post;
+
+//    @ManyToOne
+//    @JoinColumn(name = "POST_ID")
+//    Post post;
 
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Tag> tags = new ArrayList<>();
