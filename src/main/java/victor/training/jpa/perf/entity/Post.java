@@ -38,7 +38,9 @@ public class Post{
     @Enumerated(STRING)
     private PostType postType;
 
-    @OneToMany(cascade = ALL)
+
+//    @BatchSize(size = 50)
+    @OneToMany(cascade = ALL/*, fetch = EAGER*/)
     @JoinColumn(name = "POST_ID")
     private Set<Comment> comments = new HashSet<>();
 

@@ -14,7 +14,7 @@ import victor.training.jpa.perf.repo.PostRepo;
 
 import javax.persistence.EntityManager;
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -35,6 +35,10 @@ public class NPlusOneTest {
 				.addComment(new Comment("Obvious"))
 				.addComment(new Comment("Duh!"))
 		);
+		postRepo.save(new Post("ORM Mapping#2")
+				.addComment(new Comment("Obvious"))
+				.addComment(new Comment("Duh!"))
+		);
 		postRepo.save(new Post("JPA Performance")
 				.addComment(new Comment("Wow"))
 				.addComment(new Comment("Cool"))
@@ -47,10 +51,15 @@ public class NPlusOneTest {
 
 	@Test
 	public void nPlusOne() {
-		List<Post> posts = entityManager.createQuery("SELECT p FROM Post p", Post.class).getResultList();
+//		List<Post> posts = postRepo.findAll();
+//		List<Post> posts = entityManager.createQuery("SELECT p FROM Post p " +
+//																	" LEFT JOIN FETCH p.comments", Post.class)
+//			.getResultList();
+
+		Set<Post> posts = postRepo.fetchWithComments();
 
 		int totalChildren = countComments(posts);
-		assertThat(totalChildren).isEqualTo(5);
+		assertThat(totalChildren).isEqualTo(7);
 		// TODO explain @BatchSize
 	}
 
@@ -59,7 +68,8 @@ public class NPlusOneTest {
 		log.debug("Start iterating over {} posts: {}", posts.size(), posts);
 		int total = 0;
 		for (Post post : posts) {
-			total += post.getComments().size();
+//			System.out.println("What set impl do i Have : " + post.getComments().getClass());
+			total += post.getComments().size();//lazy loading only works within an open Transaction
 		}
 		log.debug("Done counting: {} comments", total);
 		return total;
