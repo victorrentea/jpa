@@ -14,7 +14,6 @@ import victor.training.jpa.perf.repo.PostRepo;
 
 import javax.persistence.EntityManager;
 import java.util.Collection;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -56,8 +55,8 @@ public class NPlusOneTest {
 //																	" LEFT JOIN FETCH p.comments", Post.class)
 //			.getResultList();
 
-		Set<Post> posts = postRepo.fetchWithComments();
-
+		Collection<Post> posts = postRepo.fetchWithComments();
+		System.out.println(posts.getClass());
 		int totalChildren = countComments(posts);
 		assertThat(totalChildren).isEqualTo(7);
 		// TODO explain @BatchSize

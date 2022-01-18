@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import victor.training.jpa.perf.entity.Post;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -22,6 +23,6 @@ public interface PostRepo extends JpaRepository<Post, Long>, PostRepoCustom, Jpa
    @Query("FROM Post")
    Stream<Post> streamAll();
 
-   @Query("SELECT p FROM Post p LEFT JOIN FETCH p.comments")
-   Set<Post> fetchWithComments();
+   @Query("SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.comments LEFT JOIN FETCH p.tags")
+   Collection<Post> fetchWithComments();
 }
