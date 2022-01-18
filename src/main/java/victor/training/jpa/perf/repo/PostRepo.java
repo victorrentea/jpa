@@ -9,12 +9,24 @@ import victor.training.jpa.perf.entity.Post;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
 public interface PostRepo extends JpaRepository<Post, Long>, PostRepoCustom, JpaSpecificationExecutor<Post> {
    @Query("SELECT p FROM Post p WHERE p.title LIKE ?1")
    Page<Post> findByTitleLike(String namePart, Pageable page);
+
+   @Query("SELECT p.id FROM Post p WHERE p.title LIKE ?1") // driving query
+   Page<Long> findIdByTitleLike(String namePart, Pageable page);
+
+   @Query("SELECT p " +
+          "FROM Post p " +
+          "LEFT JOIN FETCH p.author " +
+          "LEFT JOIN FETCH p.comments " +
+          "WHERE p.id IN (?1)")
+   Set<Post> fetchManyWithChildren(List<Long> postIds);
+
 
    // TODO @EntityGraph
    @Query("SELECT p FROM Post p WHERE p.publishDate > ?1")

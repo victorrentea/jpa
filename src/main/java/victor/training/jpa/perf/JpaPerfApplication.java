@@ -16,6 +16,9 @@ import victor.training.jpa.perf.repo.CountryRepo;
 import victor.training.jpa.perf.repo.PostRepo;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 @Slf4j
@@ -42,10 +45,27 @@ public class JpaPerfApplication {
    // TODO in interface I need title + author name + number of comments
    @GetMapping
    @Transactional
-   public Page<Post> query() {
-      Page<Post> page = postRepo.findByTitleLike("%os%", PageRequest.of(0, 20));
+   public Page<PostDto> query() {
+//      Page<Post> page = postRepo.findByTitleLike("%os%", PageRequest.of(0, 20));
+      Page<Long> idPage = postRepo.findIdByTitleLike("%os%",
+          PageRequest.of(0, 20));
+
+      Map<Long, Post> postsAsMap = postRepo.fetchManyWithChildren(idPage.getContent())
+          .stream().collect(Collectors.toMap(Post::getId, Function.identity()));
+
+      Page<Post> page = idPage.map(postsAsMap::get);
 
       log.info("Returning data " + page);
-      return page;
+      return page.map(entity -> new PostDto(entity));
+   }
+}
+class PostDto {
+   public String title;
+   public String author;
+   public int commentCount;
+   public PostDto(Post entity) {
+      title = entity.getTitle();
+      author = entity.getAuthor().getUsername();
+      commentCount = entity.getComments().size();
    }
 }
