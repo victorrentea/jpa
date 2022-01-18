@@ -2,9 +2,7 @@ package victor.training.jpa.perf.entity;
 
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @ToString

@@ -9,14 +9,14 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
-//@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+// @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class Country {
    @Id
    private Long id;
    private String name;
    private String region;
    private String continent;
-   private int population;
+   private Integer population;
 
    protected Country() {
    }

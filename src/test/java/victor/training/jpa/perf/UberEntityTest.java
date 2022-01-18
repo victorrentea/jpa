@@ -2,8 +2,6 @@ package victor.training.jpa.perf;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
@@ -29,14 +27,13 @@ public class UberEntityTest {
 
     private Country romania = new Country(1L, "Romania");
     private User testUser = new User("test");
-    private Scope globalScope = new Scope(1L,"Global");
+    private Scope globalScope = new Scope(1L, "Global");
 
     @Test
     public void greedyQuery() {
         entityManager.persist(romania);
         entityManager.persist(testUser);
         entityManager.persist(globalScope);
-
 
         UberEntity uber = new UberEntity()
                 .setFiscalCountry(romania)
@@ -53,7 +50,7 @@ public class UberEntityTest {
         log.info("Now, loading by id...");
         UberEntity uberEntity = entityManager.find(UberEntity.class, uber.getId());
         log.info("Loaded");
-        // TODO fetch only the necessary data
+        // TODO fetch only the necessary data to display in UI: id, name, originCountryName
         // TODO change link types?
         System.out.println(uberEntity.toString());
     }

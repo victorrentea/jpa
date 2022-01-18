@@ -10,8 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import victor.training.jpa.perf.entity.Country;
 import victor.training.jpa.perf.entity.Post;
+import victor.training.jpa.perf.repo.CountryRepo;
 import victor.training.jpa.perf.repo.PostRepo;
+
+import java.util.List;
 
 @SpringBootApplication
 @Slf4j
@@ -22,6 +26,13 @@ public class JpaPerfApplication {
       new SpringApplicationBuilder(JpaPerfApplication.class)
           .profiles("insertDummyData")
           .run(args);
+   }
+
+   @Autowired
+   private CountryRepo countryRepo;
+   @GetMapping("/country")
+   public List<Country> getAllCountries() {
+      return countryRepo.findAll();
    }
 
 

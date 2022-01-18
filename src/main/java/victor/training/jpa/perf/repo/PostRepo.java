@@ -16,8 +16,6 @@ public interface PostRepo extends JpaRepository<Post, Long>, PostRepoCustom, Jpa
    @Query("SELECT p FROM Post p WHERE p.title LIKE ?1")
    Page<Post> findByTitleLike(String namePart, Pageable page);
 
-
-
    // TODO @EntityGraph
    @Query("SELECT p FROM Post p WHERE p.publishDate > ?1")
    Set<Post> findPostsAfter(LocalDate when);
