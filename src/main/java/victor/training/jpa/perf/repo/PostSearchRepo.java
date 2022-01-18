@@ -2,6 +2,7 @@ package victor.training.jpa.perf.repo;
 
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
+import lombok.experimental.FieldNameConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,6 +22,7 @@ import java.util.Map;
 
 import static org.springframework.data.domain.Sort.Direction.ASC;
 
+@FieldNameConstants
 @Repository
 public class PostSearchRepo {
    @PersistenceContext
@@ -29,6 +31,7 @@ public class PostSearchRepo {
    private PostRepo postRepo;
 
    public List<Post> jpqlConcat(PostSearchCriteria searchCriteria) { // TODO query directly TeacherSearchResult objects
+//      PostSearchRepo.Fields.
       List<String> jpqlParts = new ArrayList<>();
       jpqlParts.add("SELECT p FROM Post p WHERE 1=1");
       Map<String, Object> params = new HashMap<>();
@@ -43,10 +46,11 @@ public class PostSearchRepo {
          params.put("postType", searchCriteria.postType);
       }
       if (searchCriteria.havingComments) {
-         jpqlParts.add("AND EXISTS (SELECT 1 FROM Post pp JOIN p.comments WHERE pp.id = p.id)");
+         jpqlParts.add("AND EXISTS (SELECT 1 FROM Post pp INNER JOIN p.comments WHERE pp.id = p.id)");
       }
 
-      TypedQuery<Post> query = entityManager.createQuery(String.join("\n", jpqlParts), Post.class);
+      String finalJpql = String.join("\n", jpqlParts);
+      TypedQuery<Post> query = entityManager.createQuery(finalJpql, Post.class);
       for (String param : params.keySet()) {
          query.setParameter(param, params.get(param));
       }
@@ -76,7 +80,8 @@ public class PostSearchRepo {
       }
 
       if (searchCriteria.title != null) {
-         predicates.add(cb.like(cb.upper(root.get(Post_.title)), "%" + searchCriteria.title.toUpperCase() + "%"));
+         predicates.add(cb.like(cb.upper(root.get(Post_.title)),
+             "%" + searchCriteria.title.toUpperCase() + "%"));
       }
 
       if (searchCriteria.havingComments) {

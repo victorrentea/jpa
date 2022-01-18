@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 @Getter
 @Setter
@@ -31,7 +33,7 @@ public class UberEntity {
     private Long originCountryId; // + leave the FK in place.
 
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY) // easy gain: -1 JOIN or -1 Query
     private Country nationality;
     @ManyToOne
     private Country fiscalCountry;

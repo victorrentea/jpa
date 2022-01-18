@@ -6,3 +6,5 @@ from POST P
          left join COMMENTS C on P.ID = C.POST_ID
 group by p.ID, P.TITLE;
 //
+
+-- create index aa on F(POST.TITLE)

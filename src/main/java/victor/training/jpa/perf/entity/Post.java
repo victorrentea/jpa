@@ -17,59 +17,60 @@ import static javax.persistence.EnumType.STRING;
 @Entity
 @ToString
 @NamedEntityGraphs({
-@NamedEntityGraph(name = "Post.forCommenters",
-    attributeNodes = @NamedAttributeNode(value = "comments", subgraph = "comment"),
-    subgraphs = {@NamedSubgraph(name = "comment", attributeNodes = @NamedAttributeNode("user"))}),
+    @NamedEntityGraph(name = "Post.forCommenters",
+        attributeNodes = @NamedAttributeNode(value = "comments", subgraph = "comment"),
+        subgraphs = {@NamedSubgraph(name = "comment", attributeNodes = @NamedAttributeNode("user"))}),
 })
-public class Post{
-    public enum PostType {
-        THOUGHT,
-        QUICK_TIP,
-        BEST_PRACTICES,
-        PHILOSOPHY;
-    }
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Post {
+   public enum PostType {
+      THOUGHT,
+      QUICK_TIP,
+      BEST_PRACTICES,
+      PHILOSOPHY;
+   }
 
-    private String title;
+   @Id
+   @GeneratedValue
+   private Long id;
 
-    private String body;
+   private String title;
 
-    @Enumerated(STRING)
-    private PostType postType;
+   private String body;
+
+   @Enumerated(STRING)
+   private PostType postType;
 
 
-//    @BatchSize(size = 50)
-    @OneToMany(cascade = ALL/*, fetch = EAGER*/)
-    @JoinColumn(name = "POST_ID")
-    private Set<Comment> comments = new HashSet<>();
+   //    @BatchSize(size = 50)
+   @OneToMany(cascade = ALL/*, fetch = EAGER*/)
+   @JoinColumn(name = "POST_ID")
+   private Set<Comment> comments = new HashSet<>();
 
-    private LocalDate publishDate;
+   private LocalDate publishDate;
 
-    @ManyToOne
-    private User author;
+   @ManyToOne
+   private User author;
 
-    @ManyToMany
-    private Set<Tag> tags = new HashSet<>();
+   @ManyToMany
+   private Set<Tag> tags = new HashSet<>();
 
-    public Post() {
-    }
+   public Post() {
+   }
 
-    public Post(String title) {
-        this.title = title;
-    }
+   public Post(String title) {
+      this.title = title;
+   }
 
-    public Post addComment(Comment comment) {
-        comments.add(comment);
-        return this;
-    }
+   public Post addComment(Comment comment) {
+      comments.add(comment);
+      return this;
+   }
 
-    public boolean isHeavilyCommented() {
-        return comments.size() > 10;
-    }
+   public boolean isHeavilyCommented() {
+      return comments.size() > 10;
+   }
 
-    public Set<Comment> getComments() {
-        return comments;
-    }
+   public Set<Comment> getComments() {
+      return comments;
+   }
 }
