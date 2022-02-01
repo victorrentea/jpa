@@ -17,44 +17,38 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 @SpringBootTest
 @Transactional
-@Rollback(false) // allow data to remain in DB for later inspectin
+@Rollback(false) // allow data to remain in DB for later inspection
 public class NPlusOneTest {
 
 	@Autowired
-	private EntityManager em;
+	private EntityManager entityManager;
 	@Autowired
 	private ParentRepo parentRepo;
 
 	@BeforeEach
 	public void persistData() {
-
-
-//		WrappedConnection { Connection conn } /// reflection
 		parentRepo.deleteAll();
-		em.persist(new Parent("Victor")
+		entityManager.persist(new Parent("Victor")
 				.addChild(new Child("Emma"))
 				.addChild(new Child("Vlad"))
 		);
-		em.persist(new Parent("Peter")
+		entityManager.persist(new Parent("Peter")
 				.addChild(new Child("Maria"))
 				.addChild(new Child("Stephan"))
 				.addChild(new Child("Paul"))
 		);
 
-		em.flush();
-		em.clear();
+		entityManager.flush();
+		entityManager.clear();
 	}
 
 	@Test
 	public void nPlusOne() {
-		List<Parent> parents = em.createQuery("SELECT p FROM Parent p", Parent.class).getResultList();
+		List<Parent> parents = entityManager.createQuery("SELECT p FROM Parent p", Parent.class).getResultList();
 
 		int totalChildren = anotherMethod(parents);
 		assertThat(totalChildren).isEqualTo(5);
 	}
-
-
-
 
 	private int anotherMethod(Collection<Parent> parents) {
 		log.debug("Start iterating over {} parents: {}", parents.size(), parents);
