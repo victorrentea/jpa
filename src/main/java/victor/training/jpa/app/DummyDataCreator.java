@@ -50,7 +50,7 @@ public class DummyDataCreator {
 		subject.setHolderTeacher(victor);
 		CourseActivity course = new CourseActivity();
 		course.setSubject(subject);
-		course.setDay(DayOfWeek.MONDAY);
+		course.setDayOfWeek(DayOfWeek.MONDAY);
 		course.setStartHour(8);
 		course.setDurationInHours(3);
 		course.setRoomId("EC105");
@@ -58,7 +58,7 @@ public class DummyDataCreator {
 		
 		LabActivity lab1 = new LabActivity();
 		lab1.setSubject(subject);
-		lab1.setDay(DayOfWeek.MONDAY);
+		lab1.setDayOfWeek(DayOfWeek.MONDAY);
 		lab1.setStartHour(11);
 		lab1.setDurationInHours(2);
 		lab1.setRoomId("EC202");
@@ -67,7 +67,7 @@ public class DummyDataCreator {
 		
 		LabActivity lab2 = new LabActivity();
 		lab2.setSubject(subject);
-		lab2.setDay(DayOfWeek.TUESDAY);
+		lab2.setDayOfWeek(DayOfWeek.TUESDAY);
 		lab2.setStartHour(11);
 		lab2.setDurationInHours(2);
 		lab2.setRoomId("EC203");

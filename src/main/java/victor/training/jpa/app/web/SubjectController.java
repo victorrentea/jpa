@@ -4,11 +4,6 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import victor.training.jpa.app.facade.TheFacade;
 import victor.training.jpa.app.facade.dto.SubjectDto;
-import victor.training.jpa.app.facade.dto.SubjectWithActivitiesDto;
 import victor.training.jpa.app.repo.SubjectRepo;
 
 @RestController
@@ -40,8 +34,8 @@ public class SubjectController {
 	}
 	
 	@GetMapping("{subjectId}")
-	public SubjectWithActivitiesDto getById(@PathVariable Long subjectId) {
-		return facade.getSubjectWithActivities(subjectId);
+	public SubjectDto getById(@PathVariable Long subjectId) {
+		return facade.getSubjectById(subjectId);
 	}
 	
 	@PostMapping
@@ -64,14 +58,4 @@ public class SubjectController {
 		facade.updateSubject(subjectDto);
 	}
 
-	@PutMapping("/ko")
-	public void updateSubjectFailing(@RequestBody SubjectDto subjectDto) {
-		facade.updateSubjectFailing(subjectDto);
-	}
-
-	@PutMapping("/ko-logged")
-	public void updateSubjectFailingLogged(@RequestBody SubjectDto subjectDto) {
-		facade.updateSubjectFailingLogged(subjectDto);
-	}
-	
 }

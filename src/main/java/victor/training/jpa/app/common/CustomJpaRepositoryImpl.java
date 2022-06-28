@@ -26,7 +26,7 @@ public class CustomJpaRepositoryImpl<T, ID extends Serializable> extends SimpleJ
     }
     
 	@Override
-	public T findExactlyOne(ID id) {
+	public T findOneById(ID id) {
 		return findById(id).orElseThrow(() ->
                 new EntityNotFoundException("No " + getDomainClass().getSimpleName() + " with id " + id));
 	}

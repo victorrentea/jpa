@@ -39,7 +39,10 @@ public class Teacher {
 	private Grade grade;
 	
 	// fetch=LAZY or invert the link to retrieve details by teacher via repo
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@OneToOne(
+			fetch = FetchType.LAZY // SOLUTION fetch eager
+			, cascade = CascadeType.ALL // SOLUTION cascade persist on child entity
+		)
 	private TeacherDetails details;
 	
 	@ElementCollection

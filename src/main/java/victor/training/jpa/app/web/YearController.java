@@ -23,7 +23,7 @@ public class YearController {
 
 	@GetMapping("{yearId}")
 	public YearWithGroupsDto getYearWithGroups(@PathVariable long yearId) {
-		return new YearWithGroupsDto(yearRepo.findExactlyOne(yearId));
+		return new YearWithGroupsDto(yearRepo.findOneById(yearId));
 	}
 	
 	@PutMapping("{yearId}")

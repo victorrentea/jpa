@@ -1,7 +1,5 @@
 package victor.training.jpa.app.web;
 
-import static java.util.stream.Collectors.toList;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +30,9 @@ public class LabController {
 	
 	@GetMapping
 	public List<LabDto> getAll() {
-		return labRepo.findAll().stream().map(LabDto::new).collect(toList());
+		return facade.getAllLabs();
 	}
-	
+
 	@PutMapping("{labId}/teacher")
 	public void assignLabTeacher(@PathVariable long labId, @RequestBody Long teacherId) {
 		facade.assignTeacherToLab(teacherId, labId);
@@ -47,11 +45,11 @@ public class LabController {
 	
 	@PostMapping
 	public long addLab(@RequestParam long subjectId, @RequestBody TimeSlotDto timeSlotDto) {
-		return facade.addLab(subjectId, timeSlotDto);
+		return facade.addLabToSubject(subjectId, timeSlotDto);
 	}
 	
 	@DeleteMapping("{labId}") 
 	public void deleteLab(@PathVariable long labId) {
-		facade.deleteLab(labId);
+		labRepo.deleteById(labId);
 	}
 }

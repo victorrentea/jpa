@@ -1,9 +1,6 @@
 package victor.training.jpa.perf;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class UberEntity {
@@ -110,6 +107,7 @@ class Scope {
 }
 
 @Entity
+@Table(name = "USERS")
 class User {
     @Id
     private Long id;

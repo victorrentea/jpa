@@ -5,5 +5,5 @@ import java.time.DayOfWeek;
 public class ActivitySearchCriteria {
 	public String subject;
 	public String roomId;
-	public DayOfWeek day;
+	public DayOfWeek dayOfWeek;
 }

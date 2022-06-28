@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import victor.training.jpa.app.entity.ErrorComment;
 import victor.training.jpa.app.entity.ErrorLog;
 import victor.training.jpa.app.entity.ErrorTag;
 import victor.training.jpa.app.repo.ErrorLogRepo;
@@ -32,8 +33,11 @@ public class MergePlayground {
    public void persistInitialData() {
       feTag= errorTagRepo.save(new ErrorTag("FE"));
       beTag= errorTagRepo.save(new ErrorTag("BE"));
-
-      logId = errorLogRepo.save(new ErrorLog("Buuum")).getId();
+      ErrorLog errorLog = new ErrorLog("message");
+      errorLog.getComments().add(new ErrorComment("First Comment"));
+      errorLog.getComments().add(new ErrorComment("Second Comment"));
+      errorLog.getTags().add(beTag);
+      logId = errorLogRepo.save(errorLog).getId();
    }
 
    @Transactional
@@ -45,10 +49,13 @@ public class MergePlayground {
    @Transactional
    public void client1() throws JsonProcessingException {
       ErrorLog copy1 = jackson.readValue(json, ErrorLog.class);
+      log.debug("Client1 receives JSON from BE: " + jackson.writeValueAsString(copy1));
       // TODO change fields
-      // TODO change collections
+      // TODO add a comment + merge parent ==> cascade
+      // TODO remove a comment (private child) ==> orphanRemoval
+      // TODO link to +1 / other ErrorTag
       log.debug("Client1 sends back updated JSON: " + jackson.writeValueAsString(copy1));
       errorLogRepo.save(copy1);
    }
-   // TODO concurrent access ?
+   // TODO concurrent access ? :  add version
 }

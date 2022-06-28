@@ -1,18 +1,18 @@
 package victor.training.jpa.app.facade.dto;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import victor.training.jpa.app.entity.Teacher;
 import victor.training.jpa.app.entity.Teacher.Grade;
 
+@Data
+@NoArgsConstructor
 public class TeacherDetailsDto {
-
-	public Long id;
-	public String name;
-	public String cv;
-	public Grade grade;
-	public TimeSlotDto counselingInterval;
-	
-	public TeacherDetailsDto() {
-	}
+	private Long id;
+	private String name;
+	private String cv;
+	private Grade grade;
+	private TimeSlotDto counselingInterval;
 	
 	public TeacherDetailsDto(Teacher teacher) {
 		id = teacher.getId();
@@ -21,11 +21,11 @@ public class TeacherDetailsDto {
 		if (teacher.getDetails() != null) {
 			cv = teacher.getDetails().getCv();
 		}
-//		counselingInterval = new TimeSlotDto(
-//				teacher.getCounselingDay(),
-//				teacher.getCounselingStartHour(),
-//				teacher.getCounselingDurationInHours(),
-//				teacher.getCounselingRoomId()
-//				);
+		counselingInterval = new TimeSlotDto(
+				teacher.getCounselingDay(),
+				teacher.getCounselingStartHour(),
+				teacher.getCounselingDurationInHours(),
+				teacher.getCounselingRoomId()
+				);
 	}
 }

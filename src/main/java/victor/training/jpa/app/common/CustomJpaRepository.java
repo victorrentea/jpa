@@ -10,6 +10,6 @@ public interface CustomJpaRepository<T, ID extends Serializable> extends JpaRepo
     
     void detach(T oldRecord);
 
-    T findExactlyOne(ID id);
+    T findOneById(ID id);
     
 }

@@ -4,26 +4,27 @@ import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.TreeSet;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import victor.training.jpa.app.entity.LabActivity;
 import victor.training.jpa.app.entity.Teacher;
 
+@NoArgsConstructor
+@Data
 public class LabDto {
 
-	public Long id;
-	public String subjectName;
-	public TimeSlotDto timeSlot;
-	public String groupCode;
-	public Set<String> teacherNames = new TreeSet<>();
-	public String lastModifiedByUsername;
-	public String lastModifiedDate;
-	
-	public LabDto() {
-	}
+	private Long id;
+	private String subjectName;
+	private TimeSlotDto timeSlot;
+	private String groupCode;
+	private Set<String> teacherNames = new TreeSet<>();
+	private String lastModifiedByUsername;
+	private String lastModifiedDate;
 	
 	public LabDto(LabActivity lab) {
 		id = lab.getId();
 		subjectName = lab.getSubject().getName();
-		timeSlot =  new TimeSlotDto(lab.getDay(), lab.getDurationInHours(), lab.getDurationInHours(), lab.getRoomId());
+		timeSlot =  new TimeSlotDto(lab.getDayOfWeek(), lab.getDurationInHours(), lab.getDurationInHours(), lab.getRoomId());
 		if (lab.getGroup() != null) {
 			groupCode = lab.getGroup().getCode();
 		}

@@ -10,7 +10,7 @@ import javax.persistence.Enumerated;
 public class TimeSlot {
 
 	@Enumerated(EnumType.STRING)
-	private DayOfWeek day;
+	private DayOfWeek dayOfWeek;
 	// embeddable names are contextualized using spring.jpa.hibernate.naming.implicit-strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
 	
 	private int startHour;
@@ -21,15 +21,15 @@ public class TimeSlot {
 
 	protected TimeSlot() {}
 
-	public TimeSlot(DayOfWeek day, int startHour, int hours, String roomId) {
-		this.day = day;
+	public TimeSlot(DayOfWeek dayOfWeek, int startHour, int hours, String roomId) {
+		this.dayOfWeek = dayOfWeek;
 		this.startHour = startHour;
 		this.hours = hours;
 		this.roomId = roomId;
 	}
 
-	public DayOfWeek getDay() {
-		return day;
+	public DayOfWeek getDayOfWeek() {
+		return dayOfWeek;
 	}
 
 	public int getStartHour() {
@@ -46,20 +46,20 @@ public class TimeSlot {
 
 
 	public TimeSlot withDurationInHours(int hours) {
-		return new TimeSlot(day,startHour, hours, roomId);
+		return new TimeSlot(dayOfWeek,startHour, hours, roomId);
 	}
 
 	public TimeSlot withRoomId(String newRoom) {
-		return new TimeSlot(day, startHour, hours, newRoom);
+		return new TimeSlot(dayOfWeek, startHour, hours, newRoom);
 	}
 
 	@Override
 	public String toString() {
 		return "TimeSlot{" +
-				 "day=" + day +
-				 ", startHour=" + startHour +
-				 ", durationInHours=" + hours +
-				 ", roomId='" + roomId + '\'' +
-				 '}';
+			   "day=" + dayOfWeek +
+			   ", startHour=" + startHour +
+			   ", durationInHours=" + hours +
+			   ", roomId='" + roomId + '\'' +
+			   '}';
 	}
 }

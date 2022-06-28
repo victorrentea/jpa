@@ -43,10 +43,14 @@ public class TeacherController {
 	}
 	
 	@GetMapping("{teacherId}")
-	public TeacherDetailsDto getById(@PathVariable Long teacherId) {
-		return facade.getTeacher(teacherId);
+	public TeacherDto getById(@PathVariable Long teacherId) {
+		return facade.getTeacherById(teacherId);
 	}
-	
+//	@GetMapping("{teacherId}/details")
+//	public TeacherDetailsDto getByIdWithDetails(@PathVariable Long teacherId) {
+//		return facade.getTeacherWithDetails(teacherId);
+//	}
+
 	@GetMapping("{teacherId}/channels")
 	public List<ContactChannelDto> getTeacherContactChannels(@PathVariable long teacherId) {
 		return facade.getTeacherChannels(teacherId);

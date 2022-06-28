@@ -23,9 +23,7 @@ import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 @Getter
 @Setter
 @Entity
-@EntityListeners(MyTrackingEntityListener.class) // SOLUTION
-//public class Subject { // INITIAL
-public class Subject implements Trackable { // SOLUTION
+public class Subject  {
 	@Id
 	@GeneratedValue
 	private Long id;

@@ -29,8 +29,6 @@ import victor.training.jpa.app.repo.TeacherRepo;
 @RestController
 @RequestMapping("/api")
 public class QueryController {
-	private static final Logger log = LoggerFactory.getLogger(QueryController.class); 
-	
 	@Autowired
 	private TeacherRepo teacherRepo;
 	

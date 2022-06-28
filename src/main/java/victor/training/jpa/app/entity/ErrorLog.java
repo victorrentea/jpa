@@ -5,11 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.util.Objects;
+import javax.persistence.*;
+import java.util.*;
 
 import static javax.persistence.CascadeType.ALL;
 
@@ -25,9 +22,14 @@ public class ErrorLog {
    @Column(nullable = false)
    private String message;
 
-//   private List<ErrorComment> comments = new ArrayList<>();
+   // TODO preserve order - it matters, cascade ALL on private children like this
+   @OneToMany
+   @JoinColumn
+   private List<ErrorComment> comments = new ArrayList<>();
 
-//   private Set<ErrorTag> tags = new HashSet<>();
+
+   @ManyToMany
+   private Set<ErrorTag> tags = new HashSet<>();
 
    public ErrorLog() {
    }
