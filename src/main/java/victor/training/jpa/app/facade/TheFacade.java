@@ -9,7 +9,6 @@ import victor.training.jpa.app.facade.dto.*;
 import victor.training.jpa.app.repo.LabRepo;
 import victor.training.jpa.app.repo.SubjectRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
-import victor.training.jpa.app.util.MyUtil;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
@@ -18,7 +17,6 @@ import java.util.List;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
 
 @Slf4j
 @Service
@@ -162,12 +160,13 @@ public class TheFacade {
         return teacher.getChannels().stream().map(ContactChannelDto::new).collect(toList());
     }
 
+    @Transactional
     public void setTeacherChannels(long teacherId, List<ContactChannelDto> channelDtos) {
         List<ContactChannel> channels = new ArrayList<>();
         for (ContactChannelDto dto : channelDtos) {
-            channels.add(new ContactChannel(dto.type, dto.value));
+            channels.add(new ContactChannel(dto.getType(), dto.getValue()));
         }
-        Teacher teacher = em.find(Teacher.class, teacherId);
+        Teacher teacher = teacherRepo.findOneById(teacherId);
         teacher.setChannels(channels); // TODO observe what happens
     }
 

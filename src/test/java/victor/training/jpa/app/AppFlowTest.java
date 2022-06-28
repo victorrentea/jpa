@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import victor.training.jpa.app.CaptureSystemOutput.OutputCapture;
+import victor.training.jpa.app.entity.ContactChannel;
 import victor.training.jpa.app.entity.Teacher;
 import victor.training.jpa.app.facade.TheFacade;
 import victor.training.jpa.app.facade.dto.*;
@@ -12,6 +13,7 @@ import victor.training.jpa.app.util.TestDBConnectionInitializer;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE;
@@ -127,4 +129,20 @@ public class AppFlowTest {
         assertThat(facade.getAllLabs()).hasSize(1);
         assertThat(facade.getAllLabs().get(0).getTeacherNames()).hasSize(1);
     }
+
+
+    @Order(90)
+    @Test
+    void changeOneItemOfElementCollection_reinsertAll() {
+        facade.setTeacherChannels(teacherId, List.of(new ContactChannelDto(ContactChannel.Type.FACEBOOK, "vrentea")));
+
+        System.out.println("Now, change again later");
+
+        facade.setTeacherChannels(teacherId, List.of(
+                new ContactChannelDto(ContactChannel.Type.FACEBOOK, "vrentea"),
+                new ContactChannelDto(ContactChannel.Type.LINKED_IN, "vrentea")
+        ));
+    }
+
+
 }
