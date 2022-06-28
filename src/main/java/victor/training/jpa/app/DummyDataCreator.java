@@ -7,6 +7,9 @@ import java.time.DayOfWeek;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.boot.context.event.ApplicationStartedEvent;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +27,7 @@ public class DummyDataCreator {
 	@PersistenceContext
 	private EntityManager em;
 
+//	@EventListener(ApplicationStartedEvent.class)
 	@Transactional
 	public void persistDummyData() {
 		Teacher victor = new Teacher("Victor");

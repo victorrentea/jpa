@@ -1,6 +1,5 @@
 package victor.training.jpa.magic.event.publisher;
 
-import com.google.common.eventbus.EventBus;
 
 public class EventPublisherHolder {
    private static EventPublisher eventPublisher = e -> {

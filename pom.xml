@@ -13,7 +13,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.5.6</version>
+    <version>2.7.1</version>
     <relativePath /> <!-- lookup parent from repository -->
   </parent>
 
@@ -49,11 +49,7 @@
       <artifactId>p6spy</artifactId>
       <version>3.9.1</version>
     </dependency>
-    <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger2</artifactId>
-      <version>3.0.0</version>
-    </dependency>
+
 
      <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -86,7 +82,7 @@
       <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
-      <version>1.4.199</version>
+      <version>2.1.212</version>
     </dependency>
     <!-- persist LocalDateTime -->
     <dependency>
@@ -120,18 +116,10 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <dependencies>
-          <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>springloaded</artifactId>
-            <version>1.2.6.RELEASE</version>
-          </dependency>
-        </dependencies>
       </plugin>
 
-      <!-- the following plugin is supposed to enhance the compiled entity .class files with lazy properties -->
-      <!-- but launched from IntelliJ, it doesn't seem to work -->
-   <!--   <plugin>
+      <!-- enhance the compiled entity .class files with lazy properties -->
+      <!--<plugin>
         <groupId>org.hibernate.orm.tooling</groupId>
         <artifactId>hibernate-enhance-maven-plugin</artifactId>
         <version>${hibernate.version}</version>

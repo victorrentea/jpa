@@ -10,6 +10,7 @@ import victor.training.jpa.app.domain.entity.TeacherDetails;
 import victor.training.jpa.app.repo.TeacherDetailsRepo;
 
 import java.io.*;
+import java.sql.Clob;
 import java.sql.SQLException;
 
 @Component
@@ -26,7 +27,7 @@ public class LobPlayground {
          throw new IllegalArgumentException("File not found: " + file.getAbsolutePath());
       }
       FileReader fileReader = new FileReader(file);
-//      String clob = ClobProxy.generateProxy(fileReader, file.length());
+//      Clob clob = ClobProxy.generateProxy(fileReader, file.length());
       String allContents = IOUtils.toString(fileReader);
       TeacherDetails entity = new TeacherDetails().setCv(allContents);
       id = repo.save(entity).getId();
@@ -34,7 +35,7 @@ public class LobPlayground {
    @Transactional
    public void downloadLargeClob() throws IOException, SQLException {
       TeacherDetails teacherDetails = repo.findById(id).get();
-
+      System.out.println("Loaded teacher details");
       IOUtils.write(teacherDetails.getCv(), new OutputStreamWriter(System.out));
    }
 }

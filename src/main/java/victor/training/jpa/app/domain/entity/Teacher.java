@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
@@ -19,7 +20,15 @@ import javax.persistence.*;
 public class Teacher {
 
 	public enum Grade {
-		LECTURER, PROFESSOR, CONF, ASSISTANT
+		LECTURER("L"),
+		PROFESSOR("P"),
+		CONF("C"),
+		ASSISTANT("A");
+
+		public final String dbValue;
+		Grade(String dbValue) {
+			this.dbValue = dbValue;
+		}
 	}
 	
 	@Id
@@ -29,6 +38,7 @@ public class Teacher {
 	private String name;
 	
 	@Enumerated(EnumType.STRING)
+//	@Convert(converter = GradeConverter.class)
 	private Grade grade;
 	
 	// fetch=LAZY or invert the link to retrieve details by teacher via repo
