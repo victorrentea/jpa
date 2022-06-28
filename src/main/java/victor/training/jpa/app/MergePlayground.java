@@ -21,7 +21,6 @@ public class MergePlayground {
    private final ErrorTagRepo errorTagRepo;
    private final ErrorLogRepo errorLogRepo;
    private final EntityManager em;
-   private String json; // imagine sent in frontend/other system
 
    private ErrorTag feTag;
    private ErrorTag beTag;
@@ -41,13 +40,14 @@ public class MergePlayground {
    }
 
    @Transactional
-   public void readFromDb() throws JsonProcessingException {
+   public String readFromBackend(String username) throws JsonProcessingException {
       ErrorLog fromDB = errorLogRepo.findById(logId).get();
-      json = jackson.writeValueAsString(fromDB);
-      log.info("JSON sent to client(s), eg on opening the EDIT screen: " + json);
+      String json = jackson.writeValueAsString(fromDB);
+      log.info("JSON sent to client {}, eg on opening the EDIT screen: {}",username, json);
+      return json;
    }
    @Transactional
-   public void client1() throws JsonProcessingException {
+   public void client1(String json) throws JsonProcessingException {
       ErrorLog copy1 = jackson.readValue(json, ErrorLog.class);
       log.debug("Client1 receives JSON from BE: " + jackson.writeValueAsString(copy1));
       // TODO change fields
@@ -57,5 +57,7 @@ public class MergePlayground {
       log.debug("Client1 sends back updated JSON: " + jackson.writeValueAsString(copy1));
       errorLogRepo.save(copy1);
    }
-   // TODO concurrent access ? :  add version
+   // TODO concurrent access:
+   //    1)  add @Version for optimistic locking
+   //    1)  set 'underEditBy' for pesimistic locking
 }

@@ -11,9 +11,12 @@ import victor.training.jpa.app.facade.dto.*;
 import victor.training.jpa.app.util.TestDBConnectionInitializer;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE;
 
+// This in an evil test: chaining a lot of steps in a sequence to demonstrate a long chain of operations
 @TestInstance(TestInstance.Lifecycle.PER_CLASS) // DANGER
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class) // DANGER
 @SpringBootTest
@@ -70,6 +73,8 @@ public class AppFlowTest {
         assertThat(facade.getSubjectById(subjectId).getName())
                 .describedAs("Name must have been updated")
                 .isEqualTo("Algorithms and Data Structures");
+
+        assertThat(facade.getSubjectById(subjectId).getLastModifiedDate()).startsWith(LocalDate.now().toString());
     }
 
     @Order(50)
