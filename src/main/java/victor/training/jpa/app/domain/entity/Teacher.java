@@ -38,7 +38,6 @@ public class Teacher {
 	private String name;
 	
 	@Enumerated(EnumType.STRING)
-//	@Convert(converter = GradeConverter.class)
 	private Grade grade;
 	
 	// fetch=LAZY or invert the link to retrieve details by teacher via repo

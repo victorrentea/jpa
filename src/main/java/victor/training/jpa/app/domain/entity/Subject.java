@@ -11,24 +11,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
-
-import victor.training.jpa.app.util.MyTrackingEntityListener;
-import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 
 
 @Getter
 @Setter
 @Entity
-@EntityListeners(MyTrackingEntityListener.class) // SOLUTION
-//public class Subject { // INITIAL
-public class Subject implements Trackable { // SOLUTION
+public class Subject  {
 	@Id
 	@GeneratedValue
 	private Long id;
