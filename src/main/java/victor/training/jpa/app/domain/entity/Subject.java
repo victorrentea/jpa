@@ -19,26 +19,19 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 @Getter
 @Setter
-@Entity
 public class Subject  {
-	@Id
-	@GeneratedValue
 	private Long id;
 	
 	private String name;
 	
 	private boolean active;
 	
-	@ManyToOne
 	private Teacher holderTeacher;
 	
-	@OneToMany(mappedBy="subject")
 	private List<TeachingActivity> activities = new ArrayList<>();
 	
-	@LastModifiedDate
 	private LocalDateTime lastModifiedDate;
 	
-	@LastModifiedBy
 	private String lastModifiedBy;
 
 	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {

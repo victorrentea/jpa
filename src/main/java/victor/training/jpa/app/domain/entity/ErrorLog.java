@@ -9,25 +9,22 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import static javax.persistence.CascadeType.ALL;
 
 @Getter
 @Setter
-@Entity
 @ToString
 public class ErrorLog {
-   @Id
-   @GeneratedValue
    private Long id;
 
-   @Column(nullable = false)
    private String message;
 
-//   private List<ErrorComment> comments = new ArrayList<>();
 
-//   private Set<ErrorTag> tags = new HashSet<>();
+   private Set<ErrorTag> tags = new HashSet<>();
 
    public ErrorLog() {
    }
