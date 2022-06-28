@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
-import victor.training.jpa.app.domain.entity.*;
+import victor.training.jpa.app.entity.*;
 import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
 import victor.training.jpa.app.facade.dto.TeacherSearchResult;
 
@@ -20,8 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.springframework.data.domain.Sort.Direction.ASC;
-import static victor.training.jpa.app.domain.entity.QCourseActivity.courseActivity;
-import static victor.training.jpa.app.domain.entity.QTeacher.teacher;
+import static victor.training.jpa.app.entity.QCourseActivity.courseActivity;
 
 @Repository
 public class TeacherSearchRepo {

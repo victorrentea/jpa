@@ -27,16 +27,12 @@ import victor.training.jpa.app.repo.SubjectRepo;
 @RestController
 @RequestMapping("/api/subjects")
 public class SubjectController {
-	private static final Logger log = LoggerFactory.getLogger(SubjectController.class); 
-	
+
 	@Autowired
 	private TheFacade facade;
 
 	@Autowired
 	private SubjectRepo subjectRepo;
-	
-	@PersistenceContext
-	private EntityManager em;
 	
 	@GetMapping
 	public List<SubjectDto> getAll() {

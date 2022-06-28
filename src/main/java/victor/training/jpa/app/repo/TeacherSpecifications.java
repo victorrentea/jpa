@@ -1,11 +1,11 @@
 package victor.training.jpa.app.repo;
 
 import org.springframework.data.jpa.domain.Specification;
-import victor.training.jpa.app.domain.entity.CourseActivity;
-import victor.training.jpa.app.domain.entity.CourseActivity_;
-import victor.training.jpa.app.domain.entity.Teacher;
-import victor.training.jpa.app.domain.entity.Teacher.Grade;
-import victor.training.jpa.app.domain.entity.Teacher_;
+import victor.training.jpa.app.entity.CourseActivity;
+import victor.training.jpa.app.entity.CourseActivity_;
+import victor.training.jpa.app.entity.Teacher;
+import victor.training.jpa.app.entity.Teacher.Grade;
+import victor.training.jpa.app.entity.Teacher_;
 
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.SetJoin;

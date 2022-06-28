@@ -3,14 +3,12 @@ package victor.training.jpa.app;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.hibernate.engine.jdbc.ClobProxy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import victor.training.jpa.app.domain.entity.TeacherDetails;
+import victor.training.jpa.app.entity.TeacherDetails;
 import victor.training.jpa.app.repo.TeacherDetailsRepo;
 
 import java.io.*;
-import java.sql.Clob;
 import java.sql.SQLException;
 
 @Component

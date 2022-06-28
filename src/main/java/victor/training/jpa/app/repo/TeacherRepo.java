@@ -7,9 +7,9 @@ import java.util.Set;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
-import victor.training.jpa.app.common.data.CustomJpaRepository;
-import victor.training.jpa.app.domain.entity.Subject;
-import victor.training.jpa.app.domain.entity.Teacher;
+import victor.training.jpa.app.common.CustomJpaRepository;
+import victor.training.jpa.app.entity.Subject;
+import victor.training.jpa.app.entity.Teacher;
 
 public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, TeacherRepoCustom, JpaSpecificationExecutor<Teacher> {
 

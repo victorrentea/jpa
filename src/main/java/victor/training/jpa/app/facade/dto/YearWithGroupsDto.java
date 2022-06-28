@@ -3,8 +3,8 @@ package victor.training.jpa.app.facade.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import victor.training.jpa.app.domain.entity.StudentsGroup;
-import victor.training.jpa.app.domain.entity.StudentsYear;
+import victor.training.jpa.app.entity.StudentsGroup;
+import victor.training.jpa.app.entity.StudentsYear;
 
 public class YearWithGroupsDto {
 

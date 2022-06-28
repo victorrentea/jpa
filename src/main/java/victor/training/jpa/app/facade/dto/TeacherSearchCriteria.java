@@ -1,6 +1,6 @@
 package victor.training.jpa.app.facade.dto;
 
-import victor.training.jpa.app.domain.entity.Teacher.Grade;
+import victor.training.jpa.app.entity.Teacher.Grade;
 
 public class TeacherSearchCriteria {
    public String name;

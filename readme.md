@@ -7,3 +7,5 @@ First, start up the database by running `StartDatabase.java`. You can then conne
 - password `sa`
 - driver H2
 
+## Troubleshooting
+1. If after importing in your IDE, the compiler complains it cannot find some classes beginning with Q... (eg QTeacher), please run `mvn install` from terminal to generate the QueryDSL classes. 

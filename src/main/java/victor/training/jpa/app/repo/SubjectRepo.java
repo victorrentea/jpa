@@ -2,8 +2,8 @@ package victor.training.jpa.app.repo;
 
 import java.util.List;
 
-import victor.training.jpa.app.common.data.CustomJpaRepository;
-import victor.training.jpa.app.domain.entity.Subject;
+import victor.training.jpa.app.common.CustomJpaRepository;
+import victor.training.jpa.app.entity.Subject;
 
 public interface SubjectRepo extends CustomJpaRepository<Subject, Long> {
 

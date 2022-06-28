@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import victor.training.jpa.app.domain.entity.ErrorLog;
-import victor.training.jpa.app.domain.entity.Subject;
+import victor.training.jpa.app.entity.ErrorLog;
+import victor.training.jpa.app.entity.Subject;
 
 @Service
 public class AnotherService {

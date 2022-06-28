@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.test.annotation.Commit;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import victor.training.jpa.app.domain.entity.TimeSlot;
+import victor.training.jpa.app.entity.TimeSlot;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;

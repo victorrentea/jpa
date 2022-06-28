@@ -1,6 +1,6 @@
 package victor.training.jpa.app.facade.dto;
 
-import victor.training.jpa.app.domain.entity.ContactChannel;
+import victor.training.jpa.app.entity.ContactChannel;
 
 public class ContactChannelDto {
 	public ContactChannel.Type type;

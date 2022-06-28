@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import victor.training.jpa.app.domain.entity.CourseActivity;
-import victor.training.jpa.app.domain.entity.LabActivity;
-import victor.training.jpa.app.domain.entity.StudentsGroup;
-import victor.training.jpa.app.domain.entity.StudentsYear;
-import victor.training.jpa.app.domain.entity.Teacher;
-import victor.training.jpa.app.domain.entity.TeachingActivity;
+import victor.training.jpa.app.entity.CourseActivity;
+import victor.training.jpa.app.entity.LabActivity;
+import victor.training.jpa.app.entity.StudentsGroup;
+import victor.training.jpa.app.entity.StudentsYear;
+import victor.training.jpa.app.entity.Teacher;
+import victor.training.jpa.app.entity.TeachingActivity;
 import victor.training.jpa.app.facade.TheFacade;
 import victor.training.jpa.app.facade.dto.OrarDto;
 import victor.training.jpa.app.repo.StudentsYearRepo;
@@ -44,7 +44,7 @@ public class TimeTableController {
 	@GetMapping("{yearId}")
 	public OrarDto buildOrar(@PathVariable long yearId) {
 		OrarDto dto = new OrarDto();
-		StudentsYear year = yearRepo.getExactlyOne(yearId);
+		StudentsYear year = yearRepo.findExactlyOne(yearId);
 		List<StudentsGroup> yearGroups = year.getGroups();
 		dto.yearCode = year.getCode();
 		dto.groups = yearGroups.stream().map(StudentsGroup::getCode).collect(toList());

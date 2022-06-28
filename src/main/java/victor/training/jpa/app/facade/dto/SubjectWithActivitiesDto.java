@@ -3,8 +3,8 @@ package victor.training.jpa.app.facade.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import victor.training.jpa.app.domain.entity.Subject;
-import victor.training.jpa.app.domain.entity.TeachingActivity;
+import victor.training.jpa.app.entity.Subject;
+import victor.training.jpa.app.entity.TeachingActivity;
 
 public class SubjectWithActivitiesDto {
 

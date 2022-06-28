@@ -6,14 +6,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import victor.training.jpa.app.domain.entity.*;
+import victor.training.jpa.app.entity.ErrorLog;
+import victor.training.jpa.app.entity.ErrorTag;
 import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.ErrorTagRepo;
-import victor.training.jpa.app.repo.SubjectRepo;
 
 import javax.persistence.EntityManager;
-import java.util.Arrays;
-import java.util.Collections;
 
 @RequiredArgsConstructor
 @Component

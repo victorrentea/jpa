@@ -2,7 +2,7 @@ package victor.training.jpa.app.facade.dto;
 
 import java.time.format.DateTimeFormatter;
 
-import victor.training.jpa.app.domain.entity.Subject;
+import victor.training.jpa.app.entity.Subject;
 
 public class SubjectDto {
 

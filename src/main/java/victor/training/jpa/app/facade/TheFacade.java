@@ -1,49 +1,35 @@
 package victor.training.jpa.app.facade;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import victor.training.jpa.app.entity.*;
+import victor.training.jpa.app.facade.dto.*;
+import victor.training.jpa.app.util.MyUtil;
 
+import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
-import javax.persistence.PersistenceContext;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import victor.training.jpa.app.domain.entity.*;
-import victor.training.jpa.app.facade.dto.ContactChannelDto;
-import victor.training.jpa.app.facade.dto.StudentsGroupDto;
-import victor.training.jpa.app.facade.dto.SubjectDto;
-import victor.training.jpa.app.facade.dto.SubjectWithActivitiesDto;
-import victor.training.jpa.app.facade.dto.TeacherDetailsDto;
-import victor.training.jpa.app.facade.dto.TimeSlotDto;
-import victor.training.jpa.app.facade.dto.YearWithGroupsDto;
-import victor.training.jpa.app.util.MyUtil;
-
+@Slf4j
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class TheFacade {
-	private final static Logger log = LoggerFactory.getLogger(TheFacade.class);
-
-	@PersistenceContext
 	private EntityManager em;
-	
-	@Autowired
 	private AnotherService anotherService;
-	
-	@Autowired
 	private NonTransactedService nonTransactedService;
-	
-	
-	// 1. persist. when IDs are assigned?
+
+	// 1. persist. when are IDs assigned?
 	// 2. link existing entity from DB. check != null
 	// 3. getReference
 	public Long createSubject(SubjectDto subjectDto) {
@@ -52,6 +38,7 @@ public class TheFacade {
 		subject.setHolderTeacher(em.find(Teacher.class, subjectDto.holderTeacherId));
 		log.debug("ID before persist: " + subject.getId());
 		em.persist(subject);
+		log.debug("ID after persist: " + subject.getId());
 		return subject.getId();
 	}
 	
@@ -217,7 +204,7 @@ public class TheFacade {
 		log.debug("The newly created entity is == the entity returned by merge? {}", returnedByMerge == year );
 	}
 
-	// =========================== gata merge =======================
+	// =========================== end of merge =======================
 	public List<ContactChannelDto> getTeacherChannels(long teacherId) {
 		Teacher teacher = em.find(Teacher.class, teacherId);
 		log.debug("Teacher got from DB");

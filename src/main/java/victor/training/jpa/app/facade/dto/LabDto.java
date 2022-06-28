@@ -4,8 +4,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.TreeSet;
 
-import victor.training.jpa.app.domain.entity.LabActivity;
-import victor.training.jpa.app.domain.entity.Teacher;
+import victor.training.jpa.app.entity.LabActivity;
+import victor.training.jpa.app.entity.Teacher;
 
 public class LabDto {
 

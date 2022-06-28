@@ -3,7 +3,7 @@ package victor.training.jpa.app.repo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
-import victor.training.jpa.app.domain.entity.ErrorLog;
+import victor.training.jpa.app.entity.ErrorLog;
 
 public interface ErrorLogRepo extends JpaRepository<ErrorLog, Long> {
 

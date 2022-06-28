@@ -1,10 +1,9 @@
 package victor.training.jpa.app.repo;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import victor.training.jpa.app.domain.entity.Teacher;
-import victor.training.jpa.app.domain.entity.Teacher.Grade;
+import victor.training.jpa.app.entity.Teacher;
+import victor.training.jpa.app.entity.Teacher.Grade;
 
 import java.util.List;
 

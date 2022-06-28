@@ -7,19 +7,16 @@ import java.time.DayOfWeek;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.springframework.boot.context.event.ApplicationStartedEvent;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import victor.training.jpa.app.domain.entity.CourseActivity;
-import victor.training.jpa.app.domain.entity.LabActivity;
-import victor.training.jpa.app.domain.entity.StudentsGroup;
-import victor.training.jpa.app.domain.entity.StudentsYear;
-import victor.training.jpa.app.domain.entity.Subject;
-import victor.training.jpa.app.domain.entity.Teacher;
-import victor.training.jpa.app.domain.entity.TeacherDetails;
+import victor.training.jpa.app.entity.CourseActivity;
+import victor.training.jpa.app.entity.LabActivity;
+import victor.training.jpa.app.entity.StudentsGroup;
+import victor.training.jpa.app.entity.StudentsYear;
+import victor.training.jpa.app.entity.Subject;
+import victor.training.jpa.app.entity.Teacher;
+import victor.training.jpa.app.entity.TeacherDetails;
 
 @Component
 public class DummyDataCreator {

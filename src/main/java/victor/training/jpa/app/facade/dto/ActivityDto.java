@@ -1,7 +1,6 @@
 package victor.training.jpa.app.facade.dto;
 
-import victor.training.jpa.app.domain.entity.Teacher.Grade;
-import victor.training.jpa.app.domain.entity.TeachingActivity;
+import victor.training.jpa.app.entity.TeachingActivity;
 
 public class ActivityDto {
 	public Long id;
