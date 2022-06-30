@@ -36,6 +36,7 @@ public class TheFacade {
         Teacher teacher = new Teacher()
                 .setName(teacherDto.getName())
                 .setGrade(teacherDto.getGrade())
+                .setMoreDetails(teacherDto.getMoreDetails())
                 .setDetails(new TeacherDetails()
                         .setCv(teacherDto.getCv()));
         log.debug("ID before persist: " + teacher.getId());

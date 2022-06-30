@@ -7,6 +7,7 @@ import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.test.context.ContextConfiguration;
 import victor.training.jpa.app.CaptureSystemOutput.OutputCapture;
 import victor.training.jpa.app.entity.ContactChannel;
+import victor.training.jpa.app.entity.MoreTeacherDetails;
 import victor.training.jpa.app.entity.Teacher;
 import victor.training.jpa.app.facade.TheFacade;
 import victor.training.jpa.app.facade.dto.*;
@@ -39,6 +40,7 @@ public class AppFlowTest {
         teacherId = facade.createTeacher(new TeacherDetailsDto()
                 .setName("Richard Feynman")
                 .setGrade(Teacher.Grade.PROFESSOR)
+                .setMoreDetails(new MoreTeacherDetails().setAge(37))
                 .setCv("Long impressive CV, with a Nobel Prize"));
         assertThat(teacherId).isNotNull();
     }
@@ -120,6 +122,13 @@ public class AppFlowTest {
         facade.getTeacherById(teacherId);
 
         assertThat(output.toString()).doesNotContain(".cv "); //because it's BIG
+    }
+    @Order(76)
+    @Test
+    void getTeacherById_LoadsJsonFromString() {
+        TeacherDto dto = facade.getTeacherById(teacherId);
+
+        assertThat(dto.getMoreDetails().getAge()).isEqualTo(37);
     }
 
     @Order(80)

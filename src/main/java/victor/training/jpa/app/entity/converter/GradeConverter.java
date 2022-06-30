@@ -1,4 +1,6 @@
-package victor.training.jpa.app.entity;
+package victor.training.jpa.app.entity.converter;
+
+import victor.training.jpa.app.entity.Teacher;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

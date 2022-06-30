@@ -2,6 +2,7 @@ package victor.training.jpa.app.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import victor.training.jpa.app.entity.converter.MoreTeacherDetailsConverter;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
@@ -44,6 +45,9 @@ public class Teacher {
 			, cascade = CascadeType.ALL // SOLUTION cascade persist on child entity
 		)
 	private TeacherDetails details;
+
+	@Convert(converter = MoreTeacherDetailsConverter.class)
+	private MoreTeacherDetails moreDetails;
 	
 	@ElementCollection
 //	@OrderColumn(name="INDEX")
