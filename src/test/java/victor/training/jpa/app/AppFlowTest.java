@@ -3,6 +3,7 @@ package victor.training.jpa.app;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.test.context.ContextConfiguration;
 import victor.training.jpa.app.CaptureSystemOutput.OutputCapture;
 import victor.training.jpa.app.entity.ContactChannel;
@@ -135,7 +136,6 @@ public class AppFlowTest {
     @Test
     void changeOneItemOfElementCollection_reinsertAll() {
         facade.setTeacherChannels(teacherId, List.of(new ContactChannelDto(ContactChannel.Type.FACEBOOK, "vrentea")));
-
         System.out.println("Now, change again later");
 
         facade.setTeacherChannels(teacherId, List.of(

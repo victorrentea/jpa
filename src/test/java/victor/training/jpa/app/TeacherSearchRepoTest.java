@@ -92,28 +92,28 @@ abstract class TeacherSearchRepoTest {
    }
 }
 
-@Order(1)
+//@Order(1)
 class JpqlConcat extends TeacherSearchRepoTest {
    protected List<Teacher> search() {
       return searchRepo.jpqlConcat(criteria);
    }
 }
 
-@Order(2)
+//@Order(2)
 class CriteriaAPI extends TeacherSearchRepoTest {
    protected List<Teacher> search() {
       return searchRepo.criteriaApi(criteria);
    }
 }
 
-@Order(3)
+//@Order(3)
 class Specification extends TeacherSearchRepoTest {
    protected List<Teacher> search() {
       return searchRepo.specifications(criteria);
    }
 }
 
-@Order(4)
+//@Order(4)
 class QueryDSL extends TeacherSearchRepoTest {
    protected List<Teacher> search() {
       return searchRepo.queryDSL(criteria);
