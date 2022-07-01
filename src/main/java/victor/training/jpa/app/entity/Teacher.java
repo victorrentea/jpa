@@ -86,6 +86,7 @@ public class Teacher {
 
 
 	@Basic(fetch = FetchType.LAZY)
+	@Lob
 	private String lazy; // 10MB
 
 	public Teacher() { // only for hibernate

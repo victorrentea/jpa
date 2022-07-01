@@ -17,6 +17,6 @@ public interface SubjectRepo extends CustomJpaRepository<Subject, Long> {
 
 
 
-	@Query("SELECT s FROM Subject s LEFT JOIN FETCH s.activities" )
+	@Query("SELECT s FROM Subject s LEFT JOIN FETCH s.activities JOIN FETCH s.holderTeacher" )
 	Subject findSubjectWithActivities(Long subjectId);
 }

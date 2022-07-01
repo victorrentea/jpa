@@ -111,6 +111,7 @@ public class TheFacade {
         return new SubjectWithActivitiesDto(subject);
     }
 
+    @Transactional
     public void assignTeacherToLab(long teacherId, long labId) {
         LabActivity lab = labRepo.findOneById(labId);
         Teacher teacher = teacherRepo.findOneById(teacherId);
@@ -124,6 +125,7 @@ public class TheFacade {
         return labRepo.findAll().stream().map(LabDto::new).collect(toList());
     }
 
+    @Transactional
     public TeacherDto getTeacherById(Long teacherId) {
         Teacher teacher = teacherRepo.findById(teacherId).orElseThrow();
         log.debug("-------- After this -----");
@@ -152,6 +154,8 @@ public class TheFacade {
         StudentsYear year = new StudentsYear();
         year.setCode(yearDto.code);
         year.setId(yearDto.id);
+
+//        mainTableRepo.findById(id).lastchangeuuid == dto.uuid throw
 
         for (StudentsGroupDto groupDto : yearDto.groups) {
             StudentsGroup group = new StudentsGroup();
