@@ -31,7 +31,7 @@ public class Subject  {
 	@ManyToOne
 	private Teacher holderTeacher;
 	
-	@OneToMany(mappedBy="subject")
+	@OneToMany(mappedBy="subject", fetch = FetchType.EAGER)
 	private List<TeachingActivity> activities = new ArrayList<>();
 	
 	@LastModifiedDate // TODO ORM
