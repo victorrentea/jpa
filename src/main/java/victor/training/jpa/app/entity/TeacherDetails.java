@@ -16,9 +16,8 @@ public class TeacherDetails {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
-	@Lob
-	@Basic(fetch = FetchType.LAZY)
+
+	// TODO ORM
 	private String cv;
 
 }

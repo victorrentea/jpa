@@ -13,9 +13,10 @@ import java.util.Set;
 
 import javax.persistence.*;
 
-@Entity
 @Getter
 @Setter
+
+// TODO ORM
 public class Teacher {
 
 	public enum Grade {
@@ -29,34 +30,28 @@ public class Teacher {
 			this.dbValue = dbValue;
 		}
 	}
-	
-	@Id
-	@GeneratedValue
+
+	// TODO ORM
 	private Long id;
 
 	private String name;
-	
-	@Enumerated(EnumType.STRING)
-//	@Convert(converter = GradeConverter.class)
+
+	// TODO ORM
 	private Grade grade;
-	
-	// fetch=LAZY or invert the link to retrieve details by teacher via repo
-	@OneToOne(
-		)
+
+	// TODO ORM
 	private TeacherDetails details;
 
-	@Convert(converter = MoreTeacherDetailsConverter.class)
+	// TODO ORM
 	private MoreTeacherDetails moreDetails;
 	
-	@ElementCollection
-//	@OrderColumn(name="INDEX")
-	@OrderBy("type ASC, value ASC")
+	// TODO ORM + sorted, ordered
 	private List<ContactChannel> channels = new ArrayList<>();
 
-	@OneToMany(mappedBy = "holderTeacher")
+	// TODO ORM
 	private Set<Subject> heldSubjects = new HashSet<>() ;
-	
-	@ManyToMany(mappedBy = "teachers")
+
+	// TODO ORM
 	private Set<TeachingActivity> activities = new HashSet<>();
 	
 	@Enumerated(EnumType.STRING)

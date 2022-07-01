@@ -32,14 +32,14 @@ public class Subject  {
 	private String name;
 	
 	private boolean active;
-	
-	@ManyToOne
+
+	// TODO ORM
 	private Teacher holderTeacher;
 	
 	@OneToMany(mappedBy="subject")
 	private List<TeachingActivity> activities = new ArrayList<>();
 	
-	@LastModifiedDate
+	@LastModifiedDate // TODO ORM
 	private LocalDateTime lastModifiedDate;
 	
 	@LastModifiedBy
