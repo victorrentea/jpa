@@ -1,25 +1,36 @@
 package victor.training.jpa.app.entity;
 
+import lombok.Data;
+
 import java.time.DayOfWeek;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+
+@Embeddable
+@Data
+class A {
+	private String nameX;
+}
 
 @Embeddable
 public class TimeSlot {
 
 	@Enumerated(EnumType.STRING)
-	private DayOfWeek dayOfWeek;
+	private final DayOfWeek dayOfWeek;
 	// embeddable names are contextualized using spring.jpa.hibernate.naming.implicit-strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
-	
-	private Integer startHour;
-	
-	private Integer hours;
-	
-	private String roomId;
 
-	protected TimeSlot() {}
+//	@Embedded
+//	private  A a;
+	private final Integer startHour;
+	
+	private final Integer hours;
+	
+	private final String roomId;
+
+//	protected TimeSlot() {} // for hibernate
 
 	public TimeSlot(DayOfWeek dayOfWeek, int startHour, int hours, String roomId) {
 		this.dayOfWeek = dayOfWeek;

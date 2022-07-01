@@ -33,15 +33,17 @@ public class TheFacade {
     // TODO when are IDs assigned ?
     // TODO Exception: object references an unsaved transient instance: a) save details separately or b) cascade
     public Long createTeacher(TeacherDetailsDto teacherDto) {
-        Teacher teacher = new Teacher()
-                .setName(teacherDto.getName())
+        TimeSlot counseling = teacherDto.getCounselingInterval().toTimeSlot();
+//        counseling.get
+        Teacher teacher = new Teacher(teacherDto.getName())
+//                .setName(teacherDto.getName())
                 .setGrade(teacherDto.getGrade())
                 .setMoreDetails(teacherDto.getMoreDetails())
 //                .setCounselingDay(teacherDto.getCounselingInterval().getDay())
 //                .setCounselingDurationInHours(teacherDto.getCounselingInterval().getDurationInHours())
 //                .setCounselingStartHour(teacherDto.getCounselingInterval().getStartHour())
 //                .setCounselingRoomId(teacherDto.getCounselingInterval().getRoomId())
-                .setCounseling(teacherDto.getCounselingInterval().toTimeSlot())
+                .setCounseling(counseling)
                 .setDetails(new TeacherDetails()
                         .setCv(teacherDto.getCv()));
         log.debug("ID before persist: " + teacher.getId());
@@ -102,7 +104,8 @@ public class TheFacade {
     public void assignTeacherToLab(long teacherId, long labId) {
         LabActivity lab = labRepo.findOneById(labId);
         Teacher teacher = teacherRepo.findOneById(teacherId);
-        teacher.getActivities().add(lab);
+
+        lab.addTeacher(teacher);
         // TODO Remember to update OWNER side (not mappedBy side) of a relation!
     }
 

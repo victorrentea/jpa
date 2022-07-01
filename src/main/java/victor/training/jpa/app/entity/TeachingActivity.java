@@ -2,11 +2,13 @@ package victor.training.jpa.app.entity;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -43,9 +45,17 @@ public abstract class TeachingActivity {
 	
 	@ManyToMany // OWNER SIDE.❤️ YOU HAVE TO SET THIS
 
+	@Setter(AccessLevel.NONE)
 //	@OrderColumn(name="INDEX") + the collection must become List
 	private Set<Teacher> teachers = new HashSet<>();
-	
 
-	
+
+	public Set<Teacher> getTeachers() {
+		return Collections.unmodifiableSet(teachers);
+	}
+
+	public void addTeacher(Teacher teacher) {
+		teachers.add(teacher);
+		teacher.activities.add(this);
+	}
 }

@@ -6,10 +6,11 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Getter
-@Entity
+//@Entity
+@Embeddable
 public class ContactChannel {
-	@Id
-	private Long id;
+//	@Id
+//	private Long id;
 
 	public enum Type {
 		PERSONAL_PHONE,

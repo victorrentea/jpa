@@ -1,5 +1,6 @@
 package victor.training.jpa.app.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import victor.training.jpa.app.entity.converter.GradeConverter;
@@ -10,6 +11,8 @@ import java.time.DayOfWeek;
 import java.util.*;
 
 import javax.persistence.*;
+import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -33,6 +36,9 @@ public class Teacher {
 	@GeneratedValue
 	private Long id; // PK
 
+//	@NotNull
+//	@TeacherName // a custom validation composed of @NotNUll and Size(min=3,max=20)
+//	@Setter(AccessLevel.NONE)
 	private String name;
 
 //@Enumerated(EnumType.STRING)
@@ -45,7 +51,8 @@ public class Teacher {
 	@Convert(converter = MoreTeacherDetailsConverter.class)
 	private MoreTeacherDetails moreDetails;
 
-	@OneToMany // MISTAKE
+//	@OneToMany
+	@ElementCollection
 	@JoinColumn // without this a table is born
 //	@OrderColumn
 	@OrderBy("value ASC")
@@ -55,9 +62,15 @@ public class Teacher {
 	private Set<Subject> heldSubjects = new HashSet<>() ;
 
 	@ManyToMany(mappedBy = "teachers")
-	private Set<TeachingActivity> activities = new HashSet<>();
-	
-//	@Enumerated(EnumType.STRING)
+	@Setter(AccessLevel.NONE)
+	Set<TeachingActivity> activities = new HashSet<>();
+
+
+	public Set<TeachingActivity> getActivities() {
+		return Collections.unmodifiableSet(activities);
+	}
+
+	//	@Enumerated(EnumType.STRING)
 //	private DayOfWeek counselingDay;
 //
 //	private Integer counselingStartHour;
@@ -68,11 +81,13 @@ public class Teacher {
 	@Embedded
 	private TimeSlot counseling;
 
-	public Teacher() {
+	public Teacher() { // only for hibernate
 	}
-	
+	//why hibernate requires protected constructor?
 	public Teacher(String name) {
 		this.name = Objects.requireNonNull(name);
+//		Validator validator = hocus pocus..;
+//		validator.validate((this));
 	}
 
 	@Override
