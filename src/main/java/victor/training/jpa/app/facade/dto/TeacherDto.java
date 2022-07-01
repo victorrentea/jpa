@@ -13,11 +13,20 @@ public class TeacherDto {
 	private String name;
 	private Grade grade;
 	private MoreTeacherDetails moreDetails;
+	private TimeSlotDto counselingInterval;
 	
 	public TeacherDto(Teacher teacher) {
 		id = teacher.getId();
 		name = teacher.getName();
 		grade = teacher.getGrade();
 		moreDetails = teacher.getMoreDetails();
+
+//		counselingInterval = new TimeSlotDto(teacher.getCounseling());
+		counselingInterval = new TimeSlotDto(
+				teacher.getCounselingDay(),
+				teacher.getCounselingStartHour(),
+				teacher.getCounselingDurationInHours(),
+				teacher.getCounselingRoomId()
+		);
 	}
 }

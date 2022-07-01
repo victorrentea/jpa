@@ -13,6 +13,7 @@ public class TeacherDetailsDto {
 	private String name;
 	private String cv;
 	private Grade grade;
+
 	private TimeSlotDto counselingInterval;
 	private MoreTeacherDetails moreDetails;
 	
@@ -23,11 +24,13 @@ public class TeacherDetailsDto {
 		if (teacher.getDetails() != null) {
 			cv = teacher.getDetails().getCv();
 		}
+//		counselingInterval = new TimeSlotDto(teacher.getCounseling());
+
 		counselingInterval = new TimeSlotDto(
 				teacher.getCounselingDay(),
 				teacher.getCounselingStartHour(),
 				teacher.getCounselingDurationInHours(),
 				teacher.getCounselingRoomId()
-				);
+		);
 	}
 }

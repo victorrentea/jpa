@@ -2,6 +2,7 @@ package victor.training.jpa.app.facade;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.*;
@@ -24,7 +25,6 @@ import static java.util.stream.Collectors.toList;
 public class TheFacade {
     private final EntityManager em;
     private final AnotherService anotherService;
-    private final NonTransactedService nonTransactedService;
     private final TeacherRepo teacherRepo;
     private final SubjectRepo subjectRepo;
     private final LabRepo labRepo;
@@ -37,6 +37,10 @@ public class TheFacade {
                 .setName(teacherDto.getName())
                 .setGrade(teacherDto.getGrade())
                 .setMoreDetails(teacherDto.getMoreDetails())
+                .setCounselingDay(teacherDto.getCounselingInterval().getDay())
+                .setCounselingDurationInHours(teacherDto.getCounselingInterval().getDurationInHours())
+                .setCounselingStartHour(teacherDto.getCounselingInterval().getStartHour())
+                .setCounselingRoomId(teacherDto.getCounselingInterval().getRoomId())
                 .setDetails(new TeacherDetails()
                         .setCv(teacherDto.getCv()));
         log.debug("ID before persist: " + teacher.getId());
@@ -76,10 +80,10 @@ public class TheFacade {
         LabActivity lab = new LabActivity();
 
         // TODO Refactor: introduce @Embeddable in the TeachingActivity
-        lab.setDayOfWeek(timeSlotDto.day);
-        lab.setDurationInHours(timeSlotDto.durationInHours);
-        lab.setStartHour(timeSlotDto.startHour);
-        lab.setRoomId(timeSlotDto.roomId);
+        lab.setDayOfWeek(timeSlotDto.getDay());
+        lab.setDurationInHours(timeSlotDto.getDurationInHours());
+        lab.setStartHour(timeSlotDto.getStartHour());
+        lab.setRoomId(timeSlotDto.getRoomId());
 
         // TODO link lab to subject
         lab.setSubject(new Subject().setId(subjectId)); // SOLUTION

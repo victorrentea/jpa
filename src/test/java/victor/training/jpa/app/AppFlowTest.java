@@ -34,6 +34,8 @@ public class AppFlowTest {
     private Long subjectId;
     private long labId;
 
+
+
     @Test
     @Order(10)
     void createTeacher_idsAreAssignedAtPersist() {
@@ -41,8 +43,21 @@ public class AppFlowTest {
                 .setName("Richard Feynman")
                 .setGrade(Teacher.Grade.PROFESSOR)
                 .setMoreDetails(new MoreTeacherDetails().setAge(37))
+                .setCounselingInterval(new TimeSlotDto()
+                        .setDay(DayOfWeek.MONDAY)
+                        .setStartHour(10)
+                        .setDurationInHours(2)
+                        .setRoomId("EC 105")
+                )
                 .setCv("Long impressive CV, with a Nobel Prize"));
         assertThat(teacherId).isNotNull();
+    }
+    @Order(15)
+    @Test
+    void getTeacherById_DisplaysBackTimeSlot_Embeddable() {
+        TeacherDto dto = facade.getTeacherById(teacherId);
+
+        assertThat(dto.getCounselingInterval().getDay()).isEqualTo(DayOfWeek.MONDAY);
     }
 
     @Order(20)
@@ -130,6 +145,7 @@ public class AppFlowTest {
 
         assertThat(dto.getMoreDetails().getAge()).isEqualTo(37);
     }
+
 
     @Order(80)
     @Test

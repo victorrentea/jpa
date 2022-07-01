@@ -13,9 +13,9 @@ public class TimeSlot {
 	private DayOfWeek dayOfWeek;
 	// embeddable names are contextualized using spring.jpa.hibernate.naming.implicit-strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
 	
-	private int startHour;
+	private Integer startHour;
 	
-	private int hours;
+	private Integer hours;
 	
 	private String roomId;
 
