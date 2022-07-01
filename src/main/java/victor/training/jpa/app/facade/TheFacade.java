@@ -74,17 +74,11 @@ public class TheFacade {
     public void updateSubject(SubjectDto subjectDto) {
         anotherService.checkPermissionsOnSubject(subjectDto.getId());
         Subject subject = subjectRepo.findOneById(subjectDto.getId());
-//        subject.getHolderTeacher().setName("Different");
         subject.setName(subjectDto.getName())
                 .setHolderTeacher(teacherRepo.getOne(subjectDto.getHolderTeacherId()));
 
-        subjectRepo.save(new Subject());
+
 //        subjectRepo.save(subject);
-//        em.flush(); // before calling PL/SQL
-
-        System.out.println("Before the SQL");
-        System.out.println(subjectRepo.findAll());
-
         // TODO 1 subjectRepo.save, OR (exclusive):
         // TODO 2 @Transactional on the method ==> "Auto-Flush" dirty Entities at Tx COMMIT, after "Exit method". >> remove repo.save!
         // TODO experiment @Transactional(readonly=true)
@@ -106,6 +100,7 @@ public class TheFacade {
         return labRepo.save(lab).getId();
     }
 
+    @Transactional
     public SubjectWithActivitiesDto getSubjectWithActivities(Long subjectId) {
         Subject subject = subjectRepo.findOneById(subjectId);
         log.debug("Got Subject from Database");

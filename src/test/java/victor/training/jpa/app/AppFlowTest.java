@@ -104,7 +104,7 @@ public class AppFlowTest {
     void updateSubject_doesOnlyQueryOnceForSubject_using1stLevelCache(OutputCapture output) {
         facade.updateSubject(new SubjectDto()
                 .setId(subjectId)
-                .setName("Algorithms and Data Structures")
+                .setName("Algorithms and Data StructuresXX")
                 .setHolderTeacherId(teacherId)
         );
         assertThat(output.toString()).containsOnlyOnce("from subject");
