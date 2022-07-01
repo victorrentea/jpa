@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 
 @Entity
+@SequenceGenerator(name = "mySeqGeneration")
 public class Teacher {
 
 	public enum Grade {
@@ -33,7 +34,7 @@ public class Teacher {
 	}
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(generator = "mySeqGeneration")
 	private Long id; // PK
 
 //	@NotNull

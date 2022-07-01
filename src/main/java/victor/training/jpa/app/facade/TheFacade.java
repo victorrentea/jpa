@@ -47,11 +47,21 @@ public class TheFacade {
         return id;
     }
 
+
+    @Transactional
     public Long createSubject(SubjectDto subjectDto) {
+//        Teacher findInTheDB = teacherRepo.findOneById(subjectDto.getHolderTeacherId()); // SELECT
+
+        Teacher findInTheDB = teacherRepo.getOne(subjectDto.getHolderTeacherId());
+        System.out.println(findInTheDB.getId());
+        System.out.println("WHO ARE YOU : " + findInTheDB.getClass());
+
+        Teacher teacher = new Teacher().setId(subjectDto.getHolderTeacherId());
+
         Subject subject = new Subject()
                 .setName(subjectDto.getName())
                 // TODO link existing entity from DB: a) Repo.getReference, b) new Teacher().setId()
-                .setHolderTeacher(teacherRepo.findOneById(subjectDto.getHolderTeacherId()))
+                .setHolderTeacher(teacher)
                 ;
         return subjectRepo.save(subject).getId();
     }
@@ -60,11 +70,21 @@ public class TheFacade {
         return new SubjectDto(subjectRepo.findOneById(subjectId));
     }
 
+    @Transactional
     public void updateSubject(SubjectDto subjectDto) {
         anotherService.checkPermissionsOnSubject(subjectDto.getId());
         Subject subject = subjectRepo.findOneById(subjectDto.getId());
+//        subject.getHolderTeacher().setName("Different");
         subject.setName(subjectDto.getName())
-                .setHolderTeacher(new Teacher().setId(subjectDto.getHolderTeacherId()));
+                .setHolderTeacher(teacherRepo.getOne(subjectDto.getHolderTeacherId()));
+
+        subjectRepo.save(new Subject());
+//        subjectRepo.save(subject);
+//        em.flush(); // before calling PL/SQL
+
+        System.out.println("Before the SQL");
+        System.out.println(subjectRepo.findAll());
+
         // TODO 1 subjectRepo.save, OR (exclusive):
         // TODO 2 @Transactional on the method ==> "Auto-Flush" dirty Entities at Tx COMMIT, after "Exit method". >> remove repo.save!
         // TODO experiment @Transactional(readonly=true)

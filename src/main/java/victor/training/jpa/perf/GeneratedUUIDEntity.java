@@ -12,11 +12,11 @@ import java.util.UUID;
 public class GeneratedUUIDEntity {
    @Id
    // Option 1: hibernate sees a NON-null PK > triggers .merge() > useless SELECT before every new persist
-   private String id = UUID.randomUUID().toString();
+//   private String id = UUID.randomUUID().toString();
 
    // Option 2: Hibernate will call the custom generator at .save() ==> no SELECT
-//   @GeneratedValue(generator = "uuid") // without this, h
-//   private String id;
+   @GeneratedValue(generator = "uuid") // without this, h
+   private String id;
 
 
    private String name;

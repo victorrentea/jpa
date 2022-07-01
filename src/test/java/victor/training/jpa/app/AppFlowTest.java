@@ -90,6 +90,7 @@ public class AppFlowTest {
                 .setName("Algorithms and Data Structures")
                 .setHolderTeacherId(teacherId)
         );
+        System.out.println("Now i am in the tests");
         assertThat(facade.getSubjectById(subjectId).getName())
                 .describedAs("Name must have been updated")
                 .isEqualTo("Algorithms and Data Structures");
