@@ -56,7 +56,6 @@ public class AppFlowTest {
     @Test
     void getTeacherById_DisplaysBackTimeSlot_Embeddable() {
         TeacherDto dto = facade.getTeacherById(teacherId);
-
         assertThat(dto.getCounselingInterval().getDay()).isEqualTo(DayOfWeek.MONDAY);
     }
 

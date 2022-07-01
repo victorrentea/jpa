@@ -53,12 +53,27 @@ public class MergePlayground {
       // ------- enter the browser -------
       log.debug("Client1 receives JSON from BE: " + jackson.writeValueAsString(copyInClient));
       copyInClient.setMessage("Client1 changed");
-      // TODO change fields
+
       // TODO add a comment + merge parent ==> cascade
+      copyInClient.getComments().get(0).setText("Different");
+      copyInClient.getComments().add(new ErrorComment("One more"));
+      copyInClient.getComments().remove(1);
       // TODO remove a comment (private child) ==> orphanRemoval
       // TODO link to +1 / other ErrorTag
       log.debug("Client1 sends back updated JSON: " + jackson.writeValueAsString(copyInClient));
       // -------- leave the browser ---------
+      // from here, the backend plays with a entity received as JSON
+      errorLogRepo.save(copyInClient);
+   }
+   @Transactional
+   public void client2(String jsonReceivedFromServer) throws JsonProcessingException {
+      ErrorLog copyInClient = jackson.readValue(jsonReceivedFromServer, ErrorLog.class);
+      // ------- enter the browser -------
+      log.debug("Client2 receives JSON from BE: " + jackson.writeValueAsString(copyInClient));
+      copyInClient.setMessage("Client2 changed");
+      log.debug("Client2 sends back updated JSON: " + jackson.writeValueAsString(copyInClient));
+      // -------- leave the browser ---------
+      // from here, the backend plays with a entity received as JSON
       errorLogRepo.save(copyInClient);
    }
    // TODO concurrent access:

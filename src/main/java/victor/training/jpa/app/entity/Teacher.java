@@ -7,6 +7,7 @@ import victor.training.jpa.app.entity.converter.GradeConverter;
 import victor.training.jpa.app.entity.converter.MoreTeacherDetailsConverter;
 import victor.training.jpa.app.facade.dto.TimeSlotDto;
 
+import java.sql.Clob;
 import java.time.DayOfWeek;
 import java.util.*;
 
@@ -46,7 +47,7 @@ public class Teacher {
 	@Convert(converter = GradeConverter.class)
 	private Grade grade;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private TeacherDetails details;
 
 	@Convert(converter = MoreTeacherDetailsConverter.class)
@@ -80,7 +81,12 @@ public class Teacher {
 //
 //	private String counselingRoomId;
 	@Embedded
+	@Basic(fetch = FetchType.LAZY)
 	private TimeSlot counseling;
+
+
+	@Basic(fetch = FetchType.LAZY)
+	private String lazy; // 10MB
 
 	public Teacher() { // only for hibernate
 	}

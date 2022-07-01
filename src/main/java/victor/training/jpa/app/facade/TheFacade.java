@@ -126,7 +126,12 @@ public class TheFacade {
 
     public TeacherDto getTeacherById(Long teacherId) {
         Teacher teacher = teacherRepo.findById(teacherId).orElseThrow();
-        return new TeacherDto(teacher);
+        log.debug("-------- After this -----");
+        System.out.println(teacher.getLazy());
+        TeacherDto teacherDto = new TeacherDto(teacher);
+        System.out.println("s, transformation done");
+
+        return teacherDto;
     }
 
 // TODO Force the Lazy load of the @..ToOne link

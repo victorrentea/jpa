@@ -19,6 +19,7 @@ public class TeacherDetails {
 	private Long id;
 
 	@Lob
+	@Basic(fetch = FetchType.LAZY)
 	private Clob cv; // 10MB
 
 }

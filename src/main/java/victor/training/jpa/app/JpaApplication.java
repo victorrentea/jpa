@@ -47,13 +47,14 @@ public class JpaApplication {
 //		String dataFromServer = mergePlayground.readFromBackend("client1");
 //		log.debug("==== Merge:WRITE1 (user clicked SAVE in edit screen ====");
 //		mergePlayground.client1(dataFromServer);
+//		mergePlayground.client2(dataFromServer);
 //		log.debug("==== Merge:final data in DB ====");
 //		mergePlayground.printFinalData();
 
-		log.debug("Uploading file...");
-		lobPlayground.uploadLargeClob();
-		log.debug("Downloading file...");
-		lobPlayground.downloadLargeClob();
+//		log.debug("Uploading file...");
+//		lobPlayground.uploadLargeClob();
+//		log.debug("Downloading file...");
+//		lobPlayground.downloadLargeClob();
 
 		log.debug(">>>>>>>>>> Playground Finished <<<<<<<<<<<<");
 
