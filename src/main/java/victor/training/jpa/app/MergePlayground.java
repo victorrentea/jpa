@@ -46,18 +46,29 @@ public class MergePlayground {
       log.info("JSON sent to client {}, eg on opening the EDIT screen: {}",username, json);
       return json;
    }
+
    @Transactional
-   public void client1(String json) throws JsonProcessingException {
-      ErrorLog copy1 = jackson.readValue(json, ErrorLog.class);
-      log.debug("Client1 receives JSON from BE: " + jackson.writeValueAsString(copy1));
+   public void client1(String jsonReceivedFromServer) throws JsonProcessingException {
+      ErrorLog copyInClient = jackson.readValue(jsonReceivedFromServer, ErrorLog.class);
+      // ------- enter the browser -------
+      log.debug("Client1 receives JSON from BE: " + jackson.writeValueAsString(copyInClient));
+      copyInClient.setMessage("Client1 changed");
       // TODO change fields
       // TODO add a comment + merge parent ==> cascade
       // TODO remove a comment (private child) ==> orphanRemoval
       // TODO link to +1 / other ErrorTag
-      log.debug("Client1 sends back updated JSON: " + jackson.writeValueAsString(copy1));
-      errorLogRepo.save(copy1);
+      log.debug("Client1 sends back updated JSON: " + jackson.writeValueAsString(copyInClient));
+      // -------- leave the browser ---------
+      errorLogRepo.save(copyInClient);
    }
    // TODO concurrent access:
    //    1)  add @Version for optimistic locking
    //    1)  set 'underEditBy' for pesimistic locking
+
+
+   @Transactional
+   public void printFinalData() {
+      ErrorLog errorLog = errorLogRepo.findById(logId).orElseThrow();
+      log.debug(errorLog.toString());
+   }
 }

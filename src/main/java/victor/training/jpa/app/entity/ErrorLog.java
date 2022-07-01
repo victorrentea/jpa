@@ -22,14 +22,15 @@ public class ErrorLog {
    @Column(nullable = false)
    private String message;
 
-   // TODO preserve order - it matters, cascade ALL on private children like this
+   // TODO cascade
+   // TODO preserve order (!it matters)
    @OneToMany
    @JoinColumn
    private List<ErrorComment> comments = new ArrayList<>();
 
-
    @ManyToMany
    private Set<ErrorTag> tags = new HashSet<>();
+
 
    public ErrorLog() {
    }

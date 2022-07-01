@@ -43,10 +43,12 @@ public class JpaApplication {
 
 //		log.debug("==== Merge:Persist init ====");
 //		mergePlayground.persistInitialData();
-//		log.debug("==== Merge:READ (better: 'open edit screen') ====");
-//		String dataForClient1 = mergePlayground.readFromBackend("client1");
-//		log.debug("==== Merge:WRITE1 (better: 'press SAVE in edit screen' ====");
-//		mergePlayground.client1(dataForClient1);
+//		log.debug("==== Merge:READ (user clicked open edit screen) ====");
+//		String dataFromServer = mergePlayground.readFromBackend("client1");
+//		log.debug("==== Merge:WRITE1 (user clicked SAVE in edit screen ====");
+//		mergePlayground.client1(dataFromServer);
+//		log.debug("==== Merge:final data in DB ====");
+//		mergePlayground.printFinalData();
 
 //		log.debug("Uploading file...");
 //		lobPlayground.uploadLargeClob();

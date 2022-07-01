@@ -17,6 +17,7 @@ import javax.persistence.OrderColumn;
 
 @Getter
 @Setter
+
 @Entity
 public class StudentsYear {
 

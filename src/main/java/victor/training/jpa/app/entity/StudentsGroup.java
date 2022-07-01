@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 
 @Getter
 @Setter
+
 @Entity
 public class StudentsGroup {
 	@Id
