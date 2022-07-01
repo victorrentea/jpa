@@ -44,9 +44,9 @@ public class TheFacade {
                 .setDetails(new TeacherDetails()
                         .setCv(teacherDto.getCv()));
         log.debug("ID before persist: " + teacher.getId());
+        Long id = teacher.getId();
         teacherRepo.save(teacher);
         log.debug("ID after persist: " + teacher.getId());
-        Long id = teacher.getId(); // SOLUTION: get id after save()
         return id;
     }
 
@@ -54,8 +54,7 @@ public class TheFacade {
         Subject subject = new Subject()
                 .setName(subjectDto.getName())
                 // TODO link existing entity from DB: a) Repo.getReference, b) new Teacher().setId()
-//                .setHolderTeacher(teacherRepo.findOneById(subjectDto.getHolderTeacherId()))
-                .setHolderTeacher(new Teacher().setId(subjectDto.getHolderTeacherId())) // SOLUTION: how to link to existing entity
+                .setHolderTeacher(teacherRepo.findOneById(subjectDto.getHolderTeacherId()))
                 ;
         return subjectRepo.save(subject).getId();
     }
@@ -64,7 +63,6 @@ public class TheFacade {
         return new SubjectDto(subjectRepo.findOneById(subjectId));
     }
 
-    @Transactional // SOLUTION
     public void updateSubject(SubjectDto subjectDto) {
         anotherService.checkPermissionsOnSubject(subjectDto.getId());
         Subject subject = subjectRepo.findOneById(subjectDto.getId());
@@ -85,15 +83,14 @@ public class TheFacade {
         lab.setStartHour(timeSlotDto.getStartHour());
         lab.setRoomId(timeSlotDto.getRoomId());
 
-        // TODO link lab to subject
-        lab.setSubject(new Subject().setId(subjectId)); // SOLUTION
+        // TODO add lab to subject
+        Subject subject = subjectRepo.findOneById(subjectId);
+
         return labRepo.save(lab).getId();
     }
 
-    //    @Transactional // SOLUTION
     public SubjectWithActivitiesDto getSubjectWithActivities(Long subjectId) {
-//        Subject subject = subjectRepo.findOneById(subjectId);
-        Subject subject = subjectRepo.findByIdWithActivities(subjectId); // SOLUTION
+        Subject subject = subjectRepo.findOneById(subjectId);
         log.debug("Got Subject from Database");
         // TODO fix "failed to lazily initialize a collection of role" by
         //   1) allowing lazy-loading via @Transactional, OR (exclusive)
@@ -101,13 +98,11 @@ public class TheFacade {
         return new SubjectWithActivitiesDto(subject);
     }
 
-    @Transactional // SOLUTION to auto-flush
     public void assignTeacherToLab(long teacherId, long labId) {
         LabActivity lab = labRepo.findOneById(labId);
         Teacher teacher = teacherRepo.findOneById(teacherId);
-        teacher.getActivities().add(lab); // SOLUTION
+        teacher.getActivities().add(lab);
         // TODO Remember to update OWNER side (not mappedBy side) of a relation!
-        lab.getTeachers().add(teacher); // SOLUTION
     }
 
     @Transactional // for lazy load... (guilty)

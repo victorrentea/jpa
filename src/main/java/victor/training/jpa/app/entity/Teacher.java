@@ -42,8 +42,6 @@ public class Teacher {
 	
 	// fetch=LAZY or invert the link to retrieve details by teacher via repo
 	@OneToOne(
-			fetch = FetchType.LAZY // SOLUTION fetch eager
-			, cascade = CascadeType.ALL // SOLUTION cascade persist on child entity
 		)
 	private TeacherDetails details;
 
