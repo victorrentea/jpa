@@ -23,7 +23,6 @@ public class ContactChannel {
 
 	@Enumerated(EnumType.STRING)
 	private Type type;
-
 	private String value;
 
 	private ContactChannel() {

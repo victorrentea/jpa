@@ -47,6 +47,8 @@ public class Teacher {
 
 	@OneToMany // MISTAKE
 	@JoinColumn // without this a table is born
+//	@OrderColumn
+	@OrderBy("value ASC")
 	private List<ContactChannel> channels = new ArrayList<>();
 
 	@OneToMany(mappedBy = "holderTeacher")
@@ -55,17 +57,16 @@ public class Teacher {
 	@ManyToMany(mappedBy = "teachers")
 	private Set<TeachingActivity> activities = new HashSet<>();
 	
-	@Enumerated(EnumType.STRING)
-	private DayOfWeek counselingDay;
-
-	private Integer counselingStartHour;
-
-	private Integer counselingDurationInHours;
-
-	private String counselingRoomId;
-
-//	@Embedded
-//	private TimeSlot counseling;
+//	@Enumerated(EnumType.STRING)
+//	private DayOfWeek counselingDay;
+//
+//	private Integer counselingStartHour;
+//
+//	private Integer counselingDurationInHours;
+//
+//	private String counselingRoomId;
+	@Embedded
+	private TimeSlot counseling;
 
 	public Teacher() {
 	}

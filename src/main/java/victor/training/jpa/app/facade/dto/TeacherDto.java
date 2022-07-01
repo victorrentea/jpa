@@ -21,12 +21,12 @@ public class TeacherDto {
 		grade = teacher.getGrade();
 		moreDetails = teacher.getMoreDetails();
 
-//		counselingInterval = new TimeSlotDto(teacher.getCounseling());
-		counselingInterval = new TimeSlotDto(
-				teacher.getCounselingDay(),
-				teacher.getCounselingStartHour(),
-				teacher.getCounselingDurationInHours(),
-				teacher.getCounselingRoomId()
-		);
+		counselingInterval = new TimeSlotDto(teacher.getCounseling());
+//		counselingInterval = new TimeSlotDto(
+//				teacher.getCounselingDay(),
+//				teacher.getCounselingStartHour(),
+//				teacher.getCounselingDurationInHours(),
+//				teacher.getCounselingRoomId()
+//		);
 	}
 }
