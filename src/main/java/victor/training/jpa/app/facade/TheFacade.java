@@ -34,21 +34,15 @@ public class TheFacade {
     // TODO Exception: object references an unsaved transient instance: a) save details separately or b) cascade
     public Long createTeacher(TeacherDetailsDto teacherDto) {
         TimeSlot counseling = teacherDto.getCounselingInterval().toTimeSlot();
-//        counseling.get
         Teacher teacher = new Teacher(teacherDto.getName())
-//                .setName(teacherDto.getName())
                 .setGrade(teacherDto.getGrade())
                 .setMoreDetails(teacherDto.getMoreDetails())
-//                .setCounselingDay(teacherDto.getCounselingInterval().getDay())
-//                .setCounselingDurationInHours(teacherDto.getCounselingInterval().getDurationInHours())
-//                .setCounselingStartHour(teacherDto.getCounselingInterval().getStartHour())
-//                .setCounselingRoomId(teacherDto.getCounselingInterval().getRoomId())
                 .setCounseling(counseling)
                 .setDetails(new TeacherDetails()
                         .setCv(teacherDto.getCv()));
         log.debug("ID before persist: " + teacher.getId());
-        Long id = teacher.getId();
         teacherRepo.save(teacher);
+        Long id = teacher.getId();
         log.debug("ID after persist: " + teacher.getId());
         return id;
     }

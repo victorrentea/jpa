@@ -45,7 +45,7 @@ public class Teacher {
 	@Convert(converter = GradeConverter.class)
 	private Grade grade;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private TeacherDetails details;
 
 	@Convert(converter = MoreTeacherDetailsConverter.class)

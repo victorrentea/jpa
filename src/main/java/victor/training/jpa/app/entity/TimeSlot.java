@@ -19,18 +19,18 @@ class A {
 public class TimeSlot {
 
 	@Enumerated(EnumType.STRING)
-	private final DayOfWeek dayOfWeek;
+	private DayOfWeek dayOfWeek;
 	// embeddable names are contextualized using spring.jpa.hibernate.naming.implicit-strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
 
 //	@Embedded
 //	private  A a;
-	private final Integer startHour;
+	private Integer startHour;
 	
-	private final Integer hours;
+	private Integer hours;
 	
-	private final String roomId;
+	private String roomId;
 
-//	protected TimeSlot() {} // for hibernate
+	protected TimeSlot() {} // for hibernate
 
 	public TimeSlot(DayOfWeek dayOfWeek, int startHour, int hours, String roomId) {
 		this.dayOfWeek = dayOfWeek;
