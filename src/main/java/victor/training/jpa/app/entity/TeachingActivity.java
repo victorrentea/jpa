@@ -41,7 +41,8 @@ public abstract class TeachingActivity {
 	@LastModifiedBy
 	private String lastModifiedBy;
 	
-	@ManyToMany
+	@ManyToMany // OWNER SIDE.❤️ YOU HAVE TO SET THIS
+
 //	@OrderColumn(name="INDEX") + the collection must become List
 	private Set<Teacher> teachers = new HashSet<>();
 	

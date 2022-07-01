@@ -29,14 +29,12 @@ public class Teacher {
 		}
 	}
 
-	// TODO ORM
 	@Id
 	@GeneratedValue
 	private Long id; // PK
 
 	private String name;
 
-	// TODO ORM
 //@Enumerated(EnumType.STRING)
 	@Convert(converter = GradeConverter.class)
 	private Grade grade;
@@ -47,13 +45,14 @@ public class Teacher {
 	@Convert(converter = MoreTeacherDetailsConverter.class)
 	private MoreTeacherDetails moreDetails;
 
-	// TODO ORM + sorted, ordered
+	@OneToMany // MISTAKE
+	@JoinColumn // without this a table is born
 	private List<ContactChannel> channels = new ArrayList<>();
 
-	// TODO ORM
+	@OneToMany(mappedBy = "holderTeacher")
 	private Set<Subject> heldSubjects = new HashSet<>() ;
 
-	// TODO ORM
+	@ManyToMany(mappedBy = "teachers")
 	private Set<TeachingActivity> activities = new HashSet<>();
 	
 	@Enumerated(EnumType.STRING)

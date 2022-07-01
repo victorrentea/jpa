@@ -17,7 +17,6 @@ public class TeacherDetails {
 	@GeneratedValue
 	private Long id;
 
-	// TODO ORM
 	@Lob
 	private String cv; // 10MB
 
