@@ -6,6 +6,7 @@ import lombok.Value;
 import victor.training.jpa.app.entity.converter.MoreTeacherDetailsConverter;
 
 import javax.persistence.*;
+import java.sql.Clob;
 import java.util.List;
 
 @Getter
@@ -18,7 +19,7 @@ public class TeacherDetails {
 	private Long id;
 
 	@Lob
-	private String cv; // 10MB
+	private Clob cv; // 10MB
 
 }
 

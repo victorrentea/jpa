@@ -50,10 +50,10 @@ public class JpaApplication {
 //		log.debug("==== Merge:final data in DB ====");
 //		mergePlayground.printFinalData();
 
-//		log.debug("Uploading file...");
-//		lobPlayground.uploadLargeClob();
-//		log.debug("Downloading file...");
-//		lobPlayground.downloadLargeClob();
+		log.debug("Uploading file...");
+		lobPlayground.uploadLargeClob();
+		log.debug("Downloading file...");
+		lobPlayground.downloadLargeClob();
 
 		log.debug(">>>>>>>>>> Playground Finished <<<<<<<<<<<<");
 

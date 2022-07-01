@@ -22,7 +22,7 @@ public class TeacherDetailsDto {
 		name = teacher.getName();
 		grade = teacher.getGrade();
 		if (teacher.getDetails() != null) {
-			cv = teacher.getDetails().getCv();
+			cv = teacher.getDetails().getCv().toString();
 		}
 		counselingInterval = new TimeSlotDto(teacher.getCounseling());
 

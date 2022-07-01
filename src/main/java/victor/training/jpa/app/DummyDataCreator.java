@@ -7,6 +7,7 @@ import java.time.DayOfWeek;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hibernate.engine.jdbc.ClobProxy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +30,7 @@ public class DummyDataCreator {
 	public void persistDummyData() {
 		Teacher victor = new Teacher("Victor");
 		victor.setGrade(Teacher.Grade.ASSISTANT);
-		TeacherDetails teacherDetails = new TeacherDetails().setCv("A pimped CV");
+		TeacherDetails teacherDetails = new TeacherDetails().setCv(ClobProxy.generateProxy("A pimped CV"));
 		victor.setDetails(teacherDetails);
 //		victor.setCounselingDay(DayOfWeek.MONDAY);
 //		victor.setCounselingDurationInHours(1);

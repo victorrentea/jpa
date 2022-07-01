@@ -2,6 +2,7 @@ package victor.training.jpa.app.facade;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.engine.jdbc.ClobProxy;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +40,7 @@ public class TheFacade {
                 .setMoreDetails(teacherDto.getMoreDetails())
                 .setCounseling(counseling)
                 .setDetails(new TeacherDetails()
-                        .setCv(teacherDto.getCv()));
+                        .setCv(ClobProxy.generateProxy(teacherDto.getCv())));
         log.debug("ID before persist: " + teacher.getId());
         teacherRepo.save(teacher);
         Long id = teacher.getId();
@@ -96,13 +97,13 @@ public class TheFacade {
 
         // TODO add lab to subject
         Subject subject = subjectRepo.findOneById(subjectId);
-
+        lab.setSubject(subject);
         return labRepo.save(lab).getId();
     }
 
-    @Transactional
+//    @Transactional
     public SubjectWithActivitiesDto getSubjectWithActivities(Long subjectId) {
-        Subject subject = subjectRepo.findOneById(subjectId);
+        Subject subject = subjectRepo.findSubjectWithActivities(subjectId);
         log.debug("Got Subject from Database");
         // TODO fix "failed to lazily initialize a collection of role" by
         //   1) allowing lazy-loading via @Transactional, OR (exclusive)
