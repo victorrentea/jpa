@@ -18,7 +18,8 @@ public class TeacherDetails {
 	private Long id;
 
 	// TODO ORM
-	private String cv;
+	@Lob
+	private String cv; // 10MB
 
 }
 

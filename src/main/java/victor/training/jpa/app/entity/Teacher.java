@@ -2,26 +2,24 @@ package victor.training.jpa.app.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import victor.training.jpa.app.entity.converter.GradeConverter;
 import victor.training.jpa.app.entity.converter.MoreTeacherDetailsConverter;
 import victor.training.jpa.app.facade.dto.TimeSlotDto;
 
 import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
 
-// TODO ORM
+@Entity
 public class Teacher {
 
 	public enum Grade {
-		LECTURER("L"),
-		PROFESSOR("P"),
+		LECTURER("L"), // 0
+		PROFESSOR("P"), // 1
 		CONF("C"),
 		ASSISTANT("A");
 
@@ -32,19 +30,23 @@ public class Teacher {
 	}
 
 	// TODO ORM
-	private Long id;
+	@Id
+	@GeneratedValue
+	private Long id; // PK
 
 	private String name;
 
 	// TODO ORM
+//@Enumerated(EnumType.STRING)
+	@Convert(converter = GradeConverter.class)
 	private Grade grade;
 
-	// TODO ORM
+	@OneToOne
 	private TeacherDetails details;
 
-	// TODO ORM
+	@Convert(converter = MoreTeacherDetailsConverter.class)
 	private MoreTeacherDetails moreDetails;
-	
+
 	// TODO ORM + sorted, ordered
 	private List<ContactChannel> channels = new ArrayList<>();
 
@@ -70,7 +72,7 @@ public class Teacher {
 	}
 	
 	public Teacher(String name) {
-		this.name = name;
+		this.name = Objects.requireNonNull(name);
 	}
 
 	@Override

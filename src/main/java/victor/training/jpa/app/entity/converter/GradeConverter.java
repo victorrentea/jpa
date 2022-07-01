@@ -16,9 +16,11 @@ public class GradeConverter implements AttributeConverter<Teacher.Grade, String>
 
     @Override
     public Teacher.Grade convertToEntityAttribute(String dbData) {
-        return Arrays.stream(Teacher.Grade.values())
+        Teacher.Grade[] allValues = Teacher.Grade.values();
+        return Arrays.stream(allValues)
                 .filter(g -> g.dbValue.equals(dbData))
                 .findFirst()
                 .orElseThrow();
     }
+    // VARCHAR vs CLOB
 }
