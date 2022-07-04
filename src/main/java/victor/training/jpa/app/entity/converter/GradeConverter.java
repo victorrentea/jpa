@@ -11,11 +11,14 @@ public class GradeConverter implements AttributeConverter<Teacher.Grade, String>
 
     @Override
     public String convertToDatabaseColumn(Teacher.Grade attribute) {
-        return attribute.dbValue;
+        return attribute == null? null:attribute.dbValue;
     }
 
     @Override
     public Teacher.Grade convertToEntityAttribute(String dbData) {
+        if (dbData == null) {
+            return null;
+        }
         Teacher.Grade[] allValues = Teacher.Grade.values();
         return Arrays.stream(allValues)
                 .filter(g -> g.dbValue.equals(dbData))

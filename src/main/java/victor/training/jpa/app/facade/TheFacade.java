@@ -3,7 +3,6 @@ package victor.training.jpa.app.facade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.engine.jdbc.ClobProxy;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.*;
@@ -129,7 +128,7 @@ public class TheFacade {
     public TeacherDto getTeacherById(Long teacherId) {
         Teacher teacher = teacherRepo.findById(teacherId).orElseThrow();
         log.debug("-------- After this -----");
-        System.out.println(teacher.getLazy());
+        System.out.println(teacher.getLazyAttribute());
         TeacherDto teacherDto = new TeacherDto(teacher);
         System.out.println("s, transformation done");
 

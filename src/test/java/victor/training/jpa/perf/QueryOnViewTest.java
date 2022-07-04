@@ -40,18 +40,18 @@ public class QueryOnViewTest {
       );
    }
 
-   @Test
-   @Sql("/create-view.sql")
-   public void entityOnView() {
-      searchRepo.findAll().forEach(System.out::println);
-
-      Assertions.assertThat(searchRepo.findAll())
-          .anyMatch(ps -> ps.getChildrenNames().contains("Vlad,Emma"));
-
-      Assertions.assertThat(searchRepo.queryViaRootEntityModel())
-          .hasSize(1)
-          .anyMatch(ps -> ps.getChildrenNames().contains("Vlad,Emma"));
-   }
+//   @Test
+//   @Sql("/create-view.sql")
+//   public void entityOnView() {
+//      searchRepo.findAll().forEach(System.out::println);
+//
+//      Assertions.assertThat(searchRepo.findAll())
+//          .anyMatch(ps -> ps.getChildrenNames().contains("Vlad,Emma"));
+//
+//      Assertions.assertThat(searchRepo.queryViaRootEntityModel())
+//          .hasSize(1)
+//          .anyMatch(ps -> ps.getChildrenNames().contains("Vlad,Emma"));
+//   }
 }
 @Table(name = "PARENT_SEARCH_VIEW")
 @Entity

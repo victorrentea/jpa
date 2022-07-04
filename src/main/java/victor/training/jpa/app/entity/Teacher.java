@@ -5,15 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 import victor.training.jpa.app.entity.converter.GradeConverter;
 import victor.training.jpa.app.entity.converter.MoreTeacherDetailsConverter;
-import victor.training.jpa.app.facade.dto.TimeSlotDto;
 
-import java.sql.Clob;
-import java.time.DayOfWeek;
 import java.util.*;
 
 import javax.persistence.*;
-import javax.validation.Validator;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -87,7 +82,7 @@ public class Teacher {
 
 	@Basic(fetch = FetchType.LAZY)
 	@Lob
-	private String lazy; // 10MB
+	private String lazyAttribute; // 10MB
 
 	public Teacher() { // only for hibernate
 	}

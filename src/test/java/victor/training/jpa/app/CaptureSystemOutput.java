@@ -171,6 +171,10 @@ public @interface CaptureSystemOutput {
             this.copy = null;
         }
 
+        void reset() {
+            this.copy.reset();
+        }
+
         private void flush() {
             try {
                 this.captureOut.flush();
