@@ -3,20 +3,14 @@ package victor.training.jpa.app;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.ErrorLog;
 import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
-import javax.persistence.Cacheable;
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -59,6 +53,22 @@ public class TransactionPlayground {
     public void secondTransaction() {
         ErrorLog errorLog = repo.findById(1L).orElseThrow();
         errorLog.setMessage("Unu nou!");
-        em.clear(); // bad practice in prod code
+
+        other.altaMetoda(errorLog);
+    }
+
+    private final OtherService other;
+}
+
+@Slf4j
+@RequiredArgsConstructor
+@Service
+class OtherService {
+    private final ErrorLogRepo repo;
+
+    public void altaMetoda(ErrorLog errorLog) {
+        ErrorLog dinNou = repo.findById(1L).orElseThrow();
+        System.out.println("OMG, acelasi obiect din heap" + (dinNou == errorLog));
+        System.out.println(errorLog.getMessage());
     }
 }
