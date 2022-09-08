@@ -21,4 +21,11 @@ public interface ErrorLogRepo extends JpaRepository<ErrorLog, Long> {
    @Procedure("PROC_MESSAGES") // this does NOT flush the Persistence Context
    void callProcedureViaJpa();
 
+//    boolean findByMessage(String name);
+
+   @Query("FROM ErrorLog e WHERE e.message = ?1")
+    boolean finderumeuCasSmecher(String name);
+
+   @Query(value = "SELECT COUNT(*) FROM ERROR_LOG", nativeQuery = true)
+   Long findByNativ(String aNull);
 }

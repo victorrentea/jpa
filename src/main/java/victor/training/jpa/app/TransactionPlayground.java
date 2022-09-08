@@ -36,17 +36,29 @@ public class TransactionPlayground {
         System.out.println("Intotdeauna dupa SAVE id = " + entity.getId());
         System.out.println("chiar DACA NU VEZI INSERTUL DUCANDU_SE IN BAZA!! Huh!?!");
 
-        repo.save(new ErrorLog(null));
-        repo.flush();
+        repo.save(new ErrorLog("null"));
+
+        // daca Hibernate trebuie sa ruleze vreun JPQL: (toate de mai jos sunt JPQL de fapt)
+//        System.out.println(repo.findAll());
+//        System.out.println(repo.findByMessage("null"));
+//        System.out.println(repo.finderumeuCasSmecher("null"));
+        // query native trecut prin hibernate ~ entittyManager.createNativeQuery
+//        System.out.println("@Query native: " + repo.findByNativ("null"));
+
+        // daca lovesc direct cu SQL pe SUB hibernate (nu pring Sprign Data): Hibernate nu face flush >> BUG!
+//        System.out.println("n="+ jdbc.queryForObject("SELECT COUNT(*) FROM ERROR_LOG", Long.class));
+
+        //        repo.save(new ErrorLog(null));
 
         log.debug("Function End");
     }
-//        jdbc.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
 
-    public void f() {
+        //        jdbc.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
 
-    }
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+//    @Transactional
     public void secondTransaction() {
+        ErrorLog errorLog = repo.findById(1L).orElseThrow();
+        errorLog.setMessage("Unu nou!");
+        repo.save(errorLog);
     }
 }
