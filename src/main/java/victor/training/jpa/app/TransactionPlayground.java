@@ -23,7 +23,7 @@ public class TransactionPlayground {
     private final JdbcTemplate jdbc;
     private final TeacherRepo teacherRepo;
     private final ErrorLogRepo repo;
-    private final DataSource ds;
+    private final DataSource ds; // o tempora, o mores....
 
 
     public void firstTransaction() {
