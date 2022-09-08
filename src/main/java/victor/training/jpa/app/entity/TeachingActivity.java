@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -24,6 +25,7 @@ public abstract class TeachingActivity {
 	private Long id;
 	
 	@ManyToOne
+	@Setter(AccessLevel.PACKAGE)
 	private Subject subject;
 	
 	@Enumerated(EnumType.STRING)

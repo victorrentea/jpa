@@ -49,7 +49,6 @@ public class DummyDataCreator {
 		Subject subject = new Subject("OOP");
 		subject.setHolderTeacher(victor);
 		CourseActivity course = new CourseActivity();
-		course.setSubject(subject);
 		course.setDayOfWeek(DayOfWeek.MONDAY);
 		course.setStartHour(8);
 		course.setDurationInHours(3);
@@ -57,7 +56,6 @@ public class DummyDataCreator {
 		course.getTeachers().add(victor);
 		
 		LabActivity lab1 = new LabActivity();
-		lab1.setSubject(subject);
 		lab1.setDayOfWeek(DayOfWeek.MONDAY);
 		lab1.setStartHour(11);
 		lab1.setDurationInHours(2);
@@ -66,13 +64,17 @@ public class DummyDataCreator {
 		lab1.getTeachers().add(ionut);
 		
 		LabActivity lab2 = new LabActivity();
-		lab2.setSubject(subject);
 		lab2.setDayOfWeek(DayOfWeek.TUESDAY);
 		lab2.setStartHour(11);
 		lab2.setDurationInHours(2);
 		lab2.setRoomId("EC203");
 		lab2.getTeachers().add(ionut);
-		
+
+
+		subject.addActivity(course);
+		subject.addActivity(lab1);
+		subject.addActivity(lab2);
+
 		StudentsYear year = new StudentsYear("3CA");
 		
 		StudentsGroup group1 = new StudentsGroup("321");

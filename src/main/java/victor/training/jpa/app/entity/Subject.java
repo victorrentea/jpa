@@ -2,6 +2,7 @@ package victor.training.jpa.app.entity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.*;
@@ -55,5 +56,14 @@ public class Subject  {
 
 	public Subject(String name) {
 		this.name = name;
+	}
+
+	public List<TeachingActivity> getActivities() {
+		return Collections.unmodifiableList(activities);
+	}
+
+	public void addActivity(TeachingActivity activity) {
+		activity.setSubject(this);
+		activities.add(activity);
 	}
 }

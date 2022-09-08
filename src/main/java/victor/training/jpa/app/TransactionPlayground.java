@@ -50,8 +50,8 @@ public class TransactionPlayground {
         Subject subject = new Subject();
         CourseActivity course = new CourseActivity();
 
-        subject.getActivities().add(course); // fix capatul care NU CONTEAZA la INSERT, invers(mappedBy=)
-        course.setSubject(subject);
+//        subject.getActivities().add(course); // fix capatul care NU CONTEAZA la INSERT, invers(mappedBy=)
+        subject.addActivity(course);
 
         subjectRepo.save(subject);
 
