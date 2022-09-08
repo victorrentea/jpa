@@ -6,7 +6,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.ErrorLog;
+import victor.training.jpa.app.entity.Teacher;
+import victor.training.jpa.app.entity.TeacherDetails;
 import victor.training.jpa.app.repo.ErrorLogRepo;
+import victor.training.jpa.app.repo.TeacherDetailsRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.persistence.EntityManager;
@@ -54,8 +57,18 @@ public class TransactionPlayground {
         ErrorLog errorLog = repo.findById(1L).orElseThrow();
         errorLog.setMessage("Unu nou!");
 
-        other.altaMetoda(errorLog);
+        ErrorLog dinNou = repo.findById(1L).orElseThrow();
+        System.out.println("OMG, acelasi obiect din heap" + (dinNou == errorLog));
+        System.out.println(errorLog.getMessage());
+
+
+        Teacher tavi = new Teacher("Tavi");
+        TeacherDetails details = new TeacherDetails().setCv("MIT");
+        teacherDetailsRepo.save(details);
+        tavi.setDetails(details);
+        teacherRepo.save(tavi);
     }
+    private final TeacherDetailsRepo teacherDetailsRepo;
 
     private final OtherService other;
 }
@@ -66,9 +79,5 @@ public class TransactionPlayground {
 class OtherService {
     private final ErrorLogRepo repo;
 
-    public void altaMetoda(ErrorLog errorLog) {
-        ErrorLog dinNou = repo.findById(1L).orElseThrow();
-        System.out.println("OMG, acelasi obiect din heap" + (dinNou == errorLog));
-        System.out.println(errorLog.getMessage());
-    }
+
 }
