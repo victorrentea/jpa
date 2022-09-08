@@ -2,14 +2,17 @@ package victor.training.jpa.app.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import victor.training.jpa.app.entity.converter.MoreTeacherDetailsConverter;
-import victor.training.jpa.app.facade.dto.TimeSlotDto;
+import victor.training.jpa.app.entity.converter.GradeConverter;
+import victor.training.jpa.app.entity.converter.MoreTeacherDetailsAsJSONConverter;
 
+import java.sql.Clob;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.persistence.*;
 
@@ -22,11 +25,22 @@ public class Teacher {
 		LECTURER("L"),
 		PROFESSOR("P"),
 		CONF("C"),
+//		LECTURERA("L"),
 		ASSISTANT("A");
 
 		public final String dbValue;
 		Grade(String dbValue) {
 			this.dbValue = dbValue;
+		}
+
+		public String getDbValue() {
+			return dbValue;
+		}
+
+		static {
+			if (Stream.of(values()).map(Grade::getDbValue).collect(Collectors.toSet()).size() != values().length) {
+				throw new IllegalArgumentException("BUM> la deploy.");
+			}
 		}
 	}
 	
@@ -35,9 +49,13 @@ public class Teacher {
 	private Long id;
 
 	private String name;
-	
+
+	@Lob
+	private String cvDocxXml; // CLOB
+//	private Clob cvDocxXml;//TODO upload 1gb de pe file systems direct in DB fara sa-l tii in memorie
+
 	@Enumerated(EnumType.STRING)
-//	@Convert(converter = GradeConverter.class)
+	@Convert(converter = GradeConverter.class)
 	private Grade grade;
 	
 	// fetch=LAZY or invert the link to retrieve details by teacher via repo
@@ -45,7 +63,7 @@ public class Teacher {
 		)
 	private TeacherDetails details;
 
-	@Convert(converter = MoreTeacherDetailsConverter.class)
+	@Convert(converter = MoreTeacherDetailsAsJSONConverter.class)
 	private MoreTeacherDetails moreDetails;
 	
 	@ElementCollection
