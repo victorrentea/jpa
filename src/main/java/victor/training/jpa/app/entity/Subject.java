@@ -4,12 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +13,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import victor.training.jpa.app.util.MyTrackingEntityListener;
 import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
+
+import static javax.persistence.CascadeType.ALL;
 
 
 @Getter
@@ -36,7 +33,7 @@ public class Subject  {
 	@ManyToOne
 	private Teacher holderTeacher;
 	
-	@OneToMany(mappedBy="subject")
+	@OneToMany(mappedBy="subject", cascade = ALL)
 	private List<TeachingActivity> activities = new ArrayList<>();
 	
 	@LastModifiedDate

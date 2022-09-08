@@ -5,10 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import victor.training.jpa.app.entity.ErrorLog;
-import victor.training.jpa.app.entity.Teacher;
-import victor.training.jpa.app.entity.TeacherDetails;
+import victor.training.jpa.app.entity.*;
 import victor.training.jpa.app.repo.ErrorLogRepo;
+import victor.training.jpa.app.repo.SubjectRepo;
 import victor.training.jpa.app.repo.TeacherDetailsRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
@@ -47,8 +46,15 @@ public class TransactionPlayground {
 
         //        repo.save(new ErrorLog(null));
 
+
+        Subject subject = new Subject();
+        subject.getActivities().add(new CourseActivity()); // fix capatul care NU CONTEAZA la INSERT, invers(mappedBy=)
+        subjectRepo.save(subject);
+
         log.debug("Function End");
     }
+
+    private final SubjectRepo subjectRepo;
 
         //        jdbc.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
 
@@ -61,12 +67,13 @@ public class TransactionPlayground {
         System.out.println("OMG, acelasi obiect din heap" + (dinNou == errorLog));
         System.out.println(errorLog.getMessage());
 
-
         Teacher tavi = new Teacher("Tavi");
-        TeacherDetails details = new TeacherDetails().setCv("MIT");
-        teacherDetailsRepo.save(details);
-        tavi.setDetails(details);
+        tavi.setDetails(new TeacherDetails().setCv("MIT"));
         teacherRepo.save(tavi);
+
+
+
+
     }
     private final TeacherDetailsRepo teacherDetailsRepo;
 
