@@ -24,6 +24,7 @@ import java.util.UUID;
 public class TransactionPlayground {
     private final JdbcTemplate jdbc;
     private final TeacherRepo teacherRepo;
+    private final EntityManager em;
     private final ErrorLogRepo repo;
     private final DataSource ds; // o tempora, o mores....
 
@@ -35,12 +36,16 @@ public class TransactionPlayground {
         System.out.println("Intotdeauna dupa SAVE id = " + entity.getId());
         System.out.println("chiar DACA NU VEZI INSERTUL DUCANDU_SE IN BAZA!! Huh!?!");
 
-        repo.save(new ErrorLog("null"));
+        repo.save(new ErrorLog(null));
+        repo.flush();
 
         log.debug("Function End");
     }
 //        jdbc.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
 
+    public void f() {
+
+    }
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void secondTransaction() {
     }
