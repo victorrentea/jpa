@@ -28,4 +28,6 @@ public interface ErrorLogRepo extends JpaRepository<ErrorLog, Long> {
 
    @Query(value = "SELECT COUNT(*) FROM ERROR_LOG", nativeQuery = true)
    Long findByNativ(String aNull);
+
+   ErrorLog findByMessageLikeIgnoreCase(String part);
 }

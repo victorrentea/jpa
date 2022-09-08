@@ -68,9 +68,10 @@ public class TransactionPlayground {
         ErrorLog errorLog = repo.findById(1L).orElseThrow();
         errorLog.setMessage("Unu nou!");
 
-        ErrorLog dinNou = repo.findById(1L).orElseThrow();
-        System.out.println("OMG, acelasi obiect din heap" + (dinNou == errorLog));
-        System.out.println(errorLog.getMessage());
+//        ErrorLog dinNou = repo.findById(1L).orElseThrow(); // nu merge in DB
+        ErrorLog dinNou = repo.findByMessageLikeIgnoreCase("%nou%"); // merge in DB cu select? DA
+        log.debug("OMG, acelasi obiect din heap" + (dinNou == errorLog));
+        log.debug(errorLog.getMessage());
 
         Teacher tavi = new Teacher("Tavi");
         tavi.setDetails(new TeacherDetails().setCv("MIT"));
@@ -79,6 +80,8 @@ public class TransactionPlayground {
         Subject subject = subjectRepo.findOneById(subjectId);
         Long activityId = subject.getActivities().get(0).getId();
         subject.removeActivity(activityId);
+
+
     }
     @Transactional
     public void thirdTransaction() {
