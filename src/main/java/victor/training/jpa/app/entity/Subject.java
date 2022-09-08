@@ -36,7 +36,7 @@ public class Subject  {
 	@ManyToOne
 	private Teacher holderTeacher;
 	
-	@OneToMany(mappedBy="subject", cascade = ALL)
+	@OneToMany(mappedBy="subject", cascade = ALL, orphanRemoval = true)
 	private List<TeachingActivity> activities = new ArrayList<>();
 	
 	@LastModifiedDate
