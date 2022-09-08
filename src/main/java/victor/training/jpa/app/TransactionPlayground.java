@@ -59,6 +59,6 @@ public class TransactionPlayground {
     public void secondTransaction() {
         ErrorLog errorLog = repo.findById(1L).orElseThrow();
         errorLog.setMessage("Unu nou!");
-        em.clear();
+        em.clear(); // bad practice in prod code
     }
 }
