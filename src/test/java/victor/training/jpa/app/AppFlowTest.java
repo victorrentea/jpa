@@ -3,7 +3,6 @@ package victor.training.jpa.app;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.test.context.ContextConfiguration;
 import victor.training.jpa.app.CaptureSystemOutput.OutputCapture;
 import victor.training.jpa.app.entity.ContactChannel;
@@ -11,20 +10,19 @@ import victor.training.jpa.app.entity.MoreTeacherDetails;
 import victor.training.jpa.app.entity.Teacher;
 import victor.training.jpa.app.facade.TheFacade;
 import victor.training.jpa.app.facade.dto.*;
-import victor.training.jpa.app.util.TestDBConnectionInitializer;
+import victor.training.jpa.app.util.TestDBConnectionAndDropAllInitializer;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE;
 
 // This in an evil test: chaining a lot of steps in a sequence to demonstrate a long chain of operations
 @TestInstance(TestInstance.Lifecycle.PER_CLASS) // DANGER
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class) // DANGER
 @SpringBootTest
-@ContextConfiguration(initializers = TestDBConnectionInitializer.class) // check the DB is reachable
+@ContextConfiguration(initializers = TestDBConnectionAndDropAllInitializer.class) // check the DB is reachable
 public class AppFlowTest {
 
     @Autowired

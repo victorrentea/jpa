@@ -11,7 +11,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 @Slf4j
-public class TestDBConnectionInitializer implements ApplicationListener<ApplicationContextInitializedEvent>,
+public class TestDBConnectionAndDropAllInitializer implements ApplicationListener<ApplicationContextInitializedEvent>,
         ApplicationContextInitializer<ConfigurableApplicationContext> {
    public static void assertCanConnectToDB(Environment env) {
       String url = env.getRequiredProperty("spring.datasource.url");
@@ -21,6 +21,10 @@ public class TestDBConnectionInitializer implements ApplicationListener<Applicat
          Connection connection = DriverManager.getConnection(url,
                  env.getRequiredProperty("spring.datasource.username"),
                  env.getRequiredProperty("spring.datasource.password"));
+
+
+         log.warn("⚠️ Dropping all the tables in the H2 database, to see the up-to-date schema");
+         connection.prepareStatement("DROP ALL OBJECTS").executeUpdate();
 
          log.info("Connection Established Successfully to {} database", connection.getMetaData().getDatabaseProductName());
          connection.close();

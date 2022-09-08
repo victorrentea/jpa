@@ -8,9 +8,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import victor.training.jpa.app.common.CustomJpaRepositoryFactoryBean;
-import victor.training.jpa.app.util.TestDBConnectionInitializer;
+import victor.training.jpa.app.util.TestDBConnectionAndDropAllInitializer;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -67,7 +66,7 @@ public class JpaApplication {
 
 	public static void main(String[] args) {
 		new SpringApplicationBuilder(JpaApplication.class)
-				.listeners(new TestDBConnectionInitializer())
+				.listeners(new TestDBConnectionAndDropAllInitializer())
 				.run(args);
 	}
 }
