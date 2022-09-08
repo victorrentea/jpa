@@ -58,7 +58,6 @@ public class TransactionPlayground {
     @Transactional
     public void secondTransaction() {
         ErrorLog errorLog = repo.findById(1L).orElseThrow();
-        em.detach(errorLog);
         errorLog.setMessage("Unu nou!");
 
     }
