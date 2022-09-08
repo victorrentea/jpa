@@ -55,10 +55,11 @@ public class TransactionPlayground {
 
         //        jdbc.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
 
-//    @Transactional
+    @Transactional
     public void secondTransaction() {
         ErrorLog errorLog = repo.findById(1L).orElseThrow();
+        em.detach(errorLog);
         errorLog.setMessage("Unu nou!");
-        repo.save(errorLog);
+
     }
 }
