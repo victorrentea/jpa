@@ -25,13 +25,15 @@ public class TransactionPlayground {
     private final ErrorLogRepo repo;
     private final DataSource ds; // o tempora, o mores....
 
-
+    @Transactional
     public void firstTransaction() {
         log.debug("Function Begin");
-        ErrorLog entity = new ErrorLog("Halo!");
+        ErrorLog entity = new ErrorLog("-Bani din cont");
         repo.save(entity);
         System.out.println("Intotdeauna dupa SAVE id = " + entity.getId());
         System.out.println("chiar DACA NU VEZI INSERTUL DUCANDU_SE IN BAZA!! Huh!?!");
+
+        repo.save(new ErrorLog(null));
 
         log.debug("Function End");
     }
