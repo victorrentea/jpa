@@ -23,6 +23,7 @@ public class TransactionPlayground {
     private final EntityManager em;
     private final ErrorLogRepo repo;
     private final DataSource ds; // o tempora, o mores....
+    private Long subjectId;
 
     @Transactional
     public void firstTransaction() {
@@ -53,7 +54,7 @@ public class TransactionPlayground {
 //        subject.getActivities().add(course); // fix capatul care NU CONTEAZA la INSERT, invers(mappedBy=)
         subject.addActivity(course);
 
-        subjectRepo.save(subject);
+        subjectId = subjectRepo.save(subject).getId();
 
         log.debug("Function End");
     }
@@ -75,9 +76,14 @@ public class TransactionPlayground {
         tavi.setDetails(new TeacherDetails().setCv("MIT"));
         teacherRepo.save(tavi);
 
-
-
-
+        Subject subject = subjectRepo.findOneById(subjectId);
+        Long activityId = subject.getActivities().get(0).getId();
+        subject.removeActivity(activityId);
+    }
+    @Transactional
+    public void thirdTransaction() {
+        Subject subject = subjectRepo.findOneById(subjectId);
+        System.out.println(subject);
     }
     private final TeacherDetailsRepo teacherDetailsRepo;
 

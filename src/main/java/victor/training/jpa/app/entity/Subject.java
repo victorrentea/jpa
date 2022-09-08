@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -22,6 +23,7 @@ import static javax.persistence.CascadeType.ALL;
 @Setter
 
 @Entity
+@ToString
 public class Subject  {
 	@Id
 	@GeneratedValue
@@ -62,6 +64,12 @@ public class Subject  {
 		return Collections.unmodifiableList(activities);
 	}
 
+	public void removeActivity(long activityId) {
+		TeachingActivity activity = activities.stream().filter(a -> a.getId().equals(activityId)).findFirst().get();
+
+		activities.remove(activity);
+		activity.setSubject(null);
+	}
 	public void addActivity(TeachingActivity activity) {
 		activity.setSubject(this);
 		activities.add(activity);
