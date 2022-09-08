@@ -18,7 +18,6 @@ import java.sql.SQLException;
 @SpringBootApplication
 @EnableJpaRepositories(repositoryFactoryBeanClass = CustomJpaRepositoryFactoryBean.class)
 @EnableJpaAuditing
-@EnableTransactionManagement//(mode = AdviceMode.ASPECTJ) // enables @Transactional to work for local method call (AVOID!)
 @Slf4j
 //-javaagent:spring-instrument.jar -javaagent:aspectjweaver.jar
 //@EnableLoadTimeWeaving(aspectjWeaving= EnableLoadTimeWeaving.AspectJWeaving.ENABLED)
@@ -32,14 +31,14 @@ public class JpaApplication {
 	private LobPlayground lobPlayground;
 
 
-	@EventListener
-	public void onApplicationEvent(ContextRefreshedEvent event) throws IOException, SQLException {
-		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
-//		log.debug(" ========= FIRST TRANSACTION ========== ");
-//		transactionPlayground.firstTransaction();
-//		log.debug(" ========= SECOND TRANSACTION ========== ");
-//		transactionPlayground.secondTransaction();
-//		log.debug(" ========= END ========== ");
+	@EventListener(ContextRefreshedEvent.class)
+	public void onApplicationEvent() throws IOException, SQLException {
+		log.debug(">>>>>>>>>> Running Playground code.... <<<<<<<<<<<<");
+		log.debug(" ========= FIRST TRANSACTION ========== ");
+		transactionPlayground.firstTransaction();
+		log.debug(" ========= SECOND TRANSACTION ========== ");
+		transactionPlayground.secondTransaction();
+		log.debug(" ========= END ========== ");
 
 //		log.debug("==== Merge:Persist init ====");
 //		mergePlayground.persistInitialData();

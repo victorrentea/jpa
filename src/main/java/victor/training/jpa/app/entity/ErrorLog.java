@@ -14,10 +14,7 @@ import static javax.persistence.CascadeType.ALL;
 @Setter
 @Entity
 @ToString
-public class ErrorLog {
-   @Id
-   @GeneratedValue
-   private Long id;
+public class ErrorLog  extends BaseEntity{
 
    @Column(nullable = false)
    private String message;
