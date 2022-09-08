@@ -33,6 +33,7 @@ public class JpaApplication {
 
 	@EventListener(ContextRefreshedEvent.class)
 	public void onApplicationEvent() throws IOException, SQLException {
+		System.out.println("O minciuna. un proxy:" + transactionPlayground.getClass());
 		log.debug(">>>>>>>>>> Running Playground code.... <<<<<<<<<<<<");
 		log.debug(" ========= FIRST TRANSACTION ========== ");
 		transactionPlayground.firstTransaction();
