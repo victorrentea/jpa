@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ import javax.persistence.Table;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -44,8 +46,8 @@ public class NPlusOneTest {
 				.addChild(new Child("Paul"))
 		).getId();
 
-		entityManager.flush();
-		entityManager.clear();
+//		entityManager.flush();
+//		entityManager.clear();
 	}
 
 //	@Test
@@ -57,8 +59,8 @@ public class NPlusOneTest {
 //		System.out.println(petru.getChildren());
 //	}
 	@Test
-	@Transactional
-	@Rollback(false)
+//	@Transactional
+//	@Rollback(false)
 	public void nPlusOne() {
 //		List<Parent> parents = entityManager.createQuery("SELECT p FROM Parent p", Parent.class).getResultList();
 		List<Parent> parents = parentRepo.findAll();
@@ -87,14 +89,19 @@ public class NPlusOneTest {
 	@Rollback(false)
 	@Sql("classpath:/create-view.sql")
 	public void cicaAmMultiParintiZeciDemii_VreauPeToti_caNume_siCatiCopiiAre() {
-//		List<Object[]> dateCaArray90 = parentRepo.findSmecher();
-//		for (Object[] objects : dateCaArray90) {
-//			System.out.println("Am gasit parinte: " + Arrays.toString(objects));
-//		}
+		//		List<Object[]> dateCaArray90 = parentRepo.findSmecher();
+		//		for (Object[] objects : dateCaArray90) {
+		//			System.out.println("Am gasit parinte: " + Arrays.toString(objects));
+		//		}
 		System.out.println(pwccRepo.findAll());
 	}
 }
-interface PWCCRepo extends JpaRepository<ParentWithChildrenCount, Long>{}
+
+interface PWCCRepo extends JpaRepository<ParentWithChildrenCount, Long> {
+//	@Query("SELECT pwcc FROM ParentWithChildrenCount  pwcc JOIN Parent p ON p.id = pwcc.id WHERE " +
+//		   " p.")
+//	f()
+}
 
 @Table(name = "PARENT_WITH_CHILDREN_COUNT_VIEW")
 @Entity

@@ -1,25 +1,28 @@
 package victor.training.jpa.perf;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
+@Data
 public class UberEntity {
     @Id
     @GeneratedValue
     private Long id;
     private String name;
     private String firstName, lastName, ibanCode, cnp, ssn, passportNumber;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Country originCountry;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Country nationality;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Country fiscalCountry;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Country invoicingCountry;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Scope scope;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User createdBy;
 
     public Long getId() {
@@ -78,7 +81,7 @@ class Country {
     private String region;
     private String continent;
     private int population;
-    private Country() {
+    protected Country() {
     }
     public Country(Long id, String name) {
         this.id = id;
@@ -98,7 +101,7 @@ class Scope {
     @Id
     private Long id;
     private String name;
-    private Scope() {
+    protected Scope() {
     }
     public Scope(Long id, String name) {
         this.id = id;
@@ -112,7 +115,7 @@ class User {
     @Id
     private Long id;
     private String name;
-    private User() {
+    protected User() {
     }
     public User(Long id, String name) {
         this.id = id;

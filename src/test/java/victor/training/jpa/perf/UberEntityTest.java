@@ -1,10 +1,12 @@
 package victor.training.jpa.perf;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.annotation.Rollback;
@@ -25,34 +27,80 @@ public class UberEntityTest {
     private EntityManager em;
 
     private final Country romania = new Country(1L, "Romania");
+    private final Country serbia = new Country(2L, "Serbia");
+    private final Country bulgaria = new Country(3L, "B");
     private final User testUser = new User(1L,"test");
     private final Scope globalScope = new Scope(1L,"Global");
+    private Long uberId;
 
-    @Test
-    public void greedyQuery() {
+
+    @BeforeEach
+    final void before() {
         em.persist(romania);
+        em.persist(serbia);
+        em.persist(bulgaria);
         em.persist(testUser);
         em.persist(globalScope);
 
 
         UberEntity uber = new UberEntity()
+                .setName("Nume")
+                .setIbanCode("iban")
                 .setFiscalCountry(romania)
-                .setOriginCountry(romania)
-                .setInvoicingCountry(romania)
+                .setOriginCountry(serbia)
+                .setInvoicingCountry(bulgaria)
                 .setCreatedBy(testUser)
                 .setNationality(romania)
                 .setScope(globalScope);
         em.persist(uber);
+        uberId = uber.getId();
 
         // these are roughly equivalent to em.flush(); + em.clear();
-        TestTransaction.end();
+        TestTransaction.end(); // COMMIT in DB
         TestTransaction.start();
-
-        log.info("Now, loading by id...");
-        UberEntity uberEntity = em.find(UberEntity.class, uber.getId());
-        log.info("Loaded");
-        // TODO fetch only the necessary data
-        // TODO change link types?
-        System.out.println(uberEntity.toString());
     }
+    @Test
+    public void greedyQuery() {
+        log.info("Now, loading by id...");
+        UberEntity uberEntity = uberEntityRepo.findById(uberId).get();
+        log.info("Loaded");
+
+        // 7 JOINURI, 25 de coloane aduse.
+
+        // eu din uber entity am nevoie de fapt de nume si tara de origine
+
+        String astaVreau = uberEntity.getId() + ". "
+                           + uberEntity.getName() + " din "
+                           + uberEntity.getOriginCountry().getName();
+        System.out.println(astaVreau);
+    }
+    @Test
+    public void jqpl() {
+        log.info("Now, loading cu JPQL ...");
+        UberEntity uberEntity = uberEntityRepo.findByName("Nume");
+        // 5 SELECTURI succesive, 1 pentru fiecare relatie @ManyToOne
+        String astaVreau = uberEntity.getId() + ". "
+                           + uberEntity.getName() + " din "
+                           + uberEntity.getOriginCountry().getName();
+        System.out.println(astaVreau);
+    }
+    @Test
+    public void maiEficient() {
+        log.info("Now, loading cu JPQL ...");
+        UberEntity uberEntity = uberEntityRepo.findByName("Nume");
+        // 5 SELECTURI succesive, 1 pentru fiecare relatie @ManyToOne
+        System.out.println("Cica mi-a intors entity");
+        String nameCareNuEraIncaINJavaIncarcat = uberEntity.getOriginCountry().getName();
+        String astaVreau = uberEntity.getId() + ". "
+                           + uberEntity.getName() + " din "
+                           + nameCareNuEraIncaINJavaIncarcat;
+        System.out.println(astaVreau);
+    }
+
+    @Autowired
+    private UberEntityRepo uberEntityRepo;
+}
+
+interface UberEntityRepo extends JpaRepository<UberEntity, Long> {
+    UberEntity findByName(String name);
 }
