@@ -26,12 +26,13 @@ public class TransactionPlayground {
             bizAdanc();
         } catch (Exception e) {
             other.saveError(e);
-            throw e;
+            log.error("SWallow: " + e);
         }
         log.debug("Function End");
     }
 
-    private void bizAdanc() {
+    @Transactional
+    public void bizAdanc() {
         repo.save(new ErrorLog("BIZ mesaj"));
 
         if (true) {
