@@ -49,9 +49,9 @@ class Other {
     @Transactional
     public void bizAdanc() {
         repo.save(new ErrorLog("BIZ mesaj"));
-        if (true) {
-            throw new UncheckedIOException(new IOException("Orice exceptie  (validate, ... conn timeout)"));
-        }
+//        if (true) {
+//            throw new UncheckedIOException(new IOException("Orice exceptie  (validate, ... conn timeout)"));
+//        }
     }
 
 //    @Autowired
