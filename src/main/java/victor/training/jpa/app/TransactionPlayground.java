@@ -22,37 +22,33 @@ public class TransactionPlayground {
     @Transactional
     public void firstTransaction()  {
         log.debug("Function Begin");
+        repo.save(new ErrorLog("Inainte"));
         try {
-            bizAdanc();
+            other.bizAdanc();
         } catch (Exception e) {
             other.saveError(e);
             log.error("SWallow: " + e);
         }
+        repo.save(new ErrorLog("Dupa"));
         log.debug("Function End");
     }
-
-    @Transactional
-    public void bizAdanc() {
-        repo.save(new ErrorLog("BIZ mesaj"));
-
-        if (true) {
-            throw new UncheckedIOException(new IOException("Orice exceptie  (validate, ... conn timeout)"));
-        }
-    }
-
     @Transactional
     public void secondTransaction() {
-
-
     }
-
 }
-
 @Slf4j
 @RequiredArgsConstructor
 @Service
 class Other {
     private final ErrorLogRepo repo;
+
+    @Transactional
+    public void bizAdanc() {
+        repo.save(new ErrorLog("BIZ mesaj"));
+        if (true) {
+            throw new UncheckedIOException(new IOException("Orice exceptie  (validate, ... conn timeout)"));
+        }
+    }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW) // NU MERGE CA NU TRECE PRIN PROXY!!
     // un apel de metoda in aceeasi clasa (local) NU TRECE PRIN PROXY.
