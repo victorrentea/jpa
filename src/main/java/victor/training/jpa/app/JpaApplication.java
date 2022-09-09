@@ -25,6 +25,8 @@ public class JpaApplication {
 	@Autowired
 	private TransactionPlayground transactionPlayground;
 	@Autowired
+	private TransactionJPAPlayground transactionJPAPlayground;
+	@Autowired
 	private MergePlayground mergePlayground;
 	@Autowired
 	private LobPlayground lobPlayground;
@@ -32,14 +34,12 @@ public class JpaApplication {
 
 	@EventListener(ContextRefreshedEvent.class)
 	public void onApplicationEvent() throws IOException, SQLException {
-		System.out.println("O minciuna. un proxy:" + transactionPlayground.getClass());
+		System.out.println("O minciuna. un proxy:" + transactionJPAPlayground.getClass());
 		log.debug(">>>>>>>>>> Running Playground code.... <<<<<<<<<<<<");
 		log.debug(" ========= FIRST TRANSACTION ========== ");
 		transactionPlayground.firstTransaction();
 		log.debug(" ========= SECOND TRANSACTION ========== ");
 		transactionPlayground.secondTransaction();
-		log.debug(" ========= THIRD TRANSACTION ========== ");
-		transactionPlayground.thirdTransaction();
 		log.debug(" ========= END ========== ");
 
 //		log.debug("==== Merge:Persist init ====");
