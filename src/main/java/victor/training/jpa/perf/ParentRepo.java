@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface ParentRepo extends JpaRepository<Parent, Long> {
-    @Query("SELECT p from Parent p LEFT JOIN FETCH p.children")
+    // idee proasta: explozie cardinala : children x childrenAdoptati
+    @Query("SELECT p from Parent p LEFT JOIN FETCH p.children LEFT JOIN FETCH p.childrenAdoptati")
     Set<Parent> findAllWithChildren();
 }

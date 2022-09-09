@@ -20,6 +20,10 @@ public class Parent {
     @JoinColumn(name = "PARENT_ID")
     private Set<Child> children = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL/*, fetch = FetchType.EAGER*/)
+    @JoinColumn(name = "PARENT_ID")
+    private Set<Child> childrenAdoptati = new HashSet<>();
+
     private Parent() {
     }
 
