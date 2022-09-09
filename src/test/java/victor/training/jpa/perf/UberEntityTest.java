@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.annotation.Rollback;
@@ -15,6 +16,7 @@ import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 @SpringBootTest
 @Transactional
@@ -79,6 +81,8 @@ public class UberEntityTest {
         log.info("Now, loading cu JPQL ...");
         UberEntity uberEntity = uberEntityRepo.findByName("Nume");
         // 5 SELECTURI succesive, 1 pentru fiecare relatie @ManyToOne
+        System.out.println("Cica mi-a intors entity");
+        String nameCareNuEraIncaINJavaIncarcat = uberEntity.getOriginCountry().getName();
         String astaVreau = uberEntity.getId() + ". "
                            + uberEntity.getName() + " din "
                            + uberEntity.getOriginCountry().getName();
@@ -87,13 +91,12 @@ public class UberEntityTest {
     @Test
     public void maiEficient() {
         log.info("Now, loading cu JPQL ...");
-        UberEntity uberEntity = uberEntityRepo.findByName("Nume");
+        Object[] dateBrute = uberEntityRepo.findForHomepage("Nume").get(0);
         // 5 SELECTURI succesive, 1 pentru fiecare relatie @ManyToOne
         System.out.println("Cica mi-a intors entity");
-        String nameCareNuEraIncaINJavaIncarcat = uberEntity.getOriginCountry().getName();
-        String astaVreau = uberEntity.getId() + ". "
-                           + uberEntity.getName() + " din "
-                           + nameCareNuEraIncaINJavaIncarcat;
+        String astaVreau = dateBrute[0] + ". "
+                           + dateBrute[1] + " din "
+                           + dateBrute[2];
         System.out.println(astaVreau);
     }
 
@@ -103,4 +106,8 @@ public class UberEntityTest {
 
 interface UberEntityRepo extends JpaRepository<UberEntity, Long> {
     UberEntity findByName(String name);
+    @Query("SELECT u.id, u.name, u.originCountry.name " +
+           "FROM UberEntity u" +
+           " WHERE u.name=?1")
+    List<Object[]> findForHomepage(String name);
 }
