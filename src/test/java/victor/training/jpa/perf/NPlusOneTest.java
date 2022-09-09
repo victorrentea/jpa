@@ -55,8 +55,8 @@ public class NPlusOneTest {
 	@Rollback(false)
 	public void nPlusOne() {
 //		List<Parent> parents = entityManager.createQuery("SELECT p FROM Parent p", Parent.class).getResultList();
-//		List<Parent> parents = parentRepo.findAll();
-		Set<Parent> parents = parentRepo.findAllWithChildren();
+		List<Parent> parents = parentRepo.findAll();
+//		Set<Parent> parents = parentRepo.findAllWithChildren();
 
 		int totalChildren = countChildren(parents);
 		assertThat(totalChildren).isEqualTo(5);

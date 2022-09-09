@@ -1,5 +1,7 @@
 package victor.training.jpa.perf;
 
+import org.hibernate.annotations.BatchSize;
+
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,6 +18,7 @@ public class Parent {
 
     private String name;
 
+    @BatchSize(size = 200)
     @OneToMany(cascade = CascadeType.ALL/*, fetch = FetchType.EAGER*/)
     @JoinColumn(name = "PARENT_ID")
     private Set<Child> children = new HashSet<>();
