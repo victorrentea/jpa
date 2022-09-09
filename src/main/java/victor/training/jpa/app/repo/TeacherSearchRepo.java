@@ -48,7 +48,7 @@ public class TeacherSearchRepo {
          jpqlParts.add("AND UPPER(t.name) LIKE UPPER('%' || :name || '%')");
          params.put("name", searchCriteria.name);
       }
-
+// TODO read this
       if (searchCriteria.grade != null) {
          jpqlParts.add("AND t.grade = :grade");
          params.put("grade", searchCriteria.grade);
@@ -80,10 +80,11 @@ public class TeacherSearchRepo {
 
       List<Predicate> predicates = new ArrayList<>();
 
+      // TODO read this
       if (searchCriteria.grade != null) {
          // TODO extract Spring Specifications starting from cb.equal ...
          predicates.add(cb.equal(root.get(Teacher_.grade), searchCriteria.grade));
-         predicates.add(cb.equal(root.get("grade"), searchCriteria.grade));// without metamodel
+//         predicates.add(cb.equal(root.get("grade"), searchCriteria.grade));// without metamodel
       }
 
       if (searchCriteria.name != null) {
@@ -142,7 +143,8 @@ public class TeacherSearchRepo {
              .select(Expressions.constant(1))
              .from(courseActivity)
              .join(courseActivity.teachers, tt)
-             .where(tt.id.eq(teacher.id)).exists());
+             .where(tt.id.eq(teacher.id))
+             .exists());
       }
 
       return outerQuery

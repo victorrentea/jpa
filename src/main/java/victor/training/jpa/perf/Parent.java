@@ -1,6 +1,7 @@
 package victor.training.jpa.perf;
 
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.collection.internal.PersistentSet;
 
 import javax.persistence.*;
 import java.util.Collection;

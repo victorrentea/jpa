@@ -89,7 +89,7 @@ public class NPlusOneTest {
 	@Rollback(false)
 	@Sql("classpath:/create-view.sql")
 	public void cicaAmMultiParintiZeciDemii_VreauPeToti_caNume_siCatiCopiiAre() {
-		//		List<Object[]> dateCaArray90 = parentRepo.findSmecher();
+//				List<Object[]> dateCaArray90 = parentRepo.findSmecher();
 		//		for (Object[] objects : dateCaArray90) {
 		//			System.out.println("Am gasit parinte: " + Arrays.toString(objects));
 		//		}

@@ -114,8 +114,14 @@ class UberPentruHomepageDTO {
 }
 
 interface UberEntityRepo extends JpaRepository<UberEntity, Long> {
+
+    @Query("SELECT u FROM UberEntity u " +
+           " LEFT JOIN FETCH u.originCountry Where u.name=?1")
     UberEntity findByName(String name);
-    @Query("SELECT new victor.training.jpa.perf.UberPentruHomepageDTO(u.id, u.name, u.originCountry.name) " +
+
+
+    @Query("SELECT new victor.training.jpa.perf.UberPentruHomepageDTO(" +
+           "u.id, u.name, u.originCountry.name) " +
            "FROM UberEntity u" +
            " WHERE u.name=?1")
     List<UberPentruHomepageDTO> findForHomepage(String name);
