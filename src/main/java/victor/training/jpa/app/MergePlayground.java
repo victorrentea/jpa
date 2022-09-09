@@ -2,6 +2,8 @@ package victor.training.jpa.app;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.sun.xml.bind.v2.TODO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.ErrorTagRepo;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Component
@@ -28,16 +31,23 @@ public class MergePlayground {
    private Long logId;
    private ObjectMapper jackson = new ObjectMapper();
 
+   {
+      jackson.registerModule(new JavaTimeModule());
+      jackson.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+   }
 
    @Transactional
    public void persistInitialData() {
       feTag= errorTagRepo.save(new ErrorTag("FE"));
       beTag= errorTagRepo.save(new ErrorTag("BE"));
       ErrorLog errorLog = new ErrorLog("message");
+      errorLog.setCreatedTime(LocalDateTime.now());
       errorLog.getComments().add(new ErrorComment("First Comment"));
       errorLog.getComments().add(new ErrorComment("Second Comment"));
       errorLog.getTags().add(beTag);
       logId = errorLogRepo.save(errorLog).getId();
+
+
    }
 
    @Transactional
@@ -63,11 +73,31 @@ public class MergePlayground {
       // TODO remove a comment (private child) ==> orphanRemoval
       log.debug("Client1 sends back updated JSON: " + jackson.writeValueAsString(copyInClient));
       // -------- leave the browser ---------
+      System.out.println("time=  " +copyInClient.getCreatedTime());
+// inainte de merge, restaurezi coloanele ce NU aveau cum sa se modifice din FE
+      ErrorLog errorLog = errorLogRepo.findById(copyInClient.getId()).orElseThrow();
+      copyInClient.setCreatedTime(errorLog.getCreatedTime()); // restaurezi datele vechi. pe parinte si pe copii!
       errorLogRepo.save(copyInClient); // aici salvez in DB obiectul modificat primit din FE
+      // merge problems:
+      // 1 coloane readonly pt FE: nu le primesti
+      // 2 coloane invizibile nu le trimiti
+      // ==> daca te superi pe merge:
+      // faci e=r.find si apoi e.setCeSaSchimbat() repo.save()
    }
    // TODO concurrent access:
    //    1)  add @Version for optimistic locking
    //    1)  set 'underEditBy' for pesimistic locking
+
+   @Transactional
+   public void client2(String jsonReceivedFromServer) throws JsonProcessingException {
+      ErrorLog copyInClient = jackson.readValue(jsonReceivedFromServer, ErrorLog.class);
+      // ------- enter the browser -------
+      log.debug("Client2 receives JSON from BE: " + jackson.writeValueAsString(copyInClient));
+      copyInClient.setMessage("Client2 changed"); // changed message
+      log.debug("Client2 sends back updated JSON: " + jackson.writeValueAsString(copyInClient));
+      // -------- leave the browser ---------
+      errorLogRepo.save(copyInClient);
+   }
 
 
    @Transactional

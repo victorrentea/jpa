@@ -1,5 +1,7 @@
 package victor.training.jpa.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +9,7 @@ import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static javax.persistence.CascadeType.ALL;
@@ -23,6 +26,9 @@ public class ErrorLog  extends BaseEntity{
 
    private String criticalNote;
 
+   @JsonIgnore
+   private LocalDateTime createdTime;
+
    // TODO cascade
    // TODO preserve order (!it matters)
    @OneToMany(cascade = ALL, orphanRemoval = true)
@@ -31,6 +37,9 @@ public class ErrorLog  extends BaseEntity{
 
    @ManyToMany
    private Set<ErrorTag> tags = new HashSet<>();
+
+   @Version
+   private Long version;
 
 
    public ErrorLog() {
