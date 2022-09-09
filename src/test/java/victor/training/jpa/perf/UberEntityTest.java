@@ -1,5 +1,6 @@
 package victor.training.jpa.perf;
 
+import lombok.Data;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -91,12 +92,12 @@ public class UberEntityTest {
     @Test
     public void maiEficient() {
         log.info("Now, loading cu JPQL ...");
-        Object[] dateBrute = uberEntityRepo.findForHomepage("Nume").get(0);
+        UberPentruHomepageDTO elegant = uberEntityRepo.findForHomepage("Nume").get(0);
         // 5 SELECTURI succesive, 1 pentru fiecare relatie @ManyToOne
         System.out.println("Cica mi-a intors entity");
-        String astaVreau = dateBrute[0] + ". "
-                           + dateBrute[1] + " din "
-                           + dateBrute[2];
+        String astaVreau = elegant.getId() + ". "
+                           + elegant.getUberName() + " din "
+                           + elegant.getOriginCountryName();
         System.out.println(astaVreau);
     }
 
@@ -104,10 +105,18 @@ public class UberEntityTest {
     private UberEntityRepo uberEntityRepo;
 }
 
+// json
+@Data
+class UberPentruHomepageDTO {
+    private final Long id;
+    private final String uberName;
+    private final String originCountryName;
+}
+
 interface UberEntityRepo extends JpaRepository<UberEntity, Long> {
     UberEntity findByName(String name);
-    @Query("SELECT u.id, u.name, u.originCountry.name " +
+    @Query("SELECT new victor.training.jpa.perf.UberPentruHomepageDTO(u.id, u.name, u.originCountry.name) " +
            "FROM UberEntity u" +
            " WHERE u.name=?1")
-    List<Object[]> findForHomepage(String name);
+    List<UberPentruHomepageDTO> findForHomepage(String name);
 }
