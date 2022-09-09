@@ -12,10 +12,10 @@ public class UberEntity {
     private Long id;
     private String name;
     private String firstName, lastName, ibanCode, cnp, ssn, passportNumber;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Country originCountry;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Country nationality;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private Country originCountry;
+    private Long originCountryId;
+    private Long nationalityCountryId;
     @ManyToOne(fetch = FetchType.LAZY)
     private Country fiscalCountry;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -35,16 +35,6 @@ public class UberEntity {
 
     public UberEntity setName(String name) {
         this.name = name;
-        return this;
-    }
-
-    public UberEntity setOriginCountry(Country originCountry) {
-        this.originCountry = originCountry;
-        return this;
-    }
-
-    public UberEntity setNationality(Country nationality) {
-        this.nationality = nationality;
         return this;
     }
 
@@ -68,9 +58,6 @@ public class UberEntity {
         return this;
     }
 
-    public Country getOriginCountry() {
-        return originCountry;
-    }
 }
 
 @Entity

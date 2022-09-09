@@ -116,7 +116,7 @@ public class TeacherSearchRepo {
       if (searchCriteria.teachingCourses) {
          spec = spec.and(TeacherSpecifications.teachingCourses());
       }
-      // xtra: pagination
+      // xtra: paginationj UITA-TE AICI
       return teacherRepo.findAll(spec, PageRequest.of(0, 10, ASC, "name")).getContent();
    }
 

@@ -50,10 +50,10 @@ public class UberEntityTest {
                 .setName("Nume")
                 .setIbanCode("iban")
                 .setFiscalCountry(romania)
-                .setOriginCountry(serbia)
+                .setOriginCountryId(serbia.getId())
                 .setInvoicingCountry(bulgaria)
                 .setCreatedBy(testUser)
-                .setNationality(romania)
+                .setNationalityCountryId(romania.getId())
                 .setScope(globalScope);
         em.persist(uber);
         uberId = uber.getId();
@@ -74,7 +74,8 @@ public class UberEntityTest {
 
         String astaVreau = uberEntity.getId() + ". "
                            + uberEntity.getName() + " din "
-                           + uberEntity.getOriginCountry().getName();
+//                           + uberEntity.getOriginCountry().getName()
+                ;
         System.out.println(astaVreau);
     }
     @Test
@@ -83,10 +84,11 @@ public class UberEntityTest {
         UberEntity uberEntity = uberEntityRepo.findByName("Nume");
         // 5 SELECTURI succesive, 1 pentru fiecare relatie @ManyToOne
         System.out.println("Cica mi-a intors entity");
-        String nameCareNuEraIncaINJavaIncarcat = uberEntity.getOriginCountry().getName();
+//        String nameCareNuEraIncaINJavaIncarcat = uberEntity.getOriginCountry().getName();
         String astaVreau = uberEntity.getId() + ". "
                            + uberEntity.getName() + " din "
-                           + uberEntity.getOriginCountry().getName();
+//                           + uberEntity.getOriginCountry().getName()
+                ;
         System.out.println(astaVreau);
     }
     @Test
@@ -115,14 +117,16 @@ class UberPentruHomepageDTO {
 
 interface UberEntityRepo extends JpaRepository<UberEntity, Long> {
 
-    @Query("SELECT u FROM UberEntity u " +
-           " LEFT JOIN FETCH u.originCountry Where u.name=?1")
+    @Query("SELECT u FROM UberEntity u "
+//           +
+//           " LEFT JOIN FETCH u.originCountry Where u.name=?1"
+    )
     UberEntity findByName(String name);
 
 
     @Query("SELECT new victor.training.jpa.perf.UberPentruHomepageDTO(" +
-           "u.id, u.name, u.originCountry.name) " +
-           "FROM UberEntity u" +
+           "u.id, u.name, oc.name) " +
+           "FROM UberEntity u JOIN Country oc ON oc.id= u.originCountryId"+
            " WHERE u.name=?1")
     List<UberPentruHomepageDTO> findForHomepage(String name);
 }

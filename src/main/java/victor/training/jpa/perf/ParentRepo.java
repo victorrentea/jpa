@@ -1,5 +1,7 @@
 package victor.training.jpa.perf;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -8,9 +10,8 @@ import java.util.Set;
 
 public interface ParentRepo extends JpaRepository<Parent, Long> {
     // idee proasta: explozie cardinala : children x childrenAdoptati
-    @Query("SELECT p from Parent p LEFT JOIN FETCH p.children"
-    )
-    Set<Parent> findAllWithChildren();
+    @Query("SELECT p from Parent p ")
+    Page<Parent> findAllWithChildren(Pageable p);
 
     @Query(value = "select p.name, count(c.id) " +
            "from parent p " +

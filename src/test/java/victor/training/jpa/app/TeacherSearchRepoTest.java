@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.CourseActivity;
+import victor.training.jpa.app.entity.Subject;
 import victor.training.jpa.app.entity.Teacher;
 import victor.training.jpa.app.entity.Teacher.Grade;
 import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
+import victor.training.jpa.app.repo.SubjectRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 import victor.training.jpa.app.repo.TeacherSearchRepo;
 
@@ -39,6 +41,13 @@ abstract class TeacherSearchRepoTest {
    final void before() {
       teacherRepo.save(teacher);
    }
+
+
+   @Autowired
+   protected SubjectRepo subjectRepo;
+
+
+
 
    @Order(1)
    @Test
@@ -94,6 +103,16 @@ abstract class TeacherSearchRepoTest {
 
 //@Order(1)
 class JpqlConcat extends TeacherSearchRepoTest {
+
+
+   @Test
+   void explore() {
+
+      Subject s = new Subject("un nume");
+      subjectRepo.save(s);
+   }
+
+
    protected List<Teacher> search() {
       return searchRepo.jpqlConcat(criteria);
    }

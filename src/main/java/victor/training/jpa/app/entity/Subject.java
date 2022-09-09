@@ -1,29 +1,19 @@
 package victor.training.jpa.app.entity;
 
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.persistence.*;
-
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-
-import victor.training.jpa.app.util.MyTrackingEntityListener;
-import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
+import java.util.Objects;
 
 import static javax.persistence.CascadeType.ALL;
 
 
-@Getter
-@Setter
-
 @Entity
-@ToString
 public class Subject  {
 	@Id
 	@GeneratedValue
@@ -45,20 +35,18 @@ public class Subject  {
 	@LastModifiedBy
 	private String lastModifiedBy;
 
-	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	public void setLastModifiedBy(String lastModifiedBy) {
-		this.lastModifiedBy = lastModifiedBy;
-	}
-
-	public Subject() {
+	protected Subject() {
 	}
 
 	public Subject(String name) {
-		this.name = name;
+		this.name = Objects.requireNonNull(name);
 	}
+
+	// setterul nu e necesar. Hibernate intra oricum cu reflection pe campuri private
+//	public Subject setName(String name) {
+//		this.name = Objects.requireNonNull(name); // validezi SI in setter
+//		return this;
+//	}
 
 	public List<TeachingActivity> getActivities() {
 		return Collections.unmodifiableList(activities);
@@ -73,5 +61,55 @@ public class Subject  {
 	public void addActivity(TeachingActivity activity) {
 		activity.setSubject(this);
 		activities.add(activity);
+	}
+
+	public Long getId() {
+		return this.id;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public boolean isActive() {
+		return this.active;
+	}
+
+	public Teacher getHolderTeacher() {
+		return this.holderTeacher;
+	}
+
+	public LocalDateTime getLastModifiedDate() {
+		return this.lastModifiedDate;
+	}
+
+	public String getLastModifiedBy() {
+		return this.lastModifiedBy;
+	}
+
+	public Subject setId(Long id) {
+		this.id = id;
+		return this;
+	}
+
+
+
+	public Subject setActive(boolean active) {
+		this.active = active;
+		return this;
+	}
+
+	public Subject setHolderTeacher(Teacher holderTeacher) {
+		this.holderTeacher = holderTeacher;
+		return this;
+	}
+
+	public Subject setActivities(List<TeachingActivity> activities) {
+		this.activities = activities;
+		return this;
+	}
+
+	public String toString() {
+		return "Subject(id=" + this.getId() + ", name=" + this.getName() + ", active=" + this.isActive() + ", holderTeacher=" + this.getHolderTeacher() + ", activities=" + this.getActivities() + ", lastModifiedDate=" + this.getLastModifiedDate() + ", lastModifiedBy=" + this.getLastModifiedBy() + ")";
 	}
 }

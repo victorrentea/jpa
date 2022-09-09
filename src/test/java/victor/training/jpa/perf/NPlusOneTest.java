@@ -6,20 +6,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
+import victor.training.jpa.app.entity.Subject;
+import victor.training.jpa.app.repo.SubjectRepo;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -46,9 +48,9 @@ public class NPlusOneTest {
 				.addChild(new Child("Paul"))
 		).getId();
 
-//		entityManager.flush();
-//		entityManager.clear();
+//
 	}
+
 
 //	@Test
 //	@Transactional
@@ -59,12 +61,17 @@ public class NPlusOneTest {
 //		System.out.println(petru.getChildren());
 //	}
 	@Test
-//	@Transactional
-//	@Rollback(false)
+	@Transactional
+	@Rollback(false)
 	public void nPlusOne() {
+		entityManager.flush();
+				entityManager.clear();
+
 //		List<Parent> parents = entityManager.createQuery("SELECT p FROM Parent p", Parent.class).getResultList();
-		List<Parent> parents = parentRepo.findAll();
-//		Set<Parent> parents = parentRepo.findAllWithChildren();
+//		List<Parent> parents = parentRepo.findAll();
+		Page<Parent> page = parentRepo.findAllWithChildren(PageRequest.of(0, 100));
+		System.out.println(page.getTotalPages());
+		Set<Parent> parents = new HashSet<>(page.getContent());
 
 		int totalChildren = countChildren(parents);
 		assertThat(totalChildren).isEqualTo(5);
