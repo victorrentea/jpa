@@ -1,17 +1,23 @@
 package victor.training.jpa.perf;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -73,4 +79,49 @@ public class NPlusOneTest {
 		return total;
 	}
 
+	@Autowired
+	private PWCCRepo pwccRepo;
+
+	@Test
+	@Transactional
+	@Rollback(false)
+	@Sql("classpath:/create-view.sql")
+	public void cicaAmMultiParintiZeciDemii_VreauPeToti_caNume_siCatiCopiiAre() {
+//		List<Object[]> dateCaArray90 = parentRepo.findSmecher();
+//		for (Object[] objects : dateCaArray90) {
+//			System.out.println("Am gasit parinte: " + Arrays.toString(objects));
+//		}
+		System.out.println(pwccRepo.findAll());
+	}
+}
+interface PWCCRepo extends JpaRepository<ParentWithChildrenCount, Long>{}
+
+@Table(name = "PARENT_WITH_CHILDREN_COUNT_VIEW")
+@Entity
+@Data
+class ParentWithChildrenCount {
+	@Id
+	private Long id;
+	private String name;
+	private int count;
+
+}
+
+
+class ParentChildren {
+	private final String name;
+	private final int childrenCount;
+
+	ParentChildren(String name, int childrenCount) {
+		this.name = name;
+		this.childrenCount = childrenCount;
+	}
+
+	@Override
+	public String toString() {
+		return "ParentChildren{" +
+			   "name='" + name + '\'' +
+			   ", childrenCount=" + childrenCount +
+			   '}';
+	}
 }

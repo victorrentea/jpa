@@ -11,6 +11,7 @@ import java.util.Set;
 import static java.util.Collections.unmodifiableSet;
 
 @Entity
+//@NamedQueries({@NamedQuery("SELECT CA BOU NU MERGE", )})
 public class Parent {
     @Id
     @GeneratedValue
