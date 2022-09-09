@@ -26,14 +26,14 @@ public class TransactionPlayground {
     @Transactional
     public void firstTransaction()  {
         log.debug("Function Begin");
-        repo.save(new ErrorLog("Inainte"));
         try {
+            repo.save(new ErrorLog("Inainte"));
             other.bizAdanc();
+            repo.save(new ErrorLog("Dupa"));
         } catch (Exception e) {
             other.saveError(e);
             log.error("SWallow: " + e);
         }
-        repo.save(new ErrorLog("Dupa"));
         log.debug("Function End");
     }
     @Transactional
@@ -61,7 +61,8 @@ class Other {
 //    @Autowired
 //    private JdbcTemplate jdbcTemplate;
 
-    @Transactional(propagation = Propagation.NOT_SUPPORTED) // NU MERGE CA NU TRECE PRIN PROXY!!
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+//    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     // un apel de metoda in aceeasi clasa (local) NU TRECE PRIN PROXY.
     public void saveError(Exception e) {
         repo.save(new ErrorLog("EROARE VALEU: " + e.getMessage()));

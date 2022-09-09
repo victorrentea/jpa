@@ -86,7 +86,7 @@ public class TransactionJPAPlayground {
     @Transactional
     public void thirdTransaction() {
         Subject subject = subjectRepo.findOneById(subjectId);
-        System.out.println(subject);
+//        System.out.println(subject);
     }
     private final TeacherDetailsRepo teacherDetailsRepo;
 

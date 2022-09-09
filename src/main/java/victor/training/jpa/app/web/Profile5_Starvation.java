@@ -9,7 +9,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,15 +55,27 @@ class SheepController {
 class SheepService {
     private final SheepRepo repo;
     private final ShepardService shepard;
+    private final PlatformTransactionManager transactionManager;
 
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
 //    @Transactional nenecesar caci repo.save() are @Trn el .
     public Long create(String name) {
 //        System.out.println(repo.findAll());
         // DRAMA: apel de HTTP intr-o met @Transactional: blochezi conn pentru prea MULT timp
-        String sn = shepard.registerSheep(name); // Takes 1 second (HTTP call)
-        Sheep sheep = repo.save(new Sheep(name, sn));
+        String sn2 = shepard.registerSheep(name); // Takes 1 second (HTTP call)
+
+        TransactionTemplate tx = new TransactionTemplate(transactionManager);
+        tx.setPropagationBehaviorName("REQUIRES_NEW");
+        Sheep sheep = tx.execute(s -> m(name, sn2)); // programmatic tx management. (rar vazut prin jungla)
         return sheep.getId();
     }
+
+    public Sheep m(String name, String sn) {
+        Sheep sheep = repo.save(new Sheep(name, sn));
+        repo.save(new Sheep(name, sn));
+        return sheep;
+    }
+
     public List<Sheep> search(String name) {
         return repo.getByNameLike(name); // are nevoie sa ia conn din pool
     }

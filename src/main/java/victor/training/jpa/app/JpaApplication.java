@@ -39,10 +39,21 @@ public class JpaApplication {
 		System.out.println("O minciuna. un proxy:" + transactionJPAPlayground.getClass());
 		log.debug(">>>>>>>>>> Running Playground code.... <<<<<<<<<<<<");
 		log.debug(" ========= FIRST TRANSACTION ========== ");
-		transactionPlayground.firstTransaction();
+		transactionJPAPlayground.firstTransaction();
 		log.debug(" ========= SECOND TRANSACTION ========== ");
-		transactionPlayground.secondTransaction();
+		transactionJPAPlayground.secondTransaction();
+		log.debug(" ========= THIRD TRANSACTION ========== ");
+		transactionJPAPlayground.thirdTransaction();
 		log.debug(" ========= END ========== ");
+
+//
+//		System.out.println("O minciuna. un proxy:" + transactionJPAPlayground.getClass());
+//		log.debug(">>>>>>>>>> Running Playground code.... <<<<<<<<<<<<");
+//		log.debug(" ========= FIRST TRANSACTION ========== ");
+//		transactionPlayground.firstTransaction();
+//		log.debug(" ========= SECOND TRANSACTION ========== ");
+//		transactionPlayground.secondTransaction();
+//		log.debug(" ========= END ========== ");
 
 //		log.debug("==== Merge:Persist init ====");
 //		mergePlayground.persistInitialData();
