@@ -14,13 +14,14 @@ import victor.training.jpa.app.util.TestDBConnectionAndDropAllInitializer;
 import java.io.IOException;
 import java.sql.SQLException;
 
+//@EnableTransactionManagement//(mode = AdviceMode.ASPECTJ) // enables @Transactional to work for local method call (not a good idea!)
+// -javaagent:spring-instrument.jar -javaagent:aspectjweaver.jar
+//@EnableLoadTimeWeaving(aspectjWeaving= EnableLoadTimeWeaving.AspectJWeaving.ENABLED)
+
 @SpringBootApplication
 @EnableJpaRepositories(repositoryFactoryBeanClass = CustomJpaRepositoryFactoryBean.class)
 @EnableJpaAuditing
-@EnableTransactionManagement//(mode = AdviceMode.ASPECTJ) // enables @Transactional to work for local method call (AVOID!)
 @Slf4j
-//-javaagent:spring-instrument.jar -javaagent:aspectjweaver.jar
-//@EnableLoadTimeWeaving(aspectjWeaving= EnableLoadTimeWeaving.AspectJWeaving.ENABLED)
 public class JpaApplication {
 
 	@Autowired
