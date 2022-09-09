@@ -106,11 +106,16 @@ class JpqlConcat extends TeacherSearchRepoTest {
 
 
    @Test
+   @Transactional
    void explore() {
 
       Subject s = new Subject("un nume");
       s.setDescription("desc");
       subjectRepo.save(s);
+
+      Subject sub = subjectRepo.findOneById(1L);
+      subjectRepo.delete(sub);
+
    }
 
 

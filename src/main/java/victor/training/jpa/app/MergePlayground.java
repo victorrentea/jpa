@@ -2,6 +2,7 @@ package victor.training.jpa.app;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.xml.bind.v2.TODO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -40,6 +41,7 @@ public class MergePlayground {
    }
 
    @Transactional
+   // ne inchipuim ca asta e un endpoint REST care intoarce un JSON cu datele acestui ErrorLog
    public String readFromBackend(String username) throws JsonProcessingException {
       ErrorLog fromDB = errorLogRepo.findById(logId).get();
       String json = jackson.writeValueAsString(fromDB);
@@ -52,14 +54,16 @@ public class MergePlayground {
       ErrorLog copyInClient = jackson.readValue(jsonReceivedFromServer, ErrorLog.class);
       // ------- enter the browser -------
       log.debug("Client1 receives JSON from BE: " + jackson.writeValueAsString(copyInClient));
-      copyInClient.setMessage("Client1 changed");
-      // TODO change fields
+      copyInClient.setMessage("Client1 changed"); // changed message
+      //        change fields MERGE e usor.
+      copyInClient.getComments().remove(0);
+      copyInClient.getComments().get(0).setText("Copil changed");
+      copyInClient.getComments().add(new ErrorComment("Cevanou"));
       // TODO add a comment + merge parent ==> cascade
       // TODO remove a comment (private child) ==> orphanRemoval
-      // TODO link to +1 / other ErrorTag
       log.debug("Client1 sends back updated JSON: " + jackson.writeValueAsString(copyInClient));
       // -------- leave the browser ---------
-      errorLogRepo.save(copyInClient);
+      errorLogRepo.save(copyInClient); // aici salvez in DB obiectul modificat primit din FE
    }
    // TODO concurrent access:
    //    1)  add @Version for optimistic locking

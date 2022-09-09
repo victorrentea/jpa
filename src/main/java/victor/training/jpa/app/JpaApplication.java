@@ -36,15 +36,15 @@ public class JpaApplication {
 
 	@EventListener(ContextRefreshedEvent.class)
 	public void onApplicationEvent() throws IOException, SQLException {
-		System.out.println("O minciuna. un proxy:" + transactionJPAPlayground.getClass());
-		log.debug(">>>>>>>>>> Running Playground code.... <<<<<<<<<<<<");
-		log.debug(" ========= FIRST TRANSACTION ========== ");
-		transactionJPAPlayground.firstTransaction();
-		log.debug(" ========= SECOND TRANSACTION ========== ");
-		transactionJPAPlayground.secondTransaction();
-		log.debug(" ========= THIRD TRANSACTION ========== ");
-		transactionJPAPlayground.thirdTransaction();
-		log.debug(" ========= END ========== ");
+//		System.out.println("O minciuna. un proxy:" + transactionJPAPlayground.getClass());
+//		log.debug(">>>>>>>>>> Running Playground code.... <<<<<<<<<<<<");
+//		log.debug(" ========= FIRST TRANSACTION ========== ");
+//		transactionJPAPlayground.firstTransaction();
+//		log.debug(" ========= SECOND TRANSACTION ========== ");
+//		transactionJPAPlayground.secondTransaction();
+//		log.debug(" ========= THIRD TRANSACTION ========== ");
+//		transactionJPAPlayground.thirdTransaction();
+//		log.debug(" ========= END ========== ");
 
 //
 //		System.out.println("O minciuna. un proxy:" + transactionJPAPlayground.getClass());
@@ -55,14 +55,14 @@ public class JpaApplication {
 //		transactionPlayground.secondTransaction();
 //		log.debug(" ========= END ========== ");
 
-//		log.debug("==== Merge:Persist init ====");
-//		mergePlayground.persistInitialData();
-//		log.debug("==== Merge:READ (user clicked open edit screen) ====");
-//		String dataFromServer = mergePlayground.readFromBackend("client1");
-//		log.debug("==== Merge:WRITE1 (user clicked SAVE in edit screen ====");
-//		mergePlayground.client1(dataFromServer);
-//		log.debug("==== Merge:final data in DB ====");
-//		mergePlayground.printFinalData();
+		log.debug("==== Merge:Persist init ====");
+		mergePlayground.persistInitialData();
+		log.debug("==== Merge:READ (user clicked open edit screen) ====");
+		String dataFromServer = mergePlayground.readFromBackend("client1");
+		log.debug("==== Merge:WRITE1 (user clicked SAVE in edit screen ====");
+		mergePlayground.client1(dataFromServer);
+		log.debug("==== Merge:final data in DB ====");
+		mergePlayground.printFinalData();
 
 //		log.debug("Uploading file...");
 //		lobPlayground.uploadLargeClob();

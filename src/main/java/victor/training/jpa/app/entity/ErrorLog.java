@@ -25,7 +25,7 @@ public class ErrorLog  extends BaseEntity{
 
    // TODO cascade
    // TODO preserve order (!it matters)
-   @OneToMany
+   @OneToMany(cascade = ALL, orphanRemoval = true)
    @JoinColumn
    private List<ErrorComment> comments = new ArrayList<>();
 
