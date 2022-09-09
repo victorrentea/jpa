@@ -25,16 +25,10 @@ public class TransactionPlayground {
         try {
             bizAdanc();
         } catch (Exception e) {
-            saveError(e);
+            other.saveError(e);
             throw e;
         }
         log.debug("Function End");
-    }
-
-    @Transactional(propagation = Propagation.REQUIRES_NEW) // NU MERGE CA NU TRECE PRIN PROXY!!
-    // un apel de metoda in aceeasi clasa (local) NU TRECE PRIN PROXY.
-    public void saveError(Exception e) {
-        repo.save(new ErrorLog("EROARE VALEU: " + e.getMessage()));
     }
 
     private void bizAdanc() {
@@ -58,6 +52,12 @@ public class TransactionPlayground {
 @Service
 class Other {
     private final ErrorLogRepo repo;
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW) // NU MERGE CA NU TRECE PRIN PROXY!!
+    // un apel de metoda in aceeasi clasa (local) NU TRECE PRIN PROXY.
+    public void saveError(Exception e) {
+        repo.save(new ErrorLog("EROARE VALEU: " + e.getMessage()));
+    }
 
 
 }
