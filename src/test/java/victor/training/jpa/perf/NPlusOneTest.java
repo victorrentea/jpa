@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -21,6 +22,7 @@ public class NPlusOneTest {
 	private EntityManager entityManager;
 	@Autowired
 	private ParentRepo parentRepo;
+	private Long peterId;
 
 	@BeforeEach
 	public void persistData() {
@@ -29,16 +31,24 @@ public class NPlusOneTest {
 				.addChild(new Child("Emma"))
 				.addChild(new Child("Vlad"))
 		);
-		parentRepo.save(new Parent("Peter")
+		peterId = parentRepo.save(new Parent("Peter")
 				.addChild(new Child("Maria"))
 				.addChild(new Child("Stephan"))
 				.addChild(new Child("Paul"))
-		);
+		).getId();
 
 		entityManager.flush();
 		entityManager.clear();
 	}
 
+	@Test
+	@Transactional
+	@Rollback(false)
+	public void findById() {
+		Parent petru = parentRepo.findById(peterId).orElseThrow(); // mereg cu JOIN daca pui fetch=EAGER
+
+		System.out.println(petru.getChildren());
+	}
 	@Test
 	@Transactional
 	public void nPlusOne() {
