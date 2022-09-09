@@ -42,7 +42,7 @@ public class TransactionPlayground {
 class Other {
     private final ErrorLogRepo repo;
 
-    @Transactional
+//    @Transactional
     public void bizAdanc() {
         repo.save(new ErrorLog("BIZ mesaj"));
         if (true) {
