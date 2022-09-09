@@ -8,6 +8,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableAsync;
 import victor.training.jpa.app.common.CustomJpaRepositoryFactoryBean;
 import victor.training.jpa.app.util.TestDBConnectionAndDropAllInitializer;
 
@@ -18,6 +19,7 @@ import java.sql.SQLException;
 @EnableJpaRepositories(repositoryFactoryBeanClass = CustomJpaRepositoryFactoryBean.class)
 @EnableJpaAuditing
 @Slf4j
+@EnableAsync
 //-javaagent:spring-instrument.jar -javaagent:aspectjweaver.jar
 //@EnableLoadTimeWeaving(aspectjWeaving= EnableLoadTimeWeaving.AspectJWeaving.ENABLED)
 public class JpaApplication {

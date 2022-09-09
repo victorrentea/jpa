@@ -2,6 +2,7 @@ package victor.training.jpa.app;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.*;
@@ -21,7 +22,6 @@ public class TransactionPlayground {
         repo.save(new ErrorLog("mesaj"));
         magie.set("ceva");
         other.metoda();
-
         log.debug("Function End");
     }
 
@@ -39,6 +39,7 @@ public class TransactionPlayground {
 class Other {
     private final ErrorLogRepo repo;
 
+    @Async
     public void metoda() {
         System.out.println(TransactionPlayground.magie.get());
         //print thread localuri se propaga metadate intre "inceputul fluxului" si metode chemate mai jos
