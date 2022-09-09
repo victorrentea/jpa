@@ -2,12 +2,16 @@ package victor.training.jpa.app;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.*;
 import victor.training.jpa.app.repo.ErrorLogRepo;
 
+import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 
@@ -49,6 +53,13 @@ class Other {
             throw new UncheckedIOException(new IOException("Orice exceptie  (validate, ... conn timeout)"));
         }
     }
+
+//    @Autowired
+//    private Session session;
+//    @Autowired
+//    private EntityManager entityManager;
+//    @Autowired
+//    private JdbcTemplate jdbcTemplate;
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED) // NU MERGE CA NU TRECE PRIN PROXY!!
     // un apel de metoda in aceeasi clasa (local) NU TRECE PRIN PROXY.
