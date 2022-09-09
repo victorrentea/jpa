@@ -48,7 +48,8 @@ public class TransactionJPAPlayground {
         //        repo.save(new ErrorLog(null));
 
 
-        Subject subject = new Subject();
+        Subject subject = new Subject("NUme");
+        subject.setDescription("desc");
         CourseActivity course = new CourseActivity();
 
 //        subject.getActivities().add(course); // fix capatul care NU CONTEAZA la INSERT, invers(mappedBy=)

@@ -4,6 +4,10 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +24,11 @@ public class Subject  {
 	private Long id;
 	
 	private String name;
+	@NotNull
+	@Size(min = 4, max= 20)
+//	@Pattern(regexp = ".*")
+//	@Email
+	private String description;
 	
 	private boolean active;
 	
@@ -38,10 +47,22 @@ public class Subject  {
 	protected Subject() {
 	}
 
+	public Subject setName(String name) {
+		this.name = name;
+		return this;
+	}
+
 	public Subject(String name) {
 		this.name = Objects.requireNonNull(name);
 	}
 
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getDescription() {
+		return description;
+	}
 	// setterul nu e necesar. Hibernate intra oricum cu reflection pe campuri private
 //	public Subject setName(String name) {
 //		this.name = Objects.requireNonNull(name); // validezi SI in setter

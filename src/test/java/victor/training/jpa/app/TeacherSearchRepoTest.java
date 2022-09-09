@@ -109,6 +109,7 @@ class JpqlConcat extends TeacherSearchRepoTest {
    void explore() {
 
       Subject s = new Subject("un nume");
+      s.setDescription("desc");
       subjectRepo.save(s);
    }
 

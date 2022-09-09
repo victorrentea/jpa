@@ -51,7 +51,7 @@ public class TheFacade {
     }
 
     public Long createSubject(SubjectDto subjectDto) {
-        Subject subject = new Subject()
+        Subject subject = new Subject("a")
                 .setName(subjectDto.getName())
                 // TODO link existing entity from DB: a) Repo.getReference, b) new Teacher().setId()
                 .setHolderTeacher(teacherRepo.findOneById(subjectDto.getHolderTeacherId()))
