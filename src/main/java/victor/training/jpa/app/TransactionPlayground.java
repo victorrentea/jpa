@@ -42,7 +42,7 @@ public class TransactionPlayground {
 class Other {
     private final ErrorLogRepo repo;
 
-//    @Transactional
+    @Transactional
     public void bizAdanc() {
         repo.save(new ErrorLog("BIZ mesaj"));
         if (true) {
@@ -50,11 +50,14 @@ class Other {
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW) // NU MERGE CA NU TRECE PRIN PROXY!!
+    @Transactional(propagation = Propagation.NOT_SUPPORTED) // NU MERGE CA NU TRECE PRIN PROXY!!
     // un apel de metoda in aceeasi clasa (local) NU TRECE PRIN PROXY.
     public void saveError(Exception e) {
         repo.save(new ErrorLog("EROARE VALEU: " + e.getMessage()));
     }
+
+
+
 
 
 }
