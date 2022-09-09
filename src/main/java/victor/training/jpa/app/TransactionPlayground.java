@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.*;
 import victor.training.jpa.app.repo.ErrorLogRepo;
 
+import java.io.IOException;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -17,11 +19,12 @@ public class TransactionPlayground {
     private final Other other;
 
     @Transactional
-    public void firstTransaction() {
+    public void firstTransaction() throws IOException {
         log.debug("Function Begin");
         repo.save(new ErrorLog("mesaj"));
-        magie.set("ceva");
-        other.metoda();
+        if (true) {
+            throw new IOException("Orice exceptie  (validate, ... conn timeout)");
+        }
         log.debug("Function End");
     }
 
@@ -39,15 +42,5 @@ public class TransactionPlayground {
 class Other {
     private final ErrorLogRepo repo;
 
-    @Async
-    public void metoda() {
-        System.out.println(TransactionPlayground.magie.get());
-        //print thread localuri se propaga metadate intre "inceputul fluxului" si metode chemate mai jos
-        repo.save(new ErrorLog(null));
 
-         // prin aceste ThreadLOcal se mai propaga:
-        // - JDBC COnnection + @Transactional
-        // - SecurityCOntextHolder
-        // - Logback MDC (Apache Sleuth) /
-    }
 }
