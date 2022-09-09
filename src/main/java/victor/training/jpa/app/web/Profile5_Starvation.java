@@ -49,18 +49,19 @@ class SheepController {
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional
 class SheepService {
     private final SheepRepo repo;
     private final ShepardService shepard;
 
+    @Transactional
     public Long create(String name) {
+        // DRAMA: apel de HTTP intr-o met @Transactional: blochezi conn pentru prea MULT timp
         String sn = shepard.registerSheep(name); // Takes 1 second (HTTP call)
         Sheep sheep = repo.save(new Sheep(name, sn));
         return sheep.getId();
     }
     public List<Sheep> search(String name) {
-        return repo.getByNameLike(name);
+        return repo.getByNameLike(name); // are nevoie sa ia conn din pool
     }
 }
 @Slf4j
