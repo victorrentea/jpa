@@ -53,8 +53,9 @@ class SheepService {
     private final SheepRepo repo;
     private final ShepardService shepard;
 
-    @Transactional
+//    @Transactional nenecesar caci repo.save() are @Trn el .
     public Long create(String name) {
+//        System.out.println(repo.findAll());
         // DRAMA: apel de HTTP intr-o met @Transactional: blochezi conn pentru prea MULT timp
         String sn = shepard.registerSheep(name); // Takes 1 second (HTTP call)
         Sheep sheep = repo.save(new Sheep(name, sn));
