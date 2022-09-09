@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -16,8 +15,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 @SpringBootTest
-@Transactional
-@Rollback(false) // allow data to remain in DB for later inspection
 public class NPlusOneTest {
 
 	@Autowired
@@ -28,11 +25,11 @@ public class NPlusOneTest {
 	@BeforeEach
 	public void persistData() {
 		parentRepo.deleteAll();
-		entityManager.persist(new Parent("Victor")
+		parentRepo.save(new Parent("Victor")
 				.addChild(new Child("Emma"))
 				.addChild(new Child("Vlad"))
 		);
-		entityManager.persist(new Parent("Peter")
+		parentRepo.save(new Parent("Peter")
 				.addChild(new Child("Maria"))
 				.addChild(new Child("Stephan"))
 				.addChild(new Child("Paul"))
@@ -43,20 +40,23 @@ public class NPlusOneTest {
 	}
 
 	@Test
+	@Transactional
 	public void nPlusOne() {
-		List<Parent> parents = entityManager.createQuery("SELECT p FROM Parent p", Parent.class).getResultList();
+//		List<Parent> parents = entityManager.createQuery("SELECT p FROM Parent p", Parent.class).getResultList();
+		List<Parent> parents = parentRepo.findAll();
 
-		int totalChildren = anotherMethod(parents);
+		int totalChildren = countChildren(parents);
 		assertThat(totalChildren).isEqualTo(5);
 	}
 
-	private int anotherMethod(Collection<Parent> parents) {
+	private int countChildren(Collection<Parent> parents) {
 		log.debug("Start iterating over {} parents: {}", parents.size(), parents);
 		int total = 0;
 		for (Parent parent : parents) {
 			total += parent.getChildren().size();
 		}
 		log.debug("Done counting: {} children", total);
+		// Session(Hib) = PerssitenceCOntext(JPA) = @Transactional (Spring) contine 1st level cache
 		return total;
 	}
 
