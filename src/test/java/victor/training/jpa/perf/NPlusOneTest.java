@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -41,19 +42,21 @@ public class NPlusOneTest {
 		entityManager.clear();
 	}
 
+//	@Test
+//	@Transactional
+//	@Rollback(false)
+//	public void findById() {
+//		Parent petru = parentRepo.findById(peterId).orElseThrow(); // mereg cu JOIN daca pui fetch=EAGER
+//
+//		System.out.println(petru.getChildren());
+//	}
 	@Test
 	@Transactional
 	@Rollback(false)
-	public void findById() {
-		Parent petru = parentRepo.findById(peterId).orElseThrow(); // mereg cu JOIN daca pui fetch=EAGER
-
-		System.out.println(petru.getChildren());
-	}
-	@Test
-	@Transactional
 	public void nPlusOne() {
 //		List<Parent> parents = entityManager.createQuery("SELECT p FROM Parent p", Parent.class).getResultList();
-		List<Parent> parents = parentRepo.findAll();
+//		List<Parent> parents = parentRepo.findAll();
+		Set<Parent> parents = parentRepo.findAllWithChildren();
 
 		int totalChildren = countChildren(parents);
 		assertThat(totalChildren).isEqualTo(5);
