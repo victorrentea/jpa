@@ -34,7 +34,6 @@ public class JpaApplication {
 
 
 	@EventListener
-	@Transactional
 	public void onApplicationEvent(ContextRefreshedEvent event) throws IOException, SQLException {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
 		log.debug(" ========= FIRST TRANSACTION ========== ");
