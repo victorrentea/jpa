@@ -35,7 +35,8 @@ public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, Teacher
 	@Query("SELECT t FROM Teacher t " +
 		   "WHERE (:name is null OR UPPER(t.name) LIKE UPPER('%' || :name || '%'))" +
 		   "AND (:grade is null OR t.grade = :grade)" +
-		   "AND (cast(:teachingCourses as int) = 0 OR EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id) )")
+		   "AND (cast(:teachingCourses as int) = 0 OR " +
+		   "		EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id) )")
 	List<Teacher> searchFixedJqpl(@Nullable String name, @Nullable Teacher.Grade grade, boolean teachingCourses);
 
 	@Query("SELECT t FROM Teacher t " +
