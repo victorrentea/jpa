@@ -30,9 +30,10 @@ public class TransactionPlayground {
         log.debug("Function Begin");
 
         repo.save(new ErrorLog("Halo1!"));
-        repo.save(new ErrorLog("Halo1!"));
+        repo.save(new ErrorLog(null));
 
         log.debug("Function End - the inserts are FLUSHED to db right before the COMMIT = Write-Behind");
+//        throw new IllegalArgumentException("Oups!");
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)

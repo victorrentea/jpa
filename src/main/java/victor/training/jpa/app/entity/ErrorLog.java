@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 import static javax.persistence.CascadeType.ALL;
@@ -20,6 +21,7 @@ public class ErrorLog {
    @GeneratedValue
    private Long id;
 
+   @NotNull
    @Column(nullable = false)
    private String message;
 
