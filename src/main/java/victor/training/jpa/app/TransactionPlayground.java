@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -64,10 +65,15 @@ public class TransactionPlayground {
         try {
             other.secondMethod();
         } catch (Exception e) {
-            // TODO fastfood
+            saveError(e);
         }
         eventPublisher.publishEvent(new SendEmailsAfterTxCommit("Send kafka message, emails"));
         log.debug("Function End");
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void saveError(Exception e) {
+        repo.save(new ErrorLog("BUBU: " + e.getMessage()));
     }
 }
 
@@ -78,8 +84,8 @@ class Other {
     private ErrorLogRepo repo;
 
     @Transactional
-    public ErrorLog secondMethod() throws IOException {
-        throw new IOException("intentional");
+    public ErrorLog secondMethod() {
+        throw new RuntimeException("intentional");
     }
     // 1) whenever a @Transactional interceptor SEES an exception going out of its method,
     //      it KILLS the CURRENT (perhaps inherited) Transaction
