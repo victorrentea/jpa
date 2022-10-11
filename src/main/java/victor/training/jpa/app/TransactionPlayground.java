@@ -12,6 +12,8 @@ import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -25,15 +27,16 @@ public class TransactionPlayground {
     private final ErrorLogRepo repo;
     private final DataSource dataSource;
 
-    @Transactional
-    public void firstTransaction() {
+    @Transactional(rollbackFor = Exception.class)
+    public void firstTransaction() throws FileNotFoundException {
         log.debug("Function Begin");
 
         repo.save(new ErrorLog("Halo1!"));
-        repo.save(new ErrorLog(null));
+        repo.save(new ErrorLog("not null"));
 
         log.debug("Function End - the inserts are FLUSHED to db right before the COMMIT = Write-Behind");
-//        throw new IllegalArgumentException("Oups!");
+        if (true) throw new FileNotFoundException("Raining in '95 when they created Java");
+        repo.save(new ErrorLog("this too"));
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
