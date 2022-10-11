@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 @SpringBootTest
-@Transactional
+//@Transactional
 @Rollback(false) // allow data to remain in DB for later inspection
 public class NPlusOneTest {
 
@@ -28,23 +28,23 @@ public class NPlusOneTest {
 	@BeforeEach
 	public void persistData() {
 		parentRepo.deleteAll();
-		entityManager.persist(new Parent("Victor")
+		parentRepo.save(new Parent("Trofim"));
+
+		parentRepo.save(new Parent("Victor")
 				.addChild(new Child("Emma"))
 				.addChild(new Child("Vlad"))
 		);
-		entityManager.persist(new Parent("Peter")
+		parentRepo.save(new Parent("Peter")
 				.addChild(new Child("Maria"))
 				.addChild(new Child("Stephan"))
 				.addChild(new Child("Paul"))
 		);
-
-		entityManager.flush();
-		entityManager.clear();
 	}
+
 
 	@Test
 	public void nPlusOne() {
-		List<Parent> parents = entityManager.createQuery("SELECT p FROM Parent p", Parent.class).getResultList();
+		List<Parent> parents = parentRepo.findAll();
 
 		int totalChildren = anotherMethod(parents);
 		assertThat(totalChildren).isEqualTo(5);
@@ -54,7 +54,9 @@ public class NPlusOneTest {
 		log.debug("Start iterating over {} parents: {}", parents.size(), parents);
 		int total = 0;
 		for (Parent parent : parents) {
-			total += parent.getChildren().size();
+			System.out.println("How is it possible that a call to .size() launches a qury ??! " +
+							   "isn't that List<Children> a list? NO: " + parent.getChildren().getClass());
+			total += parent.getChildren().size(); // launches + 1 query for each parent = N
 		}
 		log.debug("Done counting: {} children", total);
 		return total;
