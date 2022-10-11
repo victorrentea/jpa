@@ -1,6 +1,14 @@
 package victor.training.jpa.perf;
 
+import lombok.Data;
+
 import javax.persistence.*;
+@Embeddable
+@Data
+class FullName{
+    private String first;
+    private String last;
+}
 
 @Entity
 public class UberEntity {
@@ -8,7 +16,10 @@ public class UberEntity {
     @GeneratedValue
     private Long id;
     private String name;
-    private String firstName, lastName, ibanCode, cnp, ssn, passportNumber;
+    @Embedded
+    private FullName fullName;
+//    private String firstName, lastName;
+    private String ibanCode, cnp, ssn, passportNumber;
     @ManyToOne
     private Country originCountry;
     @ManyToOne

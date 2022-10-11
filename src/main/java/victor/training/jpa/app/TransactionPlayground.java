@@ -65,19 +65,13 @@ public class TransactionPlayground {
         try {
             other.secondMethod();
         } catch (Exception e) {
-            myselfProxied.saveError(e);
+            other.saveError(e);
         }
         eventPublisher.publishEvent(new SendEmailsAfterTxCommit("Send kafka message, emails"));
         log.debug("Function End");
     }
 
-    @Autowired
-    private TransactionPlayground myselfProxied;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void saveError(Exception e) {
-        repo.save(new ErrorLog("BUBU: " + e.getMessage()));
-    }
 }
 
 @Slf4j
@@ -89,6 +83,10 @@ class Other {
     @Transactional
     public ErrorLog secondMethod() {
         throw new RuntimeException("intentional");
+    }
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void saveError(Exception e) {
+        repo.save(new ErrorLog("BUBU: " + e.getMessage()));
     }
     // 1) whenever a @Transactional interceptor SEES an exception going out of its method,
     //      it KILLS the CURRENT (perhaps inherited) Transaction
