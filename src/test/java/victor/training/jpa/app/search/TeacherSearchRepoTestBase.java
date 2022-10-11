@@ -92,37 +92,39 @@ abstract class TeacherSearchRepoTestBase {
    }
 }
 
-//@Order(1)
 class JpqlConcat extends TeacherSearchRepoTestBase {
    protected List<Teacher> search() {
       return searchRepo.jpqlConcat(criteria);
    }
 }
 
-//@Order(2)
 class CriteriaAPI extends TeacherSearchRepoTestBase {
    protected List<Teacher> search() {
       return searchRepo.criteriaApi(criteria);
    }
 }
 
-//@Order(3)
 class Specification extends TeacherSearchRepoTestBase {
    protected List<Teacher> search() {
       return searchRepo.specifications(criteria);
    }
 }
 
-//@Order(4)
 class QueryDSL extends TeacherSearchRepoTestBase {
    protected List<Teacher> search() {
       return searchRepo.queryDSL(criteria);
    }
 }
 
-//@Order(5)
-class FixedJpqlWithOR extends TeacherSearchRepoTestBase {
+class FixedJpql extends TeacherSearchRepoTestBase {
    protected List<Teacher> search() {
-      return teacherRepo.searchFixedJqpl(criteria.name, criteria.grade, criteria.teachingCourses?1:0);
+      return teacherRepo.searchFixedJqpl(criteria.name, criteria.grade, criteria.teachingCourses);
    }
 }
+
+class FixedJpqlSpel extends TeacherSearchRepoTestBase {
+   protected List<Teacher> search() {
+      return teacherRepo.searchFixedJqplSpel(criteria);
+   }
+}
+

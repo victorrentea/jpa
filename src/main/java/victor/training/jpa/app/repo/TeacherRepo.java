@@ -35,6 +35,12 @@ public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, Teacher
 	@Query("SELECT t FROM Teacher t " +
 		   "WHERE (:name is null OR UPPER(t.name) LIKE UPPER('%' || :name || '%'))" +
 		   "AND (:grade is null OR t.grade = :grade)" +
-		   "AND (:teachingCourses = 0 OR EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id) )")
-	List<Teacher> searchFixedJqpl(@Nullable String name, @Nullable Teacher.Grade grade, int teachingCourses);
+		   "AND (cast(:teachingCourses as int) = 0 OR EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id) )")
+	List<Teacher> searchFixedJqpl(@Nullable String name, @Nullable Teacher.Grade grade, boolean teachingCourses);
+
+	@Query("SELECT t FROM Teacher t " +
+		   "WHERE (:#{#criteria.name} is null OR UPPER(t.name) LIKE UPPER('%' || :#{#criteria.name} || '%'))" +
+		   "AND (:#{#criteria.grade} is null OR t.grade = :#{#criteria.grade})" +
+		   "AND (cast(:#{#criteria.teachingCourses} as int) = 0 OR EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id) )")
+	List<Teacher> searchFixedJqplSpel(TeacherSearchCriteria criteria);
 }
