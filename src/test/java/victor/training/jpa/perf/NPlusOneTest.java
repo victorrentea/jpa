@@ -43,6 +43,7 @@ public class NPlusOneTest {
 
 
 	@Test
+	@Transactional
 	public void nPlusOne() {
 		List<Parent> parents = parentRepo.findAll();
 
