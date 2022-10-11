@@ -17,6 +17,7 @@ import victor.training.jpa.app.repo.TeacherRepo;
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.io.FileNotFoundException;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
@@ -39,11 +40,14 @@ public class TransactionPlayground {
         log.debug("Function Begin");
 
         repo.save(new ErrorLog("One"));
-        secondMethod();
+        CompletableFuture.runAsync(() -> secondMethod())
+                .exceptionally(e -> {
+                    e.printStackTrace();
+                    return null;
+                });
 
         eventPublisher.publishEvent(new SendEmailsAfterTxCommit("Send kafka message, emails"));
    }
-
     private ErrorLog secondMethod() {
         return repo.save(new ErrorLog(null));
     }
