@@ -39,7 +39,7 @@ public class TransactionPlayground {
         repo.save(new ErrorLog("this too"));
     }
 
-    @Transactional
+    @Transactional // stupid and dangerous as I only do 1 DB interaction
     public void secondTransaction() {
         repo.save(new ErrorLog("Halo2!"));
     }
