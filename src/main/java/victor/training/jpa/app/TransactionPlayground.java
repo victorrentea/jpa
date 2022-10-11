@@ -26,21 +26,12 @@ public class TransactionPlayground {
 
     @Transactional
     public void firstTransaction() {
-        new RuntimeException().printStackTrace();
-//
-//        // 90s
-//        Connection connection = dataSource.getConnection();
-//        connection.setAutoCommit(false);
-//        connection.prepareStatement("UPDATE")
-//        connection.commit();
-//        connection.rollback();
-
         log.debug("Function Begin");
 
-        repo.save(new ErrorLog("Halo!"));
+        repo.save(new ErrorLog("Halo1!"));
+        repo.save(new ErrorLog("Halo1!"));
 
-        jdbc.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
-        log.debug("Function End");
+        log.debug("Function End - the inserts are FLUSHED to db right before the COMMIT = Write-Behind");
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
