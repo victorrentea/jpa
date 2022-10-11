@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
-abstract class TeacherSearchRepoTestBase {
+abstract class AbstractSearchTestBase {
 
    @Autowired
    TeacherRepo teacherRepo;
@@ -92,37 +92,37 @@ abstract class TeacherSearchRepoTestBase {
    }
 }
 
-class JpqlConcat extends TeacherSearchRepoTestBase {
+class JpqlConcat extends AbstractSearchTestBase {
    protected List<Teacher> search() {
       return searchRepo.jpqlConcat(criteria);
    }
 }
 
-class CriteriaAPI extends TeacherSearchRepoTestBase {
+class CriteriaAPI extends AbstractSearchTestBase {
    protected List<Teacher> search() {
       return searchRepo.criteriaApi(criteria);
    }
 }
 
-class Specification extends TeacherSearchRepoTestBase {
+class Specification extends AbstractSearchTestBase {
    protected List<Teacher> search() {
       return searchRepo.specifications(criteria);
    }
 }
 
-class QueryDSL extends TeacherSearchRepoTestBase {
+class QueryDSL extends AbstractSearchTestBase {
    protected List<Teacher> search() {
       return searchRepo.queryDSL(criteria);
    }
 }
 
-class FixedJpql extends TeacherSearchRepoTestBase {
+class FixedJpql extends AbstractSearchTestBase {
    protected List<Teacher> search() {
       return teacherRepo.searchFixedJqpl(criteria.name, criteria.grade, criteria.teachingCourses);
    }
 }
 
-class FixedJpqlSpel extends TeacherSearchRepoTestBase {
+class FixedJpqlSpel extends AbstractSearchTestBase {
    protected List<Teacher> search() {
       return teacherRepo.searchFixedJqplSpel(criteria);
    }
