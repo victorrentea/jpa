@@ -60,8 +60,11 @@ public class TransactionPlayground {
         log.debug("Function Begin");
 
         repo.save(new ErrorLog("One"));
-        other.secondMethod();
-
+        try {
+            other.secondMethod();
+        } catch (Exception e) {
+            // TODO fastfood
+        }
         eventPublisher.publishEvent(new SendEmailsAfterTxCommit("Send kafka message, emails"));
         log.debug("Function End");
     }
@@ -73,13 +76,14 @@ public class TransactionPlayground {
 class Other {
     private ErrorLogRepo repo;
 
-    // 1) whenever a @Transactional interceptor SEES an exception going out of its method,
-    //      it KILLS the CURRENT (perhaps inherited) Transaction
-    // 2)
 
+    @Transactional
     public ErrorLog secondMethod() {
         throw new IllegalArgumentException("intentional");
     }
+    // 1) whenever a @Transactional interceptor SEES an exception going out of its method,
+    //      it KILLS the CURRENT (perhaps inherited) Transaction
+    // 2)
 }
 
 //     @Transactional
