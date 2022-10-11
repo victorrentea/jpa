@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import static java.util.Collections.unmodifiableCollection;
 import static java.util.Collections.unmodifiableSet;
 
 @Entity
@@ -18,9 +19,11 @@ public class Parent {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "PARENT_ID")
     @BatchSize(size = 20)
+
+    @OneToMany(
+            mappedBy = "parent",
+            cascade = CascadeType.ALL)
     private Set<Child> children = new HashSet<>();
 
     private Parent() {
@@ -36,10 +39,11 @@ public class Parent {
 
     public Parent addChild(Child child) {
         children.add(child);
+        child.setParent(this);
         return this;
     }
 
     public Set<Child> getChildren() {
-        return children;
+        return unmodifiableSet(children);
     }
 }

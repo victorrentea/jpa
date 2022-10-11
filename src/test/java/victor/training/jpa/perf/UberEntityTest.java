@@ -1,5 +1,6 @@
 package victor.training.jpa.perf;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -95,6 +96,7 @@ class UberProjection {
     private final String originCountryName;
 }
 interface UberProjectionInterface {
+    @JsonProperty("forMqAtttrName") // Rabbit
     Long getId();
     String getName();
     String getOriginCountryName();

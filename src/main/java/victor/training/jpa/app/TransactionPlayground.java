@@ -55,28 +55,37 @@ public class TransactionPlayground {
     @Autowired
     private Other other;
 
-//    @Transactional
+    @Transactional
     public void second() throws FileNotFoundException {
         log.debug("Function Begin");
 
         // repo
         ErrorLog firstRead = repo.findById(firstId).orElseThrow();
-        ErrorLogBO bo = new ErrorLogBO(firstRead.getId(), firstRead.getMessage());
+        firstRead.setMessage("different");
+        // ???????repo.save(  dirty check + autoflush of changes.
 
-        // domain
-        bo.setMessage("different");
-
-        // repo.save()
-        ErrorLog entityToSaveBack = new ErrorLog();
-        entityToSaveBack.setId(bo.getId());
-        entityToSaveBack.setMessage(bo.getMessage());
-        // triggers a .merge is preceded by anotehr (useless) SELECT
-        repo.save(entityToSaveBack);
+//        ErrorLogBO bo = new ErrorLogBO(firstRead.getId(), firstRead.getMessage());
+//
+//        // domain
+//        bo.setMessage("different");
+//
+//        // repo.save()
+//        ErrorLog entityToSaveBack = new ErrorLog();
+//        entityToSaveBack.setId(bo.getId());
+//        entityToSaveBack.setMessage(bo.getMessage());
+//        // triggers a .merge is preceded by anotehr (useless) SELECT
+//        repo.save(entityToSaveBack);
 
         System.out.println("------");
+//        System.out.println(repo.findById(firstId).get());
+//        System.out.println(repo.findById(firstId).get());
+//        System.out.println(repo.findById(firstId).get());
+//        System.out.println(repo.findById(firstId).get());
+//        System.out.println(repo.findById(firstId).get());
+//        System.out.println(repo.findById(firstId).get());
+        //
 //
-//
-//
+//r
 //
 //
 //

@@ -1,14 +1,20 @@
 package victor.training.jpa.perf;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import javax.persistence.EntityManager;
+import java.lang.management.MemoryType;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,6 +35,11 @@ public class NPlusOneTest {
 	public void persistData() {
 		parentRepo.deleteAll();
 		parentRepo.save(new Parent("Trofim"));
+
+//		Child child = new Child("Emma");
+//		Parent p = new Parent("Victor");
+//
+//		child.setParent(p);
 
 		parentRepo.save(new Parent("Victor")
 				.addChild(new Child("Emma"))
@@ -65,4 +76,9 @@ public class NPlusOneTest {
 		return total;
 	}
 
+//	@TransactionalEventListener(value = NewMessageToSendEvent.class, phase = TransactionPhase.AFTER_COMMIT)
+//	@Scheduled(fixedRate = 500)
+//	public void method() {
+//
+//	}
 }
