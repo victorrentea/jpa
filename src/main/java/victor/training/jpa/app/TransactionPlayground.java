@@ -38,11 +38,11 @@ public class TransactionPlayground {
     public void firstTransaction() throws FileNotFoundException {
         log.debug("Function Begin");
 
-        System.out.println(repo.findById(firstId).get());
-        System.out.println(repo.findById(firstId).get());
-        System.out.println(repo.findById(firstId).get());
-        System.out.println(repo.findById(firstId).get());
-        System.out.println(repo.findById(firstId).get());
+        repo.save(new ErrorLog("Second"));
+        System.out.println("---");
+        System.out.println(repo.findAll());
+// error log 1 is found in the SELECT * FROM ERROR_LOG and because it's NOT in the 1st levle cache, Hibe goes and fetches the children for it.
+        // Error log (second) is alread in cache -> no queries for it.
 
         eventPublisher.publishEvent(new SendEmailsAfterTxCommit("Send kafka message, emails"));
 
