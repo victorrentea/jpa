@@ -18,6 +18,7 @@ import victor.training.jpa.app.repo.TeacherRepo;
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
@@ -55,7 +56,7 @@ public class TransactionPlayground {
     @Autowired
     private Other other;
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void firstTransaction() throws FileNotFoundException {
         log.debug("Function Begin");
 
@@ -76,10 +77,9 @@ public class TransactionPlayground {
 class Other {
     private ErrorLogRepo repo;
 
-
     @Transactional
-    public ErrorLog secondMethod() {
-        throw new IllegalArgumentException("intentional");
+    public ErrorLog secondMethod() throws IOException {
+        throw new IOException("intentional");
     }
     // 1) whenever a @Transactional interceptor SEES an exception going out of its method,
     //      it KILLS the CURRENT (perhaps inherited) Transaction
