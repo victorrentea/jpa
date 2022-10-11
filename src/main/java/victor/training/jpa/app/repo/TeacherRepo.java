@@ -1,15 +1,18 @@
 package victor.training.jpa.app.repo;
 
 import java.time.DayOfWeek;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
+import org.springframework.lang.Nullable;
 import victor.training.jpa.app.common.CustomJpaRepository;
 import victor.training.jpa.app.entity.Subject;
 import victor.training.jpa.app.entity.Teacher;
+import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
 
 public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, TeacherRepoCustom, JpaSpecificationExecutor<Teacher> {
 
@@ -29,4 +32,9 @@ public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, Teacher
 	// TODO make return null!
 	Optional<Teacher> findByName(String name);
 
+	@Query("SELECT t FROM Teacher t " +
+		   "WHERE (:name is null OR UPPER(t.name) LIKE UPPER('%' || :name || '%'))" +
+		   "AND (:grade is null OR t.grade = :grade)" +
+		   "AND (:teachingCourses = 0 OR EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id) )")
+	List<Teacher> searchFixedJqpl(@Nullable String name, @Nullable Teacher.Grade grade, int teachingCourses);
 }

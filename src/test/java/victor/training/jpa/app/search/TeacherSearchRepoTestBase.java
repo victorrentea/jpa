@@ -1,4 +1,4 @@
-package victor.training.jpa.app;
+package victor.training.jpa.app.search;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
-abstract class TeacherSearchRepoTest {
+abstract class TeacherSearchRepoTestBase {
 
    @Autowired
    TeacherRepo teacherRepo;
@@ -93,29 +93,36 @@ abstract class TeacherSearchRepoTest {
 }
 
 //@Order(1)
-class JpqlConcat extends TeacherSearchRepoTest {
+class JpqlConcat extends TeacherSearchRepoTestBase {
    protected List<Teacher> search() {
       return searchRepo.jpqlConcat(criteria);
    }
 }
 
 //@Order(2)
-class CriteriaAPI extends TeacherSearchRepoTest {
+class CriteriaAPI extends TeacherSearchRepoTestBase {
    protected List<Teacher> search() {
       return searchRepo.criteriaApi(criteria);
    }
 }
 
 //@Order(3)
-class Specification extends TeacherSearchRepoTest {
+class Specification extends TeacherSearchRepoTestBase {
    protected List<Teacher> search() {
       return searchRepo.specifications(criteria);
    }
 }
 
 //@Order(4)
-class QueryDSL extends TeacherSearchRepoTest {
+class QueryDSL extends TeacherSearchRepoTestBase {
    protected List<Teacher> search() {
       return searchRepo.queryDSL(criteria);
+   }
+}
+
+//@Order(5)
+class FixedJpqlWithOR extends TeacherSearchRepoTestBase {
+   protected List<Teacher> search() {
+      return teacherRepo.searchFixedJqpl(criteria.name, criteria.grade, criteria.teachingCourses?1:0);
    }
 }
