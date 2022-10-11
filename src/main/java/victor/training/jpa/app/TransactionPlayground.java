@@ -13,6 +13,7 @@ import victor.training.jpa.app.repo.TeacherRepo;
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 @Slf4j
 @Service
