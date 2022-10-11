@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 @SpringBootTest
-//@Transactional
+@Transactional
 @Rollback(false) // allow data to remain in DB for later inspection
 public class NPlusOneTest {
 
@@ -39,13 +39,15 @@ public class NPlusOneTest {
 				.addChild(new Child("Stephan"))
 				.addChild(new Child("Paul"))
 		);
+		entityManager.flush();
+		entityManager.clear();// clears the 1st level cache (Persisten Context)
 	}
 
 	@Test
 	@Transactional
 	public void nPlusOne() {
-//		List<Parent> parents = parentRepo.findAll();
-		List<Parent> parents = parentRepo.findParentsWithChildren();
+		List<Parent> parents = parentRepo.findAll();
+//		List<Parent> parents = parentRepo.findParentsWithChildren();
 
 		int totalChildren = anotherMethod(parents);
 		assertThat(totalChildren).isEqualTo(5);
