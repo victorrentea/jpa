@@ -5,11 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
-import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.common.CustomJpaRepositoryFactoryBean;
 import victor.training.jpa.app.util.TestDBConnectionAndDropAllInitializer;
 
@@ -39,9 +37,9 @@ public class JpaApplication {
 	public void onApplicationEvent(ApplicationStartedEvent event) throws IOException, SQLException {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
 		log.debug(" ========= FIRST TRANSACTION ========== ");
-		transactionPlayground.secondTransaction();
+		transactionPlayground.secondTransaction_firstActually();
 		log.debug(" ========= SECOND TRANSACTION ========== ");
-		transactionPlayground.firstTransaction();
+		transactionPlayground.second();
 		log.debug(" ========= END ========== ");
 
 //		log.debug("==== Merge:Persist init ====");

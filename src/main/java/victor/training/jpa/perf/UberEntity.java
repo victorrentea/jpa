@@ -11,7 +11,8 @@ class FullName{
 }
 
 @Entity
-public class UberEntity {
+//@NamedQueries()
+public class UberEntity implements UberProjectionInterface2{
     @Id
     @GeneratedValue
     private Long id;
@@ -32,6 +33,7 @@ public class UberEntity {
     private Scope scope;
     @ManyToOne
     private User createdBy;
+
 
     public Long getId() {
         return id;

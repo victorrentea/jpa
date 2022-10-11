@@ -3,7 +3,6 @@ package victor.training.jpa.app;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,14 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 import victor.training.jpa.app.entity.ErrorLog;
+import victor.training.jpa.app.entity.ErrorLogBO;
 import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
@@ -34,7 +32,7 @@ public class TransactionPlayground {
     private Long firstId;
 
     @Transactional // stupid and dangerous as I only do 1 DB interaction
-    public void secondTransaction() {
+    public void secondTransaction_firstActually() {
         firstId = repo.save(new ErrorLog("Halo1!")).getId();
     }
 
@@ -57,18 +55,41 @@ public class TransactionPlayground {
     @Autowired
     private Other other;
 
-    @Transactional
-    public void firstTransaction() throws FileNotFoundException {
+//    @Transactional
+    public void second() throws FileNotFoundException {
         log.debug("Function Begin");
 
-        repo.save(new ErrorLog("One"));
-        try {
-            other.secondMethod();
-        } catch (Exception e) {
-            other.saveError(e);
-        }
-        eventPublisher.publishEvent(new SendEmailsAfterTxCommit("Send kafka message, emails"));
-        log.debug("Function End");
+        // repo
+        ErrorLog firstRead = repo.findById(firstId).orElseThrow();
+        ErrorLogBO bo = new ErrorLogBO(firstRead.getId(), firstRead.getMessage());
+
+        // domain
+        bo.setMessage("different");
+
+        // repo.save()
+        ErrorLog entityToSaveBack = new ErrorLog();
+        entityToSaveBack.setId(bo.getId());
+        entityToSaveBack.setMessage(bo.getMessage());
+        // triggers a .merge is preceded by anotehr (useless) SELECT
+        repo.save(entityToSaveBack);
+
+        System.out.println("------");
+//
+//
+//
+//
+//
+//
+//
+//
+//        repo.save(new ErrorLog("One"));
+//        try {
+//            other.secondMethod();
+//        } catch (Exception e) {
+//            other.saveError(e);
+//        }
+//        eventPublisher.publishEvent(new SendEmailsAfterTxCommit("Send kafka message, emails"));
+//        log.debug("Function End");
     }
 
 
