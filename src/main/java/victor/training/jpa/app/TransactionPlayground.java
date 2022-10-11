@@ -11,6 +11,8 @@ import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.persistence.EntityManager;
+import javax.sql.DataSource;
+import java.sql.Connection;
 
 @Slf4j
 @Service
@@ -20,9 +22,19 @@ public class TransactionPlayground {
     private final JdbcTemplate jdbc;
     private final TeacherRepo teacherRepo;
     private final ErrorLogRepo repo;
+    private final DataSource dataSource;
 
     @Transactional
     public void firstTransaction() {
+        new RuntimeException().printStackTrace();
+//
+//        // 90s
+//        Connection connection = dataSource.getConnection();
+//        connection.setAutoCommit(false);
+//        connection.prepareStatement("UPDATE")
+//        connection.commit();
+//        connection.rollback();
+
         log.debug("Function Begin");
 
         repo.save(new ErrorLog("Halo!"));
