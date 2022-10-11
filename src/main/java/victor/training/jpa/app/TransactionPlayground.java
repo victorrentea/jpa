@@ -65,11 +65,14 @@ public class TransactionPlayground {
         try {
             other.secondMethod();
         } catch (Exception e) {
-            saveError(e);
+            myselfProxied.saveError(e);
         }
         eventPublisher.publishEvent(new SendEmailsAfterTxCommit("Send kafka message, emails"));
         log.debug("Function End");
     }
+
+    @Autowired
+    private TransactionPlayground myselfProxied;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveError(Exception e) {
