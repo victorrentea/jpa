@@ -14,7 +14,7 @@ import static javax.persistence.CascadeType.ALL;
 @Setter
 @Entity
 @ToString
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = "MESSAGE"))
+//@Table(uniqueConstraints = @UniqueConstraint(columnNames = "MESSAGE"))
 public class ErrorLog {
    @Id
    @GeneratedValue
