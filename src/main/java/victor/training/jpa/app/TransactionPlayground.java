@@ -3,12 +3,10 @@ package victor.training.jpa.app;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -19,9 +17,6 @@ import victor.training.jpa.app.repo.TeacherRepo;
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 
 @Slf4j
 @Service
@@ -32,28 +27,22 @@ public class TransactionPlayground {
     private final TeacherRepo teacherRepo;
     private final ErrorLogRepo repo;
     private final DataSource dataSource;
+    private Long firstId;
+
+    @Transactional // stupid and dangerous as I only do 1 DB interaction
+    public void secondTransaction() {
+        firstId = repo.save(new ErrorLog("Halo1!")).getId();
+    }
 
     @Transactional(rollbackFor = Exception.class)
     public void firstTransaction() throws FileNotFoundException {
         log.debug("Function Begin");
 
-        repo.save(new ErrorLog("Halo1 different!"));
-        // if you want to stop the method when a UQ violation happens,
-        // CHECK, NOT NULL, triggers
-
-        //try { repo.flush(); } catch() {retry(different Key)}
-        // n++;    drug73-IT-1,2,4 . what if you rollback ?
-
-
-        // any JPQL/native SQL sent to DB through hibernate @Query(native=true)
-        // it will automatically flush the "write cache"
-        long count = repo.count();
-        log.debug("" + "Total no in db = " + count);
-
-        // what if two transactions BOTH allocated -IT-3
-
-        // 100ms
-        // commit
+        System.out.println(repo.findById(firstId).get());
+        System.out.println(repo.findById(firstId).get());
+        System.out.println(repo.findById(firstId).get());
+        System.out.println(repo.findById(firstId).get());
+        System.out.println(repo.findById(firstId).get());
 
         eventPublisher.publishEvent(new SendEmailsAfterTxCommit("Send kafka message, emails"));
 
@@ -77,10 +66,7 @@ public class TransactionPlayground {
     }
 
 
-    @Transactional // stupid and dangerous as I only do 1 DB interaction
-    public void secondTransaction() {
-        repo.save(new ErrorLog("Halo1!"));
-    }
+
 }
 
 
