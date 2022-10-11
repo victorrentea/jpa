@@ -3,6 +3,7 @@ package victor.training.jpa.app;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -35,40 +36,51 @@ public class TransactionPlayground {
         firstId = repo.save(new ErrorLog("Halo1!")).getId();
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    public void firstTransaction() throws FileNotFoundException {
-        log.debug("Function Begin");
 
-        repo.save(new ErrorLog("One"));
-        CompletableFuture.runAsync(() -> secondMethod())
-                .exceptionally(e -> {
-                    e.printStackTrace();
-                    return null;
-                });
 
-        eventPublisher.publishEvent(new SendEmailsAfterTxCommit("Send kafka message, emails"));
-   }
-    private ErrorLog secondMethod() {
-        return repo.save(new ErrorLog(null));
-    }
 
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
     @Value
-    class SendEmailsAfterTxCommit{
+    class SendEmailsAfterTxCommit {
         String stuffToDo;
     }
 
-@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void afterCommit(SendEmailsAfterTxCommit event) {
-    log.debug("After the commit, whenver that happens: " + event.getStuffToDo());
+        log.debug("After the commit, whenver that happens: " + event.getStuffToDo());
     }
 
+    @Autowired
+    private Other other;
 
+    @Transactional(rollbackFor = Exception.class)
+    public void firstTransaction() throws FileNotFoundException {
+        log.debug("Function Begin");
 
+        repo.save(new ErrorLog("One"));
+        other.secondMethod();
+
+        eventPublisher.publishEvent(new SendEmailsAfterTxCommit("Send kafka message, emails"));
+        log.debug("Function End");
+    }
 }
 
+@Slf4j
+@RequiredArgsConstructor
+@Service
+class Other {
+    private ErrorLogRepo repo;
+
+    // 1) whenever a @Transactional interceptor SEES an exception going out of its method,
+    //      it KILLS the CURRENT (perhaps inherited) Transaction
+    // 2)
+
+    public ErrorLog secondMethod() {
+        throw new IllegalArgumentException("intentional");
+    }
+}
 
 //     @Transactional
 //    fun transactionalMethodExample() {
