@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -33,8 +34,9 @@ public class JpaApplication {
 	private LobPlayground lobPlayground;
 
 
+
 	@EventListener
-	public void onApplicationEvent(ContextRefreshedEvent event) throws IOException, SQLException {
+	public void onApplicationEvent(ApplicationStartedEvent event) throws IOException, SQLException {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
 		log.debug(" ========= FIRST TRANSACTION ========== ");
 		transactionPlayground.secondTransaction();

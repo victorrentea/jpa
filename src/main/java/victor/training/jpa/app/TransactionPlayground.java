@@ -45,6 +45,11 @@ public class TransactionPlayground {
         // n++;    drug73-IT-1,2,4 . what if you rollback ?
 
 
+        // any JPQL/native SQL sent to DB through hibernate @Query(native=true)
+        // it will automatically flush the "write cache"
+        long count = repo.count();
+        log.debug("" + "Total no in db = " + count);
+
         // what if two transactions BOTH allocated -IT-3
 
         // 100ms
