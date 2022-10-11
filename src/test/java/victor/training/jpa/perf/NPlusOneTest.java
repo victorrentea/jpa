@@ -41,11 +41,11 @@ public class NPlusOneTest {
 		);
 	}
 
-
 	@Test
 	@Transactional
 	public void nPlusOne() {
-		List<Parent> parents = parentRepo.findAll();
+//		List<Parent> parents = parentRepo.findAll();
+		List<Parent> parents = parentRepo.findParentsWithChildren();
 
 		int totalChildren = anotherMethod(parents);
 		assertThat(totalChildren).isEqualTo(5);
