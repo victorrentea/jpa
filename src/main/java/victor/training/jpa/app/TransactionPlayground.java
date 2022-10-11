@@ -39,9 +39,8 @@ public class TransactionPlayground {
         repo.save(new ErrorLog("this too"));
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public void secondTransaction() {
-        log.debug("Halo2!");
-        System.out.println(teacherRepo.findAll());
+        repo.save(new ErrorLog("Halo2!"));
     }
 }
