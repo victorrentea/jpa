@@ -54,7 +54,9 @@ public class TeacherSearchRepo {
          params.put("grade", searchCriteria.grade);
       }
       if (searchCriteria.teachingCourses) {
-         jpqlParts.add("AND EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id)");
+         jpqlParts.add(
+           "AND EXISTS (SELECT 1 FROM CourseActivity c " +
+           "JOIN c.teachers tt WHERE tt.id = t.id)");
       }
 
       TypedQuery<Teacher> query = entityManager.createQuery(String.join("\n", jpqlParts), Teacher.class);
