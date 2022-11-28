@@ -67,7 +67,8 @@ public class UberEntityTest {
     @Test
     public void query() {
         log.info("Now, JPQL query to load the data...");
-        List<UberEntity> list = uberRepo.findAll();
+//        List<UberEntity> list = uberRepo.findAll();
+        List<UberEntity> list = uberRepo.findAllWithAllAttributesLoadedWithJOINS_not_SELECTS();
 //        uberRepo.myOwnQuery();
         // or any @Qyery() JQPL SELECT
         // SURPISE: if you findById an @ENtity with many links to static data

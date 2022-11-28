@@ -12,4 +12,7 @@ public interface UberRepo extends JpaRepository<UberEntity, Long> {
          "FROM UberEntity u JOIN Country oc ON oc.id = u.originCountryId "+
          " WHERE u.firstName LIKE ?1")
   List<UberSearchResult> search(String john);
+
+  @Query("select u FROM UberEntity u JOIN FETCH u.nationality") // -1 SELECT after each Uber, but +1 JOIN
+  List<UberEntity> findAllWithAllAttributesLoadedWithJOINS_not_SELECTS();
 }

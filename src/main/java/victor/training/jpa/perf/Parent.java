@@ -1,6 +1,7 @@
 package victor.training.jpa.perf;
 
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.collection.internal.PersistentSet;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -22,7 +23,7 @@ public class Parent implements ParentForUC32 {
     @JoinColumn(name = "PARENT_ID")
     @BatchSize(size = 20) // it will load children of many parent  in pages of 20 parents, using IN operator.
         // BUT!! you still have to trigger that lazy loading in an active transaction
-    private Set<Child> children = new HashSet<>();
+    private Set<Child> children = new PersistentSet();
 
     private Parent() {
     }

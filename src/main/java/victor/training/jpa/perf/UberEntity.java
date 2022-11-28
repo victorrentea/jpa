@@ -1,7 +1,10 @@
 package victor.training.jpa.perf;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
+@Data
 @Entity
 public class UberEntity {
     @Id
