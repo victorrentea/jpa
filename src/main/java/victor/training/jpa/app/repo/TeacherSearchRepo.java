@@ -96,6 +96,7 @@ public class TeacherSearchRepo {
 
 
       if (searchCriteria.teachingCourses) {
+         // AND EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id)
          Subquery<Integer> subquery = criteriaQuery.subquery(Integer.class);
          Root<CourseActivity> subqueryRoot = subquery.from(CourseActivity.class);
          SetJoin<CourseActivity, Teacher> join = subqueryRoot.join(CourseActivity_.teachers);
