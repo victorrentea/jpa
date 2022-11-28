@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,7 +50,7 @@ public class NPlusOneTest {
 	@Transactional
 	public void nPlusOne() {
 		// only this usecase needs to access the children
-		Set<Parent> parents = parentRepo.findAllWithChildren();
+		Set<Parent> parents = new HashSet<>(parentRepo.findAllWithChildren(PageRequest.of(20, 0)).getContent());
 //		List<Parent> parents = parentRepo.findAll();
 		// which are == to each other
 
@@ -88,7 +89,7 @@ public class NPlusOneTest {
 	@Transactional
 	@Rollback(false) // allow the data in DB
 	void parentWithTheNamesOfAllChildren() {
-		Set<Parent> parents = parentRepo.findAllWithChildren();
+		Set<Parent> parents = new HashSet<>(parentRepo.findAllWithChildren(PageRequest.of(20, 0)).getContent());
 		List<String> results = new ArrayList<>();
 		for (Parent parent : parents) {
 			String childrenNames = parent.getChildren().stream().map(Child::getName).collect(Collectors.joining());

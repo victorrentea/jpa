@@ -1,5 +1,7 @@
 package victor.training.jpa.perf;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -8,7 +10,7 @@ import java.util.Set;
 
 public interface ParentRepo extends JpaRepository<Parent, Long> {
   @Query("FROM Parent p LEFT JOIN FETCH p.children") // LEFT JOIN FETCH p.children2 dangerous => cartesian explosion (too many rows)
-  Set<Parent> findAllWithChildren();
+  Page<Parent> findAllWithChildren(Pageable pageable);
 
 
   @Query(value = "select p.ID, P.NAME, STRING_AGG(c.NAME, ',') within group (order by c.name desc) children_names\n" +
