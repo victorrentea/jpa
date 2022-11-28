@@ -59,7 +59,13 @@ public class TeacherSearchRepo {
       }
 
       String wholeQuery = String.join("\n", jpqlParts);
-      TypedQuery<Teacher> query = entityManager.createQuery(wholeQuery, Teacher.class);
+
+
+
+      TypedQuery<Teacher> query = entityManager.createQuery(
+     wholeQuery, Teacher.class);
+//      query.setParameter("name", searchCriteria.name);
+
       for (String param : params.keySet()) {
          query.setParameter(param, params.get(param));
       }
@@ -110,6 +116,8 @@ public class TeacherSearchRepo {
       return entityManager.createQuery(criteriaQuery).getResultList();
    }
 
+   // Goal: hide the bits of Criteria ugly code under some
+   // Spring 'Specifications' (~Predicate<>) that can be pleaseantly used in Domain Code
    public List<Teacher> specifications(TeacherSearchCriteria searchCriteria) {
       Specification<Teacher> spec = TeacherSpecifications.all();
       if (searchCriteria.name != null) {
@@ -125,6 +133,9 @@ public class TeacherSearchRepo {
       return teacherRepo.findAll(spec, PageRequest.of(0, 10, ASC, "name")).getContent();
    }
 
+
+   // a different framework that allows a fluent way to write queries, close to the syntax of SQL,
+   // much readable than the Criteria
    public List<Teacher> queryDSL(TeacherSearchCriteria searchCriteria) {
       JPAQuery<?> query = new JPAQuery<Void>(entityManager);
 

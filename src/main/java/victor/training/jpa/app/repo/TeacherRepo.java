@@ -10,11 +10,22 @@ import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.lang.Nullable;
 import victor.training.jpa.app.common.CustomJpaRepository;
+import victor.training.jpa.app.entity.StudentsYear;
 import victor.training.jpa.app.entity.Subject;
 import victor.training.jpa.app.entity.Teacher;
 import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
 
-public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, TeacherRepoCustom, JpaSpecificationExecutor<Teacher> {
+public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, TeacherRepoCustom,
+				JpaSpecificationExecutor<Teacher> // allow this repo to take spring Specifications
+{
+
+
+
+
+//	List<Student>
+
+
+
 
 	@Query("SELECT DISTINCT a.dayOfWeek FROM Teacher t JOIN t.activities a WHERE t.id=?1")
 	public Set<DayOfWeek> getBusyDaysOfTeacher(long teacherId);
@@ -32,12 +43,22 @@ public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, Teacher
 	// TODO make return null!
 	Optional<Teacher> findByName(String name);
 
+//	@Query("SELECT t FROM Teacher t WHERE t.name = ?1")
+//	List<Teacher> myFixedSearch(String name);
+
+
 	@Query("SELECT t FROM Teacher t " +
 		   "WHERE (:name is null OR UPPER(t.name) LIKE UPPER('%' || :name || '%'))" +
 		   "AND (:grade is null OR t.grade = :grade)" +
 		   "AND (cast(:teachingCourses as int) = 0 OR " +
 		   "		EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id) )")
 	List<Teacher> searchFixedJqpl(@Nullable String name, @Nullable Teacher.Grade grade, boolean teachingCourses);
+
+
+
+
+
+
 
 	@Query("SELECT t FROM Teacher t " +
 		   "WHERE (:#{#criteria.name} is null OR UPPER(t.name) LIKE UPPER('%' || :#{#criteria.name} || '%'))" +
