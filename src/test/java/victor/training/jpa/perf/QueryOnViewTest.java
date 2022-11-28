@@ -66,11 +66,11 @@ public class QueryOnViewTest {
       // Option1: manual queries
       List<Parent> parents = parentRepo.findAll();
       List<Object[]> tuples = childRepo.getParentIdToChildName(parents.stream().map(Parent::getId).collect(Collectors.toList()));
-      Map<Long, List<String>> collect = tuples.stream()
+      Map<Long, List<String>> childrenNamesByParentId = tuples.stream()
               .collect(Collectors.groupingBy(a -> (Long) a[0], Collectors.mapping(a -> (String) a[1], Collectors.toList())));
       for (Parent p : parents) {
          System.out.println(p.getId() + " , " + p.getName());
-         for (String childName : collect.get(p.getId())) {
+         for (String childName : childrenNamesByParentId.get(p.getId())) {
             System.out.println("Child name" + childName);
          }
       }

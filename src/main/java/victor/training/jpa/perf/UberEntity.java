@@ -22,6 +22,21 @@ public class UberEntity {
     @ManyToOne
     private User createdBy;
 
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.CREATED;
+
+    enum Status {
+        CREATED,DRAFT, SUBMITTED
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public Country getFiscalCountry() {
+        return fiscalCountry;
+    }
+
     public Long getId() {
         return id;
     }
@@ -78,6 +93,8 @@ class Country {
     private String region;
     private String continent;
     private int population;
+//    @ManyToOne
+//    private Continent continent;
     private Country() {
     }
     public Country(Long id, String name) {
