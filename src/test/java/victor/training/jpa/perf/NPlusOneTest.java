@@ -78,8 +78,9 @@ public class NPlusOneTest {
 //			rs.getInt(0)
 //		}
 		// keeps a DB cursor open to traverse a HUUUGE result set (eg 1M entities) without loading all entities in memory at once
-		Stream<Parent> stream = parentRepo.streamAll();
-		stream.forEach(p -> {
+		parentRepo.streamAll()
+			.peek(entityManager :: detach) // <- tell hibernate NOT to remember/track changes this entity
+			.forEach(p -> {
 			System.out.println(p);
 			// TODO tomorrow: write it to a file
 		});
