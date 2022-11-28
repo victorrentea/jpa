@@ -10,8 +10,11 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -41,10 +44,53 @@ public class NPlusOneTest {
 				.addChild(new Child("Paul"))
 		);
 
-		entityManager.flush();
-		entityManager.clear();// removes everythign from the 1st leve cache
+//		entityManager.flush();
+//		entityManager.clear();// removes everythign from the 1st leve cache
 
 	}
+
+
+	@Test
+	void howDoWeExport1MRowsFromDBIntoAFile_JSON() {
+		// batching while new items are inserted
+		//		int idsToExport = SELECT o.id FROM ORDER o WHERE o.exported = 0 ;
+		//		break in pages of 1000
+		//		for (page in IdsToExport) {
+		//			list1000 = SELECT ... FROM ID IN (?, .... 1000?)
+		//			file.write(list1000);
+		//		}
+		//		UPDATE ORDER o set o.exported =1 WHERE
+		//		ID IN(?,?,?.....1000?) OR
+		//		ID IN(?,?,?.....1000?) OR
+		//		ID IN(?,?,?.....1000?) OR
+		//		ID IN(?,?,?.....1000?) OR
+		//		ID IN(?,?,?.....1000?) OR
+		//		ID IN(?,?,?.....1000?) OR
+	}
+	@Test
+	@Transactional
+	void streamingQuery() {
+		// streaming over the result set of a query
+		//15 years that was easily possible;
+//		PreparedStatement ps;
+//		ResultSet rs = ps.executeQuery();
+//		while (rs.next()) {
+//			rs.getInt(0)
+//		}
+		// keeps a DB cursor open to traverse a HUUUGE result set (eg 1M entities) without loading all entities in memory at once
+		Stream<Parent> stream = parentRepo.streamAll();
+		stream.forEach(p -> {
+			System.out.println(p);
+			// TODO tomorrow: write it to a file
+		});
+	}
+
+
+
+
+
+
+
 
 	@Test
 	@Transactional

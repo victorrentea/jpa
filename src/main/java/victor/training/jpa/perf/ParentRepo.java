@@ -7,9 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public interface ParentRepo extends JpaRepository<Parent, Long> {
-  @Query("FROM Parent p LEFT JOIN FETCH p.children") // LEFT JOIN FETCH p.children2 dangerous => cartesian explosion (too many rows)
+  @Query("FROM Parent p") // LEFT JOIN FETCH p.children2 dangerous => cartesian explosion (too many rows)
   Page<Parent> findAllWithChildren(Pageable pageable);
 
 
@@ -22,4 +23,7 @@ public interface ParentRepo extends JpaRepository<Parent, Long> {
 
   @Query("SELECT p FROM Parent p")
   List<ParentForUC32> findAllForUC32();
+
+  @Query("SELECT p FROM Parent p")
+  Stream<Parent> streamAll();
 }
