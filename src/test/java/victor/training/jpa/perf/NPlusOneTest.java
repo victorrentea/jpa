@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,6 +29,8 @@ public class NPlusOneTest {
 	@BeforeEach
 	public void persistData() {
 		parentRepo.deleteAll();
+		parentRepo.save(new Parent("Trofim"));
+
 		parentRepo.save(new Parent("Victor")
 				.addChild(new Child("Emma"))
 				.addChild(new Child("Vlad"))
@@ -41,10 +44,13 @@ public class NPlusOneTest {
 	}
 
 	@Test
-	@Transactional
 	public void nPlusOne() {
-//		List<Parent> parents = entityManager.createQuery("SELECT p FROM Parent p", Parent.class).getResultList();
-		List<Parent> parents = parentRepo.findAll();
+		// only this usecase needs to access the children
+		Set<Parent> parents = parentRepo.findAllWithChildren();
+		// right now, the test fails because in the list avove there are duplicated parent,
+		// which are == to each other
+
+		System.out.println(parents);
 
 		int totalChildren = anotherMethod(parents);
 		assertThat(totalChildren).isEqualTo(5);
@@ -58,6 +64,16 @@ public class NPlusOneTest {
 		}
 		log.debug("Done counting: {} children", total);
 		return total;
+	}
+
+	@Test
+	@Transactional
+	void firstLevelCache_persistenceContext_akaTransactionCache() {
+		System.out.println(parentRepo.findById(1L).orElseThrow());
+		System.out.println(parentRepo.findById(1L).orElseThrow());
+		System.out.println(parentRepo.findById(1L).orElseThrow());
+		System.out.println(parentRepo.findById(1L).orElseThrow());
+		System.out.println(parentRepo.findById(1L).orElseThrow() == parentRepo.findById(1L).orElseThrow());
 	}
 
 	@Test
