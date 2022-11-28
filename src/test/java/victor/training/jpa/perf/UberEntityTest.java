@@ -81,10 +81,10 @@ public class UberEntityTest {
     public void homePage_or_aCoreSearchInYourApp() {
         // Requirement: a search that displays data in a grid in UI
         // id | firstName | lastName
-        List<UberEntity> results = uberRepo.search("John");
+        List<UberSearchResult> results = uberRepo.search("John");
 
         // ui
-        for (UberEntity u : results) {
+        for (UberSearchResult u : results) {
             System.out.println(u.getId() + " | " + u.getFirstName() + " | " + u.getLastName());
         }
     }
@@ -92,3 +92,4 @@ public class UberEntityTest {
     @Autowired
     private UberRepo uberRepo;
 }
+
