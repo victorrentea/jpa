@@ -44,17 +44,18 @@ public class NPlusOneTest {
 
 	@Test
 	public void nPlusOne() {
-		List<Parent> parents = entityManager.createQuery("SELECT p FROM Parent p", Parent.class).getResultList();
+//		List<Parent> parents = entityManager.createQuery("SELECT p FROM Parent p", Parent.class).getResultList();
+		List<Parent> parents = parentRepo.findAll();
 
 		int totalChildren = anotherMethod(parents);
 		assertThat(totalChildren).isEqualTo(5);
 	}
 
-	private int anotherMethod(Collection<Parent> parents) {
+	private int anotherMethod(Collection<Parent> parents) { // perhaps in a mapper?
 		log.debug("Start iterating over {} parents: {}", parents.size(), parents);
 		int total = 0;
 		for (Parent parent : parents) {
-			total += parent.getChildren().size();
+			total += parent.getChildren().size(); // N+1 queries problem
 		}
 		log.debug("Done counting: {} children", total);
 		return total;
