@@ -41,6 +41,7 @@ public class NPlusOneTest {
 	}
 
 	@Test
+	@Transactional
 	public void nPlusOne() {
 //		List<Parent> parents = entityManager.createQuery("SELECT p FROM Parent p", Parent.class).getResultList();
 		List<Parent> parents = parentRepo.findAll();
