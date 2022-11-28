@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import victor.training.jpa.app.entity.converter.MoreTeacherDetailsConverter;
-import victor.training.jpa.app.facade.dto.TimeSlotDto;
 
 import java.time.DayOfWeek;
 import java.util.*;
@@ -89,8 +88,8 @@ public class Teacher {
 	@Override
 	public String toString() {
 		return "Teacher{" +
-				 "id=" + id +
-				 ", name='" + name + '\'' +
-				 '}';
+			   "id=" + id +
+			   ", name='" + name + '\'' +
+			   '}';
 	}
 }

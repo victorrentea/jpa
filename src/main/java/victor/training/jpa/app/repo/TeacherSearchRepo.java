@@ -58,21 +58,22 @@ public class TeacherSearchRepo {
            "AND EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id)");
       }
 
-      TypedQuery<Teacher> query = entityManager.createQuery(String.join("\n", jpqlParts), Teacher.class);
+      String wholeQuery = String.join("\n", jpqlParts);
+      TypedQuery<Teacher> query = entityManager.createQuery(wholeQuery, Teacher.class);
       for (String param : params.keySet()) {
          query.setParameter(param, params.get(param));
       }
       return query.getResultList();
    }
 
-   public List<TeacherSearchResult> searchProjectionUsingCriteriaMetamodel() {
-      CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-      CriteriaQuery<TeacherSearchResult> criteriaQuery = cb.createQuery(TeacherSearchResult.class);
-      Root<Teacher> root = criteriaQuery.from(Teacher.class);
-      criteriaQuery.select(cb.construct(TeacherSearchResult.class,
-          root.get(Teacher_.id), root.get(Teacher_.name), root.get(Teacher_.grade)));
-      return entityManager.createQuery(criteriaQuery).getResultList();
-   }
+//   public List<TeacherSearchResult> searchProjectionUsingCriteriaMetamodel() {
+//      CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+//      CriteriaQuery<TeacherSearchResult> criteriaQuery = cb.createQuery(TeacherSearchResult.class);
+//      Root<Teacher> root = criteriaQuery.from(Teacher.class);
+//      criteriaQuery.select(cb.construct(TeacherSearchResult.class,
+//          root.get(Teacher_.id), root.get(Teacher_.name), root.get(Teacher_.grade)));
+//      return entityManager.createQuery(criteriaQuery).getResultList();
+//   }
 
    public List<Teacher> criteriaApi(TeacherSearchCriteria searchCriteria) {
       CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -81,15 +82,18 @@ public class TeacherSearchRepo {
 
       List<Predicate> predicates = new ArrayList<>();
 
+      if (searchCriteria.name != null) {
+         // criteria with field names as strings = BAD. risk = rename the field
+//         predicates.add(cb.like(cb.upper(root.get("name")), "%" + searchCriteria.name.toUpperCase() + "%"));
+//          criteria on JPA Metamodel = GOOD
+         predicates.add(cb.like(cb.upper(root.get(Teacher_.name)), "%" + searchCriteria.name.toUpperCase() + "%"));
+      }
       if (searchCriteria.grade != null) {
          // TODO extract Spring Specifications starting from cb.equal ...
          predicates.add(cb.equal(root.get(Teacher_.grade), searchCriteria.grade));
          predicates.add(cb.equal(root.get("grade"), searchCriteria.grade));// without metamodel
       }
 
-      if (searchCriteria.name != null) {
-         predicates.add(cb.like(cb.upper(root.get(Teacher_.name)), "%" + searchCriteria.name.toUpperCase() + "%"));
-      }
 
       if (searchCriteria.teachingCourses) {
          Subquery<Integer> subquery = criteriaQuery.subquery(Integer.class);
