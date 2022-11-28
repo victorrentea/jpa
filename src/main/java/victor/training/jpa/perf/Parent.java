@@ -16,7 +16,10 @@ public class Parent {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL
+            ,fetch = FetchType.EAGER // it's still bad for performance. It only helps to ....
+            // it's worse now, because these children will be LOADED EVERY TIME a Parent is retrieved by JPA
+    )
     @JoinColumn(name = "PARENT_ID")
     private Set<Child> children = new HashSet<>();
 
@@ -25,6 +28,10 @@ public class Parent {
 
     public Parent(String name) {
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Long getId() {

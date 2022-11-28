@@ -61,4 +61,10 @@ public class NPlusOneTest {
 		return total;
 	}
 
+	@Test
+	void explore() {
+		Parent parent = parentRepo.findById(1L).orElseThrow();
+		System.out.println(parent.getName());
+	}
+
 }
