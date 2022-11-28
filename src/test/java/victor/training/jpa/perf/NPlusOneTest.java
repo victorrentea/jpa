@@ -16,8 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 @SpringBootTest
-@Transactional
-@Rollback(false) // allow data to remain in DB for later inspection
+//@Transactional
+//@Rollback(false) // allow data to remain in DB for later inspection
 public class NPlusOneTest {
 
 	@Autowired
@@ -28,18 +28,16 @@ public class NPlusOneTest {
 	@BeforeEach
 	public void persistData() {
 		parentRepo.deleteAll();
-		entityManager.persist(new Parent("Victor")
+		parentRepo.save(new Parent("Victor")
 				.addChild(new Child("Emma"))
 				.addChild(new Child("Vlad"))
 		);
-		entityManager.persist(new Parent("Peter")
+		parentRepo.save(new Parent("Peter")
 				.addChild(new Child("Maria"))
 				.addChild(new Child("Stephan"))
 				.addChild(new Child("Paul"))
 		);
 
-		entityManager.flush();
-		entityManager.clear();
 	}
 
 	@Test
