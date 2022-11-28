@@ -48,7 +48,15 @@ public class UberEntity {
 
 //    @Convert(converter = SomeObjectIDontCareAboutItsStructureConverter.class)
 //    private SomeObjectIDontCareAboutItsStructure json;
-    // store a
+    // store an object as a JSON in the DB.
+    //
+    // + snapshot eg. store some JMS messages we sent to ActiveMQ
+    //      eg: we have to fetch some data from a 3rd party, and then we have to pass it
+        // as it is further to our subscribers.
+        // eg: BankUser.addresses = json [{yy},{yy}]
+    // - hard to query in a CLOB, hard to change
+    //   some dbs have JSON columns
+    // - if you ever have to change the "SCHEMA" of that JSON
 
     enum Status {
         CREATED("C"),DRAFT("D"), SUBMITTED("S");

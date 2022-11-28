@@ -12,7 +12,6 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
 public class Teacher {
 
 	public void addSubject(Subject subject) {
@@ -36,6 +35,7 @@ public class Teacher {
 	@GeneratedValue
 	private Long id;
 
+	@Setter
 	private String name;
 	
 	@Enumerated(EnumType.STRING)
