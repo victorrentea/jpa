@@ -23,7 +23,11 @@ public class Parent implements ParentForUC32 {
     @JoinColumn(name = "PARENT_ID")
     @BatchSize(size = 20) // it will load children of many parent  in pages of 20 parents, using IN operator.
         // BUT!! you still have to trigger that lazy loading in an active transaction
-    private Set<Child> children = new PersistentSet();
+    private Set<Child> children = new HashSet<>();
+
+    @OneToMany
+    @JoinColumn(name = "PARENT_ID2")
+    private Set<Child> children2 = new HashSet<>();
 
     private Parent() {
     }
