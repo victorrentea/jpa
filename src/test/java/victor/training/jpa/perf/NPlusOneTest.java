@@ -9,9 +9,11 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -50,8 +52,8 @@ public class NPlusOneTest {
 	@Transactional
 	public void nPlusOne() {
 		// only this usecase needs to access the children
-//		List<Parent> parents = parentRepo.findAllWithChildren();
-		List<Parent> parents = parentRepo.findAll();
+		Set<Parent> parents = parentRepo.findAllWithChildren();
+//		List<Parent> parents = parentRepo.findAll();
 		// which are == to each other
 
 		System.out.println(parents);
@@ -84,6 +86,18 @@ public class NPlusOneTest {
 	void explore() {
 		Parent parent = parentRepo.findById(1L).orElseThrow();
 		System.out.println(parent.getName());
+	}
+	@Test
+	@Transactional
+	void parentWithTheNamesOfAllChildren() {
+		Set<Parent> parents = parentRepo.ourNativeQuery90();
+//		Set<Parent> parents = parentRepo.findAllWithChildren();
+		List<String> results = new ArrayList<>();
+		for (Parent parent : parents) {
+			String childrenNames = parent.getChildren().stream().map(Child::getName).collect(Collectors.joining());
+			results.add(parent.getName() + " has " + childrenNames);
+		}
+		System.out.println(results);
 	}
 
 }
