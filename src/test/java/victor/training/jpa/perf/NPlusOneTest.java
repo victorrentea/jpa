@@ -41,12 +41,16 @@ public class NPlusOneTest {
 				.addChild(new Child("Paul"))
 		);
 
+		entityManager.flush();
+		entityManager.clear();// removes everythign from the 1st leve cache
+
 	}
 
 	@Test
+	@Transactional
 	public void nPlusOne() {
 		// only this usecase needs to access the children
-		Set<Parent> parents = parentRepo.findAllWithChildren();
+		List<Parent> parents = parentRepo.findAll();
 		// right now, the test fails because in the list avove there are duplicated parent,
 		// which are == to each other
 
