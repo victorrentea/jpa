@@ -9,10 +9,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -89,15 +86,23 @@ public class NPlusOneTest {
 	}
 	@Test
 	@Transactional
+	@Rollback(false) // allow the data in DB
 	void parentWithTheNamesOfAllChildren() {
-		Set<Parent> parents = parentRepo.ourNativeQuery90();
-//		Set<Parent> parents = parentRepo.findAllWithChildren();
+		Set<Parent> parents = parentRepo.findAllWithChildren();
 		List<String> results = new ArrayList<>();
 		for (Parent parent : parents) {
 			String childrenNames = parent.getChildren().stream().map(Child::getName).collect(Collectors.joining());
 			results.add(parent.getName() + " has " + childrenNames);
 		}
 		System.out.println(results);
+	}
+	@Test
+	@Transactional
+	@Rollback(false) // allow the data in DB
+	void parentWithTheNamesOfAllChildrenNATIVE() {
+		for (Object[] objects : parentRepo.ourNativeQuery90()) {
+			System.out.println("LinE: " + Arrays.toString(objects));
+		}
 	}
 
 }

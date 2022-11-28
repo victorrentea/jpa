@@ -11,9 +11,10 @@ public interface ParentRepo extends JpaRepository<Parent, Long> {
   Set<Parent> findAllWithChildren();
 
 
-  @Query(value = "select parent0_.name        as pn,\n" +
-         "       children1_.name      as cn\n" +
-         "from parent parent0_\n" +
-         "         left outer join child children1_ on parent0_.id = children1_.parent_id", nativeQuery = true)
+  @Query(value = "select p.ID, P.NAME, STRING_AGG(c.NAME, ',') within group (order by c.name desc) children_names\n" +
+                 "from PARENT P\n" +
+                 "    left join CHILD C on P.ID = C.PARENT_ID\n" +
+                 "group by p.ID, P.NAME",
+          nativeQuery = true)
   List<Object[]> ourNativeQuery90();
 }

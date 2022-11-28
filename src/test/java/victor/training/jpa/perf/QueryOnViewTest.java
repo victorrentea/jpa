@@ -38,11 +38,15 @@ public class QueryOnViewTest {
       em.persist(new Parent("Sanda")
           .addChild(new Child("Maria").setAge(10))
       );
+      em.flush(); // <- usually bad practice.
    }
 
    @Test
    @Sql("/create-view.sql")
    public void entityOnView() {
+      // by default Hibernate figures out itself when to flush data to the database (write the changes)
+      // but here, Hibernate did not understand that the findAll is influenced by the persist in the before.
+      // because tou are SELECTIGN from a DIFFERENT entity.
       searchRepo.findAll().forEach(System.out::println);
 
       Assertions.assertThat(searchRepo.findAll())
@@ -56,7 +60,7 @@ public class QueryOnViewTest {
 @Table(name = "PARENT_SEARCH_VIEW")
 @Entity
 @Data
-class ParentSearchView {
+class ParentSearchView { // entity mapped on view
    @Id
    private Long id;
    private String name;
