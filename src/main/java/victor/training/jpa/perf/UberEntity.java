@@ -9,7 +9,7 @@ public class UberEntity {
     private Long id;
     private String name;
     private String firstName, lastName, ibanCode, cnp, ssn, passportNumber;
-    @ManyToOne
+    @ManyToOne // cause +1 SELECT if SELECTing fro UberEntiyy, or +1 JOIN if uberRepo.findById(id)
     private Country originCountry;
     @ManyToOne
     private Country nationality;
