@@ -9,8 +9,13 @@ public class UberEntity {
     private Long id;
     private String name;
     private String firstName, lastName, ibanCode, cnp, ssn, passportNumber;
-    @ManyToOne // cause +1 SELECT if SELECTing fro UberEntiyy, or +1 JOIN if uberRepo.findById(id)
-    private Country originCountry;
+
+    //    @ManyToOne // cause +1 SELECT if SELECTing fro UberEntiyy, or +1 JOIN if uberRepo.findById(id)
+//    private Country originCountry;
+
+    private Long originCountryId; //!! Please leave the FK ON!!!!
+    // Aggregates should not keep object referenes to eachother. only numbers.
+
     @ManyToOne
     private Country nationality;
     @ManyToOne
@@ -50,11 +55,6 @@ public class UberEntity {
         return this;
     }
 
-    public UberEntity setOriginCountry(Country originCountry) {
-        this.originCountry = originCountry;
-        return this;
-    }
-
     public UberEntity setNationality(Country nationality) {
         this.nationality = nationality;
         return this;
@@ -80,8 +80,9 @@ public class UberEntity {
         return this;
     }
 
-    public Country getOriginCountry() {
-        return originCountry;
+    public UberEntity setOriginCountryId(Long originCountryId) {
+        this.originCountryId = originCountryId;
+        return this;
     }
 }
 
