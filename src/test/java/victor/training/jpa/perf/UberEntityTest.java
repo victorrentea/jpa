@@ -39,6 +39,8 @@ public class UberEntityTest {
 
 
         uber = new UberEntity()
+                .setFirstName("John")
+                .setLastName("DOE")
                 .setFiscalCountry(romania)
                 .setOriginCountryId(romania.getId())
                 .setInvoicingCountry(romania)
@@ -74,6 +76,17 @@ public class UberEntityTest {
         // for example if loading a page of 2o items each item with 4 @ManyToOne, you might end up running 1+20x4 = 81 queries
         log.info("Loaded");
         log.info("List " + list);
+    }
+    @Test
+    public void homePage_or_aCoreSearchInYourApp() {
+        // Requirement: a search that displays data in a grid in UI
+        // id | firstName | lastName
+        List<UberEntity> results = uberRepo.search("John");
+
+        // ui
+        for (UberEntity u : results) {
+            System.out.println(u.getId() + " | " + u.getFirstName() + " | " + u.getLastName());
+        }
     }
 
     @Autowired

@@ -10,6 +10,13 @@ public class UberEntity {
     private String name;
     private String firstName, lastName, ibanCode, cnp, ssn, passportNumber;
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+            return lastName;
+    }
     //    @ManyToOne // cause +1 SELECT if SELECTing fro UberEntiyy, or +1 JOIN if uberRepo.findById(id)
 //    private Country originCountry;
 
@@ -36,6 +43,16 @@ public class UberEntity {
 
     public Status getStatus() {
         return status;
+    }
+
+    public UberEntity setFirstName(String firstName) {
+        this.firstName = firstName;
+        return this;
+    }
+
+    public UberEntity setLastName(String lastName) {
+        this.lastName = lastName;
+        return this;
     }
 
     public Country getFiscalCountry() {
