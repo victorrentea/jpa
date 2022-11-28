@@ -10,7 +10,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
-public class Child {
+public class Child implements ChildForUC32{
     @Id
     @GeneratedValue
     private Long id;

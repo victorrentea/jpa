@@ -3,20 +3,17 @@ package victor.training.jpa.perf;
 import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import static java.util.Collections.unmodifiableSet;
-
 @Entity
-public class Parent {
+public class Parent implements ParentForUC32 {
     @Id
     @GeneratedValue
     private Long id;
 
     private String name;
+    private String extraField;
 
     @OneToMany(cascade = CascadeType.ALL
 //            ,fetch = FetchType.EAGER // it's still bad for performance. It only helps to ....
@@ -34,10 +31,12 @@ public class Parent {
         this.name = name;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -47,6 +46,7 @@ public class Parent {
         return this;
     }
 
+    @Override
     public Set<Child> getChildren() {
         return children;
     }

@@ -19,6 +19,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @SpringBootTest
@@ -38,7 +40,8 @@ public class QueryOnViewTest {
       em.persist(new Parent("Sanda")
           .addChild(new Child("Maria").setAge(10))
       );
-      em.flush(); // <- usually bad practice.
+      em.flush(); // <- usually bad practice. here, avoiding 1st level cache
+      em.clear();
    }
 
    @Test
@@ -56,6 +59,43 @@ public class QueryOnViewTest {
           .hasSize(1)
           .anyMatch(ps -> ps.getChildrenNames().contains("Vlad,Emma"));
    }
+
+
+   @Test
+   void parentAndChildrenWithOneFieldOnly() {
+      // Option1: manual queries
+      List<Parent> parents = parentRepo.findAll();
+      List<Object[]> tuples = childRepo.getParentIdToChildName(parents.stream().map(Parent::getId).collect(Collectors.toList()));
+      Map<Long, List<String>> collect = tuples.stream()
+              .collect(Collectors.groupingBy(a -> (Long) a[0], Collectors.mapping(a -> (String) a[1], Collectors.toList())));
+      for (Parent p : parents) {
+         System.out.println(p.getId() + " , " + p.getName());
+         for (String childName : collect.get(p.getId())) {
+            System.out.println("Child name" + childName);
+         }
+      }
+   }
+
+   @Test
+   void parentAndChildrenWithOneFieldOnlyMagic() {
+      // Option2: Spring projections (=magic)
+      List<ParentForUC32> list = parentRepo.findAllForUC32();
+      for (ParentForUC32 p : list) {
+         System.out.println(p.getId() + " , " +p.getName());
+         for (ChildForUC32 child : p.getChildren()) {
+            System.out.println("Child name" + child.getName());
+         }
+      }
+      System.out.println(list);
+      // NOT WORKING AS INTENDED
+      // https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#projections
+      // Good tip: avoid this much logic !
+   }
+
+   @Autowired
+   private ChildRepo childRepo;
+   @Autowired
+   private ParentRepo parentRepo;
 }
 @Table(name = "PARENT_SEARCH_VIEW")
 @Entity

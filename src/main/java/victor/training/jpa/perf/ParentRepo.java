@@ -17,4 +17,7 @@ public interface ParentRepo extends JpaRepository<Parent, Long> {
                  "group by p.ID, P.NAME",
           nativeQuery = true)
   List<Object[]> ourNativeQuery90();
+
+  @Query("SELECT p FROM Parent p")
+  List<ParentForUC32> findAllForUC32();
 }
