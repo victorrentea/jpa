@@ -78,12 +78,15 @@ public class NPlusOneTest {
 //			rs.getInt(0)
 //		}
 		// keeps a DB cursor open to traverse a HUUUGE result set (eg 1M entities) without loading all entities in memory at once
-		parentRepo.streamAll()
-			.peek(entityManager :: detach) // <- tell hibernate NOT to remember/track changes this entity
-			.forEach(p -> {
-			System.out.println(p);
-			// TODO tomorrow: write it to a file
-		});
+		List<Long> exportedIds =
+				parentRepo.streamAll()
+				.peek(entityManager::detach) // <- tell hibernate NOT to remember/track changes this entity
+				.map(p -> {
+					System.out.println(p);
+					// TODO tomorrow: write it to a file
+					return p.getId();
+				}).collect(Collectors.toList());
+		// an UPDATE query that sets the "exported" flag to true for the 100K elemts in the exportedIds list
 	}
 
 

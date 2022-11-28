@@ -37,11 +37,36 @@ public class UberEntity {
     @ManyToOne
     private User createdBy;
 
-    @Enumerated(EnumType.STRING)
+
+    // bad, I mean that it's better to use an ordinal in the entity pointing
+    // to a table with some ID's checks (enum values) and a FK
+
+//    @Enumerated(EnumType.STRING) // if you don't put this, the db column is a number, 0 for the first in enum <- Dangerous
+    @Convert(converter = GradeConverter.class)
     private Status status = Status.CREATED;
 
+
+//    @Convert(converter = SomeObjectIDontCareAboutItsStructureConverter.class)
+//    private SomeObjectIDontCareAboutItsStructure json;
+    // store a
+
     enum Status {
-        CREATED,DRAFT, SUBMITTED
+        CREATED("C"),DRAFT("D"), SUBMITTED("S");
+
+        private final String code;
+
+        Status(String code) {
+            this.code=code;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        @Override
+        public String toString() {
+            return code;
+        }
     }
 
     public Status getStatus() {
