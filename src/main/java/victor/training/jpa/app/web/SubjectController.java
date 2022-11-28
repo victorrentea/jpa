@@ -55,7 +55,7 @@ public class SubjectController {
 	
 	@PutMapping
 	public void update(@RequestBody SubjectDto subjectDto) {
-		facade.updateSubject(subjectDto);
+//		facade.updateSubject(subjectDto);
 	}
 
 }

@@ -1,15 +1,13 @@
 package victor.training.jpa.app.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import victor.training.jpa.app.entity.converter.MoreTeacherDetailsConverter;
 import victor.training.jpa.app.facade.dto.TimeSlotDto;
 
 import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.*;
 
@@ -17,6 +15,11 @@ import javax.persistence.*;
 @Getter
 @Setter
 public class Teacher {
+
+	public void addSubject(Subject subject) {
+		heldSubjects.add(subject);
+		subject.setHolderTeacher(this);
+	}
 
 	public enum Grade {
 		LECTURER("L"),
@@ -54,11 +57,12 @@ public class Teacher {
 	private List<ContactChannel> channels = new ArrayList<>();
 
 	@OneToMany(mappedBy = "holderTeacher")
+	@Setter(AccessLevel.NONE)
 	private Set<Subject> heldSubjects = new HashSet<>() ;
-	
+
 	@ManyToMany(mappedBy = "teachers")
 	private Set<TeachingActivity> activities = new HashSet<>();
-	
+
 	@Enumerated(EnumType.STRING)
 	private DayOfWeek counselingDay;
 
@@ -68,12 +72,16 @@ public class Teacher {
 
 	private String counselingRoomId;
 
-//	@Embedded
+	public Set<Subject> getHeldSubjects() {
+		return Collections.unmodifiableSet(heldSubjects);
+	}
+
+	//	@Embedded
 //	private TimeSlot counseling;
 
 	public Teacher() {
 	}
-	
+
 	public Teacher(String name) {
 		this.name = name;
 	}

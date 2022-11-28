@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -15,9 +14,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
-
-import victor.training.jpa.app.util.MyTrackingEntityListener;
-import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 
 
 @Getter
@@ -54,6 +50,10 @@ public class Subject  {
 	}
 
 	public Subject() {
+	}
+
+	void setHolderTeacher(Teacher holderTeacher) {
+		this.holderTeacher = holderTeacher;
 	}
 
 	public Subject(String name) {
