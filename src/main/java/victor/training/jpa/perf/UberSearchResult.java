@@ -8,4 +8,5 @@ public class UberSearchResult { // sent as JSON
    Long id;
    String firstName;
    String lastName;
+   String originCountryName;
 }

@@ -85,7 +85,8 @@ public class UberEntityTest {
 
         // ui
         for (UberSearchResult u : results) {
-            System.out.println(u.getId() + " | " + u.getFirstName() + " | " + u.getLastName());
+            System.out.println(u.getId() + " | " + u.getFirstName() +
+                   " | " + u.getLastName() + " | " + u.getOriginCountryName());
         }
     }
 
