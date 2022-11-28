@@ -50,8 +50,8 @@ public class NPlusOneTest {
 	@Transactional
 	public void nPlusOne() {
 		// only this usecase needs to access the children
+//		List<Parent> parents = parentRepo.findAllWithChildren();
 		List<Parent> parents = parentRepo.findAll();
-		// right now, the test fails because in the list avove there are duplicated parent,
 		// which are == to each other
 
 		System.out.println(parents);
