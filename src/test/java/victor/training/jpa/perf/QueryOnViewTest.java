@@ -69,8 +69,11 @@ class ParentSearchView { // entity mapped on view
 
 
 interface ParentSearchRepo extends JpaRepository<ParentSearchView, Long> {
-   @Query("SELECT pv " +
-          " FROM ParentSearchView pv JOIN Parent p ON pv.id = p.id " +
+   // on one side, I SELECT from a VIEW able to use aggregate vunctioons
+   // on the other side, I can still use my entity model to write filtering criterias
+
+   @Query("SELECT pview " +
+          " FROM ParentSearchView pview JOIN Parent p ON pview.id = p.id " +
           " JOIN p.children c" +
           " WHERE c.age < 3") // you can go back to your Entity to select via your entity model
    List<ParentSearchView> queryViaRootEntityModel();
