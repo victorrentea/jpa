@@ -12,6 +12,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 public class Teacher {
 
 	public void addSubject(Subject subject) {

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.ehcache.CacheManager;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.Subject;
@@ -16,7 +17,7 @@ import victor.training.jpa.app.repo.TeacherRepo;
 class CachePlaygroundGate {
    private final CachePlayground playground;
 
-//   @EventListener
+   @EventListener
    public void launchPlay(ContextRefreshedEvent event) {
       log.debug(">>>>>>>>>> Running Cache Playground code... <<<<<<<<<<<<");
 
@@ -28,8 +29,11 @@ class CachePlaygroundGate {
       Long subjectId = playground.insertSubject();
 
       playground.read(subjectId);
+      playground.read(subjectId);
 
-      log.debug("Subject cache size: " + CacheManager.ALL_CACHE_MANAGERS.get(0).getCache("victor.training.jpa.app.domain.entity.Subject").getSize());
+      log.debug("Subject cache size: " + CacheManager.ALL_CACHE_MANAGERS.get(0)
+              .getCache(Subject.class.getCanonicalName()).getSize());
+
    }
 
 
