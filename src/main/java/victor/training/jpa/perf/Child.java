@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Getter
@@ -17,6 +18,9 @@ public class Child implements ChildForUC32{
 
     private String name;
     private Integer age;
+
+    @ManyToOne
+    private Parent parent;
 
     private Child() {
     }

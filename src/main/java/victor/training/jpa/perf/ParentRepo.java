@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public interface ParentRepo extends JpaRepository<Parent, Long> {
@@ -26,4 +27,21 @@ public interface ParentRepo extends JpaRepository<Parent, Long> {
 
   @Query("SELECT p FROM Parent p")
   Stream<Parent> streamAll();
+
+  @Query("SELECT c FROM Child c WHERE c.age > 10")
+  List<Child> getChildrenOver10();
+}
+
+class InjavaCode{
+  private final ParentRepo repo;
+
+  InjavaCode(ParentRepo repo) {
+    this.repo = repo;
+  }
+
+  public void method() {
+    List<Child> children = repo.getChildrenOver10();
+    Map<Parent, List<Child>> parentToChildrenList =
+            children.stream().collect(Collectors.groupingBy(Child::getParent));
+  }
 }
