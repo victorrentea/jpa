@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,13 +60,15 @@ class SheepService {
     private final ErrorLogRepo errorLogRepo;
     private final ShepardClient shepard;
 
-    //@Transactional // not really needed since .save() is @Transactional itself
+    @Transactional // not really needed since .save() is @Transactional itself
     public Long create(String name) {
         String sn = shepard.registerSheep(name); // Takes 1 second (HTTP call) 0-> (1) should not be part of a tx
+
         Sheep sheep = repo.save(new Sheep(name, sn));
+        errorLogRepo.save(new ErrorLog("Audit: Sheep created " + sn));
+
         return sheep.getId();
     }
-//        errorLogRepo.save(new ErrorLog("else"));
 
     public List<Sheep> search(String name) {
         return repo.getByNameLike(name);
