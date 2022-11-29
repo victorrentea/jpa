@@ -12,10 +12,12 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@SequenceGenerator(name = "MySeqGen")
+// hibernate gets a window of 50 IDs at once SO NO netwwork calls are needed for the next 49 IDs assigned.
 public class IDDocument {
 
     @Id
-    @GeneratedValue // if you do not specify a generator, it will fetch one ID at a time
+    @GeneratedValue(generator = "MySeqGen") // if you do not specify a generator, it will fetch one ID at a time
     private Long id;
     @ManyToOne
     private IDDocumentType type;
