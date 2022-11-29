@@ -24,8 +24,8 @@ public class TransactionPlayground {
     public void firstTransaction() {
         log.debug("Function Begin");
 
-        repo.save(new ErrorLog("Halo!"));
-        repo.save(new ErrorLog("Halo!"));
+        repo.saveAndFlush(new ErrorLog("Halo!"));
+        repo.saveAndFlush(new ErrorLog(null));
 
         log.debug("Function End");
     }
