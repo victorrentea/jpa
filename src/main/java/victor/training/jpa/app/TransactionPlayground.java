@@ -33,6 +33,7 @@ public class TransactionPlayground {
             other.persistErrorInDB(e.getMessage());
             throw e;
         }
+        repo.flush(); // manual flushing: use in tests, avoid in prod
 
         System.out.println("How many rows are in db?"  + repo.count()); // if hibernate has to RUN and SELECT in DB while there are changes to flush to db,
         // it will first auto-flush them before the select. WHY?
