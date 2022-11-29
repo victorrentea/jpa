@@ -9,10 +9,12 @@ import java.util.Set;
 
 @Entity
 @NamedEntityGraph(name = "Parent.withChildrenNames",
-        attributeNodes = {@NamedAttributeNode("name"),
+        attributeNodes = {
+                @NamedAttributeNode("name"), // of the parent
                 @NamedAttributeNode(value = "children", subgraph = "Child.withName")},
         subgraphs = @NamedSubgraph(name = "Child.withName",
-                attributeNodes = @NamedAttributeNode("name"))
+                attributeNodes = @NamedAttributeNode("name") // child's name
+        )
 )
 public class Parent implements ParentForUC32 {
   @Id
