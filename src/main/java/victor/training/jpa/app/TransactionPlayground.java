@@ -57,12 +57,10 @@ public class TransactionPlayground {
     }
 
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public void secondTransaction() {
-        log.debug("Halo2!");
         ErrorLog errorLog = repo.findById(1L).orElseThrow();
-        ErrorLog errorLog1 = repo.findById(1L).orElseThrow();
-        ErrorLog errorLog2 = repo.findById(1L).orElseThrow();
+        em.detach(errorLog); // tell hibernate to forget about that entity : not monitor and remove it from 1st level cache
         errorLog.setMessage("dirty entities are auto-flushed at the end of tX");
 //        repo.save(errorLog);
         // Arch decision: do we want this feature or not ?
