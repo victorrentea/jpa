@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,6 +31,12 @@ public interface ParentRepo extends JpaRepository<Parent, Long> {
 
   @Query("SELECT c FROM Child c WHERE c.age > 10")
   List<Child> getChildrenOver10();
+
+  @Query("SELECT p FROM Parent p WHERE EXISTS (SELECT 1 FROM Child c WHERE  c.parent.id= p.id AND c.age > 10)")
+  Page<Parent> getParentsWithChildrenOver10(Pageable pageable);
+
+  @Query("SELECT c.parent.id, c FROM Child c WHERE c.parent.id IN (?1) AND c.age > 10")
+  List<Object[]> getParentsWithChildrenOver10(List<Long> parentIds);
 }
 
 class InjavaCode{
@@ -43,5 +50,14 @@ class InjavaCode{
     List<Child> children = repo.getChildrenOver10();
     Map<Parent, List<Child>> parentToChildrenList =
             children.stream().collect(Collectors.groupingBy(Child::getParent));
+//
+//    Map<Parent, List<Child>> parentToChildrenList = new HashMap<>();
+//    for (Child child : children) {
+//
+//      for (p:child.getParents()) {
+//        parentToChildrenList.put(p, child in the list)
+//      }
+//    }
+
   }
 }

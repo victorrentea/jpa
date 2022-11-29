@@ -2,9 +2,11 @@ package victor.training.jpa.perf;
 
 import lombok.ToString.Exclude;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Subselect;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,6 +17,9 @@ public class Parent implements ParentForUC32 {
 
     private String name;
     private String extraField;
+
+//    @Subselect("")
+//    List<Child> childrenOver10;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent"
 //            ,fetch = FetchType.EAGER // it's still bad for performance. It only helps to ....
