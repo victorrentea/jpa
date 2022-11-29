@@ -8,7 +8,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.*;
 
-import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.*;
 
 @Getter
 @Setter

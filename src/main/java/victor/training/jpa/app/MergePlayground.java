@@ -73,6 +73,7 @@ public class MergePlayground {
    public void printFinalData() {
       ErrorLog errorLog = errorLogRepo.findById(logId).orElseThrow();
       log.debug(errorLog.toString());
+//      errorLogRepo.findAll().forEach(errorLogRepo::delete);
    }
 }
 
