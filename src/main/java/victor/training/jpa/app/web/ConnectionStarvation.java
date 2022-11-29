@@ -59,7 +59,7 @@ class SheepService {
     private final ErrorLogRepo errorLogRepo;
     private final ShepardClient shepard;
 
-//    @Transactional // not really needed since .save() is @Transactional itself
+    //@Transactional // not really needed since .save() is @Transactional itself
     public Long create(String name) {
         String sn = shepard.registerSheep(name); // Takes 1 second (HTTP call) 0-> (1) should not be part of a tx
         Sheep sheep = repo.save(new Sheep(name, sn));
