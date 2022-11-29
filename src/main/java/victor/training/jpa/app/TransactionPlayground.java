@@ -3,6 +3,7 @@ package victor.training.jpa.app;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +35,9 @@ public class TransactionPlayground {
         // 2) Faster if an ex happens before the tx end, then the INSERT was never even sent to DB over network
     }
 
-    private void localMethod() {
+    @Async
+    public void localMethod() {
+        log.debug("On what thread am I here ?");
         // transaction opened on :24 propagates here magically via the thread.?!?!? huh?
         repo.save(new ErrorLog(null));
     }
