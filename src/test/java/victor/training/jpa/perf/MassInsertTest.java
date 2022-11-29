@@ -12,6 +12,7 @@ import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -48,6 +49,9 @@ public class MassInsertTest {
     for (int page = 0; page < 20; page++) {
       TestTransaction.start();
       log.debug("--- PAGE " + page);
+
+      List<IDDocument> docs = new ArrayList<>();
+
       for (int i = 0; i < 10; i++) {
         IDDocument document = new IDDocument();
 //        Long docTypeId = docTypeIds.get(i % docTypeIds.size());
@@ -58,8 +62,10 @@ public class MassInsertTest {
         // getOne is used to get a placeholder to put in a @ManyToOne field at insert w/o a SELECT
 
         document.setType(documentTypeProxy);
-        documentRepo.save(document);
+//        documentRepo.save(document);
+        docs.add(document);
       }
+      documentRepo.saveAll(docs);
       TestTransaction.end(); // flush and close the Persistence Context
     }
     long t1 = currentTimeMillis();
