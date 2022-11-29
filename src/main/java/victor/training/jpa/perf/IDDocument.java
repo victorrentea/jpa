@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.UUID;
 
 // When using a UUID as PK:
-// @GenericGenerator(name = "uuid", strategy = "victor.training.jpa.perf.UUIDGenerator") +  @GeneratedValue(generator = "uuid") private String id;
+ @GenericGenerator(name = "uuid", strategy = "victor.training.jpa.perf.UUIDGenerator")// +  @GeneratedValue(generator = "uuid") private String id;
 @Entity
 @Getter
 @Setter
@@ -25,7 +25,8 @@ public class IDDocument {
 //    private Long id;
 
     @Id
-    private String id = UUID.randomUUID().toString();
+    @GeneratedValue(generator = "uuid")
+    private String id;//  = UUID.randomUUID().toString();
 
     @ManyToOne
     private IDDocumentType type;
