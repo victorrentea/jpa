@@ -54,6 +54,7 @@ public class JpaApplication {
 		log.debug("==== Merge:WRITE2 (user clicked SAVE in edit screen ====");
 		mergePlayground.browserSendsDataToServer(initialJsonFromServer, "User2 changed the message");
 		log.debug("==== Merge:final data in DB ====");
+
 		mergePlayground.printFinalData();
 
 //		log.debug("Uploading file...");

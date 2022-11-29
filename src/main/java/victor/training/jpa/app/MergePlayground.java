@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.ErrorComment;
@@ -13,6 +14,7 @@ import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.ErrorTagRepo;
 
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 
 @RequiredArgsConstructor
 @Component
@@ -48,6 +50,9 @@ public class MergePlayground {
       return json;
    }
 
+   @Autowired
+   private EntityManager entityManager;
+
    @Transactional
    public void browserSendsDataToServer(String jsonReceivedFromServer, String newTitle) throws JsonProcessingException {
       ErrorLog copyInClient = jackson.readValue(jsonReceivedFromServer, ErrorLog.class);
@@ -66,6 +71,7 @@ public class MergePlayground {
       // TODO link to +1 / other ErrorTag
       log.debug("Client1 clicks the 'save' button updated JSON: " + jackson.writeValueAsString(copyInClient));
       // -------- leave the browser ---------
+
 //      consider copyInClient as a @RequestBody given to you by spring
 
       // dangers of relying on .merge like this:
@@ -78,6 +84,7 @@ public class MergePlayground {
       // #2 data in the @Entity that the FE should never change/see
       //FixA: Usual workaround to 'freeze' some fields in the entity by copying them from what's NOW in the DB
       ErrorLog original = errorLogRepo.findById(copyInClient.getId()).orElseThrow();
+//      em.lock(original, LockModeType.PESSIMISTIC_WRITE);
       copyInClient.setLastModifiedBy(original.getLastModifiedBy());
       //FixB: AVOID repo.save(). instead, you do e = findById(); then e.setField1(..); e.setField2(..)
 
