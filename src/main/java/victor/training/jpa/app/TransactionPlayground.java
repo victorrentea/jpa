@@ -17,7 +17,6 @@ import javax.persistence.EntityManager;
 @RequiredArgsConstructor
 public class TransactionPlayground {
     private final EntityManager em;
-    private final JdbcTemplate jdbc;
     private final TeacherRepo teacherRepo;
     private final ErrorLogRepo repo;
 
@@ -27,7 +26,6 @@ public class TransactionPlayground {
 
         repo.save(new ErrorLog("Halo!"));
 
-        jdbc.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
         log.debug("Function End");
     }
 
