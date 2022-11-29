@@ -2,8 +2,7 @@ package victor.training.jpa.app;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +25,14 @@ public class TransactionPlayground {
     public void firstTransaction() {
         log.debug("Function Begin");
 
-        repo.save(new ErrorLog("Halo!"));
-        localMethod();
+        repo.save(new ErrorLog("before biz logic!"));
+
+        try {
+            bizLogic();
+        } catch (Exception e) {
+            other.persistErrorInDB(e.getMessage());
+            throw e;
+        }
 
         log.debug("Function End");
         // Why are my inserts sent to DB after the method end ?
@@ -35,14 +40,10 @@ public class TransactionPlayground {
         // 2) Faster if an ex happens before the tx end, then the INSERT was never even sent to DB over network
     }
 
-    @Async
-    public void localMethod() {
-        log.debug("On what thread am I here ?");
-        // transaction opened on :24 propagates here magically via the thread.?!?!? huh?
-        repo.save(new ErrorLog(null));
+    private void bizLogic() {
+        //bizLogic
+        repo.save(new ErrorLog("from biz logic!"));
     }
-
-
 
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -58,9 +59,17 @@ public class TransactionPlayground {
 @RequiredArgsConstructor
 @Service
 class OtherService {
-    private ErrorLogRepo errorLogRepo;
+    @Autowired
+    private ErrorLogRepo repo;
 
     public void method() {
 
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void persistErrorInDB(String message) {
+        log.debug("On what thread am I here ?");
+        // transaction opened on :24 propagates here magically via the thread.?!?!? huh?
+        repo.save(new ErrorLog("ERROR:" + message));
     }
 }
