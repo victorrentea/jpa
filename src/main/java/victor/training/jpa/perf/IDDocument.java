@@ -12,7 +12,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@SequenceGenerator(name = "MySeqGen")
+//@SequenceGenerator(name = "MySeqGen")
 // hibernate gets a window of 50 IDs at once SO NO netwwork calls are needed for the next 49 IDs assigned.
 
 // some DBs (mysql) does not support sequences.
@@ -20,9 +20,13 @@ import java.util.UUID;
 // why? because after you do a repo.save() JPA HAS to give you the new ID (setting it in the @Id field)
 public class IDDocument {
 
+//    @Id
+//    @GeneratedValue(generator = "MySeqGen") // if you do not specify a generator, it will fetch one ID at a time
+//    private Long id;
+
     @Id
-    @GeneratedValue(generator = "MySeqGen") // if you do not specify a generator, it will fetch one ID at a time
-    private Long id;
+    private String id = UUID.randomUUID().toString();
+
     @ManyToOne
     private IDDocumentType type;
 }

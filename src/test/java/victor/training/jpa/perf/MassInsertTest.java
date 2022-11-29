@@ -52,7 +52,6 @@ public class MassInsertTest {
 
 
       for (int i = 0; i < 10; i++) {
-        IDDocument document = new IDDocument();
 //        Long docTypeId = docTypeIds.get(i % docTypeIds.size());
         // read from some file
         Long docTypeId = docTypeLabelToId.get("DocType1");
@@ -60,6 +59,7 @@ public class MassInsertTest {
         // trusts us to KNOW the correct ID to bind to
         // getOne is used to get a placeholder to put in a @ManyToOne field at insert w/o a SELECT
 
+        IDDocument document = new IDDocument();
         document.setType(documentTypeProxy);
         documentRepo.save(document);
       }
