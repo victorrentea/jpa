@@ -32,8 +32,8 @@ public class JpaApplication {
 	private LobPlayground lobPlayground;
 
 
-	@EventListener
-	public void onApplicationEvent(ContextRefreshedEvent event) throws IOException, SQLException {
+	@EventListener(ContextRefreshedEvent.class)
+	public void onStartup() throws IOException, SQLException {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
 //		log.debug(" ========= FIRST TRANSACTION ========== ");
 //		transactionPlayground.firstTransaction();

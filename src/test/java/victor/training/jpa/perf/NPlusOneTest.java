@@ -28,23 +28,23 @@ public class NPlusOneTest {
 	@BeforeEach
 	public void persistData() {
 		parentRepo.deleteAll();
-		entityManager.persist(new Parent("Victor")
+		parentRepo.save(new Parent("Victor")
 				.addChild(new Child("Emma"))
 				.addChild(new Child("Vlad"))
 		);
-		entityManager.persist(new Parent("Peter")
+		parentRepo.save(new Parent("Peter")
 				.addChild(new Child("Maria"))
 				.addChild(new Child("Stephan"))
 				.addChild(new Child("Paul"))
 		);
 
-		entityManager.flush();
-		entityManager.clear();
+		parentRepo.flush();
+		entityManager.clear(); // remove all entities from PersistenceContext
 	}
 
 	@Test
 	public void nPlusOne() {
-		List<Parent> parents = entityManager.createQuery("SELECT p FROM Parent p", Parent.class).getResultList();
+		List<Parent> parents = parentRepo.findAll();
 
 		int totalChildren = anotherMethod(parents);
 		assertThat(totalChildren).isEqualTo(5);

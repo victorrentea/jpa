@@ -27,15 +27,15 @@ public class QueryOnViewTest {
    @Autowired
    private ParentSearchRepo searchRepo;
    @Autowired
-   private EntityManager em;
+   private ParentRepo parentRepo;
 
    @BeforeEach
    public void persistData() {
-      em.persist(new Parent("Victor")
+      parentRepo.save(new Parent("Victor")
           .addChild(new Child("Emma").setAge(7))
           .addChild(new Child("Vlad").setAge(3))
       );
-      em.persist(new Parent("Sanda")
+      parentRepo.save(new Parent("Sanda")
           .addChild(new Child("Maria").setAge(10))
       );
    }

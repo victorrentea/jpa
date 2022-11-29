@@ -17,7 +17,7 @@ public class Parent {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "PARENT_ID")
+    @JoinColumn(name = "PARENT_ID") // uni directional Parent->*Child
     private Set<Child> children = new HashSet<>();
 
     private Parent() {
