@@ -32,7 +32,8 @@ public class MergePlayground {
    public void persistInitialData() {
       feTag= errorTagRepo.save(new ErrorTag("FE"));
       beTag= errorTagRepo.save(new ErrorTag("BE"));
-      ErrorLog errorLog = new ErrorLog("message");
+      ErrorLog errorLog = new ErrorLog("message")
+              .setCreationUser("Real author");
       errorLog.getComments().add(new ErrorComment("First Comment"));
       errorLog.getComments().add(new ErrorComment("Second Comment"));
       errorLog.getTags().add(beTag);
@@ -54,15 +55,33 @@ public class MergePlayground {
       log.debug("Client1 receives JSON from BE: " + jackson.writeValueAsString(copyInClient));
       copyInClient.setMessage("User1 changed the message");
       copyInClient.getComments().get(0).setText("Comment changed");
-      copyInClient.getComments().remove(1);
+      copyInClient.setCreationUser("ThatGuyIHate");
+      Long removedChildId = copyInClient.getComments().remove(1).getId();
       copyInClient.getComments().add(new ErrorComment("One More"));
+//      copyInClient.getComments().add(new ErrorComment("In fact, I want this instead").setId(removedChildId));
+
       // TODO change fields
       // TODO add a comment + merge parent ==> cascade
       // TODO remove a comment (private child) ==> orphanRemoval
       // TODO link to +1 / other ErrorTag
       log.debug("Client1 clicks the 'save' button updated JSON: " + jackson.writeValueAsString(copyInClient));
       // -------- leave the browser ---------
-      errorLogRepo.save(copyInClient); // inside, EntityManager#merge is called
+//      consider copyInClient as a @RequestBody given to you by spring
+
+      // dangers of relying on .merge like this:
+      // in other words, why is it dangerous to just take the updated @Entity from the FE and
+      // repo.save(it) over the previous
+
+      // #1 concurrent modifications (between they GET the data to edit and they PUT back it to BE, someone else did that too)
+
+
+      // #2 data in the @Entity that the FE should never change/see
+      //FixA: Usual workaround to 'freeze' some fields in the entity by copying them from what's NOW in the DB
+      ErrorLog original = errorLogRepo.findById(copyInClient.getId()).orElseThrow();
+      copyInClient.setLastModifiedBy(original.getLastModifiedBy());
+      //FixB: AVOID repo.save(). instead, you do e = findById(); then e.setField1(..); e.setField2(..)
+
+      errorLogRepo.save(copyInClient); // inside, EntityManager#merge is called = overwrite all FIELDS
    }
    // TODO concurrent access:
    //    1)  add @Version for optimistic locking

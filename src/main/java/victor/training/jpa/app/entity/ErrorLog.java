@@ -4,8 +4,10 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.LastModifiedBy;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.*;
 
 import static javax.persistence.CascadeType.*;
@@ -32,6 +34,11 @@ public class ErrorLog {
 
    @ManyToMany
    private Set<ErrorTag> tags = new HashSet<>();
+
+   @Column(updatable = false) // Nice !
+   private String creationUser;
+
+   private String lastModifiedBy;
 
 
    public ErrorLog() {
