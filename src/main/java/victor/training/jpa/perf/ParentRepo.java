@@ -2,6 +2,7 @@ package victor.training.jpa.perf;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -15,6 +16,9 @@ public interface ParentRepo extends JpaRepository<Parent, Long> {
   @Query("FROM Parent p") // LEFT JOIN FETCH p.children2 dangerous => cartesian explosion (too many rows)
   Page<Parent> findAllWithChildren(Pageable pageable);
 
+  @Query("SELECT p FROM Parent p")
+  @EntityGraph("Parent.withChildrenNames")
+  List<Parent> findParentsByGraph();
 
   @Query(value = "select p.ID, P.NAME, STRING_AGG(c.NAME, ',') within group (order by c.name desc) children_names\n" +
                  "from PARENT P\n" +

@@ -67,6 +67,8 @@ public class NPlusOneTest {
 		//		ID IN(?,?,?.....1000?) OR
 		//		ID IN(?,?,?.....1000?) OR
 	}
+
+
 	@Test
 	@Transactional
 	void streamingQuery() {
