@@ -25,7 +25,6 @@ public class TransactionPlayground {
         log.debug("Function Begin");
 
         repo.save(new ErrorLog("Halo!"));
-        if (true) throw new RuntimeException("Boo");
         repo.save(new ErrorLog("Halo!"));
 
         log.debug("Function End");
