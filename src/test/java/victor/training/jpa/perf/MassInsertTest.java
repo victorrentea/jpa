@@ -44,20 +44,20 @@ public class MassInsertTest {
 
   @Test
   public void assignIdentifiers() {
-    Map<String, Long> docTypeLabelToId = documentTypeRepo.findAll().stream().collect(toMap(IDDocumentType::getLabel, IDDocumentType::getId));
+//    Map<String, Long> docTypeLabelToId = documentTypeRepo.findAll().stream().collect(toMap(IDDocumentType::getLabel, IDDocumentType::getId));
     long t0 = currentTimeMillis();
     for (int page = 0; page < 20; page++) {
       TestTransaction.start();
       log.debug("--- PAGE " + page);
-
-
       for (int i = 0; i < 10; i++) {
 //        Long docTypeId = docTypeIds.get(i % docTypeIds.size());
         // read from some file
-        Long docTypeId = docTypeLabelToId.get("DocType1");
-        IDDocumentType documentTypeProxy = documentTypeRepo.getOne(docTypeId);
+//        Long docTypeId = docTypeLabelToId.get("DocType1");
+//        IDDocumentType documentTypeProxy = documentTypeRepo.getOne(docTypeId);
         // trusts us to KNOW the correct ID to bind to
         // getOne is used to get a placeholder to put in a @ManyToOne field at insert w/o a SELECT
+
+        IDDocumentType documentTypeProxy = documentTypeRepo.findByLabel("DocType1");
 
         IDDocument document = new IDDocument();
         document.setType(documentTypeProxy);
