@@ -13,11 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static java.lang.System.currentTimeMillis;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
 @SpringBootTest
 @Transactional
@@ -41,15 +43,16 @@ public class MassInsertTest {
 
   @Test
   public void assignIdentifiers() {
+    Map<String, Long> docTypeLabelToId = documentTypeRepo.findAll().stream().collect(toMap(IDDocumentType::getLabel, IDDocumentType::getId));
     long t0 = currentTimeMillis();
     for (int page = 0; page < 20; page++) {
       TestTransaction.start();
       log.debug("--- PAGE " + page);
       for (int i = 0; i < 10; i++) {
         IDDocument document = new IDDocument();
-        Long docTypeId = docTypeIds.get(i % docTypeIds.size());
+//        Long docTypeId = docTypeIds.get(i % docTypeIds.size());
         // read from some file
-
+        Long docTypeId = docTypeLabelToId.get("DocType1");
         IDDocumentType documentTypeProxy = documentTypeRepo.getOne(docTypeId);
         // trusts us to KNOW the correct ID to bind to
         // getOne is used to get a placeholder to put in a @ManyToOne field at insert w/o a SELECT
@@ -62,8 +65,8 @@ public class MassInsertTest {
     long t1 = currentTimeMillis();
     log.debug("Took {} ms (naive)", t1 - t0);
 
-    // TODO FK to doctype - getOne
-    // TODO docTypeId = docTypeRepo.findByName(""): preload a Map<String, Long> docTypeNameToId
+    // TODOOK FK to doctype - getOne
+    // TODOOK docTypeId = docTypeRepo.findByName(""): preload a Map<String, Long> docTypeNameToId
     // TODO batching inserts
     // TODO identifiers: Sequence size (@see gaps!), IDENTITY, UUID
   }
