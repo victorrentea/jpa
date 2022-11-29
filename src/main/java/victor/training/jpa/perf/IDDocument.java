@@ -15,7 +15,7 @@ import java.util.UUID;
 public class IDDocument {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue // if you do not specify a generator, it will fetch one ID at a time
     private Long id;
     @ManyToOne
     private IDDocumentType type;
