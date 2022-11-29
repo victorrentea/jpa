@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+import victor.training.jpa.app.entity.ErrorLog;
+import victor.training.jpa.app.repo.ErrorLogRepo;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -49,16 +51,22 @@ class SheepController {
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional // just in case, to be on the safe side
+//@Transactional
+        // CONSISTENCY: just in case, to be on the safe side :)
+        // OKish for systems not calling other systems and that are under little load.
 class SheepService {
     private final SheepRepo repo;
-    private final ShepardService shepard;
+    private final ErrorLogRepo errorLogRepo;
+    private final ShepardClient shepard;
 
+//    @Transactional // not really needed since .save() is @Transactional itself
     public Long create(String name) {
-        String sn = shepard.registerSheep(name); // Takes 1 second (HTTP call)
+        String sn = shepard.registerSheep(name); // Takes 1 second (HTTP call) 0-> (1) should not be part of a tx
         Sheep sheep = repo.save(new Sheep(name, sn));
         return sheep.getId();
     }
+//        errorLogRepo.save(new ErrorLog("else"));
+
     public List<Sheep> search(String name) {
         return repo.getByNameLike(name);
     }
@@ -68,7 +76,7 @@ class SheepService {
 @Slf4j
 @Service
 @RequiredArgsConstructor
-class ShepardService {
+class ShepardClient {
     @SneakyThrows
     @Timed("shepard")
     public String registerSheep(String name) {
