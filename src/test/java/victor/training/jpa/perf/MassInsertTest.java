@@ -50,7 +50,6 @@ public class MassInsertTest {
       TestTransaction.start();
       log.debug("--- PAGE " + page);
 
-      List<IDDocument> docs = new ArrayList<>();
 
       for (int i = 0; i < 10; i++) {
         IDDocument document = new IDDocument();
@@ -62,10 +61,8 @@ public class MassInsertTest {
         // getOne is used to get a placeholder to put in a @ManyToOne field at insert w/o a SELECT
 
         document.setType(documentTypeProxy);
-//        documentRepo.save(document);
-        docs.add(document);
+        documentRepo.save(document);
       }
-      documentRepo.saveAll(docs);
       TestTransaction.end(); // flush and close the Persistence Context
     }
     long t1 = currentTimeMillis();
