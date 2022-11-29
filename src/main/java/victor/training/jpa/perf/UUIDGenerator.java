@@ -15,6 +15,6 @@ public class UUIDGenerator implements IdentifierGenerator {
    @Override
    public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
       log.debug("Generating ID for " + object.getClass());
-      return UUID.randomUUID().toString();
+      return UUID.randomUUID();
    }
 }

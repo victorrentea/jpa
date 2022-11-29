@@ -28,8 +28,9 @@ public class IDDocument {
 //    private String externalUUID;
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    private String id;//  = UUID.randomUUID().toString();
+    @Column(columnDefinition = "UUID")
+//    @GeneratedValue(generator = "uuid")
+    private UUID id = UUID.randomUUID();//  = UUID.randomUUID().toString();
 
     @ManyToOne
     private IDDocumentType type;
