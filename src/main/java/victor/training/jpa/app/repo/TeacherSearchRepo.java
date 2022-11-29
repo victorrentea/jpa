@@ -30,6 +30,7 @@ public class TeacherSearchRepo {
    private TeacherRepo teacherRepo;
 
    public List<Teacher> getAllTeachersForYear(long yearId) {
+      // JPQL equivalent of an UNION between teachers
       return entityManager.createQuery(
               "SELECT t FROM TeachingActivity a JOIN a.teachers t WHERE "
               + "a.id IN (SELECT c.id FROM StudentsYear y JOIN y.courses c WHERE y.id = :yearId) "

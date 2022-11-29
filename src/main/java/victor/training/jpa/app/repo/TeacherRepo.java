@@ -14,7 +14,7 @@ import victor.training.jpa.app.entity.Subject;
 import victor.training.jpa.app.entity.Teacher;
 import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
 
-public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, TeacherRepoCustom, JpaSpecificationExecutor<Teacher> {
+public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, JpaSpecificationExecutor<Teacher> {
 
 	@Query("SELECT DISTINCT a.dayOfWeek FROM Teacher t JOIN t.activities a WHERE t.id=?1")
 	public Set<DayOfWeek> getBusyDaysOfTeacher(long teacherId);
