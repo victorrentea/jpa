@@ -49,11 +49,11 @@ public class MergePlayground {
    }
 
    @Transactional
-   public void user1Browser(String jsonReceivedFromServer) throws JsonProcessingException {
+   public void browserSendsDataToServer(String jsonReceivedFromServer, String newTitle) throws JsonProcessingException {
       ErrorLog copyInClient = jackson.readValue(jsonReceivedFromServer, ErrorLog.class);
       // ------- enter the browser ------- JavaScript:
       log.debug("Client1 receives JSON from BE: " + jackson.writeValueAsString(copyInClient));
-      copyInClient.setMessage("User1 changed the message");
+      copyInClient.setMessage(newTitle);
       copyInClient.getComments().get(0).setText("Comment changed");
       copyInClient.setCreationUser("ThatGuyIHate");
       Long removedChildId = copyInClient.getComments().remove(1).getId();

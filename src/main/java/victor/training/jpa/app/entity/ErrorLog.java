@@ -8,6 +8,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static javax.persistence.CascadeType.*;
@@ -39,6 +40,9 @@ public class ErrorLog {
    private String creationUser;
 
    private String lastModifiedBy;
+
+   @Version
+   private Long version;
 
 
    public ErrorLog() {

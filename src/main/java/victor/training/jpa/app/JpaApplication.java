@@ -48,9 +48,11 @@ public class JpaApplication {
 		log.debug("==== Merge:Persist init ====");
 		mergePlayground.persistInitialData();
 		log.debug("==== Merge:READ (user clicked open edit screen) ====");
-		String dataFromServer = mergePlayground.readFromBackend("user1Browser");
+		String initialJsonFromServer = mergePlayground.readFromBackend("browserSendsDataToServer");
 		log.debug("==== Merge:WRITE1 (user clicked SAVE in edit screen ====");
-		mergePlayground.user1Browser(dataFromServer);
+		mergePlayground.browserSendsDataToServer(initialJsonFromServer, "User1 changed the message");
+		log.debug("==== Merge:WRITE2 (user clicked SAVE in edit screen ====");
+		mergePlayground.browserSendsDataToServer(initialJsonFromServer, "User2 changed the message");
 		log.debug("==== Merge:final data in DB ====");
 		mergePlayground.printFinalData();
 
