@@ -14,6 +14,10 @@ import java.util.UUID;
 @Setter
 @SequenceGenerator(name = "MySeqGen")
 // hibernate gets a window of 50 IDs at once SO NO netwwork calls are needed for the next 49 IDs assigned.
+
+// some DBs (mysql) does not support sequences.
+// effect=disables write-behind for INSERTS (~= .saveAndFlush()), you cannot use batch mode anymore!!
+// why? because after you do a repo.save() JPA HAS to give you the new ID (setting it in the @Id field)
 public class IDDocument {
 
     @Id
