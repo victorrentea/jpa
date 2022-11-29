@@ -22,11 +22,11 @@ public class TeacherDto {
 		moreDetails = teacher.getMoreDetails();
 
 //		counselingInterval = new TimeSlotDto(teacher.getCounseling());
-		counselingInterval = new TimeSlotDto(
-				teacher.getCounselingDay(),
-				teacher.getCounselingStartHour(),
-				teacher.getCounselingDurationInHours(),
-				teacher.getCounselingRoomId()
-		);
+//		counselingInterval = new TimeSlotDto(
+//				teacher.getCounselingDay(),
+//				teacher.getCounselingStartHour(),
+//				teacher.getCounselingDurationInHours(),
+//				teacher.getCounselingRoomId()
+//		);
 	}
 }

@@ -22,15 +22,15 @@ public class TeacherDetailsDto {
 		name = teacher.getName();
 		grade = teacher.getGrade();
 		if (teacher.getDetails() != null) {
-			cv = teacher.getDetails().getCv();
+//			cv = teacher.getDetails().getCv();
 		}
 //		counselingInterval = new TimeSlotDto(teacher.getCounseling());
 
-		counselingInterval = new TimeSlotDto(
-				teacher.getCounselingDay(),
-				teacher.getCounselingStartHour(),
-				teacher.getCounselingDurationInHours(),
-				teacher.getCounselingRoomId()
-		);
+//		counselingInterval = new TimeSlotDto(
+//				teacher.getCounselingDay(),
+//				teacher.getCounselingStartHour(),
+//				teacher.getCounselingDurationInHours(),
+//				teacher.getCounselingRoomId()
+//		);
 	}
 }

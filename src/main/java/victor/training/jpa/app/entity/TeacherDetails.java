@@ -6,6 +6,7 @@ import lombok.Value;
 import victor.training.jpa.app.entity.converter.MoreTeacherDetailsConverter;
 
 import javax.persistence.*;
+import java.sql.Clob;
 import java.util.List;
 
 @Getter
@@ -17,9 +18,14 @@ public class TeacherDetails {
 	@GeneratedValue
 	private Long id;
 	
+//	@Lob // CLOB
+//	private String cv; // 400 mb of xml
+
 	@Lob
-	@Basic(fetch = FetchType.LAZY) // DOES NOT work anymore with spring boot
-	private String cv;
+	private Clob cv;
+
+//	private Long teacherId;
+
 
 }
 

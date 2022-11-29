@@ -32,8 +32,8 @@ public class JpaApplication {
 	private TransactionPlayground transactionPlayground;
 	@Autowired
 	private MergePlayground mergePlayground;
-	@Autowired
-	private LobPlayground lobPlayground;
+//	@Autowired
+//	private LobPlayground lobPlayground;
 
 
 	@EventListener

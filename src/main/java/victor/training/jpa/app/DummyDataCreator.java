@@ -29,8 +29,8 @@ public class DummyDataCreator {
 	public void persistDummyData() {
 		Teacher victor = new Teacher("Victor");
 		victor.setGrade(Teacher.Grade.ASSISTANT);
-		TeacherDetails teacherDetails = new TeacherDetails().setCv("A pimped CV");
-		victor.setDetails(teacherDetails);
+//		TeacherDetails teacherDetails = new TeacherDetails().setCv("A pimped CV");
+//		victor.setDetails(teacherDetails);
 //		victor.setCounselingDay(DayOfWeek.MONDAY);
 //		victor.setCounselingDurationInHours(1);
 //		victor.setCounselingRoomId("EF403");

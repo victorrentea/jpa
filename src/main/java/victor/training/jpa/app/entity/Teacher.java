@@ -44,8 +44,8 @@ public class Teacher {
 	private Grade grade;
 	
 	// fetch=LAZY or invert the link to retrieve details by teacher via repo
-	@OneToOne(
-		)
+	// a 👻 proxy is placed in this field, triggering network call when you access anything else than the ID of the TeacherDetails
+	@OneToOne(fetch = FetchType.LAZY)
 	private TeacherDetails details;
 
 	@Convert(converter = MoreTeacherDetailsConverter.class)
@@ -63,14 +63,17 @@ public class Teacher {
 	@ManyToMany(mappedBy = "teachers")
 	private Set<TeachingActivity> activities = new HashSet<>();
 
-	@Enumerated(EnumType.STRING)
-	private DayOfWeek counselingDay;
+	@Embedded
+	private TimeSlot counseling;
 
-	private Integer counselingStartHour;
-
-	private Integer counselingDurationInHours;
-
-	private String counselingRoomId;
+//	@Enumerated(EnumType.STRING)
+//	private DayOfWeek counselingDay;
+//
+//	private Integer counselingStartHour;
+//
+//	private Integer counselingDurationInHours;
+//
+//	private String counselingRoomId;
 
 	public Set<Subject> getHeldSubjects() {
 		return Collections.unmodifiableSet(heldSubjects);
