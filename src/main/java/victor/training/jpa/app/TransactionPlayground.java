@@ -57,13 +57,13 @@ public class TransactionPlayground {
     }
 
 
-    @Transactional
+//    @Transactional(readOnly = true)
     public void secondTransaction() {
         ErrorLog errorLog = repo.findById(1L).orElseThrow();
-        em.detach(errorLog); // tell hibernate to forget about that entity : not monitor and remove it from 1st level cache
         errorLog.setMessage("dirty entities are auto-flushed at the end of tX");
-//        repo.save(errorLog);
+        repo.save(errorLog);
         // Arch decision: do we want this feature or not ?
+        // less magic but +1 SELECT
     }
 }
 
