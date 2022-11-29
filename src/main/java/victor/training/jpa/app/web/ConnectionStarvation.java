@@ -3,6 +3,7 @@ package victor.training.jpa.app.web;
 import io.micrometer.core.annotation.Timed;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,6 +21,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -47,7 +49,7 @@ class SheepController {
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional // just in case, to be on the safe side
 class SheepService {
     private final SheepRepo repo;
     private final ShepardService shepard;
@@ -61,18 +63,22 @@ class SheepService {
         return repo.getByNameLike(name);
     }
 }
+
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 class ShepardService {
+    @SneakyThrows
     @Timed("shepard")
     public String registerSheep(String name) {
-        SheepRegistrationResponse response = new RestTemplate()
-            .getForObject("http://localhost:9999/api/register-sheep", SheepRegistrationResponse.class);
+        Thread.sleep(1000);
+//        SheepRegistrationResponse response = new RestTemplate()
+//            .getForObject("http://localhost:9999/api/register-sheep", SheepRegistrationResponse.class);
 
         // or, using Feign client
         // SheepRegistrationResponse response = client.registerSheep();
-        return response.getSn();
+        return UUID.randomUUID().toString();
     }
 }
 
