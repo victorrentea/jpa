@@ -51,9 +51,11 @@ public class JpaApplication {
 //		mergePlayground.printFinalData();
 
 //		log.debug("Uploading file...");
-//		lobPlayground.uploadLargeClob();
+//		var uploadId = lobPlayground.uploadLargeClob();
 //		log.debug("Downloading file...");
-//		lobPlayground.downloadLargeClob();
+//		lobPlayground.downloadLargeClob(uploadId);
+//		log.debug("Accessing Teacher Details file...");
+//		lobPlayground.getTeacherAutoLoadsTheClob();
 
 		log.debug(">>>>>>>>>> Playground Finished <<<<<<<<<<<<");
 

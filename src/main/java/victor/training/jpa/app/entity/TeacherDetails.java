@@ -18,7 +18,7 @@ public class TeacherDetails {
 	private Long id;
 	
 	@Lob
-	@Basic(fetch = FetchType.LAZY)
+	@Basic(fetch = FetchType.LAZY) // DOES NOT work anymore with spring boot
 	private String cv;
 
 }
