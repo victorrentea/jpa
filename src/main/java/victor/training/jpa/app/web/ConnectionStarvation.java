@@ -3,6 +3,7 @@ package victor.training.jpa.app.web;
 import io.micrometer.core.annotation.Timed;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,6 +21,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -29,10 +31,7 @@ class SheepController {
     private final SheepService service;
 
     @GetMapping("create")
-    public Long createSheep(@RequestParam(required = false) String name) {
-        if (name == null) {
-            name = "Bisisica " + LocalDateTime.now();
-        }
+    public Long createSheep(@RequestParam(defaultValue = "Bisisica") String name) {
         log.debug("create " + name);
         return service.create(name);
     }
@@ -61,21 +60,21 @@ class SheepService {
         return repo.getByNameLike(name);
     }
 }
-@Slf4j
+
 @Service
-@RequiredArgsConstructor
 class ShepardService {
+    @SneakyThrows
     @Timed("shepard")
     public String registerSheep(String name) {
-        SheepRegistrationResponse response = new RestTemplate()
-            .getForObject("http://localhost:9999/api/register-sheep", SheepRegistrationResponse.class);
+//        SheepRegistrationResponse response = new RestTemplate()
+//            .getForObject("http://localhost:9999/api/register-sheep", SheepRegistrationResponse.class);
+//        return response.getSn();
 
-        // or, using Feign client
-        // SheepRegistrationResponse response = client.registerSheep();
-        return response.getSn();
+        //faking a network call that takes 1 second.
+        Thread.sleep(1000);
+        return UUID.randomUUID().toString();
     }
 }
-
 
 @Data
 class SheepRegistrationResponse {
@@ -102,19 +101,4 @@ class Sheep {
         this.name = name;
         this.sn = sn;
     }
-}
-
-//@Configuration //TODO uncomment me
-class SomeConfig {
-    @Bean
-    public ThreadPoolTaskExecutor shepardPool() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(20);
-        executor.setMaxPoolSize(20);
-        executor.setQueueCapacity(500);
-        executor.setThreadNamePrefix("shepard-");
-        executor.initialize();
-        return executor;
-    }
-
 }

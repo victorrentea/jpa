@@ -12,7 +12,6 @@ import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static java.lang.System.currentTimeMillis;
@@ -39,7 +38,7 @@ public class MassInsertTest {
   }
 
   @Test
-  public void assignIdentifiers() {
+  public void importData() {
     long t0 = currentTimeMillis();
     for (int page = 0; page < 20; page++) {
       TestTransaction.start();
