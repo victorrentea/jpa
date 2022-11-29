@@ -16,6 +16,7 @@ public interface ParentRepo extends JpaRepository<Parent, Long> {
   @Query("FROM Parent p") // LEFT JOIN FETCH p.children2 dangerous => cartesian explosion (too many rows)
   Page<Parent> findAllWithChildren(Pageable pageable);
 
+
   @Query("SELECT p FROM Parent p")
   @EntityGraph("Parent.withChildrenNames")
   List<Parent> findParentsByGraph();
