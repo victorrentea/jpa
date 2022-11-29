@@ -24,6 +24,9 @@ public class IDDocument {
 //    @GeneratedValue(generator = "MySeqGen") // if you do not specify a generator, it will fetch one ID at a time
 //    private Long id;
 
+    // alternative way to identify the row (UQ)
+//    private String externalUUID;
+
     @Id
     @GeneratedValue(generator = "uuid")
     private String id;//  = UUID.randomUUID().toString();
