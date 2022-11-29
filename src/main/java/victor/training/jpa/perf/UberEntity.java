@@ -28,7 +28,7 @@ public class UberEntity {
 
     @ManyToOne
     private Country nationality;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Country fiscalCountry;
     @ManyToOne
     private Country invoicingCountry;
@@ -149,7 +149,7 @@ class Country {
     private int population;
 //    @ManyToOne
 //    private Continent continent;
-    private Country() {
+    protected Country() {
     }
     public Country(Long id, String name) {
         this.id = id;

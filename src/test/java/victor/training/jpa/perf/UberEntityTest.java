@@ -27,6 +27,7 @@ public class UberEntityTest {
     private EntityManager em;
 
     private final Country romania = new Country(1L, "Romania");
+    private final Country serbia = new Country(10L, "Serbia");
     private final User testUser = new User(1L,"test");
     private final Scope globalScope = new Scope(1L,"Global");
     private UberEntity uber;
@@ -34,6 +35,7 @@ public class UberEntityTest {
     @BeforeEach
     final void before() {
         em.persist(romania);
+        em.persist(serbia);
         em.persist(testUser);
         em.persist(globalScope);
 
@@ -41,7 +43,7 @@ public class UberEntityTest {
         uber = new UberEntity()
                 .setFirstName("John")
                 .setLastName("DOE")
-                .setFiscalCountry(romania)
+                .setFiscalCountry(serbia)
                 .setOriginCountryId(romania.getId())
                 .setInvoicingCountry(romania)
                 .setCreatedBy(testUser)
@@ -63,6 +65,8 @@ public class UberEntityTest {
         // (eg @ManyToOne Country country;) ->
         // JPA will pre-load all those links with JOINs in case you do a findById
         System.out.println(uberEntity.getStatus());
+        System.out.println("id:" + uberEntity.getFiscalCountry().getId());
+        System.out.println("name:" + uberEntity.getFiscalCountry().getName());
     }
     @Test
     public void query() {
