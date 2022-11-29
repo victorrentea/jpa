@@ -11,6 +11,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -44,10 +45,16 @@ public class MassInsertTest {
     for (int page = 0; page < 20; page++) {
       TestTransaction.start();
       log.debug("--- PAGE " + page);
-      for (int i = 0; i < 100; i++) {
+      for (int i = 0; i < 10; i++) {
         IDDocument document = new IDDocument();
         Long docTypeId = docTypeIds.get(i % docTypeIds.size());
-        document.setType(documentTypeRepo.findById(docTypeId).orElseThrow());
+        // read from some file
+
+        IDDocumentType documentTypeProxy = documentTypeRepo.getOne(docTypeId);
+        // trusts us to KNOW the correct ID to bind to
+        // getOne is used to get a placeholder to put in a @ManyToOne field at insert w/o a SELECT
+
+        document.setType(documentTypeProxy);
         documentRepo.save(document);
       }
       TestTransaction.end(); // flush and close the Persistence Context
@@ -55,9 +62,14 @@ public class MassInsertTest {
     long t1 = currentTimeMillis();
     log.debug("Took {} ms (naive)", t1 - t0);
 
-    // TODO FK to doctype
+    // TODO FK to doctype - getOne
     // TODO docTypeId = docTypeRepo.findByName(""): preload a Map<String, Long> docTypeNameToId
     // TODO batching inserts
     // TODO identifiers: Sequence size (@see gaps!), IDENTITY, UUID
   }
 }
+// I am using a super-fast in memory database running on MY MACHINE = 0 network latency. (toxiproxy)
+
+    // all of the above is just playing around: exploring. if you want aproduction-ready solution for inserting huge data,
+    // please 🙏 spend those 2 months to learn and then use Spring Batch:
+    // reporting failed rows, resume, retry, cleanup if failed, parallelize, chunk-based processing
