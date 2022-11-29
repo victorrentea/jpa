@@ -44,6 +44,12 @@ public class MassInsertTest {
 
   @Test
   public void assignIdentifiers() {
+    // scan the dataset twice;
+    // 1st pass: collect all documentTypeNames
+    //    Map<String, Long>
+
+    // 2nd pass: the below with the map
+
 //    Map<String, Long> docTypeLabelToId = documentTypeRepo.findAll().stream().collect(toMap(IDDocumentType::getLabel, IDDocumentType::getId));
     long t0 = currentTimeMillis();
     for (int page = 0; page < 20; page++) {
