@@ -14,7 +14,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
-@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+//@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class IDDocumentType {
   @Id
   @GeneratedValue
