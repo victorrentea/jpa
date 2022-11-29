@@ -136,7 +136,7 @@ public @interface CaptureSystemOutput {
      *
      * <p>To obtain an instance of {@code OutputCapture}, declare a parameter of type
      * {@code OutputCapture} in a JUnit Jupiter {@code @Test}, {@code @BeforeEach},
-     * or {@code @AfterEach} method.
+     * or {@code @AfterEach} criticalPart.
      *
      * <p>{@linkplain #expect Expectations} are supported via Hamcrest matchers.
      *
@@ -184,7 +184,7 @@ public @interface CaptureSystemOutput {
         /**
          * Verify that the captured output is matched by the supplied {@code matcher}.
          *
-         * <p>Verification is performed after the test method has executed.
+         * <p>Verification is performed after the test criticalPart has executed.
          *
          * @param matcher the matcher
          */

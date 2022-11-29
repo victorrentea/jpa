@@ -71,9 +71,9 @@ public class TheFacade {
 //        subject.setName(subjectDto.getName())
 //                .setHolderTeacher(new Teacher().setId(subjectDto.getHolderTeacherId()));
 //        // TODO 1 subjectRepo.save, OR (exclusive):
-//        // TODO 2 @Transactional on the method ==> "Auto-Flush" dirty Entities at Tx COMMIT, after "Exit method". >> remove repo.save!
+//        // TODO 2 @Transactional on the criticalPart ==> "Auto-Flush" dirty Entities at Tx COMMIT, after "Exit criticalPart". >> remove repo.save!
 //        // TODO experiment @Transactional(readonly=true)
-//        System.out.println("Exit method");
+//        System.out.println("Exit criticalPart");
 //    }
 
     public long addLabToSubject(long subjectId, TimeSlotDto timeSlotDto) {

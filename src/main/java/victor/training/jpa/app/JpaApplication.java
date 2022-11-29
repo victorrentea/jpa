@@ -15,7 +15,7 @@ import victor.training.jpa.app.util.TestDBConnectionAndDropAllInitializer;
 import java.io.IOException;
 import java.sql.SQLException;
 
-//@EnableTransactionManagement//(mode = AdviceMode.ASPECTJ) // enables @Transactional to work for local method call (not a good idea!)
+//@EnableTransactionManagement//(mode = AdviceMode.ASPECTJ) // enables @Transactional to work for local criticalPart call (not a good idea!)
 // -javaagent:spring-instrument.jar -javaagent:aspectjweaver.jar
 //@EnableLoadTimeWeaving(aspectjWeaving= EnableLoadTimeWeaving.AspectJWeaving.ENABLED)
 

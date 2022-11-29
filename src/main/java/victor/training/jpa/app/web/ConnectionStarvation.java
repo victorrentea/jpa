@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +20,6 @@ import victor.training.jpa.app.repo.ErrorLogRepo;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -60,24 +58,38 @@ class SheepService {
     private final ErrorLogRepo errorLogRepo;
     private final ShepardClient shepard;
 
-    @Transactional // not really needed since .save() is @Transactional itself
+//    @Transactional // not really needed since .save() is @Transactional itself
     public Long create(String name) {
 
         System.out.println("get stuff from DB, to send in REST call: " + errorLogRepo.count());
 
         String sn = shepard.registerSheep(name); // Takes 1 second (HTTP call) 0-> (1) should not be part of a tx
 
-        Sheep sheep = repo.save(new Sheep(name, sn));
-        errorLogRepo.save(new ErrorLog("Audit: Sheep created " + sn));
-
+        Sheep sheep = new Sheep(name, sn);
+        ErrorLog errorLog = new ErrorLog("Audit: Sheep created " + sn);
+        sheep = anoth.criticalPart(sheep, errorLog);
         return sheep.getId();
     }
 
     public List<Sheep> search(String name) {
         return repo.getByNameLike(name);
     }
+    private final Anoth anoth;
 }
 
+@Slf4j
+@RequiredArgsConstructor
+@Service
+class Anoth {
+    private final SheepRepo repo;
+    private final ErrorLogRepo errorLogRepo;
+
+    @Transactional
+    public Sheep criticalPart(Sheep sheep, ErrorLog errorLog) {
+        errorLogRepo.save(errorLog);
+        return repo.save(sheep);
+    }
+}
 
 @Slf4j
 @Service
