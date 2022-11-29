@@ -53,12 +53,14 @@ public class MergePlayground {
       // ------- enter the browser ------- JavaScript:
       log.debug("Client1 receives JSON from BE: " + jackson.writeValueAsString(copyInClient));
       copyInClient.setMessage("User1 changed the message");
+      copyInClient.getComments().get(0).setText("Comment changed");
+      copyInClient.getComments().remove(1);
       copyInClient.getComments().add(new ErrorComment("One More"));
       // TODO change fields
       // TODO add a comment + merge parent ==> cascade
       // TODO remove a comment (private child) ==> orphanRemoval
       // TODO link to +1 / other ErrorTag
-      log.debug("Client1 clicks the 'save' button in the edit screen JS -> sends back to the backend updated JSON: " + jackson.writeValueAsString(copyInClient));
+      log.debug("Client1 clicks the 'save' button updated JSON: " + jackson.writeValueAsString(copyInClient));
       // -------- leave the browser ---------
       errorLogRepo.save(copyInClient); // inside, EntityManager#merge is called
    }

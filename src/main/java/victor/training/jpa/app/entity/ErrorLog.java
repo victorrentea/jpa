@@ -24,7 +24,9 @@ public class ErrorLog {
 
    // TODO cascade
    // TODO preserve order (!it matters)
-   @OneToMany(cascade = ALL)
+   @OneToMany(cascade = ALL, orphanRemoval = true)
+   // cascade=MERGE would implement UPDATE, INSERT, and UNLINK a new child
+   // orphanRemoval=true makes the child be DELETED when unlinked from a parent
    @JoinColumn(name = "ERROR_LOG_ID")
    private List<ErrorComment> comments = new ArrayList<>();
 
