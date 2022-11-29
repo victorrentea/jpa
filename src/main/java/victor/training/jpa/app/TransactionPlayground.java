@@ -11,6 +11,7 @@ import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.persistence.EntityManager;
+import java.sql.Connection;
 
 @Slf4j
 @Service
@@ -41,14 +42,13 @@ public class TransactionPlayground {
 
         // autoflushing
         // != commit (the data is not yet commited)
-        if (true) throw new RuntimeException("Rollback of data that was INSERTED in the current connection");
+//        if (true) throw new RuntimeException("Rollback of data that was INSERTED in the current connection");
 
         log.debug("Function End");
         // Why are my inserts sent to DB after the method end ? = write behind
         // 1) to enable hibernate to batch your inserts together
         // 2) Faster if an ex happens before the tx end, then the INSERT was never even sent to DB over network
 
-        //
     }
 
     private void bizLogic() {
@@ -60,9 +60,12 @@ public class TransactionPlayground {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void secondTransaction() {
         log.debug("Halo2!");
-        repo.save(new ErrorLog(null));
-
-        System.out.println(teacherRepo.findAll());
+        ErrorLog errorLog = repo.findById(1L).orElseThrow();
+        ErrorLog errorLog1 = repo.findById(1L).orElseThrow();
+        ErrorLog errorLog2 = repo.findById(1L).orElseThrow();
+        errorLog.setMessage("dirty entities are auto-flushed at the end of tX");
+//        repo.save(errorLog);
+        // Arch decision: do we want this feature or not ?
     }
 }
 
