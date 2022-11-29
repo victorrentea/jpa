@@ -35,11 +35,11 @@ public class JpaApplication {
 	@EventListener
 	public void onApplicationEvent(ContextRefreshedEvent event) throws IOException, SQLException {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
-//		log.debug(" ========= FIRST TRANSACTION ========== ");
-//		transactionPlayground.firstTransaction();
-//		log.debug(" ========= SECOND TRANSACTION ========== ");
-//		transactionPlayground.secondTransaction();
-//		log.debug(" ========= END ========== ");
+		log.debug(" ========= FIRST TRANSACTION ========== ");
+		transactionPlayground.firstTransaction();
+		log.debug(" ========= SECOND TRANSACTION ========== ");
+		transactionPlayground.secondTransaction();
+		log.debug(" ========= END ========== ");
 
 //		log.debug("==== Merge:Persist init ====");
 //		mergePlayground.persistInitialData();
