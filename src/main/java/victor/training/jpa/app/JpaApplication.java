@@ -38,21 +38,21 @@ public class JpaApplication {
 
 	@EventListener
 	public void onApplicationEvent(ContextRefreshedEvent event) throws IOException, SQLException {
-		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
-		log.debug(" ========= FIRST TRANSACTION ========== ");
-		transactionPlayground.firstTransaction();
-		log.debug(" ========= SECOND TRANSACTION ========== ");
-		transactionPlayground.secondTransaction();
-		log.debug(" ========= END ========== ");
+//		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
+//		log.debug(" ========= FIRST TRANSACTION ========== ");
+//		transactionPlayground.firstTransaction();
+//		log.debug(" ========= SECOND TRANSACTION ========== ");
+//		transactionPlayground.secondTransaction();
+//		log.debug(" ========= END ========== ");
 
-//		log.debug("==== Merge:Persist init ====");
-//		mergePlayground.persistInitialData();
-//		log.debug("==== Merge:READ (user clicked open edit screen) ====");
-//		String dataFromServer = mergePlayground.readFromBackend("client1");
-//		log.debug("==== Merge:WRITE1 (user clicked SAVE in edit screen ====");
-//		mergePlayground.client1(dataFromServer);
-//		log.debug("==== Merge:final data in DB ====");
-//		mergePlayground.printFinalData();
+		log.debug("==== Merge:Persist init ====");
+		mergePlayground.persistInitialData();
+		log.debug("==== Merge:READ (user clicked open edit screen) ====");
+		String dataFromServer = mergePlayground.readFromBackend("user1Browser");
+		log.debug("==== Merge:WRITE1 (user clicked SAVE in edit screen ====");
+		mergePlayground.user1Browser(dataFromServer);
+		log.debug("==== Merge:final data in DB ====");
+		mergePlayground.printFinalData();
 
 //		log.debug("Uploading file...");
 //		var uploadId = lobPlayground.uploadLargeClob();

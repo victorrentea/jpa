@@ -24,7 +24,7 @@ public class ErrorLog {
 
    // TODO cascade
    // TODO preserve order (!it matters)
-   @OneToMany
+   @OneToMany(cascade = ALL)
    @JoinColumn(name = "ERROR_LOG_ID")
    private List<ErrorComment> comments = new ArrayList<>();
 

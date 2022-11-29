@@ -48,18 +48,19 @@ public class MergePlayground {
    }
 
    @Transactional
-   public void client1(String jsonReceivedFromServer) throws JsonProcessingException {
+   public void user1Browser(String jsonReceivedFromServer) throws JsonProcessingException {
       ErrorLog copyInClient = jackson.readValue(jsonReceivedFromServer, ErrorLog.class);
-      // ------- enter the browser -------
+      // ------- enter the browser ------- JavaScript:
       log.debug("Client1 receives JSON from BE: " + jackson.writeValueAsString(copyInClient));
-      copyInClient.setMessage("Client1 changed");
+      copyInClient.setMessage("User1 changed the message");
+      copyInClient.getComments().add(new ErrorComment("One More"));
       // TODO change fields
       // TODO add a comment + merge parent ==> cascade
       // TODO remove a comment (private child) ==> orphanRemoval
       // TODO link to +1 / other ErrorTag
-      log.debug("Client1 sends back updated JSON: " + jackson.writeValueAsString(copyInClient));
+      log.debug("Client1 clicks the 'save' button in the edit screen JS -> sends back to the backend updated JSON: " + jackson.writeValueAsString(copyInClient));
       // -------- leave the browser ---------
-      errorLogRepo.save(copyInClient);
+      errorLogRepo.save(copyInClient); // inside, EntityManager#merge is called
    }
    // TODO concurrent access:
    //    1)  add @Version for optimistic locking
@@ -72,3 +73,19 @@ public class MergePlayground {
       log.debug(errorLog.toString());
    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
