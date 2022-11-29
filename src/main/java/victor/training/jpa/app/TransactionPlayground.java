@@ -19,13 +19,14 @@ public class TransactionPlayground {
     private final EntityManager em;
     private final TeacherRepo teacherRepo;
     private final ErrorLogRepo repo;
+    private final OtherService other;
 
     @Transactional
     public void firstTransaction() {
         log.debug("Function Begin");
 
         repo.save(new ErrorLog("Halo!"));
-        repo.save(new ErrorLog("Two"));
+        localMethod();
 
         log.debug("Function End");
         // Why are my inserts sent to DB after the method end ?
@@ -33,9 +34,30 @@ public class TransactionPlayground {
         // 2) Faster if an ex happens before the tx end, then the INSERT was never even sent to DB over network
     }
 
+    private void localMethod() {
+        // transaction opened on :24 propagates here magically via the thread.?!?!? huh?
+        repo.save(new ErrorLog(null));
+    }
+
+
+
+
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void secondTransaction() {
         log.debug("Halo2!");
+        repo.save(new ErrorLog(null));
+
         System.out.println(teacherRepo.findAll());
+    }
+}
+
+@Slf4j
+@RequiredArgsConstructor
+@Service
+class OtherService {
+    private ErrorLogRepo errorLogRepo;
+
+    public void method() {
+
     }
 }
