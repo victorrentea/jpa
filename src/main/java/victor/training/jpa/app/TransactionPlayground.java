@@ -34,10 +34,20 @@ public class TransactionPlayground {
             throw e;
         }
 
+        System.out.println("How many rows are in db?"  + repo.count()); // if hibernate has to RUN and SELECT in DB while there are changes to flush to db,
+        // it will first auto-flush them before the select. WHY?
+        // If it didn't do that, the results of the query would LIE to you. you would not see what you (thought) you inserted before
+
+        // autoflushing
+        // != commit (the data is not yet commited)
+        if (true) throw new RuntimeException("Rollback of data that was INSERTED in the current connection");
+
         log.debug("Function End");
-        // Why are my inserts sent to DB after the method end ?
+        // Why are my inserts sent to DB after the method end ? = write behind
         // 1) to enable hibernate to batch your inserts together
         // 2) Faster if an ex happens before the tx end, then the INSERT was never even sent to DB over network
+
+        //
     }
 
     private void bizLogic() {
