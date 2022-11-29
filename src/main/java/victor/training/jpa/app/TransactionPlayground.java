@@ -24,10 +24,13 @@ public class TransactionPlayground {
     public void firstTransaction() {
         log.debug("Function Begin");
 
-        repo.saveAndFlush(new ErrorLog("Halo!"));
-        repo.saveAndFlush(new ErrorLog(null));
+        repo.save(new ErrorLog("Halo!"));
+        repo.save(new ErrorLog("Two"));
 
         log.debug("Function End");
+        // Why are my inserts sent to DB after the method end ?
+        // 1) to enable hibernate to batch your inserts together
+        // 2) Faster if an ex happens before the tx end, then the INSERT was never even sent to DB over network
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
