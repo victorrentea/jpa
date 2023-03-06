@@ -52,6 +52,8 @@
       <version>2.11.0</version>
     </dependency>
     <dependency>
+      <!-- this rocks !! it is a JDBC driver proxy that receives all the SQLs your app send the the DB,
+      logs them and then forwards them to the correct driver -->
       <groupId>p6spy</groupId>
       <artifactId>p6spy</artifactId>
       <version>3.9.1</version>
