@@ -14,6 +14,9 @@ import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
 import java.io.IOException;
+import java.lang.annotation.ElementType;
+import java.util.HashSet;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -49,10 +52,16 @@ public class TransactionPlayground {
 
     @Transactional
     public void jpa1() {
+//        ErrorLog e = errorLogFactory.newStuff(); //returnin an entity with and @Id already assigned
         ErrorLog e = new ErrorLog("ONE");
-        System.out.println("Entity before: " + e);
+        Set<ErrorLog> set = new HashSet<>();  set.add(e) ;
+        // O(1) because it is put in the bucket corresponding to its #hashCode
+
+        System.out.println("Entity before: " + e + " has hash = " + e.hashCode());
         errorLogRepo.save(e);
-        System.out.println("Entity after: " + e);
+        System.out.println("Entity after: " + e + " has hash = " + e.hashCode());
+        // =>
+
         errorLogRepo.save(new ErrorLog("TWO")); // hashCode equals on @Entity, why @Data is a bad idea on @Entity
 
         // any JQPL or native query hibernate has to run on the DB it will first flush the
@@ -77,6 +86,7 @@ public class TransactionPlayground {
     public void toUseOrNotToUseAutoFlushing() {
         ErrorLog errorLog = errorLogRepo.findById(1L).orElseThrow();
         errorLog.setMessage("Dirty Changed Entity in a @Transactional method gets flushed update to DB at the end of the tx");
+//        errorLogRepo.save(errorLog); // useless and in practice even bad for performance -> cause +1 SELECT
     }
     // ---- @Transactional
     public void manualSave() {

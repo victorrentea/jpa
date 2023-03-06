@@ -3,6 +3,7 @@ package victor.training.jpa.app;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.hibernate.engine.jdbc.ClobProxy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.Teacher;
@@ -11,6 +12,7 @@ import victor.training.jpa.app.repo.TeacherDetailsRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
 import java.io.*;
+import java.sql.Clob;
 import java.sql.SQLException;
 
 @Component
@@ -30,6 +32,7 @@ public class LobPlayground {
       FileReader fileReader = new FileReader(file);
 //      Clob clob = ClobProxy.generateProxy(fileReader, file.length());
       String allContents = IOUtils.toString(fileReader);
+//      file.delete();
       TeacherDetails details = new TeacherDetails().setCv(allContents);
       teacherId = teacherRepo.save(new Teacher().setDetails(details)).getId();
       return repo.save(details).getId();
