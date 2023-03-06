@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.CourseActivity;
 import victor.training.jpa.app.entity.Teacher;
@@ -19,6 +22,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.data.domain.Sort.Direction.ASC;
 
 @Transactional
 @SpringBootTest
@@ -90,6 +94,21 @@ abstract class AbstractSearchTestBase {
       entityManager.persist(course);
       assertThat(search()).hasSize(1);
    }
+
+   @Order(4)
+   @Test
+   void pagination() {
+      Teacher tc = teacher.setName("C");
+      Teacher ta = teacherRepo.save(new Teacher().setName("A"));
+      Teacher tb = teacherRepo.save(new Teacher().setName("B"));
+
+      criteria.orderBy = "name";
+      criteria.pageSize = 2;
+      criteria.pageIndex = 0;
+
+      assertThat(search()).hasSize(2);
+      assertThat(search()).map(Teacher::getId).containsExactly(ta.getId(), tb.getId());
+   }
 }
 
 class JpqlConcat extends AbstractSearchTestBase {
@@ -106,7 +125,8 @@ class CriteriaAPI extends AbstractSearchTestBase {
 
 class Specification extends AbstractSearchTestBase {
    protected List<Teacher> search() {
-      return searchRepo.specifications(criteria);
+      Pageable pageRequest = PageRequest.of(criteria.pageIndex, criteria.pageSize, Sort.by(criteria.orderBy));
+      return searchRepo.specifications(criteria, pageRequest);
    }
 }
 
@@ -118,13 +138,16 @@ class QueryDSL extends AbstractSearchTestBase {
 
 class FixedJpql extends AbstractSearchTestBase {
    protected List<Teacher> search() {
-      return teacherRepo.searchFixedJqpl(criteria.name, criteria.grade, criteria.teachingCourses);
+      Pageable pageRequest = PageRequest.of(criteria.pageIndex, criteria.pageSize, Sort.by(criteria.orderBy));
+      return teacherRepo.searchFixedJqpl(criteria.name, criteria.grade, criteria.teachingCourses, pageRequest)
+              .getContent();
    }
 }
 
 class FixedJpqlSpel extends AbstractSearchTestBase {
    protected List<Teacher> search() {
-      return teacherRepo.searchFixedJqplSpel(criteria);
+      Pageable pageRequest = PageRequest.of(criteria.pageIndex, criteria.pageSize, Sort.by(criteria.orderBy));
+      return teacherRepo.searchFixedJqplSpel(criteria, pageRequest).getContent();
    }
 }
 

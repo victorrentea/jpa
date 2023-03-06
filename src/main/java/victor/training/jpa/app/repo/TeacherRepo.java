@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
@@ -12,6 +14,7 @@ import org.springframework.lang.Nullable;
 import victor.training.jpa.app.common.CustomJpaRepository;
 import victor.training.jpa.app.entity.Subject;
 import victor.training.jpa.app.entity.Teacher;
+import victor.training.jpa.app.entity.Teacher.Grade;
 import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
 
 public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, JpaSpecificationExecutor<Teacher> {
@@ -37,11 +40,11 @@ public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, JpaSpec
 		   "AND (:grade is null OR t.grade = :grade)" +
 		   "AND (cast(:teachingCourses as int) = 0 OR " +
 		   "		EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id) )")
-	List<Teacher> searchFixedJqpl(@Nullable String name, @Nullable Teacher.Grade grade, boolean teachingCourses);
+	Page<Teacher> searchFixedJqpl(@Nullable String name, @Nullable Grade grade, boolean teachingCourses, Pageable pageRequest);
 
 	@Query("SELECT t FROM Teacher t " +
 		   "WHERE (:#{#criteria.name} is null OR UPPER(t.name) LIKE UPPER('%' || :#{#criteria.name} || '%'))" +
 		   "AND (:#{#criteria.grade} is null OR t.grade = :#{#criteria.grade})" +
 		   "AND (cast(:#{#criteria.teachingCourses} as int) = 0 OR EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id) )")
-	List<Teacher> searchFixedJqplSpel(TeacherSearchCriteria criteria);
+	Page<Teacher> searchFixedJqplSpel(TeacherSearchCriteria criteria, Pageable pageRequest);
 }
