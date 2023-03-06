@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.CourseActivity;
 import victor.training.jpa.app.entity.Teacher;
@@ -22,11 +23,11 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.data.domain.Sort.Direction.ASC;
 
 @Transactional
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
+@ActiveProfiles("test")
 abstract class AbstractSearchTestBase {
 
    @Autowired
@@ -46,7 +47,7 @@ abstract class AbstractSearchTestBase {
 
    @Order(1)
    @Test
-   void byName() {
+   void byNameLike() {
       teacher.setName("John");
 
       assertThat(search()).hasSize(1);
@@ -83,7 +84,7 @@ abstract class AbstractSearchTestBase {
 
    @Order(3)
    @Test
-   void teachingCourses() {
+   void teachingCoursesSubquery() {
       assertThat(search()).hasSize(1);
 
       criteria.teachingCourses = true;

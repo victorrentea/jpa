@@ -2,12 +2,16 @@ package victor.training.jpa.app.facade;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 import victor.training.jpa.app.entity.*;
 import victor.training.jpa.app.facade.dto.*;
 import victor.training.jpa.app.repo.LabRepo;
+import victor.training.jpa.app.repo.StudentsYearRepo;
 import victor.training.jpa.app.repo.SubjectRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
@@ -20,14 +24,15 @@ import java.util.Set;
 import static java.util.stream.Collectors.toList;
 
 @Slf4j
-@Service
+@RestController
 @RequiredArgsConstructor
 public class TheFacade {
     private final EntityManager em;
-    private final AnotherService anotherService;
     private final TeacherRepo teacherRepo;
     private final SubjectRepo subjectRepo;
     private final LabRepo labRepo;
+    private final StudentsYearRepo yearRepo;
+
 
 
     // TODO when are IDs assigned ?
@@ -64,7 +69,6 @@ public class TheFacade {
     }
 
     public void updateSubject(SubjectDto subjectDto) {
-        anotherService.checkPermissionsOnSubject(subjectDto.getId());
         Subject subject = subjectRepo.findOneById(subjectDto.getId());
         subject.setName(subjectDto.getName())
                 .setHolderTeacher(new Teacher().setId(subjectDto.getHolderTeacherId()));
@@ -74,7 +78,8 @@ public class TheFacade {
         System.out.println("Exit method");
     }
 
-    public long addLabToSubject(long subjectId, TimeSlotDto timeSlotDto) {
+    @PostMapping("api/labs")
+    public long addLab(@RequestParam long subjectId, @RequestBody TimeSlotDto timeSlotDto) {
         LabActivity lab = new LabActivity();
 
         // TODO Refactor: introduce @Embeddable in the TeachingActivity
@@ -98,13 +103,15 @@ public class TheFacade {
         return new SubjectWithActivitiesDto(subject);
     }
 
-    public void assignTeacherToLab(long teacherId, long labId) {
+    @PutMapping("api/labs/{labId}/teacher")
+    public void assignLabTeacher(@PathVariable long labId, @RequestBody Long teacherId) {
         LabActivity lab = labRepo.findOneById(labId);
         Teacher teacher = teacherRepo.findOneById(teacherId);
         teacher.getActivities().add(lab);
         // TODO Remember to update OWNER side (not mappedBy side) of a relation!
     }
 
+    @GetMapping("api/labs")
     @Transactional // for lazy load... (guilty)
     public List<LabDto> getAllLabs() {
         return labRepo.findAll().stream().map(LabDto::new).collect(toList());
@@ -125,10 +132,10 @@ public class TheFacade {
     // =============== MERGE start ===============
 
 
-
     // TODO read:
+    @PutMapping("/api/year/{yearId}")
+    public void updateYearWithGroups(@PathVariable long yearId, @RequestBody YearWithGroupsDto yearDto) {
 
-    public void updateYearWithGroups_cascadingMerge(long yearId, YearWithGroupsDto yearDto) {
         // to work, year should cascade to group
         StudentsYear year = new StudentsYear();
         year.setCode(yearDto.code);
@@ -185,7 +192,6 @@ public class TheFacade {
 
     // TODO [HARD-CORE]
     public SubjectDto openUpdate(long subjectId) {
-        anotherService.checkPermissionsOnSubject(subjectId);
         Subject subject = em.find(Subject.class, subjectId); // SELECT FOR UPDATE
 
         // TODO insert a line into a new entity SubjectLock storing the user id acquiring the edit lock + an expiration time = now+30 minutes
@@ -197,7 +203,24 @@ public class TheFacade {
         return new SubjectDto(subject);
     }
 
-    public void removeTeacherFromLab(long teacherId, long labId) {
+    @DeleteMapping("api/labs/{labId}/teacher")
+    public void removeTeacherFromLab(@PathVariable long labId, @RequestBody Long teacherId) {
         // TODO
+    }
+    @DeleteMapping("api/labs/{labId}")
+    public void deleteLab(@PathVariable long labId) {
+        labRepo.deleteById(labId);
+    }
+    @GetMapping("/api/year/{yearId}")
+    public YearWithGroupsDto getYearWithGroups(@PathVariable long yearId) {
+        return new YearWithGroupsDto(yearRepo.findOneById(yearId));
+    }
+
+
+    @PostMapping("/api/teachers/search")
+    public Page<TeacherSearchResult> search(@RequestBody TeacherSearchCriteria criteria) {
+        Pageable pageRequest = PageRequest.of(criteria.pageIndex, criteria.pageSize, Sort.by(criteria.orderBy));
+        return teacherRepo.searchFixedJqplSpel(criteria, pageRequest)
+                .map(TeacherSearchResult::new);
     }
 }

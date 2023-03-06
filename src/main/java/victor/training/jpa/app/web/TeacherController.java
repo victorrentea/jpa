@@ -64,12 +64,4 @@ public class TeacherController {
 		System.out.println("Teacher: " + teacherRepo.findByName("Test"));
 	}
 
-	@PostMapping("search")
-	public List<Teacher> search(@RequestBody TeacherSearchCriteria criteria) {
-		PageRequest pageRequest = PageRequest.of(0, 10, ASC, "name");
-		return teacherSearchRepo.specifications(criteria, pageRequest);
-	}
-
-	private final TeacherSearchRepo teacherSearchRepo;
-	
 }

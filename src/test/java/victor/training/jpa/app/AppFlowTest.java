@@ -112,7 +112,7 @@ public class AppFlowTest {
     @Test
     void addLabToSubject_isPersisted() {
         TimeSlotDto timeSlotDto = new TimeSlotDto(DayOfWeek.MONDAY, 9, 2, "EC105");
-        labId = facade.addLabToSubject(subjectId, timeSlotDto);
+        labId = facade.addLab(subjectId, timeSlotDto);
 
         SubjectWithActivitiesDto dto = facade.getSubjectWithActivities(subjectId);
         assertThat(dto.getActivities()).isNotEmpty();
@@ -148,7 +148,7 @@ public class AppFlowTest {
     @Order(80)
     @Test
     void assignTeacherToLab_assignTheOwnerSide() {
-        facade.assignTeacherToLab(teacherId, labId);
+        facade.assignLabTeacher(labId, teacherId);
 
         assertThat(facade.getAllLabs()).hasSize(1);
         assertThat(facade.getAllLabs().get(0).getTeacherNames()).hasSize(1);
