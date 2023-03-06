@@ -44,7 +44,7 @@ public class TransactionPlayground {
 class OtherClass {
     private final ErrorLogRepo errorLogRepo;
     private final TeacherRepo teacherRepo;
-    @Transactional // but this one DOES -> it marks the transaction for roolback only =true (aka ZOMBIE transaction)
+//    @Transactional // but this one DOES -> it marks the transaction for roolback only =true (aka ZOMBIE transaction)
     public void otherMethod() {
         teacherRepo.nativeInsert(1L); // this was inserted in the DB alone
         teacherRepo.nativeInsert(2L); // failed
