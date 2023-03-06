@@ -37,6 +37,7 @@ public class JpaApplication {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
 		log.debug(" ========= FIRST TRANSACTION ========== ");
 		transactionPlayground.firstTransaction();
+//		transactionPlayground.otherMethod();
 		log.debug(" ========= SECOND TRANSACTION ========== ");
 		transactionPlayground.secondTransaction();
 		log.debug(" ========= END ========== ");

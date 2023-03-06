@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.runtime.CFlow;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,23 +24,26 @@ import java.util.concurrent.CompletableFuture;
 public class TransactionPlayground {
     private final TeacherRepo teacherRepo;
     private final ErrorLogRepo repo;
+    private final OtherClass otherClass;
 
-//    @Transactional // tells spring to create a proxy(subclass) for this class and inject it anywhere it's @Autowired
+    @Transactional // tells spring to create a proxy(subclass) for this class and inject it anywhere it's @Autowired
     public void firstTransaction() {
-        log.debug("Function Begin");
+        log.debug("Function Begin talking to a proxied reference: " + otherClass.getClass());
         repo.save(new ErrorLog("Halo!") );// this is executed AFTER the method end.
-        otherMethod(); // when calling HERE the otherMethod, there is NO SPring proxy intercepting the call < because it's a local method call..
+        otherClass.otherMethod(); // when calling HERE the otherMethod, there is NO SPring proxy intercepting the call < because it's a local method call..
         log.warn("Function End");
     }
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void secondTransaction() {
+    }
+}
+@RequiredArgsConstructor
+@Component
+class OtherClass {
+    private final TeacherRepo teacherRepo;
     @Transactional
     public void otherMethod() {
         teacherRepo.nativeInsert(1L); // this was inserted in the DB alone
         teacherRepo.nativeInsert(null); // failed
-    }
-
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void secondTransaction() {
-//        log.debug("Halo2!");
-//        System.out.println(teacherRepo.findAll());
     }
 }
