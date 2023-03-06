@@ -46,14 +46,16 @@ public class TransactionPlayground {
 class OtherClass {
     private final ErrorLogRepo errorLogRepo;
     private final TeacherRepo teacherRepo;
-    @Transactional // but this one DOES -> it marks the transaction for roolback only =true (aka ZOMBIE transaction)
+    @Transactional/*(rollbackFor = Exception.class)*/ // but this one DOES -> it marks the transaction for roolback only =true (aka ZOMBIE transaction)
     public void otherMethod() throws IOException { // behold Java, the only language in the world where you need to declare every checked exception you throw.
         teacherRepo.nativeInsert(1L); // this was inserted in the DB alone
         teacherRepo.nativeInsert(2L); // failed
         throw new IOException("Oups!");
     }
+//    @TransactionAttribute(REQUIRES_NEW) // ejb . in EJB in 2005 TechnicalException < > BusinessException;
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void secondTransaction(Exception e) {
         errorLogRepo.save(new ErrorLog("Error: " + e.getMessage()));
     }
 }
+
