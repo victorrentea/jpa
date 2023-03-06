@@ -24,21 +24,17 @@ public class TransactionPlayground {
     private final TeacherRepo teacherRepo;
     private final ErrorLogRepo repo;
 
-    @Transactional // tells spring to create a proxy(subclass) for this class and inject it anywhere it's @Autowired
+//    @Transactional // tells spring to create a proxy(subclass) for this class and inject it anywhere it's @Autowired
     public void firstTransaction() {
-//        connection.setAutoCommit(false); // start a tx then later .commit / rollback
         log.debug("Function Begin");
         repo.save(new ErrorLog("Halo!") );// this is executed AFTER the method end.
-        otherMethod();
+        otherMethod(); // when calling HERE the otherMethod, there is NO SPring proxy intercepting the call < because it's a local method call..
         log.warn("Function End");
     }
-    private void otherMethod() {
-        // runs in the SAME tx started at :25 (just as save:29)
-        CompletableFuture.runAsync(() -> {
-            System.out.println("Starting the insert");
-            teacherRepo.nativeInsert(1L);
-            System.out.println("After ");
-        });
+    @Transactional
+    public void otherMethod() {
+        teacherRepo.nativeInsert(1L); // this was inserted in the DB alone
+        teacherRepo.nativeInsert(null); // failed
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
