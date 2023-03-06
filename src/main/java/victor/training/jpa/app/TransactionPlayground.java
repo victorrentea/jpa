@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.ErrorLog;
+import victor.training.jpa.app.entity.Teacher;
+import victor.training.jpa.app.entity.TeacherDetails;
 import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
@@ -24,16 +26,15 @@ public class TransactionPlayground {
     @Transactional
     public void firstTransaction() {
         log.debug("Function Begin");
-
-        repo.save(new ErrorLog("Halo!"));
-
-        jdbcTemplate.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
-        log.debug("Function End");
+        repo.save(new ErrorLog("Halo!"));// this is executed AFTER the method end.
+        log.warn("Function End");
+        jdbcTemplate.update("INSERT INTO TEACHER(ID) VALUES (null)"); // because this throws exception,
+        // the transaction started at line 26 is rolledback -> save :29 is lost.
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void secondTransaction() {
-        log.debug("Halo2!");
-        System.out.println(teacherRepo.findAll());
+//        log.debug("Halo2!");
+//        System.out.println(teacherRepo.findAll());
     }
 }
