@@ -42,6 +42,7 @@ public class JpaApplication {
 		log.debug(" ========= SECOND TRANSACTION ========== ");
 //		transactionPlayground.secondTransaction(e);
 		transactionPlayground.jpa2();
+		transactionPlayground.jpa3();
 		log.debug(" ========= END ========== ");
 
 //		log.debug("==== Merge:Persist init ====");

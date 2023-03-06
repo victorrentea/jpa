@@ -70,6 +70,22 @@ public class TransactionPlayground {
 
         log.info("Method exit");
     }
+//    @Transactional(readOnly = true) // no changes in entitiews are UPDATED back to DB anymore
+    //
+
+    @Transactional // autoflushing
+    public void toUseOrNotToUseAutoFlushing() {
+        ErrorLog errorLog = errorLogRepo.findById(1L).orElseThrow();
+        errorLog.setMessage("Dirty Changed Entity in a @Transactional method gets flushed update to DB at the end of the tx");
+    }
+    // ---- @Transactional
+    public void manualSave() {
+        ErrorLog errorLog = errorLogRepo.findById(1L).orElseThrow();
+        errorLog.setMessage("Dirty Changed Entity in a @Transactional method gets flushed update to DB at the end of the tx");
+        errorLogRepo.save(errorLog); // surprise! under the hood a "MERGE" operation is triggered
+        // .save does PERSIST (~insert) if id = null OR UPDATE (if id!=null)
+    }
+
     @Transactional
     public void jpa2() {
         ErrorLog errorLog = errorLogRepo.findById(1L).orElseThrow();
@@ -87,10 +103,16 @@ public class TransactionPlayground {
            "Would I see a SELECT for this ? " + entity);
     }
 
+//    @Transactional(readOnly = true)
+    public void jpa3() {
+        ErrorLog errorLog = errorLogRepo.findById(1L).orElseThrow();
+        System.out.println("Show me your toString:" + errorLog); // lazy loading in toString only works withing a transaction
+    }
 
 
 
-//    @Transactional
+
+        //    @Transactional
 //    public void badForPerformance() {
 ////        new RestTemplate().getForObject() from another API-> why are we doing REST stuff in a @Transaction?!! =>
 //                    // if the call takes 2 sec => you just paralyzed 1 connection from the pool (max=20) for 2 sec
