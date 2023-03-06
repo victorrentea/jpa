@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 import victor.training.jpa.app.entity.ErrorLog;
 import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
@@ -27,6 +28,12 @@ public class TransactionPlayground {
         } catch (Exception e) {
             // swallow
             otherClass.secondTransaction(e);
+            // equivalent, non AOP (FP-like) - not recommended at scale
+//            TransactionTemplate transactionTemplate; // configure to
+//            transactionTemplate.setPropagationBehaviorName("REQUIRES_NEW");
+//            transactionTemplate.executeWithoutResult(s ->
+//                    errorLogRepo.save(new ErrorLog("Error: " + e.getMessage()));
+//            );
         }
         errorLogRepo.saveAndFlush(new ErrorLog("You will see me in the logs as INSERT, but I will never be commited."));
         log.warn("Function End");
