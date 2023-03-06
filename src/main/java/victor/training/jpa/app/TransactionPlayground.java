@@ -49,8 +49,17 @@ public class TransactionPlayground {
 
     @Transactional
     public void jpa1() {
-        errorLogRepo.save(new ErrorLog("ONE"));
-        errorLogRepo.save(new ErrorLog("TWO"));
+        ErrorLog e = new ErrorLog("ONE");
+        System.out.println("Entity before: " + e);
+        errorLogRepo.save(e);
+        System.out.println("Entity after: " + e);
+        errorLogRepo.save(new ErrorLog("TWO")); // hashCode equals on @Entity, why @Data is a bad idea on @Entity
+
+        // any JQPL or native query hibernate has to run on the DB it will first flush the
+        // write-buffer (changes pending in the Persistence Context) in order to allow the DB
+        // to return you correct results.
+        System.out.println(errorLogRepo.count());
+
         log.info("Method exit");
     }
     @Transactional

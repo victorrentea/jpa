@@ -10,10 +10,8 @@ import java.util.*;
 
 import static javax.persistence.CascadeType.ALL;
 
-@Getter
-@Setter
 @Entity
-@ToString
+@Data
 public class ErrorLog {
    @Id
    @GeneratedValue
