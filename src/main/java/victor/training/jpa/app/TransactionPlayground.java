@@ -2,6 +2,7 @@ package victor.training.jpa.app;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.runtime.CFlow;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -14,6 +15,7 @@ import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.persistence.EntityManager;
 import java.sql.Connection;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
@@ -24,19 +26,19 @@ public class TransactionPlayground {
 
     @Transactional // tells spring to create a proxy(subclass) for this class and inject it anywhere it's @Autowired
     public void firstTransaction() {
-
-        dataOfMyThread.set("my connection");
 //        connection.setAutoCommit(false); // start a tx then later .commit / rollback
         log.debug("Function Begin");
         repo.save(new ErrorLog("Halo!") );// this is executed AFTER the method end.
         otherMethod();
         log.warn("Function End");
     }
-    private static final ThreadLocal<String> dataOfMyThread = new ThreadLocal<>();
     private void otherMethod() {
         // runs in the SAME tx started at :25 (just as save:29)
-        System.out.println(dataOfMyThread.get());
-        teacherRepo.nativeInsert(1L);
+        CompletableFuture.runAsync(() -> {
+            System.out.println("Starting the insert");
+            teacherRepo.nativeInsert(1L);
+            System.out.println("After ");
+        });
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)

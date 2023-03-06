@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.lang.Nullable;
+import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.common.CustomJpaRepository;
 import victor.training.jpa.app.entity.Subject;
 import victor.training.jpa.app.entity.Teacher;
@@ -18,7 +19,8 @@ import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
 public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, JpaSpecificationExecutor<Teacher> {
 
 	@Query(value = "INSERT INTO TEACHER(ID) VALUES (?1)", nativeQuery = true)
-	@Modifying
+	@Modifying // requires a transaction
+	@Transactional
 	void nativeInsert(Long id);
 
 	@Query("SELECT DISTINCT a.dayOfWeek FROM Teacher t JOIN t.activities a WHERE t.id=?1")
