@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.springframework.data.domain.Sort.Direction.ASC;
 import static victor.training.jpa.app.entity.QCourseActivity.courseActivity;
 
 @Repository
@@ -71,7 +70,8 @@ public class TeacherSearchRepo {
       Root<Teacher> root = criteriaQuery.from(Teacher.class);
       criteriaQuery.select(cb.construct(TeacherSearchResult.class,
           root.get(Teacher_.id), root.get(Teacher_.name), root.get(Teacher_.grade)));
-      return entityManager.createQuery(criteriaQuery).getResultList();
+      TypedQuery<TeacherSearchResult> query = entityManager.createQuery(criteriaQuery);
+      return query.getResultList();
    }
 
    public List<Teacher> criteriaApi(TeacherSearchCriteria searchCriteria) {
@@ -83,8 +83,8 @@ public class TeacherSearchRepo {
 
       if (searchCriteria.grade != null) {
          // TODO extract Spring Specifications starting from cb.equal ...
-         predicates.add(cb.equal(root.get(Teacher_.grade), searchCriteria.grade));
          predicates.add(cb.equal(root.get("grade"), searchCriteria.grade));// without metamodel
+//         predicates.add(cb.equal(root.get(Teacher_.grade), searchCriteria.grade));
       }
 
       if (searchCriteria.name != null) {
@@ -105,7 +105,7 @@ public class TeacherSearchRepo {
       return entityManager.createQuery(criteriaQuery).getResultList();
    }
 
-   public List<Teacher> specifications(TeacherSearchCriteria searchCriteria) {
+   public List<Teacher> specifications(TeacherSearchCriteria searchCriteria, PageRequest pageRequest) {
       Specification<Teacher> spec = TeacherSpecifications.all();
       if (searchCriteria.name != null) {
          spec = spec.and(TeacherSpecifications.hasNameLike(searchCriteria.name));
@@ -117,7 +117,7 @@ public class TeacherSearchRepo {
          spec = spec.and(TeacherSpecifications.teachingCourses());
       }
       // xtra: pagination
-      return teacherRepo.findAll(spec, PageRequest.of(0, 10, ASC, "name")).getContent();
+      return teacherRepo.findAll(spec, pageRequest).getContent();
    }
 
    public List<Teacher> queryDSL(TeacherSearchCriteria searchCriteria) {

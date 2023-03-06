@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.CourseActivity;
 import victor.training.jpa.app.entity.Teacher;
@@ -19,6 +20,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.data.domain.Sort.Direction.ASC;
 
 @Transactional
 @SpringBootTest
@@ -106,7 +108,7 @@ class CriteriaAPI extends AbstractSearchTestBase {
 
 class Specification extends AbstractSearchTestBase {
    protected List<Teacher> search() {
-      return searchRepo.specifications(criteria);
+      return searchRepo.specifications(criteria, PageRequest.of(0, 10, ASC, "name"));
    }
 }
 
