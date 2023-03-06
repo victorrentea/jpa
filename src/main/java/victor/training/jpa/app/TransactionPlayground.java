@@ -24,16 +24,18 @@ public class TransactionPlayground {
 
     @Transactional // tells spring to create a proxy(subclass) for this class and inject it anywhere it's @Autowired
     public void firstTransaction() {
+
+        dataOfMyThread.set("my connection");
 //        connection.setAutoCommit(false); // start a tx then later .commit / rollback
         log.debug("Function Begin");
         repo.save(new ErrorLog("Halo!") );// this is executed AFTER the method end.
         otherMethod();
         log.warn("Function End");
-        // the transaction started at line 26 is rolledback -> save :29 is lost.
     }
-
+    private static final ThreadLocal<String> dataOfMyThread = new ThreadLocal<>();
     private void otherMethod() {
         // runs in the SAME tx started at :25 (just as save:29)
+        System.out.println(dataOfMyThread.get());
         teacherRepo.nativeInsert(1L);
     }
 
