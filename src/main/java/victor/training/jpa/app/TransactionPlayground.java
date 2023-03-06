@@ -45,5 +45,6 @@ class OtherClass {
     public void otherMethod() {
         teacherRepo.nativeInsert(1L); // this was inserted in the DB alone
         teacherRepo.nativeInsert(2L); // failed
+        throw new RuntimeException("Oups!");
     }
 }
