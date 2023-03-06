@@ -13,6 +13,7 @@ import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
 import javax.persistence.EntityManager;
+import java.sql.Connection;
 
 @Slf4j
 @Service
@@ -21,13 +22,14 @@ public class TransactionPlayground {
     private final TeacherRepo teacherRepo;
     private final ErrorLogRepo repo;
 
-    @Transactional
+    @Transactional // tells spring to create a proxy(subclass) for this class and inject it anywhere it's @Autowired
     public void firstTransaction() {
+//        connection.setAutoCommit(false); // start a tx then later .commit / rollback
+
         log.debug("Function Begin");
-        repo.save(new ErrorLog("Halo!"));// this is executed AFTER the method end.
+        repo.save(new ErrorLog("Halo!") );// this is executed AFTER the method end.
         log.warn("Function End");
         teacherRepo.nativeInsert(null);
-//        jdbcTemplate.update("INSERT INTO TEACHER(ID) VALUES (null)"); // because this throws exception,
         // the transaction started at line 26 is rolledback -> save :29 is lost.
     }
 
