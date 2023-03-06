@@ -26,11 +26,16 @@ public class TransactionPlayground {
     private final ErrorLogRepo repo;
     private final OtherClass otherClass;
 
-    @Transactional // tells spring to create a proxy(subclass) for this class and inject it anywhere it's @Autowired
+    @Transactional // this proxy does NOT see any exception (it gets swallowed)
     public void firstTransaction() {
         log.debug("Function Begin talking to a proxied reference: " + otherClass.getClass());
         repo.save(new ErrorLog("Halo!") );// this is executed AFTER the method end.
-        otherClass.otherMethod(); // when calling HERE the otherMethod, there is NO SPring proxy intercepting the call < because it's a local method call..
+        try {
+            otherClass.otherMethod();
+        } catch (Exception e) {
+            // swallow
+        }
+        repo.saveAndFlush(new ErrorLog("You will see me in the logs as INSERT, but I will never be commited."));
         log.warn("Function End");
     }
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -41,7 +46,7 @@ public class TransactionPlayground {
 @Component
 class OtherClass {
     private final TeacherRepo teacherRepo;
-    @Transactional
+    @Transactional // but this one DOES -> it marks the transaction for roolback only =true (aka ZOMBIE transaction)
     public void otherMethod() {
         teacherRepo.nativeInsert(1L); // this was inserted in the DB alone
         teacherRepo.nativeInsert(2L); // failed
