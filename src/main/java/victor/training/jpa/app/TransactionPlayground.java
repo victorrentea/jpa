@@ -103,7 +103,7 @@ public class TransactionPlayground {
            "Would I see a SELECT for this ? " + entity);
     }
 
-//    @Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public void jpa3() {
         ErrorLog errorLog = errorLogRepo.findById(1L).orElseThrow();
         System.out.println("Show me your toString:" + errorLog); // lazy loading in toString only works withing a transaction
