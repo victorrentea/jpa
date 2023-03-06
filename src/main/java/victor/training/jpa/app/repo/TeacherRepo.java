@@ -23,6 +23,9 @@ public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, JpaSpec
 	@Transactional
 	void nativeInsert(Long id);
 
+	@Query(value = "30 lines long legacy queries ", nativeQuery = true)
+	void nativeSEelct15yOld(Long id);
+
 	@Query("SELECT DISTINCT a.dayOfWeek FROM Teacher t JOIN t.activities a WHERE t.id=?1")
 	public Set<DayOfWeek> getBusyDaysOfTeacher(long teacherId);
 	
