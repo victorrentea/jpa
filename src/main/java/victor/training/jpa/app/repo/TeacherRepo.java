@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.lang.Nullable;
@@ -15,6 +16,10 @@ import victor.training.jpa.app.entity.Teacher;
 import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
 
 public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, JpaSpecificationExecutor<Teacher> {
+
+	@Query(value = "INSERT INTO TEACHER(ID) VALUES (?1)", nativeQuery = true)
+	@Modifying
+	void nativeInsert(Long id);
 
 	@Query("SELECT DISTINCT a.dayOfWeek FROM Teacher t JOIN t.activities a WHERE t.id=?1")
 	public Set<DayOfWeek> getBusyDaysOfTeacher(long teacherId);

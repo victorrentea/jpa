@@ -18,8 +18,6 @@ import javax.persistence.EntityManager;
 @Service
 @RequiredArgsConstructor
 public class TransactionPlayground {
-    private final EntityManager entityManager;
-    private final JdbcTemplate jdbcTemplate;
     private final TeacherRepo teacherRepo;
     private final ErrorLogRepo repo;
 
@@ -28,7 +26,8 @@ public class TransactionPlayground {
         log.debug("Function Begin");
         repo.save(new ErrorLog("Halo!"));// this is executed AFTER the method end.
         log.warn("Function End");
-        jdbcTemplate.update("INSERT INTO TEACHER(ID) VALUES (null)"); // because this throws exception,
+        teacherRepo.nativeInsert(null);
+//        jdbcTemplate.update("INSERT INTO TEACHER(ID) VALUES (null)"); // because this throws exception,
         // the transaction started at line 26 is rolledback -> save :29 is lost.
     }
 
