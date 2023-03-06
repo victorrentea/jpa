@@ -7,6 +7,9 @@ import java.time.DayOfWeek;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.boot.context.event.ApplicationStartedEvent;
+import org.springframework.context.annotation.Profile;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,14 +22,16 @@ import victor.training.jpa.app.entity.Teacher;
 import victor.training.jpa.app.entity.TeacherDetails;
 
 @Component
+@Profile("!test")
 public class DummyDataCreator {
 
 	@PersistenceContext
 	private EntityManager em;
 
-//	@EventListener(ApplicationStartedEvent.class)
+	@EventListener(ApplicationStartedEvent.class)
 	@Transactional
 	public void persistDummyData() {
+		System.out.println("PERSIST INIT DATA");
 		Teacher victor = new Teacher("Victor");
 		victor.setGrade(Teacher.Grade.ASSISTANT);
 		TeacherDetails teacherDetails = new TeacherDetails().setCv("A pimped CV");

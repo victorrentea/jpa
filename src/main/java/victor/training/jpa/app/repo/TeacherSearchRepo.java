@@ -23,21 +23,10 @@ import static victor.training.jpa.app.entity.QCourseActivity.courseActivity;
 
 @Repository
 public class TeacherSearchRepo {
-  @PersistenceContext
+  @Autowired
   private EntityManager entityManager;
   @Autowired
   private TeacherRepo teacherRepo;
-
-  public List<Teacher> getAllTeachersForYear(long yearId) {
-    // JPQL equivalent of an UNION between teachers
-    return entityManager.createQuery(
-                    "SELECT t FROM TeachingActivity a JOIN a.teachers t WHERE "
-                    + "a.id IN (SELECT c.id FROM StudentsYear y JOIN y.courses c WHERE y.id = :yearId) "
-                    + "OR a.id IN (SELECT lab.id FROM StudentsYear y JOIN y.groups g JOIN g.labs lab WHERE y.id = :yearId)",
-                    Teacher.class)
-            .setParameter("yearId", yearId)
-            .getResultList();
-  }
 
   public List<Teacher> jpqlConcat(TeacherSearchCriteria searchCriteria) { // TODO query directly TeacherSearchResult objects
     List<String> jpqlParts = new ArrayList<>();
@@ -53,6 +42,7 @@ public class TeacherSearchRepo {
       jpqlParts.add("AND t.grade = :grade");
       params.put("grade", searchCriteria.grade);
     }
+
     if (searchCriteria.teachingCourses) {
       jpqlParts.add("AND EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id)");
     }

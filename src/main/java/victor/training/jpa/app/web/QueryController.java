@@ -31,10 +31,7 @@ import victor.training.jpa.app.repo.TeacherRepo;
 public class QueryController {
 	@Autowired
 	private TeacherRepo teacherRepo;
-	
-	@PersistenceContext
-	private EntityManager em;
-	
+
 	@GetMapping("/rooms/{roomId}/subjects")
 	public List<SubjectDto> getById(@PathVariable String roomId) {
 		return teacherRepo.getSubjectsInRoom(roomId).stream().map(SubjectDto::new).collect(toList());

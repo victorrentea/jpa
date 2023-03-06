@@ -1,12 +1,12 @@
 package victor.training.jpa.app.web;
 
 import static java.util.stream.Collectors.toList;
+import static org.springframework.data.domain.Sort.Direction.ASC;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,22 +15,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import victor.training.jpa.app.entity.Teacher;
 import victor.training.jpa.app.facade.TheFacade;
 import victor.training.jpa.app.facade.dto.ContactChannelDto;
 import victor.training.jpa.app.facade.dto.TeacherDetailsDto;
 import victor.training.jpa.app.facade.dto.TeacherDto;
+import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
 import victor.training.jpa.app.repo.TeacherRepo;
+import victor.training.jpa.app.repo.TeacherSearchRepo;
 
 @RestController
 @RequestMapping("/api/teachers")
+@RequiredArgsConstructor
 public class TeacherController {
-	private static final Logger log = LoggerFactory.getLogger(TeacherController.class); 
-	
-	@Autowired
-	private TeacherRepo teacherRepo;
-	
-	@Autowired
-	private TheFacade facade;
+	private final TeacherRepo teacherRepo;
+	private final TheFacade facade;
 	
 	@GetMapping
 	public List<TeacherDto> getAll() {
@@ -60,9 +59,9 @@ public class TeacherController {
 		facade.setTeacherChannels(teacherId, channelDtos);
 	}
 
-	@GetMapping("/name/{name}")
-	public void searchActivities(@PathVariable String name) {
+	@GetMapping("/by-name/{name}")
+	public void searchByName(@PathVariable String name) {
 		System.out.println("Teacher: " + teacherRepo.findByName("Test"));
 	}
-	
+
 }
