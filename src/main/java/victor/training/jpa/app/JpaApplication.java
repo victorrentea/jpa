@@ -36,10 +36,12 @@ public class JpaApplication {
 	public void onStartup() throws IOException, SQLException {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
 		log.debug(" ========= FIRST TRANSACTION ========== ");
-		transactionPlayground.firstTransaction();
+//		transactionPlayground.firstTransaction();
+		transactionPlayground.jpa1();
 //		transactionPlayground.otherMethod();
 		log.debug(" ========= SECOND TRANSACTION ========== ");
 //		transactionPlayground.secondTransaction(e);
+		transactionPlayground.jpa1();
 		log.debug(" ========= END ========== ");
 
 //		log.debug("==== Merge:Persist init ====");

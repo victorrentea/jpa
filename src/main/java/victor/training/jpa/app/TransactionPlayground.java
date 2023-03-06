@@ -45,20 +45,36 @@ public class TransactionPlayground {
         log.warn("Function End");
     }
 
-    @Transactional
-    public void badForPerformance() {
-//        new RestTemplate().getForObject() from another API-> why are we doing REST stuff in a @Transaction?!! =>
-                    // if the call takes 2 sec => you just paralyzed 1 connection from the pool (max=20) for 2 sec
-                // you took 5% of your system for 2 sec. if 20 such calls  to badForPerformance arrive,
-        // your system is unresponsive for 2 sec.
-        // WSDL  call
-//        WebClinet..
-        // in grafana you will see a large connection acquisition time
 
-        errorLogRepo.save(new ErrorLog("Stuff1"));
-        errorLogRepo.save(new ErrorLog("Stuff2"));
+
+    @Transactional
+    public void jpa1() {
+        errorLogRepo.save(new ErrorLog("ONE"));
+        errorLogRepo.save(new ErrorLog("TWO"));
+        log.info("Method exit");
+    }
+    @Transactional
+    public void jpa2() {
 
     }
+
+
+
+
+//    @Transactional
+//    public void badForPerformance() {
+////        new RestTemplate().getForObject() from another API-> why are we doing REST stuff in a @Transaction?!! =>
+//                    // if the call takes 2 sec => you just paralyzed 1 connection from the pool (max=20) for 2 sec
+//                // you took 5% of your system for 2 sec. if 20 such calls  to badForPerformance arrive,
+//        // your system is unresponsive for 2 sec.
+//        // WSDL  call
+////        WebClinet..
+//        // in grafana you will see a large connection acquisition time
+//
+//        errorLogRepo.save(new ErrorLog("Stuff1"));
+//        errorLogRepo.save(new ErrorLog("Stuff2"));
+//
+//    }
 }
 @RequiredArgsConstructor
 @Component
