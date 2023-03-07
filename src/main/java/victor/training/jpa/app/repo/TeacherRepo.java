@@ -18,7 +18,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, JpaSpecificationExecutor<Teacher> {
+public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>,
+        JpaSpecificationExecutor<Teacher> // implement this and you have methods taking Specifications from you
+{
 
   @Query(value = "INSERT INTO TEACHER(ID) VALUES (?1)", nativeQuery = true)
   @Modifying // requires a transaction

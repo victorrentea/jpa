@@ -7,11 +7,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import victor.training.jpa.app.entity.*;
+import victor.training.jpa.app.entity.Teacher.Grade;
 import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
 import victor.training.jpa.app.facade.dto.TeacherSearchResult;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import static victor.training.jpa.app.entity.QCourseActivity.courseActivity;
+import static victor.training.jpa.app.repo.TeacherSpecifications.*;
 
 @Repository
 public class TeacherSearchRepo {
@@ -85,11 +86,14 @@ public class TeacherSearchRepo {
 //      predicates.add(cb.equal(root.get("grade"), searchCriteria.grade));// without metamodel
 
       // Criteria flavor#2 - fields referenced from a generated metamodel kept in sync with JPA @Entity model
-       predicates.add(cb.equal(root.get(Teacher_.grade), searchCriteria.grade));
+      Predicate gradeSpec = createGradeSpec(searchCriteria.grade)
+              .toPredicate(root, criteriaQuery, cb); // spring does this for you when using Specifications
+      predicates.add(gradeSpec);
     }
 
     if (searchCriteria.name != null) {
-      predicates.add(cb.like(cb.upper(root.get(Teacher_.name)), "%" + searchCriteria.name.toUpperCase() + "%"));
+      Predicate nameSpec = createNameSpec(cb, criteriaQuery, root, searchCriteria.name);
+      predicates.add(nameSpec);
     }
 
 //    jpqlParts.add("AND EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id)");
@@ -100,11 +104,9 @@ public class TeacherSearchRepo {
       // => you will definetely write a unit test for your change
       // random trying changes (SO + baeldung.com + vladmihalcea.com in the background) => inspecting the SQL
       // you will attempt 7-10 such queries => trying them with a unit test
-      Subquery<Integer> subquery = criteriaQuery.subquery(Integer.class);
-      Root<CourseActivity> subqueryRoot = subquery.from(CourseActivity.class);
-      SetJoin<CourseActivity, Teacher> join = subqueryRoot.join(CourseActivity_.teachers);
-      subquery.where(cb.equal(root.get(Teacher_.id), join.get(Teacher_.id)));
-      predicates.add(cb.exists(subquery.select(cb.literal(1))));
+      Predicate isTeacherSpec = createTeachesCoursesSpec(cb, criteriaQuery, root);
+
+      predicates.add(isTeacherSpec);
     }
     // Exception on the way: java.lang.IllegalStateException: No explicit selection and an implicit one could not be determined
 
@@ -119,16 +121,37 @@ public class TeacherSearchRepo {
     return query.getResultList();
   }
 
+  private static Predicate createTeachesCoursesSpec(CriteriaBuilder cb, CriteriaQuery<Teacher> criteriaQuery, Root<Teacher> root) {
+    Subquery<Integer> subquery = criteriaQuery.subquery(Integer.class);
+    Root<CourseActivity> subqueryRoot = subquery.from(CourseActivity.class);
+    SetJoin<CourseActivity, Teacher> join = subqueryRoot.join(CourseActivity_.teachers);
+    subquery.where(cb.equal(root.get(Teacher_.id), join.get(Teacher_.id)));
+    Predicate isTeacherSpec = cb.exists(subquery.select(cb.literal(1)));
+    return isTeacherSpec;
+  }
+
+  private static Predicate createNameSpec(CriteriaBuilder cb, CriteriaQuery<Teacher> criteriaQuery, Root<Teacher> root, String name) {
+    return cb.like(cb.upper(root.get(Teacher_.name)), "%" + name.toUpperCase() + "%");
+  }
+
+  private static Specification<Teacher> createGradeSpec(Grade grade) {
+    return (root, query, cb) -> cb.equal(root.get(Teacher_.grade), grade);
+  }
+
   public List<Teacher> specifications(TeacherSearchCriteria searchCriteria, Pageable pageRequest) {
-    Specification<Teacher> spec = TeacherSpecifications.all();
+    Specification<Teacher> spec = all();
     if (searchCriteria.name != null) {
-      spec = spec.and(TeacherSpecifications.hasNameLike(searchCriteria.name));
+      // the end result:
+      spec = spec.and(hasNameLike(searchCriteria.name));
+
+      // #1 instead of 12 @Query method you could 'mix and match' in code the WHERE clause using this technique
+      // #2 if you allow the USER in UI to "construct" the WHERE clause => you could map the Dto stuff to such Specifications
     }
     if (searchCriteria.grade != null) {
-      spec = spec.and(TeacherSpecifications.hasGrade(searchCriteria.grade));
+      spec = spec.and(hasGrade(searchCriteria.grade));
     }
     if (searchCriteria.teachingCourses) {
-      spec = spec.and(TeacherSpecifications.teachingCourses());
+      spec = spec.and(teachingCourses());
     }
     // xtra: pagination
     return teacherRepo.findAll(spec, pageRequest).getContent();
