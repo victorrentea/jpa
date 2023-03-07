@@ -71,3 +71,10 @@ public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>,
          "AND (cast(:#{#criteria.teachingCourses} as int) = 0 OR EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id) )")
   Page<Teacher> searchFixedJqplSpel(TeacherSearchCriteria criteria, Pageable pageRequest);
 }
+
+
+// if the app will have COMPLEX queries (static or dynamic), mid-sr team that want to learn ->
+    //  QueryDSL, or Specifications
+// if you have dynamic queries => fixed JPQL (above)
+// if the UI has to compose OR AND the criteria => Specifications
+// if mid-jr team: jpql+=
