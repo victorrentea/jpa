@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import static victor.training.jpa.app.entity.QCourseActivity.courseActivity;
+import static victor.training.jpa.app.entity.QTeacher.teacher;
 
 @Repository
 public class TeacherSearchRepo {
@@ -121,12 +122,6 @@ public class TeacherSearchRepo {
   }
 
   public List<Teacher> queryDSL(TeacherSearchCriteria searchCriteria) {
-    JPAQuery<?> query = new JPAQuery<Void>(entityManager);
-
-    QTeacher teacher = QTeacher.teacher;
-    JPAQuery<Teacher> outerQuery = query.select(teacher)
-            .from(teacher);
-
 
     List<com.querydsl.core.types.Predicate> predicates = new ArrayList<>();
     if (searchCriteria.grade != null) {
@@ -146,7 +141,9 @@ public class TeacherSearchRepo {
               .where(tt.id.eq(teacher.id)).exists());
     }
 
-    return outerQuery
+    return new JPAQuery<Void>(entityManager)
+            .select(teacher)
+            .from(teacher)
             .where(predicates.toArray(new com.querydsl.core.types.Predicate[0]))
             .orderBy(Expressions.stringPath(teacher, searchCriteria.orderBy).asc())
             .offset((long) searchCriteria.pageSize * searchCriteria.pageIndex)

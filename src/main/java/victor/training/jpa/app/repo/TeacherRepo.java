@@ -51,16 +51,22 @@ public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, JpaSpec
   // TODO make return null!
   Optional<Teacher> findByName(String name);
 
+  // ❤️ validated at startup (it's static a @Query)
+  // ❤️ performance: a static SQL is kept is statement cache at DB level
   @Query("SELECT t FROM Teacher t " +
          "WHERE (:name is null OR UPPER(t.name) LIKE UPPER('%' || :name || '%'))" +
          "AND (:grade is null OR t.grade = :grade)" +
          "AND (cast(:teachingCourses as int) = 0 OR " +
          "		EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id) )")
-  Page<Teacher> searchFixedJqpl(@Nullable String name, @Nullable Grade grade, boolean teachingCourses, Pageable pageRequest);
+  Page<Teacher> searchFixedJqpl(@Nullable String name,
+                                @Nullable Grade grade,
+                                boolean teachingCourses,  // Cons: too many parameters ?
+                                Pageable pageRequest); // allows Spring pagination
 
   @Query("SELECT t FROM Teacher t " +
          "WHERE (:#{#criteria.name} is null OR UPPER(t.name) LIKE UPPER('%' || :#{#criteria.name} || '%'))" +
          "AND (:#{#criteria.grade} is null OR t.grade = :#{#criteria.grade})" +
          "AND (cast(:#{#criteria.teachingCourses} as int) = 0 OR EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id) )")
+  // Uses Spring Expression Language to read properties of the 'criteria' parameter
   Page<Teacher> searchFixedJqplSpel(TeacherSearchCriteria criteria, Pageable pageRequest);
 }
