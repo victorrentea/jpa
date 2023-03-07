@@ -112,7 +112,7 @@
     </dependency>
 
     <dependency>
-      <!--Generate Criteria API metamodel in target/generated-sources/annotations-->
+      <!--Generate Criteria API metamodel in target/generated-sources/annotations you want THIS!-->
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-jpamodelgen</artifactId>
     </dependency>

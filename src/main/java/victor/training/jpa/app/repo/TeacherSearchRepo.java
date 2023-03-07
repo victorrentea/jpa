@@ -34,6 +34,10 @@ public class TeacherSearchRepo {
     Map<String, Object> params = new HashMap<>();
 
     if (searchCriteria.name != null) {
+      // concatenating JQPL is bad because:
+//      jpqlString += "AND UPPER(t.name)..." // no space -> invalid syntax => fix with a list<String> joined at the end
+//      jpqlString += "AND UPPER(t.nme)..." // typos in the syntax
+//      jpqlParts.add("AND UPPER(t.name) LIKE UPPER('%' || "+searchCriteria.name+" || '%')"); // injection prone
       jpqlParts.add("AND UPPER(t.name) LIKE UPPER('%' || :name || '%')");
       params.put("name", searchCriteria.name);
     }
@@ -77,15 +81,25 @@ public class TeacherSearchRepo {
 
     if (searchCriteria.grade != null) {
       // TODO extract Spring Specifications starting from cb.equal ...
-      predicates.add(cb.equal(root.get("grade"), searchCriteria.grade));// without metamodel
-      //         predicates.add(cb.equal(root.get(Teacher_.grade), searchCriteria.grade));
+      // Criteria flavor#1 - field names mentioned as strings < the easiest way, bun prone to rename fields
+//      predicates.add(cb.equal(root.get("grade"), searchCriteria.grade));// without metamodel
+
+      // Criteria flavor#2 - fields referenced from a generated metamodel kept in sync with JPA @Entity model
+       predicates.add(cb.equal(root.get(Teacher_.grade), searchCriteria.grade));
     }
 
     if (searchCriteria.name != null) {
       predicates.add(cb.like(cb.upper(root.get(Teacher_.name)), "%" + searchCriteria.name.toUpperCase() + "%"));
     }
 
+//    jpqlParts.add("AND EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id)");
+// vs :
     if (searchCriteria.teachingCourses) {
+      // people typically debug this by looking at the generated SQL query
+      // if you ever want to do any change in this subquery you'll call a "sick day"
+      // => you will definetely write a unit test for your change
+      // random trying changes (SO + baeldung.com + vladmihalcea.com in the background) => inspecting the SQL
+      // you will attempt 7-10 such queries => trying them with a unit test
       Subquery<Integer> subquery = criteriaQuery.subquery(Integer.class);
       Root<CourseActivity> subqueryRoot = subquery.from(CourseActivity.class);
       SetJoin<CourseActivity, Teacher> join = subqueryRoot.join(CourseActivity_.teachers);
