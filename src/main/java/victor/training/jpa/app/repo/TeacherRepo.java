@@ -53,12 +53,17 @@ public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>,
   // TODO make return null!
   Optional<Teacher> findByName(String name);
 
+  // ❤️ validated by JPA at startup (it's static a @Query)
+  // + performance: the statement having the same form SQL it remains in the statement cache of RDMS Oracle
   @Query("SELECT t FROM Teacher t " +
          "WHERE (:name is null OR UPPER(t.name) LIKE UPPER('%' || :name || '%'))" +
          "AND (:grade is null OR t.grade = :grade)" +
          "AND (cast(:teachingCourses as int) = 0 OR " +
          "		EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id) )")
-  Page<Teacher> searchFixedJqpl(@Nullable String name, @Nullable Grade grade, boolean teachingCourses, Pageable pageRequest);
+  Page<Teacher> searchFixedJqpl(@Nullable String name,
+                                @Nullable Grade grade,
+                                boolean teachingCourses,  // Cons: too many parameters to this method
+                                Pageable pageRequest); // allows pagination native using J
 
   @Query("SELECT t FROM Teacher t " +
          "WHERE (:#{#criteria.name} is null OR UPPER(t.name) LIKE UPPER('%' || :#{#criteria.name} || '%'))" +

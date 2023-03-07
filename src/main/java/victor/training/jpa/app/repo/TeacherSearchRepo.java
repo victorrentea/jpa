@@ -157,12 +157,11 @@ public class TeacherSearchRepo {
     return teacherRepo.findAll(spec, pageRequest).getContent();
   }
 
+  // is a different framework on top of JPA
   public List<Teacher> queryDSL(TeacherSearchCriteria searchCriteria) {
     JPAQuery<?> query = new JPAQuery<Void>(entityManager);
 
-    QTeacher teacher = QTeacher.teacher;
-    JPAQuery<Teacher> outerQuery = query.select(teacher)
-            .from(teacher);
+    QTeacher teacher = QTeacher.teacher; // also uses a generated metamodel
 
 
     List<com.querydsl.core.types.Predicate> predicates = new ArrayList<>();
@@ -176,6 +175,7 @@ public class TeacherSearchRepo {
     if (searchCriteria.teachingCourses) {
       QTeacher tt = new QTeacher("tt");
 
+      // "AND EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id)");
       predicates.add(new JPAQuery<Integer>()
               .select(Expressions.constant(1))
               .from(courseActivity)
@@ -183,7 +183,8 @@ public class TeacherSearchRepo {
               .where(tt.id.eq(teacher.id)).exists());
     }
 
-    return outerQuery
+    return query.select(teacher)
+            .from(teacher)
             .where(predicates.toArray(new com.querydsl.core.types.Predicate[0]))
             .orderBy(Expressions.stringPath(teacher, searchCriteria.orderBy).asc())
             .offset((long) searchCriteria.pageSize * searchCriteria.pageIndex)
