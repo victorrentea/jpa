@@ -35,6 +35,7 @@ public class TeacherSearchRepo {
     Map<String, Object> params = new HashMap<>();
 
     if (searchCriteria.name != null) {
+      // jpqlString += "AND UPPER(t" // " ", the final frontier => use a List<String> you join(" ") at the end
       jpqlParts.add("AND UPPER(t.name) LIKE UPPER('%' || :name || '%')");
       params.put("name", searchCriteria.name);
     }
@@ -77,9 +78,11 @@ public class TeacherSearchRepo {
     List<Predicate> predicates = new ArrayList<>();
 
     if (searchCriteria.grade != null) {
-      // TODO extract Spring Specifications starting from cb.equal ...
-      predicates.add(cb.equal(root.get("grade"), searchCriteria.grade));// without metamodel
-      //         predicates.add(cb.equal(root.get(Teacher_.grade), searchCriteria.grade));
+      // Criteria flavor#1 - field names mentioned as strings < the easiest way, bun prone to rename fields
+      // predicates.add(cb.equal(root.get("grade"), searchCriteria.grade));// without metamodel
+
+      // Criteria flavor#2 - fields referenced from a generated metamodel kept in sync with JPA @Entity model
+       predicates.add(cb.equal(root.get(Teacher_.grade), searchCriteria.grade));
     }
 
     if (searchCriteria.name != null) {
@@ -87,13 +90,14 @@ public class TeacherSearchRepo {
     }
 
     if (searchCriteria.teachingCourses) {
+      // Plain JPQL: AND EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id)
+      // 😱 Behold, the horror Criteria equivalent:
       Subquery<Integer> subquery = criteriaQuery.subquery(Integer.class);
       Root<CourseActivity> subqueryRoot = subquery.from(CourseActivity.class);
       SetJoin<CourseActivity, Teacher> join = subqueryRoot.join(CourseActivity_.teachers);
       subquery.where(cb.equal(root.get(Teacher_.id), join.get(Teacher_.id)));
       predicates.add(cb.exists(subquery.select(cb.literal(1))));
     }
-    // Exception on the way: java.lang.IllegalStateException: No explicit selection and an implicit one could not be determined
 
     criteriaQuery.where(cb.and(predicates.toArray(new Predicate[0])));
 
