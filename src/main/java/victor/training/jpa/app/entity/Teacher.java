@@ -52,7 +52,8 @@ public class Teacher {
 	@OrderBy("type ASC, value ASC")
 	private List<ContactChannel> channels = new ArrayList<>();
 
-	@OneToMany(mappedBy = "holderTeacher")
+	@OneToMany(mappedBy = "holderTeacher") // the field name of the other end of a <-> BIDIRECTIONAL relationship
+	// bidirectional link are BAD!
 	private Set<Subject> heldSubjects = new HashSet<>() ;
 	
 	@ManyToMany(mappedBy = "teachers")
