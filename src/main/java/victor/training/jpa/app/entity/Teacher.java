@@ -72,7 +72,7 @@ public class Teacher {
 	@GeneratedValue
 	private Long id;
 
-	@Column(nullable = false)
+	@Column(nullable = false) // NOT NULL on the column is better than just @NotNull (javax.validation) < protects the DB against rogue/stupid scripts or manual Fri night patches to prod
 	@Size(min = 3)
 	private String name;
 	
