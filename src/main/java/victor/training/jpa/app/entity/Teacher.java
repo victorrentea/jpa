@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Getter
@@ -72,6 +73,7 @@ public class Teacher {
 	private Long id;
 
 	@Column(nullable = false)
+	@Size(min = 3)
 	private String name;
 	
 	@Enumerated(EnumType.STRING)

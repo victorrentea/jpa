@@ -24,7 +24,7 @@ private final SubjectRepo subjectRepo;
   @EventListener(ApplicationStartedEvent.class)
   public void insertData() {
     log.info("START");
-    Teacher teacher = new Teacher()
+    Teacher teacher = new Teacher().setName("Me")
             .approve("jdoe"); // Domain Driven ubiquitout language < human words
 //            .setStatus(Status.APPROVED)
 //            .setApprovalUser("jdoe")
