@@ -34,7 +34,7 @@ public class LobPlayground {
       String allContents = IOUtils.toString(fileReader);
 //      file.delete();
       TeacherDetails details = new TeacherDetails().setCv(allContents);
-      teacherId = teacherRepo.save(new Teacher().setDetails(details)).getId();
+      teacherId = teacherRepo.save(new Teacher("a").setDetails(details)).getId();
       return repo.save(details).getId();
    }
    @Transactional

@@ -28,7 +28,7 @@ private final SubjectRepo subjectRepo;
   @EventListener(ApplicationStartedEvent.class)
   public void insertData() {
     log.info("START");
-    Teacher teacher = new Teacher().setName("Meeee")
+    Teacher teacher = new Teacher("Meaaa").setName("Ha!")
             .approve("jdoe"); // Domain Driven ubiquitout language < human words
     Subject subject = new Subject().setName("S");
 
@@ -45,6 +45,8 @@ private final SubjectRepo subjectRepo;
 
     teacherRepo.save(teacher); // inserted
     subjectRepo.save(subject);
+
+    System.out.println(teacherRepo.findAll());
     log.info("END");
   }
 

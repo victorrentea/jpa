@@ -36,7 +36,7 @@ abstract class AbstractSearchTestBase {
    TeacherSearchRepo searchRepo;
 
    TeacherSearchCriteria criteria = new TeacherSearchCriteria();
-   private Teacher teacher = new Teacher();
+   private Teacher teacher = new Teacher("a");
 
    protected abstract List<Teacher> search();
 
@@ -100,8 +100,8 @@ abstract class AbstractSearchTestBase {
    @Test
    void pagination() {
       Teacher tc = teacher.setName("C");
-      Teacher ta = teacherRepo.save(new Teacher().setName("A"));
-      Teacher tb = teacherRepo.save(new Teacher().setName("B"));
+      Teacher ta = teacherRepo.save(new Teacher("A"));
+      Teacher tb = teacherRepo.save(new Teacher("B"));
 
       criteria.orderBy = "name";
       criteria.pageSize = 2;

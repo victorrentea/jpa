@@ -38,8 +38,7 @@ public class TheFacade {
     // TODO when are IDs assigned ?
     // TODO Exception: object references an unsaved transient instance: a) save details separately or b) cascade
     public Long createTeacher(TeacherDetailsDto teacherDto) {
-        Teacher teacher = new Teacher()
-                .setName(teacherDto.getName())
+        Teacher teacher = new Teacher(teacherDto.getName())
                 .setGrade(teacherDto.getGrade())
                 .setMoreDetails(teacherDto.getMoreDetails())
                 .setCounselingDay(teacherDto.getCounselingInterval().getDay())
@@ -72,7 +71,7 @@ public class TheFacade {
 
     public void updateSubject(SubjectDto subjectDto) {
         Subject subject = subjectRepo.findOneById(subjectDto.getId());
-        Teacher teacher = new Teacher().setId(subjectDto.getHolderTeacherId());
+        Teacher teacher = new Teacher("a").setId(subjectDto.getHolderTeacherId());
         subject.setName(subjectDto.getName());
         teacher.addSubject(subject
         );

@@ -72,10 +72,29 @@ public class Teacher {
 	@GeneratedValue
 	private Long id;
 
+	// #1 DB contraint
 	@Column(nullable = false) // NOT NULL on the column is better than just @NotNull (javax.validation) < protects the DB against rogue/stupid scripts or manual Fri night patches to prod
+
+	// #2 javax.validation
 	@Size(min = 3)
 	private String name;
-	
+
+	// #3 The model blocks the inconsistent state (the simplest Java solution, least magic)
+	protected Teacher() { // for Hibernate's eyes only; no developers can call it from app code
+	}
+
+	public Teacher(String name) {
+		setName(name);
+	}
+
+	public Teacher setName(String name) {
+		if (name.length() < 3) {
+			throw new IllegalArgumentException(" name to small");
+		}
+		this.name = name;
+		return this;
+	}
+
 	@Enumerated(EnumType.STRING)
 //	@Convert(converter = GradeConverter.class)
 	private Grade grade;
@@ -113,8 +132,6 @@ public class Teacher {
 //	@Embedded
 //	private TimeSlot counseling;
 
-	public Teacher() {
-	}
 
 	public Set<Subject> getHeldSubjects() {
 		return Collections.unmodifiableSet(heldSubjects);
@@ -123,10 +140,6 @@ public class Teacher {
 	public void addSubject(Subject subject) { // please welcome OOP: "encapsulate collection" refactoring 24 years old stuff
 		heldSubjects.add(subject);
 		subject.setHolderTeacher(this);
-	}
-
-	public Teacher(String name) {
-		this.name = name;
 	}
 
 	@Override
