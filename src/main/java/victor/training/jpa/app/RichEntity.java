@@ -21,13 +21,15 @@ private final SubjectRepo subjectRepo;
   @EventListener(ApplicationStartedEvent.class)
   public void insertData() {
     log.info("START");
-    Teacher teacher = teacherRepo.save(new Teacher().setName("A")); // inserted
-    Subject subject = subjectRepo.save(new Subject().setName("S"));
+    Teacher teacher = new Teacher().setName("A");
+    Subject subject = new Subject().setName("S");
 
-//    teacher.getHeldSubjects().add(subject); // does not get persisted. but if you leave it out, later in a complex flow
-    // your (JAVA OBJECTS) model remains INVALID
-    subject.setHolderTeacher(teacher); // [THE OWNER side] only one of the ends is saved to DB
+    teacher.getHeldSubjects().add(subject); // does not get persisted. but if you leave it out, later in a complex flow
+//     your (JAVA OBJECTS) model remains INVALID
+//    subject.setHolderTeacher(teacher); // [THE OWNER side] only one of the ends is saved to DB
 
+    teacherRepo.save(teacher); // inserted
+    subjectRepo.save(subject);
     log.info("END");
   }
 }

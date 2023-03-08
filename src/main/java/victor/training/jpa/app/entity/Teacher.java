@@ -29,6 +29,15 @@ public class Teacher {
 		}
 	}
 	
+	@PrePersist // like an Aspect
+	@PreUpdate
+	public void fixBidirectionals() {
+		System.out.println("RUNS?");
+		for (Subject heldSubject : heldSubjects) {
+			heldSubject.setHolderTeacher(this);
+		}
+	}
+	
 	@Id
 	@GeneratedValue
 	private Long id;
