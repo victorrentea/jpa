@@ -71,6 +71,7 @@ public class Teacher {
 	@GeneratedValue
 	private Long id;
 
+	@Column(nullable = false)
 	private String name;
 	
 	@Enumerated(EnumType.STRING)

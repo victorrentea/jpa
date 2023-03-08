@@ -24,13 +24,15 @@ private final SubjectRepo subjectRepo;
   @EventListener(ApplicationStartedEvent.class)
   public void insertData() {
     log.info("START");
-    Teacher teacher = new Teacher().setName("A")
+    Teacher teacher = new Teacher()
             .approve("jdoe"); // Domain Driven ubiquitout language < human words
 //            .setStatus(Status.APPROVED)
 //            .setApprovalUser("jdoe")
 //            .setApprovalDate(LocalDate.now());
     Subject subject = new Subject().setName("S");
 
+    rabbitOrKafka_Send(teacher);
+    // incorrect data sent to remote system in a non-transactable way
 
 //    subject.setHolderTeacher(teacher);
 
@@ -42,5 +44,9 @@ private final SubjectRepo subjectRepo;
     teacherRepo.save(teacher); // inserted
     subjectRepo.save(subject);
     log.info("END");
+  }
+
+  private void rabbitOrKafka_Send(Teacher teacher) {
+    System.out.println("SEND " + teacher);
   }
 }
