@@ -25,7 +25,7 @@ private final SubjectRepo subjectRepo;
     Subject subject = subjectRepo.save(new Subject().setName("S"));
 
     teacher.getHeldSubjects().add(subject);
-//    subject.setHolderTeacher(teacher); // [THE OWNER side] only one of the ends is saved to DB
+    subject.setHolderTeacher(teacher); // [THE OWNER side] only one of the ends is saved to DB
 
     log.info("END");
   }
