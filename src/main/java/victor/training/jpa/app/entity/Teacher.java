@@ -57,10 +57,15 @@ public class Teacher {
 //	private LocalDateTime lastChangedDate;
 
 	public enum Status {
-		DRAFT, APPROVED, REJECTED, SUBMITTED, DELETE
+		DRAFT,
+		APPROVED,
+		REJECTED,
+		SUBMITTED,
+		DELETE,
 	}
 
 	@Setter(AccessLevel.NONE)
+	@Enumerated(EnumType.STRING)
 	private Status status = Status.DRAFT;
 
 	@Setter(AccessLevel.NONE)

@@ -16,6 +16,7 @@ public class MoreTeacherDetailsConverter implements AttributeConverter<MoreTeach
     public String convertToDatabaseColumn(MoreTeacherDetails attribute) {
         return new ObjectMapper().writeValueAsString(attribute);
     }
+    // OMG, use Mongo!
 
     @SneakyThrows
     @Override

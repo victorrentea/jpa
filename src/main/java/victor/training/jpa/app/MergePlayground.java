@@ -13,6 +13,8 @@ import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.ErrorTagRepo;
 
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Component
@@ -39,9 +41,16 @@ public class MergePlayground {
       logId = errorLogRepo.save(errorLog).getId();
    }
 
+   private final EntityManager entityManager;
    @Transactional
    public String readFromBackend(String username) throws JsonProcessingException {
+
+
       ErrorLog fromDB = errorLogRepo.findById(logId).get();
+      em.lock(fromDB, LockModeType.PESSIMISTIC_WRITE); //
+      // triggers a SELECT FOR UPDATE for this entity valid until the end of @Transaction = ROW LOCK
+//      fromDB.setInEditBy("john");
+//      fromDB.setInEditSince(LocalDateTime.now());
       String json = jackson.writeValueAsString(fromDB);
       log.info("JSON sent to client {}, eg on opening the EDIT screen: {}",username, json);
       return json;

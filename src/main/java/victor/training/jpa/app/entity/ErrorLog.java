@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static javax.persistence.CascadeType.ALL;
@@ -36,6 +37,9 @@ public class ErrorLog {
 
    @ManyToMany
    private Set<ErrorTag> tags = new HashSet<>();
+
+   @Version
+   private long version; // this should be sent/received over JSON
 
 
    public ErrorLog() {
