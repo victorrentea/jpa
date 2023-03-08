@@ -3,9 +3,13 @@ package victor.training.jpa.app.entity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import victor.training.jpa.app.entity.converter.MoreTeacherDetailsConverter;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import javax.persistence.*;
@@ -35,6 +39,20 @@ public class Teacher {
 //			heldSubject.setHolderTeacher(this);
 //		}
 //	}
+
+//	@LastModifiedBy
+//	private String lastChangedBy; // spring sec will put the principal name from SecurityContextHolder here at every flush of dirty changes
+//	@LastModifiedDate
+//	private LocalDateTime lastChangedDate;
+
+	public enum Status {
+		DRAFT, APPROVED, REJECTED, SUBMITTED, DELETE
+	}
+
+	private Status status = Status.DRAFT;
+
+	private LocalDate approvalDate;
+	private String approvalUser;
 	
 	@Id
 	@GeneratedValue
