@@ -1,14 +1,12 @@
 package victor.training.jpa.app.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import victor.training.jpa.app.entity.converter.MoreTeacherDetailsConverter;
 
 import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.*;
 
@@ -29,14 +27,14 @@ public class Teacher {
 		}
 	}
 	
-	@PrePersist // like an Aspect
-	@PreUpdate
-	public void fixBidirectionals() {
-		System.out.println("RUNS?");
-		for (Subject heldSubject : heldSubjects) {
-			heldSubject.setHolderTeacher(this);
-		}
-	}
+//	@PrePersist // like an Aspect
+//	@PreUpdate
+//	public void fixBidirectionals() {
+//		System.out.println("RUNS?");
+//		for (Subject heldSubject : heldSubjects) {
+//			heldSubject.setHolderTeacher(this);
+//		}
+//	}
 	
 	@Id
 	@GeneratedValue
@@ -63,6 +61,7 @@ public class Teacher {
 
 	@OneToMany(mappedBy = "holderTeacher") // the field name of the other end of a <-> BIDIRECTIONAL relationship
 	// bidirectional link are BAD!
+	@Setter(AccessLevel.NONE)
 	private Set<Subject> heldSubjects = new HashSet<>() ;
 	
 	@ManyToMany(mappedBy = "teachers")
@@ -82,7 +81,16 @@ public class Teacher {
 
 	public Teacher() {
 	}
-	
+
+	public Set<Subject> getHeldSubjects() {
+		return Collections.unmodifiableSet(heldSubjects);
+	}
+
+	public void addSubject(Subject subject) { // please welcome OOP: "encapsulate collection" refactoring 24 years old stuff
+		heldSubjects.add(subject);
+		subject.setHolderTeacher(this);
+	}
+
 	public Teacher(String name) {
 		this.name = name;
 	}

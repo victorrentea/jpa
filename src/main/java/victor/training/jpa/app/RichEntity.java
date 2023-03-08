@@ -24,7 +24,11 @@ private final SubjectRepo subjectRepo;
     Teacher teacher = new Teacher().setName("A");
     Subject subject = new Subject().setName("S");
 
-    teacher.getHeldSubjects().add(subject); // does not get persisted. but if you leave it out, later in a complex flow
+
+//    subject.setHolderTeacher(teacher);
+
+    teacher.addSubject(subject); // does not get persisted. but if you leave it out, later in a complex flow
+    
 //     your (JAVA OBJECTS) model remains INVALID
 //    subject.setHolderTeacher(teacher); // [THE OWNER side] only one of the ends is saved to DB
 

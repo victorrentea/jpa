@@ -59,8 +59,10 @@ public class TheFacade {
         Subject subject = new Subject()
                 .setName(subjectDto.getName())
                 // TODO link existing entity from DB: a) Repo.getReference, b) new Teacher().setId()
-                .setHolderTeacher(teacherRepo.findOneById(subjectDto.getHolderTeacherId()))
+//                .setHolderTeacher(teacher)
                 ;
+        Teacher teacher = teacherRepo.findOneById(subjectDto.getHolderTeacherId());
+        teacher.addSubject(subject);
         return subjectRepo.save(subject).getId();
     }
 
@@ -70,8 +72,10 @@ public class TheFacade {
 
     public void updateSubject(SubjectDto subjectDto) {
         Subject subject = subjectRepo.findOneById(subjectDto.getId());
-        subject.setName(subjectDto.getName())
-                .setHolderTeacher(new Teacher().setId(subjectDto.getHolderTeacherId()));
+        Teacher teacher = new Teacher().setId(subjectDto.getHolderTeacherId());
+        subject.setName(subjectDto.getName());
+        teacher.addSubject(subject
+        );
         // TODO 1 subjectRepo.save, OR (exclusive):
         // TODO 2 @Transactional on the method ==> "Auto-Flush" dirty Entities at Tx COMMIT, after "Exit method". >> remove repo.save!
         // TODO experiment @Transactional(readonly=true)

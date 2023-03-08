@@ -52,7 +52,7 @@ public class DummyDataCreator {
 		em.persist(bianca);
 		
 		Subject subject = new Subject("OOP");
-		subject.setHolderTeacher(victor);
+		victor.addSubject(subject);
 		CourseActivity course = new CourseActivity();
 		course.setSubject(subject);
 		course.setDayOfWeek(DayOfWeek.MONDAY);

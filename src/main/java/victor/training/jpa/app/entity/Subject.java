@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -34,6 +35,7 @@ public class Subject  {
 	private boolean active;
 	
 	@ManyToOne
+	@Setter(AccessLevel.PACKAGE)
 	private Teacher holderTeacher;
 	
 	@OneToMany(mappedBy="subject")
