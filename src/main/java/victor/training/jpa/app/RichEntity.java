@@ -25,9 +25,10 @@ private final SubjectRepo subjectRepo;
   public void insertData() {
     log.info("START");
     Teacher teacher = new Teacher().setName("A")
-            .setStatus(Status.APPROVED)
-            .setApprovalUser("jdoe")
-            .setApprovalDate(LocalDate.now());
+            .approve("jdoe"); // Domain Driven ubiquitout language < human words
+//            .setStatus(Status.APPROVED)
+//            .setApprovalUser("jdoe")
+//            .setApprovalDate(LocalDate.now());
     Subject subject = new Subject().setName("S");
 
 

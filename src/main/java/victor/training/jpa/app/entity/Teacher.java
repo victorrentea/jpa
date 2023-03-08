@@ -19,6 +19,16 @@ import javax.persistence.*;
 @Setter
 public class Teacher {
 
+	public Teacher approve(String username) throws RuntimeException {
+		if (status != Status.DRAFT) {
+			throw new IllegalArgumentException();
+		}
+		status = Status.APPROVED;
+		approvalDate = LocalDate.now();
+		approvalUser = username;
+		return this;
+	}
+
 	public enum Grade {
 		LECTURER("L"),
 		PROFESSOR("P"),
@@ -49,9 +59,12 @@ public class Teacher {
 		DRAFT, APPROVED, REJECTED, SUBMITTED, DELETE
 	}
 
+	@Setter(AccessLevel.NONE)
 	private Status status = Status.DRAFT;
 
+	@Setter(AccessLevel.NONE)
 	private LocalDate approvalDate;
+	@Setter(AccessLevel.NONE)
 	private String approvalUser;
 	
 	@Id
