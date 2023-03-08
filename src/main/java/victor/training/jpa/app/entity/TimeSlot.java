@@ -19,14 +19,20 @@ public class TimeSlot {
 	
 	private String roomId;
 
-	protected TimeSlot() {}
+	protected TimeSlot() {} // for hibernate
 
 	public TimeSlot(DayOfWeek dayOfWeek, int startHour, int hours, String roomId) {
 		this.dayOfWeek = dayOfWeek;
 		this.startHour = startHour;
+		if (hours < 0) {
+			throw new IllegalArgumentException();
+		}
 		this.hours = hours;
 		this.roomId = roomId;
 	}
+
+	// we grouped 4 fields that stuck together (changed together) in a new "effectively immutable" @Embeddable
+	// guarding its state. and w/o setters
 
 	public DayOfWeek getDayOfWeek() {
 		return dayOfWeek;

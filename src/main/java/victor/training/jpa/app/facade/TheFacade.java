@@ -41,10 +41,11 @@ public class TheFacade {
         Teacher teacher = new Teacher(teacherDto.getName())
                 .setGrade(teacherDto.getGrade())
                 .setMoreDetails(teacherDto.getMoreDetails())
-                .setCounselingDay(teacherDto.getCounselingInterval().getDay())
-                .setCounselingDurationInHours(teacherDto.getCounselingInterval().getDurationInHours())
-                .setCounselingStartHour(teacherDto.getCounselingInterval().getStartHour())
-                .setCounselingRoomId(teacherDto.getCounselingInterval().getRoomId())
+                .setCounseling(teacherDto.getCounselingInterval().toTimeSlot())
+//                .setCounselingDay(teacherDto.getCounselingInterval().getDay())
+//                .setCounselingDurationInHours(teacherDto.getCounselingInterval().getDurationInHours())
+//                .setCounselingStartHour(teacherDto.getCounselingInterval().getStartHour())
+//                .setCounselingRoomId(teacherDto.getCounselingInterval().getRoomId())
                 .setDetails(new TeacherDetails()
                         .setCv(teacherDto.getCv()));
         log.debug("ID before persist: " + teacher.getId());
