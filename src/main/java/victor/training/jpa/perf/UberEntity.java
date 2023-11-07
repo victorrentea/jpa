@@ -20,7 +20,7 @@ public class UberEntity {
     private String cnp;
     private String ssn;
     private String passportNumber;
-    @ManyToOne
+    @ManyToOne // naive OO modelling
     private Country originCountry;
     @ManyToOne
     private Country nationality;
