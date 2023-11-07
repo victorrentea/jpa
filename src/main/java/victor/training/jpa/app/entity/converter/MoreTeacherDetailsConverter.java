@@ -5,8 +5,8 @@ import lombok.SneakyThrows;
 import victor.training.jpa.app.entity.MoreTeacherDetails;
 import victor.training.jpa.app.entity.Teacher;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 @Converter
 public class MoreTeacherDetailsConverter implements AttributeConverter<MoreTeacherDetails, String> {

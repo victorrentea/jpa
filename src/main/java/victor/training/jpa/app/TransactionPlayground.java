@@ -10,7 +10,7 @@ import victor.training.jpa.app.entity.ErrorLog;
 import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 @Slf4j
 @Service

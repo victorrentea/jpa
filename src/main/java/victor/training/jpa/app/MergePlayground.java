@@ -12,7 +12,7 @@ import victor.training.jpa.app.entity.ErrorTag;
 import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.ErrorTagRepo;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 @RequiredArgsConstructor
 @Component

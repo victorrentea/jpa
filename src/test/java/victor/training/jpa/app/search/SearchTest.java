@@ -19,7 +19,7 @@ import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
 import victor.training.jpa.app.repo.TeacherRepo;
 import victor.training.jpa.app.repo.TeacherSearchRepo;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;

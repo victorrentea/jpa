@@ -7,9 +7,9 @@ import victor.training.jpa.app.entity.Teacher;
 import victor.training.jpa.app.entity.Teacher.Grade;
 import victor.training.jpa.app.entity.Teacher_;
 
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.SetJoin;
-import javax.persistence.criteria.Subquery;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.SetJoin;
+import jakarta.persistence.criteria.Subquery;
 
 public class TeacherSpecifications {
    public static Specification<Teacher> all() {

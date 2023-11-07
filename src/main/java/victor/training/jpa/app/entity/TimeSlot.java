@@ -2,9 +2,9 @@ package victor.training.jpa.app.entity;
 
 import java.time.DayOfWeek;
 
-import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 @Embeddable
 public class TimeSlot {

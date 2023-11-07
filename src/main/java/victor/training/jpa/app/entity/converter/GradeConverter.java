@@ -2,8 +2,8 @@ package victor.training.jpa.app.entity.converter;
 
 import victor.training.jpa.app.entity.Teacher;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 import java.util.Arrays;
 
 @Converter // (autoApply = true)

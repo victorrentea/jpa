@@ -15,7 +15,7 @@ import victor.training.jpa.app.repo.StudentsYearRepo;
 import victor.training.jpa.app.repo.SubjectRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

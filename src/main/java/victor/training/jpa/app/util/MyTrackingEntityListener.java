@@ -2,8 +2,8 @@ package victor.training.jpa.app.util;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

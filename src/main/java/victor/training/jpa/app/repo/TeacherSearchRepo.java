@@ -10,17 +10,17 @@ import victor.training.jpa.app.entity.*;
 import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
 import victor.training.jpa.app.facade.dto.TeacherSearchResult;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static victor.training.jpa.app.entity.QCourseActivity.courseActivity;
-import static victor.training.jpa.app.entity.QTeacher.teacher;
+//import static victor.training.jpa.app.entity.QCourseActivity.courseActivity;
+//import static victor.training.jpa.app.entity.QTeacher.teacher;
 
 @Repository
 public class TeacherSearchRepo {
@@ -121,38 +121,39 @@ public class TeacherSearchRepo {
     if (searchCriteria.teachingCourses) {
       spec = spec.and(TeacherSpecifications.teachingCourses());
     }
-    // xtra: pagination
+    // extra: pagination
     return teacherRepo.findAll(spec, pageRequest).getContent();
   }
 
   public List<Teacher> queryDSL(TeacherSearchCriteria searchCriteria) {
-
-    List<com.querydsl.core.types.Predicate> predicates = new ArrayList<>();
-    if (searchCriteria.grade != null) {
-      predicates.add(teacher.grade.eq(searchCriteria.grade));
-    }
-    if (searchCriteria.name != null) {
-      predicates.add(teacher.name.upper()
-              .like("%" + searchCriteria.name.toUpperCase() + "%"));
-    }
-    if (searchCriteria.teachingCourses) {
-      QTeacher tt = new QTeacher("tt");
-
-      predicates.add(new JPAQuery<Integer>()
-              .select(Expressions.constant(1))
-              .from(courseActivity)
-              .join(courseActivity.teachers, tt)
-              .where(tt.id.eq(teacher.id)).exists());
-    }
-
-    return new JPAQuery<Void>(entityManager)
-            .select(teacher)
-            .from(teacher)
-            .where(predicates.toArray(new com.querydsl.core.types.Predicate[0]))
-            .orderBy(Expressions.stringPath(teacher, searchCriteria.orderBy).asc())
-            .offset((long) searchCriteria.pageSize * searchCriteria.pageIndex)
-            .limit(searchCriteria.pageSize)
-            .fetchAll()
-            .fetch();
+//
+//    List<com.querydsl.core.types.Predicate> predicates = new ArrayList<>();
+//    if (searchCriteria.grade != null) {
+//      predicates.add(teacher.grade.eq(searchCriteria.grade));
+//    }
+//    if (searchCriteria.name != null) {
+//      predicates.add(teacher.name.upper()
+//              .like("%" + searchCriteria.name.toUpperCase() + "%"));
+//    }
+//    if (searchCriteria.teachingCourses) {
+//      QTeacher tt = new QTeacher("tt");
+//
+//      predicates.add(new JPAQuery<Integer>()
+//              .select(Expressions.constant(1))
+//              .from(courseActivity)
+//              .join(courseActivity.teachers, tt)
+//              .where(tt.id.eq(teacher.id)).exists());
+//    }
+//
+//    return new JPAQuery<Void>(entityManager)
+//            .select(teacher)
+//            .from(teacher)
+//            .where(predicates.toArray(new com.querydsl.core.types.Predicate[0]))
+//            .orderBy(Expressions.stringPath(teacher, searchCriteria.orderBy).asc())
+//            .offset((long) searchCriteria.pageSize * searchCriteria.pageIndex)
+//            .limit(searchCriteria.pageSize)
+//            .fetchAll()
+//            .fetch();
+    return List.of();
   }
 }

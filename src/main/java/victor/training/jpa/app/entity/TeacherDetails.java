@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.Value;
 import victor.training.jpa.app.entity.converter.MoreTeacherDetailsConverter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 
 @Getter
