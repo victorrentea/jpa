@@ -51,6 +51,7 @@
       <version>2.11.0</version>
     </dependency>
     <dependency>
+        <!--copiaz-o in proj tau e #musthave in teste/local-->
       <groupId>p6spy</groupId>
       <artifactId>p6spy</artifactId>
       <version>3.9.1</version>

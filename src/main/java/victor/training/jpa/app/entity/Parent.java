@@ -22,7 +22,6 @@ public class Parent {
    private Integer age;
 
    @OneToMany(mappedBy = "parent", cascade = ALL)
-   // @BatchSize(size=10) // Hibernate magic that avoids N x 'ID=?' using 'ID IN (?,?..,?)'
    private Set<Child> children = new HashSet<>();
 
    @ManyToOne
