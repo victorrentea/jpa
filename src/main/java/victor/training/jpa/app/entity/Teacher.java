@@ -43,7 +43,7 @@ public class Teacher {
 	@ElementCollection
 //	@OrderColumn(name="INDEX")
 	//@OrderBy("type ASC, value ASC")
-	private List<ContactChannel> channels = new ArrayList<>();
+	private List<ContactChannel> channels = new ArrayList<>(); // ordinea nu e garantata
 
 	@OneToMany(mappedBy = "holderTeacher")
 	private Set<Subject> heldSubjects = new HashSet<>() ;
