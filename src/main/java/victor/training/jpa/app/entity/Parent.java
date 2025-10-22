@@ -23,9 +23,8 @@ public class Parent {
    private Integer age;
 
   @OneToMany(mappedBy = "parent", cascade = ALL, fetch = FetchType.EAGER) // (aproape) NICIODATA!
-  @BatchSize(size = 20) // magic fix
+//  @BatchSize(size = 20) // magic fix
   private Set<Child> children = new HashSet<>();
-
 
    @ManyToOne
    private Country country; // surprise !

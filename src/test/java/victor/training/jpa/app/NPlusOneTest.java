@@ -80,7 +80,12 @@ public class NPlusOneTest {
   // ======================= SELECT full @Entity =============================
   @Test
   public void selectFullEntity() {
-    List<Parent> parents = entityManager.createQuery("select p from Parent p", Parent.class)
+    List<Parent> parents = entityManager.createQuery(
+        """
+            SELECT p 
+            FROM Parent p 
+            LEFT JOIN FETCH p.children 
+        """, Parent.class)
         .getResultList();
     log.info("Loaded {} parents: {}", parents.size(), parents);
 
