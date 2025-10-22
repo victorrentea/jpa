@@ -14,6 +14,11 @@ import static jakarta.persistence.CascadeType.ALL;
 @Getter
 @Setter
 @Entity
+@NamedQuery(name = "Parent.fetchWithChildren",
+    query = "    SELECT p" +
+                    " FROM Parent p" +
+                    "    LEFT JOIN FETCH p.children" +
+                    "    LEFT JOIN FETCH p.country")
 public class Parent {
    @Id
    @GeneratedValue// ⚠️older Hibernate versions might need (strategy = GenerationType.SEQUENCE, generator = "parent_seq")
