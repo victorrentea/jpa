@@ -21,7 +21,7 @@ import victor.training.jpa.app.entity.Subject;
 import victor.training.jpa.app.entity.Teacher;
 import victor.training.jpa.app.entity.TeacherDetails;
 
-@Component
+//@Component
 @Profile("!test")
 public class DummyDataCreator {
 
@@ -52,7 +52,7 @@ public class DummyDataCreator {
 		em.persist(bianca);
 		
 		Subject subject = new Subject("OOP");
-		subject.setHolderTeacher(victor);
+    victor.addHeldSubject(subject);
 		CourseActivity course = new CourseActivity();
 		course.setSubject(subject);
 		course.setDayOfWeek(DayOfWeek.MONDAY);

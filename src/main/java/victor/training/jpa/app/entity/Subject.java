@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -15,9 +14,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
-
-import victor.training.jpa.app.util.MyTrackingEntityListener;
-import victor.training.jpa.app.util.MyTrackingEntityListener.Trackable;
 
 
 @Getter
@@ -33,7 +29,7 @@ public class Subject  {
 	
 	private boolean active;
 	
-	@ManyToOne
+	@ManyToOne // OWNER SIDE
 	private Teacher holderTeacher;
 	
 	@OneToMany(mappedBy="subject")
@@ -56,7 +52,12 @@ public class Subject  {
 	public Subject() {
 	}
 
-	public Subject(String name) {
+  public Subject setHolderTeacher(Teacher holderTeacher) {
+    this.holderTeacher = holderTeacher;
+    return this;
+  }
+
+  public Subject(String name) {
 		this.name = name;
 	}
 }

@@ -6,10 +6,7 @@ import victor.training.jpa.app.entity.converter.MoreTeacherDetailsConverter;
 import victor.training.jpa.app.facade.dto.TimeSlotDto;
 
 import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import jakarta.persistence.*;
 
@@ -17,30 +14,26 @@ import jakarta.persistence.*;
 @Getter
 @Setter
 public class Teacher {
-
-	public enum Grade {
-		LECTURER("L"),
-		PROFESSOR("P"),
-		CONF("C"),
-		ASSISTANT("A");
-
-		public final String dbValue;
-		Grade(String dbValue) {
-			this.dbValue = dbValue;
-		}
-	}
-	
-	@Id
+		@Id
 	@GeneratedValue
 	private Long id;
 
 	private String name;
-	
-	@Enumerated(EnumType.STRING)
-//	@Convert(converter = GradeConverter.class)
+
+  public enum Grade {
+    LECTURER("L"),
+    PROFESSOR("P"),
+    CONF("C"),
+    ASSISTANT("A");
+
+    public final String dbValue;
+    Grade(String dbValue) {
+      this.dbValue = dbValue;
+    }
+  }
+  @Enumerated(EnumType.STRING)
 	private Grade grade;
 	
-	// fetch=LAZY or invert the link to retrieve details by teacher via repo
 	@OneToOne(cascade = CascadeType.ALL)
 	private TeacherDetails details;
 
@@ -49,7 +42,7 @@ public class Teacher {
 	
 	@ElementCollection
 //	@OrderColumn(name="INDEX")
-	@OrderBy("type ASC, value ASC")
+	//@OrderBy("type ASC, value ASC")
 	private List<ContactChannel> channels = new ArrayList<>();
 
 	@OneToMany(mappedBy = "holderTeacher")
@@ -72,8 +65,17 @@ public class Teacher {
 
 	public Teacher() {
 	}
-	
-	public Teacher(String name) {
+
+  public Set<Subject> getHeldSubjects() {
+    return Collections.unmodifiableSet(heldSubjects);
+  }
+
+  public void addHeldSubject(Subject subject) {
+    heldSubjects.add(subject);
+    subject.setHolderTeacher(this);
+  }
+
+  public Teacher(String name) {
 		this.name = name;
 	}
 

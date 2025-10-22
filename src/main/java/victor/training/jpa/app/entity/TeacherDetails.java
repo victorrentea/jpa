@@ -21,5 +21,8 @@ public class TeacherDetails {
 	@Basic(fetch = FetchType.LAZY) // DOES NOT work anymore with spring boot
 	private String cv;
 
+  private void setId(Long id) {
+    this.id = id;
+  }
 }
 
