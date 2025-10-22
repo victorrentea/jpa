@@ -30,11 +30,16 @@ public class JpaApplication {
 	private MergePlayground mergePlayground;
 	@Autowired
 	private LobPlayground lobPlayground;
+  @Autowired
+  private JpaPlayground jpaPlayground;
 
 
-	@EventListener(ContextRefreshedEvent.class)
-	public void onStartup() throws IOException, SQLException {
+  @EventListener(ContextRefreshedEvent.class)
+	public void onStartup() throws Exception {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
+    jpaPlayground.play();
+
+
 //		log.debug(" ========= FIRST TRANSACTION ========== ");
 //		transactionPlayground.firstTransaction();
 //		log.debug(" ========= SECOND TRANSACTION ========== ");

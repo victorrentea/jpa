@@ -41,8 +41,7 @@ public class Teacher {
 	private Grade grade;
 	
 	// fetch=LAZY or invert the link to retrieve details by teacher via repo
-	@OneToOne(cascade = CascadeType.ALL
-		)
+	@OneToOne(cascade = CascadeType.ALL)
 	private TeacherDetails details;
 
 	@Convert(converter = MoreTeacherDetailsConverter.class)
