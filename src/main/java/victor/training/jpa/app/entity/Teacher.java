@@ -41,7 +41,7 @@ public class Teacher {
 	private MoreTeacherDetails moreDetails;
 	
 	@ElementCollection
-	@OrderColumn(name="INDEX") // 3 salveaza in DB ordinea manual setata de user in UI cu 🔼/🔽
+//	@OrderColumn(name="INDEX") // 3 salveaza in DB ordinea manual setata de user in UI cu 🔼/🔽
 //	@OrderBy("type ASC, value ASC") // 2 ti le sorteaza din query SQL trimis de JPA in DB
 	private List<ContactChannel> channels = new ArrayList<>(); // 1 fara nimic, ordinea nu e garantata
 

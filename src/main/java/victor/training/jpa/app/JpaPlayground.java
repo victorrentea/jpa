@@ -22,10 +22,10 @@ public class JpaPlayground {
          .setDetails(new TeacherDetails()
              .setCv("pimped"));
      Subject subject = new Subject();
-//     teacher.getHeldSubjects().add(subject); //ERROR
-//     subject.setHolderTeacher(teacher); // compiler failed: package-protected
      teacher.addHeldSubject(subject);
+     System.out.println("Inainte:"+teacher.getId());
      em.persist(teacher);
+     System.out.println("Dupa:"+teacher.getId()); // cf legii dupa persist TRE SA AI ID SETAT
      em.persist(subject);
    }
 }
