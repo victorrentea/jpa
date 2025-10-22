@@ -42,8 +42,8 @@ public class Teacher {
 	
 	@ElementCollection
 //	@OrderColumn(name="INDEX")
-	//@OrderBy("type ASC, value ASC")
-	private List<ContactChannel> channels = new ArrayList<>(); // ordinea nu e garantata
+	@OrderBy("type ASC, value ASC") // ti le sorteaza din query SQL trimis de JPA in DB
+	private List<ContactChannel> channels = new ArrayList<>();
 
 	@OneToMany(mappedBy = "holderTeacher")
 	private Set<Subject> heldSubjects = new HashSet<>() ;
