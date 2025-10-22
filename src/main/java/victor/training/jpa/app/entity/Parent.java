@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
+import victor.training.jpa.app.web.ParentDto;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,10 +16,35 @@ import static jakarta.persistence.CascadeType.ALL;
 @Setter
 @Entity
 @NamedQuery(name = "Parent.fetchWithChildren",
-    query = "    SELECT p" +
-                    " FROM Parent p" +
-                    "    LEFT JOIN FETCH p.children" +
-                    "    LEFT JOIN FETCH p.country")
+    query = """
+            SELECT p
+            FROM Parent p
+            LEFT JOIN FETCH p.children
+            LEFT JOIN FETCH p.country
+        """)
+
+@NamedNativeQuery(name="mirela",
+    query = """
+            select p.id,
+                   p.name,
+                   COALESCE(STRING_AGG(c.NAME, ',') within group (order by c.name asc), '') childrenNames
+            from parent p
+                     left join child c on p.id = c.parent_id
+            group by p.id, p.name
+            """,
+resultClass = ParentDto.class,
+resultSetMapping = "ParentDtoMapping")
+@SqlResultSetMapping(
+    name = "ParentDtoMapping",
+    classes = @ConstructorResult(
+        targetClass = ParentDto.class,
+        columns = {
+            @ColumnResult(name = "id", type = Long.class),
+            @ColumnResult(name = "name", type = String.class),
+            @ColumnResult(name = "childrenNames", type = String.class)
+        }
+    )
+)
 public class Parent {
    @Id
    @GeneratedValue// ⚠️older Hibernate versions might need (strategy = GenerationType.SEQUENCE, generator = "parent_seq")

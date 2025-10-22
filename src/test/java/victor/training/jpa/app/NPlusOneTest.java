@@ -81,11 +81,12 @@ public class NPlusOneTest {
   @Test
   public void selectFullEntity() {
     System.out.println("--- daca vezi linia asta, app a reusit sa porneasca corect");
-    List<Parent> parents = entityManager.createQuery(
-            "    SELECT p" +
-            "FROM Parent p" +
-            "    LEFT JOIN FETCH p.children" +
-            "    LEFT JOIN FETCH p.country", Parent.class)
+//    List<Parent> parents = entityManager.createQuery(
+//            "    SELECT p" +
+//            "FROM Parent p" +
+//            "    LEFT JOIN FETCH p.children" +
+//            "    LEFT JOIN FETCH p.country", Parent.class)
+    List<Parent> parents = entityManager.createNamedQuery("Parent.fetchWithChildren", Parent.class)
         .getResultList();
     log.info("Loaded {} parents: {}", parents.size(), parents);
 
@@ -103,10 +104,8 @@ public class NPlusOneTest {
   // ======================= Using EntityManager with JPQL/native to return DTOs ==================
   @Test
   public void nativeQuery() {
-    // Load parents and map in Java to avoid DB-specific aggregation
-    List<Parent> parents = entityManager.createQuery("select p from Parent p", Parent.class)
+    var results = entityManager.createNamedQuery("mirela", ParentDto.class)
         .getResultList();
-    List<ParentDto> results = toSearchResults(parents);
     assertResults(results);
   }
 
