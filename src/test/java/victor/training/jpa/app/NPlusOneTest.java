@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.Child;
 import victor.training.jpa.app.entity.Country;
 import victor.training.jpa.app.entity.Parent;
+import victor.training.jpa.app.entity.ParentSearchView;
 import victor.training.jpa.app.web.ParentDto;
 
 import java.util.Collection;
@@ -104,6 +105,8 @@ public class NPlusOneTest {
   // ======================= Using EntityManager with JPQL/native to return DTOs ==================
   @Test
   public void nativeQuery() {
+    System.out.println("--- daca vezi linia asta, app a reusit sa porneasca corect");
+
     var results = entityManager.createNamedQuery("mirela", ParentDto.class)
         .getResultList();
     assertResults(results);
@@ -121,9 +124,16 @@ public class NPlusOneTest {
   // ======================= Simulated DB VIEW via JPQL =============================
   @Test
   public void view() {
-    List<Parent> parents = entityManager.createQuery("select p from Parent p", Parent.class)
+    List<ParentSearchView> parents = entityManager.createQuery("""
+        select psv 
+        from ParentSearchView psv
+        INNER JOIN Parent p ON psv.id=p.id
+        WHERE p.age<45
+""", ParentSearchView.class)
         .getResultList();
-    List<ParentDto> results = toSearchResults(parents);
+    List<ParentDto> results = parents.stream()
+        .map(psv -> new ParentDto(psv.getId(), psv.getName(), psv.getChildrenNames()))
+        .toList();
     assertResults(results);
   }
 
