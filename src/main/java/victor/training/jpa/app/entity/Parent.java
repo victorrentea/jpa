@@ -27,7 +27,7 @@ public class Parent {
   private Set<Child> children = new HashSet<>();
 
    @ManyToOne
-   private Country country; // surprise !
+   private Country country; // surprise ! nu doar @OneToMany => +1 SELECT ci si @ManyToOne
 
    public Parent() {}
    public Parent(String name) {
