@@ -3,6 +3,7 @@ package victor.training.jpa.app;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -77,6 +78,7 @@ public class MergePlayground {
 
     // daca pe acest flux nu se poate modifica un camp, dar pe altele da
     ErrorLog oldDinDB = em.find(ErrorLog.class, id);
+    em.lock(oldDinDB, LockModeType.PESSIMISTIC_WRITE);
     copyInClient.setCreatedBy(oldDinDB.getCreatedBy());
     log.info("Acum sleep (niste business logic, ev API calls)...");
     MyUtil.sleepMillis(1000);
