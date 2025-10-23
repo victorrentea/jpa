@@ -16,16 +16,21 @@ import victor.training.jpa.app.repo.TeacherRepo;
 @RequiredArgsConstructor
 public class TransactionPlayground {
   private final EntityManager entityManager;
+  private final ServicePtMirela servicePtMirela;
 
   @Transactional // = Atomic=tot sau nimic
   public void firstTransaction() {
     log.debug("Function Begin");
     entityManager.persist(new ErrorLog("Halo!"));
-    inTxCuMine();
+    servicePtMirela.inTxCuMine();
     log.debug("Function End");
   }
-
-  private void inTxCuMine() {
+}
+@Service
+@RequiredArgsConstructor
+class ServicePtMirela{
+  private final EntityManager entityManager;
+  public void inTxCuMine() {
     entityManager.persist(new ErrorLog("Halo!"));
   }
 }
