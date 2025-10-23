@@ -39,6 +39,9 @@ public class JpaApplication {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
     jpaPlayground.play();
 
+    jpaPlayground.writeBehind();
+    jpaPlayground.autoSave();
+
 
 //		log.debug(" ========= FIRST TRANSACTION ========== ");
 //		transactionPlayground.firstTransaction();
