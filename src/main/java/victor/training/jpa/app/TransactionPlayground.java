@@ -11,6 +11,8 @@ import victor.training.jpa.app.entity.Teacher;
 import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
+import java.util.concurrent.CompletableFuture;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -22,7 +24,11 @@ public class TransactionPlayground {
   public void firstTransaction() {
     log.debug("Function Begin");
     entityManager.persist(new ErrorLog("Halo!"));
-    servicePtMirela.inTxCuMine();
+    CompletableFuture.runAsync(() -> servicePtMirela.inTxCuMine())
+        .exceptionally(ex -> {
+          log.error("Exception in async call", ex);
+          return null;
+        });
     log.debug("Function End");
   }
 }
