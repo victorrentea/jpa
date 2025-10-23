@@ -40,6 +40,9 @@ public class ErrorLog {
    @ManyToMany(fetch = FetchType.EAGER)
    private Set<ErrorTag> tags = new HashSet<>();
 
+   @Version
+   private Long version; // sau LocalDateTime
+
 
    public ErrorLog() {
    }

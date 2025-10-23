@@ -44,10 +44,9 @@ public class JpaApplication {
     String json = merge.readFromBackend(); // GET citesc din BE
     System.out.println("Trimit in BRO json: " + json);
 
+    merge.client1(json, "ii faina cartea=5s");
+
     merge.client1(json, "#1 3 paragrafe tunate cu AI sa dea FOMO la useri ce buna e cartea 30m");
-
-    merge.client1(json, "ii faina cartea");
-
 
 //		log.debug(" ========= FIRST TRANSACTION ========== ");
 //		transactionPlayground.firstTransaction();
