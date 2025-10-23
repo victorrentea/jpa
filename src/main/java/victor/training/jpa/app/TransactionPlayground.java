@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.ErrorLog;
 import victor.training.jpa.app.entity.Teacher;
@@ -25,16 +26,18 @@ public class TransactionPlayground {
   public void firstTransaction()  {
     log.debug("Function Begin");
     entityManager.persist(new ErrorLog("Halo!"));
-    try {
-      metRea();
-    } catch (IOException e) {
-      throw new RuntimeException(e); // rollback ❤️
-    }
+//    try {
+//      metRea();
+//    } catch (IOException e) {
+//      throw new RuntimeException(e); // rollback ❤️
+//    }
     // e ok dupa ce intrerupt functia sa cauzeze un COMMIT.
     // daca-i stii email-ul, si-mi-l = EJBullshit
     // > in anii 2005± aveau loc Razboaiele Exception system/business=asteptate=checked
     // => @Transactional + throws
-    servicePtMirela.inTxCuMine();
+    try {
+      servicePtMirela.inTxCuMine();
+    } catch (Exception e) { /*to-do*/ }
     log.debug("Function End");
   }
 
@@ -46,9 +49,10 @@ public class TransactionPlayground {
 @RequiredArgsConstructor
 class ServicePtMirela{
   private final EntityManager entityManager;
-  @Transactional
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
 //  @jakarta.transaction.Transactional()
   public void inTxCuMine() {
     entityManager.persist(new ErrorLog("Halo!"));
+    if (true) throw new RuntimeException("BUG🐞");
   }
 }
