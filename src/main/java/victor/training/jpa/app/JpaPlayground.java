@@ -68,11 +68,11 @@ public class JpaPlayground {
   // la final face equals
 
 //    Session session = em.unwrap(Session.class);
-//  @Transactional
+  @Transactional
   public void updateFaraAutoSave() {
     StudentsYear entity = em.find(StudentsYear.class, 1L);
     entity.setCode("MANUAL");
-    em.merge(entity); // fara TX
+//    em.merge(entity); // fara TX
   }
   // la ce mai trebuie .merge( daca oricum face autosave la tot ce ti-a dat??
   // => construiesti cu new @Entity din ceva venit de la client/bro'
