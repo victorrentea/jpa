@@ -4,12 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 import victor.training.jpa.app.entity.ErrorComment;
 import victor.training.jpa.app.entity.ErrorLog;
 import victor.training.jpa.app.entity.ErrorTag;
+import victor.training.jpa.app.util.MyUtil;
 
 @RequiredArgsConstructor
 @RestController
@@ -49,8 +51,9 @@ public class MergePlayground {
     return json;
   }
 
+  @SneakyThrows
   @Transactional
-  public void client1(String jsonFromServer, String change) throws JsonProcessingException {
+  public void client1(String jsonFromServer, String change)  {
     // ------- Pretend: in the browser/client/android -------
     ErrorLog copyInClient = jackson.readValue(jsonFromServer, ErrorLog.class);
     log.debug("Client1 receives JSON from BE: " + jackson.writeValueAsString(copyInClient));
@@ -76,6 +79,9 @@ public class MergePlayground {
     copyInClient.setCreatedBy(em.find(ErrorLog.class, id).getCreatedBy());
 
     em.merge(copyInClient); // = OVERWRITE TOATE CAMPURILE
+    em.flush();
+    log.info("Acum sleep...");
+    MyUtil.sleepMillis(1000);
   }
   // TODO concurrency control:
   //    1)  add @Version for optimistic locking

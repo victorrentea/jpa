@@ -11,6 +11,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import victor.training.jpa.app.common.CustomJpaRepositoryFactoryBean;
 import victor.training.jpa.app.util.TestDBConnectionAndDropAllInitializer;
 
+import java.util.concurrent.CompletableFuture;
+
+import static java.util.concurrent.CompletableFuture.runAsync;
+
 //@EnableTransactionManagement//(mode = AdviceMode.ASPECTJ) // enables @Transactional to work for local method call (not a good idea!)
 // -javaagent:spring-instrument.jar -javaagent:aspectjweaver.jar
 //@EnableLoadTimeWeaving(aspectjWeaving= EnableLoadTimeWeaving.AspectJWeaving.ENABLED)
@@ -44,10 +48,11 @@ public class JpaApplication {
     String json = merge.readFromBackend(); // GET citesc din BE
     System.out.println("Trimit in BRO json: " + json);
 
-    merge.client1(json, "ii faina cartea=5s");
+    var f1 =runAsync(()->merge.client1(json, "ii faina cartea=5s"));
+    var f2 =runAsync(()->merge.client1(json, "#1 3 paragrafe tunate cu AI sa dea FOMO la useri ce buna e cartea 30m"));
 
-    merge.client1(json, "#1 3 paragrafe tunate cu AI sa dea FOMO la useri ce buna e cartea 30m");
-
+    f1.get();
+    f2.get();
 //		log.debug(" ========= FIRST TRANSACTION ========== ");
 //		transactionPlayground.firstTransaction();
 //		log.debug(" ========= SECOND TRANSACTION ========== ");
