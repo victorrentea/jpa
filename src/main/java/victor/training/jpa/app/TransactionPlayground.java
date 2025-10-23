@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.ErrorLog;
+import victor.training.jpa.app.entity.Teacher;
 import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
@@ -25,15 +26,11 @@ public class TransactionPlayground {
     public void firstTransaction() {
         log.debug("Function Begin");
 
-        repo.save(new ErrorLog("Halo!"));
+        entityManager.persist(new ErrorLog("Halo!"));
 
         jdbcTemplate.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
+        // or using entity manager
+        teacherRepo.save(new Teacher());
         log.debug("Function End");
-    }
-
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void secondTransaction() {
-        log.debug("Halo2!");
-        System.out.println(teacherRepo.findAll());
     }
 }

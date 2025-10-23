@@ -1,5 +1,6 @@
 package victor.training.jpa.app.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import victor.training.jpa.app.entity.converter.MoreTeacherDetailsConverter;
@@ -46,6 +47,7 @@ public class Teacher {
 	private List<ContactChannel> channels = new ArrayList<>(); // 1 fara nimic, ordinea nu e garantata
 
 	@OneToMany(mappedBy = "holderTeacher")
+  @Setter(AccessLevel.NONE)
 	private Set<Subject> heldSubjects = new HashSet<>() ;
 	
 	@ManyToMany(mappedBy = "teachers")

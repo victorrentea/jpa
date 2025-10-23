@@ -6,6 +6,14 @@ public class MyUtil {
 		throw new RuntimeException("Thrown from an Util function. Static functions CANNOT be aspected/intercepted by Spring. Thus--> the incoming Tx is not (yet) made zombie");
 	}
 
+  public static void sleepMillis(int millis) {
+    try {
+      Thread.sleep(millis);
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
 //	public static String getUserOnCurrentThread() {
 //		// SOLUTION (
 //		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

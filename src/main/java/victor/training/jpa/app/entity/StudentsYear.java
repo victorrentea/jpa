@@ -40,4 +40,19 @@ public class StudentsYear {
 		this.code = code;
 	}
 
+  public StudentsYear add(StudentsGroup studentsGroup) {
+    groups.add(studentsGroup);
+    studentsGroup.setYear(this);
+    return this;
+  }
+
+  @Override
+  public String toString() {
+    return "StudentsYear{" +
+           "id=" + id +
+           ", code='" + code + '\'' +
+           ", groups=" + groups +
+           ", courses=" + courses +
+           '}';
+  }
 }

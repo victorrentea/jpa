@@ -1,4 +1,4 @@
-drop table PARENT_SEARCH_VIEW; -- drop the table created by spring.jpa.hibernate.ddl-auto=create
+drop table PARENT_SEARCH_VIEW if exists; -- drop the table created by spring.jpa.hibernate.ddl-auto=create
 
 create or replace view PARENT_SEARCH_VIEW as
 select p.ID, P.NAME, nvl(STRING_AGG(c.NAME, ',') within group (order by c.name asc), '') children_names

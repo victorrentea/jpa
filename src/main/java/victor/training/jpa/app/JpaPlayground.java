@@ -5,9 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import victor.training.jpa.app.entity.Subject;
-import victor.training.jpa.app.entity.Teacher;
-import victor.training.jpa.app.entity.TeacherDetails;
+import victor.training.jpa.app.entity.*;
 
 @Component
 @RequiredArgsConstructor
@@ -28,4 +26,22 @@ public class JpaPlayground {
      System.out.println("Dupa:"+teacher.getId()); // cf legii dupa persist TRE SA AI ID SETAT
      em.persist(subject);
    }
+
+
+  @Transactional
+  public void writeBehind() {
+    em.persist(new StudentsYear("ONE")
+        .add(new StudentsGroup("SG1")));
+    log.info("--- End of method");
+  }
+
+  public void autoSave() {
+    StudentsYear entity = em.find(StudentsYear.class,1L);
+    entity.setCode("TWO");
+  }
+
+  public void lazyLoading() {
+    StudentsYear entity = em.find(StudentsYear.class, 1L);
+    log.info("Message: " /* +entity*/);
+  }
 }

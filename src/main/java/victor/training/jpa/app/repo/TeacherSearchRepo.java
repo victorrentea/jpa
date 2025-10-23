@@ -60,7 +60,7 @@ public class TeacherSearchRepo {
     return query.getResultList();
   }
 
-  public List<TeacherSearchResult> searchProjectionUsingCriteriaMetamodel() {
+  public List<TeacherSearchResult> searchProjectionUsingCriteriaMetamodel() {// SCARBOSS
     CriteriaBuilder cb = entityManager.getCriteriaBuilder();
     CriteriaQuery<TeacherSearchResult> criteriaQuery = cb.createQuery(TeacherSearchResult.class);
     Root<Teacher> root = criteriaQuery.from(Teacher.class);
@@ -90,7 +90,7 @@ public class TeacherSearchRepo {
     }
 
     if (searchCriteria.teachingCourses) {
-      // Plain JPQL: AND EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id)
+      // AND EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id)
       // 😱 Behold, the horror Criteria equivalent:
       Subquery<Integer> subquery = criteriaQuery.subquery(Integer.class);
       Root<CourseActivity> subqueryRoot = subquery.from(CourseActivity.class);
