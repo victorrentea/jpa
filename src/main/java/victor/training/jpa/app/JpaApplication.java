@@ -11,9 +11,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import victor.training.jpa.app.common.CustomJpaRepositoryFactoryBean;
 import victor.training.jpa.app.util.TestDBConnectionAndDropAllInitializer;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 //@EnableTransactionManagement//(mode = AdviceMode.ASPECTJ) // enables @Transactional to work for local method call (not a good idea!)
 // -javaagent:spring-instrument.jar -javaagent:aspectjweaver.jar
 //@EnableLoadTimeWeaving(aspectjWeaving= EnableLoadTimeWeaving.AspectJWeaving.ENABLED)
@@ -27,7 +24,7 @@ public class JpaApplication {
 	@Autowired
 	private TransactionPlayground transactionPlayground;
 	@Autowired
-	private MergePlayground mergePlayground;
+	private MergePlayground merge;
 	@Autowired
 	private LobPlayground lobPlayground;
   @Autowired
@@ -43,10 +40,13 @@ public class JpaApplication {
     jpaPlayground.autoSave();
     jpaPlayground.updateFaraAutoSave();
 
-    mergePlayground.persistInitialData();
-    String json = mergePlayground.readFromBackend("alice");
+    merge.persistInitialData();
+    String json = merge.readFromBackend(); // GET citesc din BE
     System.out.println("Trimit in BRO json: " + json);
-    mergePlayground.client1(json);
+
+    merge.client1(json, "#1 3 paragrafe tunate cu AI sa dea FOMO la useri ce buna e cartea 30m");
+
+    merge.client1(json, "ii faina cartea");
 
 
 //		log.debug(" ========= FIRST TRANSACTION ========== ");

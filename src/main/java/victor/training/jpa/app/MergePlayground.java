@@ -42,19 +42,19 @@ public class MergePlayground {
   }
 
 //  @Transactional // epic fail. ca doar citesti, da frameworkul cere pt lazy load.
-  public String readFromBackend(String username) throws JsonProcessingException {
+  public String readFromBackend() throws JsonProcessingException {
     ErrorLog fromDB = em.find(ErrorLog.class, id);
     String json = jackson.writeValueAsString(fromDB);
-    log.info("JSON sent to client {}, eg on opening the EDIT screen: {}", username, json);
+    log.info("JSON sent to client eg on opening the EDIT screen: {}", json);
     return json;
   }
 
   @Transactional
-  public void client1(String jsonFromServer) throws JsonProcessingException {
+  public void client1(String jsonFromServer, String change) throws JsonProcessingException {
     // ------- Pretend: in the browser/client/android -------
     ErrorLog copyInClient = jackson.readValue(jsonFromServer, ErrorLog.class);
     log.debug("Client1 receives JSON from BE: " + jackson.writeValueAsString(copyInClient));
-    copyInClient.setMessage("DECENT");
+    copyInClient.setMessage(change);
 
     // copchii
     copyInClient.getComments().get(0).setText("EDITED"); //UPDATE
