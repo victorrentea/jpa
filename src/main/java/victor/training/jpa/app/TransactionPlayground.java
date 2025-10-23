@@ -25,7 +25,7 @@ public class TransactionPlayground {
   @Transactional // = Atomic=tot sau nimic
   public void firstTransaction()  {
     log.debug("Function Begin");
-    entityManager.persist(new ErrorLog("Halo!"));
+    entityManager.persist(new ErrorLog("Halo1!"));
 //    try {
 //      metRea();
 //    } catch (IOException e) {
@@ -36,23 +36,21 @@ public class TransactionPlayground {
     // > in anii 2005± aveau loc Razboaiele Exception system/business=asteptate=checked
     // => @Transactional + throws
     try {
-      servicePtMirela.inTxCuMine();
-    } catch (Exception e) { /*to-do*/ }
+      this.inTxCuMine();
+    } catch (Exception e) { /*to-do*/
+    e.printStackTrace();}
     log.debug("Function End");
   }
-
-  private void metRea() throws IOException {
-    if (true) throw new IOException("BUG🐞"); // CE BOU A GANDIT CA o ex checked
+  // @ de mai jos e ca si cum n-ar fi
+  // LEGE: @Tranactional NU ARE EFECT CAND CHEMI METODA LOCAL (pe this)
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
+  public void inTxCuMine() {
+    entityManager.persist(new ErrorLog("Halo2!"));
+    if (true) throw new RuntimeException("BUG🐞");
   }
 }
 @Service
 @RequiredArgsConstructor
 class ServicePtMirela{
   private final EntityManager entityManager;
-  @Transactional(propagation = Propagation.REQUIRES_NEW)
-//  @jakarta.transaction.Transactional()
-  public void inTxCuMine() {
-    entityManager.persist(new ErrorLog("Halo!"));
-    if (true) throw new RuntimeException("BUG🐞");
-  }
 }
