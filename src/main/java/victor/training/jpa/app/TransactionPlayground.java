@@ -20,12 +20,12 @@ public class TransactionPlayground {
   @Transactional // = Atomic=tot sau nimic
   public void firstTransaction() {
     log.debug("Function Begin");
-
     entityManager.persist(new ErrorLog("Halo!"));
-    entityManager.flush(); // in ciuda INSERTULUI TRIMIS, se da rollback
-    if (true) throw new RuntimeException("BUG🐞");
-    entityManager.persist(new ErrorLog("Halo!"));
-
+    inTxCuMine();
     log.debug("Function End");
+  }
+
+  private void inTxCuMine() {
+    entityManager.persist(new ErrorLog("Halo!"));
   }
 }
