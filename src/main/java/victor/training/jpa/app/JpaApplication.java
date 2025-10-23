@@ -44,15 +44,17 @@ public class JpaApplication {
     jpaPlayground.autoSave();
     jpaPlayground.updateFaraAutoSave();
 
-    merge.persistInitialData();
-    String json = merge.readFromBackend(); // GET citesc din BE
-    System.out.println("Trimit in BRO json: " + json);
+    transactionPlayground.firstTransaction();
 
-    var f1 =runAsync(()->merge.client1(json, "ii faina cartea=5s"));
-    var f2 =runAsync(()->merge.client1(json, "#1 3 paragrafe tunate cu AI sa dea FOMO la useri ce buna e cartea 30m"));
-
-    f1.get();
-    f2.get();
+//    merge.persistInitialData();
+//    String json = merge.readFromBackend(); // GET citesc din BE
+//    System.out.println("Trimit in BRO json: " + json);
+//
+//    var f1 =runAsync(()->merge.client1(json, "ii faina cartea=5s"));
+//    var f2 =runAsync(()->merge.client1(json, "#1 3 paragrafe tunate cu AI sa dea FOMO la useri ce buna e cartea 30m"));
+//
+//    f1.get();
+//    f2.get();
 //		log.debug(" ========= FIRST TRANSACTION ========== ");
 //		transactionPlayground.firstTransaction();
 //		log.debug(" ========= SECOND TRANSACTION ========== ");
