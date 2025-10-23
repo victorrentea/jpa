@@ -58,7 +58,7 @@ public class UberEntityTest {
     Uber uber = new Uber()
         .setName("::uberName::")
         .setStatus(Uber.Status.SUBMITTED)
-        .setOriginCountry(belgium)
+        .setOriginCountryId(belgium.getId())
         .setFiscalCountry(romania)
         .setInvoicingCountry(france)
         .setNationality(serbia)
@@ -75,7 +75,7 @@ public class UberEntityTest {
   @Test
   public void jpql() {
     log.info("SELECTING a 'very OOP' @Entity with JPQL ...");
-    List<Uber> list = em.createQuery("select u from Uber u", Uber.class).getResultList();
+    List<Uber> list = em.createQuery("select u from Uber u ", Uber.class).getResultList();
     log.info("Loaded using JPQL (see how many queries are above):\n" + list);
   }
 
@@ -131,10 +131,13 @@ public class UberEntityTest {
   }
 
   private UberSearchResult toResult(Uber entity) {
+    String originCountryName = em.createQuery("SELECT c.name FROM Country c WHERE c.id = :countryId", String.class)
+        .setParameter("countryId", entity.getOriginCountryId())
+        .getSingleResult();
     return new UberSearchResult(
         entity.getId(),
         entity.getName(),
-        entity.getOriginCountry().getName());
+        originCountryName);
   }
 
   @Builder

@@ -6,7 +6,9 @@ import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 import victor.training.jpa.app.web.ParentDto;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static jakarta.persistence.CascadeType.ALL;
@@ -20,7 +22,10 @@ import static jakarta.persistence.CascadeType.ALL;
             SELECT p
             FROM Parent p
             LEFT JOIN FETCH p.children
+            LEFT JOIN FETCH p.pisici
+            LEFT JOIN FETCH p.tags
             LEFT JOIN FETCH p.country
+            ORDER BY p.name
         """)
 
 @NamedNativeQuery(name="mirela",
@@ -53,9 +58,25 @@ public class Parent {
    private String name;
    private Integer age;
 
+
+   // create table PUBLIC.PARENT_TAGS (
+  //    PARENT_ID BIGINT not null,
+  //    TAGS      CHARACTER VARYING(255),
+  //    constraint FK8RIK8MD4TEIRQHH8G44W2T6I8
+  //        foreign key (PARENT_ID) references PUBLIC.PARENT
+  //);
+
+  @ElementCollection //adica entitati copii da fara ID
+  private Set<String> tags = new HashSet<>();
+
+  @OneToMany
+  @JoinColumn(name = "STAPAN_ID")
+  private List<Pisica> pisici = new ArrayList<>();
+
   @OneToMany(mappedBy = "parent", cascade = ALL, fetch = FetchType.EAGER) // (aproape) NICIODATA!
 //  @BatchSize(size = 20) // magic fix
-  private Set<Child> children = new HashSet<>();
+  @OrderColumn(name = "index_copil")
+  private List<Child> children = new ArrayList<>();
 
    @ManyToOne
    private Country country; // surprise ! nu doar @OneToMany => +1 SELECT ci si @ManyToOne

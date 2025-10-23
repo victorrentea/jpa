@@ -24,8 +24,9 @@ public class Uber {
     private String ssn;
     private String passportNumber;
 
-    @ManyToOne
-    private Country originCountry;
+    //@ManyToOne // #hate!
+    //private Country originCountry;
+    private Long originCountryId; // +pastrati FK!
     @ManyToOne
     private Country nationality;
     @ManyToOne

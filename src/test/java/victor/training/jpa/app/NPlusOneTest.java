@@ -68,6 +68,20 @@ public class NPlusOneTest {
     TestTransaction.start();
   }
 
+  @Test
+  void paginated_si_fetch() { // OUT OF MEMORY
+    List<Parent> parents = entityManager.createNamedQuery("Parent.fetchWithChildren", Parent.class)
+        .setFirstResult(0) // = N_pag * size_pag
+        .setMaxResults(2) // = size_pag
+        .getResultList();
+    assertThat(parents).map(Parent::getName).containsExactly("Peter","Trofim");
+  }
+  @Test
+  void fetchInDouaDirectii() { // OUT OF MEMORY
+    List<Parent> parents = entityManager.createNamedQuery("Parent.fetchWithChildren", Parent.class)
+        .getResultList();
+  }
+
   // This is what is displayed in a UI grid:
   private static void assertResults(Collection<?> results) {
     assertThat(results)
