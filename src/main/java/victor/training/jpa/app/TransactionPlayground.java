@@ -11,6 +11,7 @@ import victor.training.jpa.app.entity.Teacher;
 import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
+import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
@@ -21,12 +22,24 @@ public class TransactionPlayground {
   private final ServicePtMirela servicePtMirela;
 
   @Transactional // = Atomic=tot sau nimic
-  public void firstTransaction() {
+  public void firstTransaction()  {
     log.debug("Function Begin");
     entityManager.persist(new ErrorLog("Halo!"));
+    try {
+      metRea();
+    } catch (IOException e) {
+      throw new RuntimeException(e); // rollback ❤️
+    }
+    // e ok dupa ce intrerupt functia sa cauzeze un COMMIT.
+    // daca-i stii email-ul, si-mi-l = EJBullshit
+    // > in anii 2005± aveau loc Razboaiele Exception system/business=asteptate=checked
+    // => @Transactional + throws
     servicePtMirela.inTxCuMine();
     log.debug("Function End");
-    if (true) throw new RuntimeException("BUG🐞");
+  }
+
+  private void metRea() throws IOException {
+    if (true) throw new IOException("BUG🐞"); // CE BOU A GANDIT CA o ex checked
   }
 }
 @Service
