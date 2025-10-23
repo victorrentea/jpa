@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.DynamicUpdate;
+
 import java.util.*;
 
 import static jakarta.persistence.CascadeType.ALL;
@@ -14,6 +16,7 @@ import static jakarta.persistence.CascadeType.ALL;
 @Setter
 @Entity
 @ToString
+@DynamicUpdate
 public class ErrorLog {
    @Id
    @GeneratedValue
@@ -21,14 +24,20 @@ public class ErrorLog {
 
    @Column(nullable = false)
    private String message;
+   private String descr;
 
-   // TODO cascade
+   @Column//(updatable = false)// draga JPA, daca vreun dev confuz incearca, ignora
+   private String createdBy;
+
    // TODO preserve order (!it matters)
-   @OneToMany
-   @JoinColumn(name = "ERROR_LOG_ID")
+   @OneToMany(cascade = ALL,
+       fetch = FetchType.EAGER,
+       orphanRemoval = true // OMOARA copii scosi din lista, care ar fi ramas cu parentId=NULL
+   )
+   @JoinColumn(name = "ERROR_LOG_ID") // unidirectional Parinte -->* Copil
    private List<ErrorComment> comments = new ArrayList<>();
 
-   @ManyToMany
+   @ManyToMany(fetch = FetchType.EAGER)
    private Set<ErrorTag> tags = new HashSet<>();
 
 

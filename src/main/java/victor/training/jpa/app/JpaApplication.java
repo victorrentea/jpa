@@ -43,6 +43,11 @@ public class JpaApplication {
     jpaPlayground.autoSave();
     jpaPlayground.updateFaraAutoSave();
 
+    mergePlayground.persistInitialData();
+    String json = mergePlayground.readFromBackend("alice");
+    System.out.println("Trimit in BRO json: " + json);
+    mergePlayground.client1(json);
+
 
 //		log.debug(" ========= FIRST TRANSACTION ========== ");
 //		transactionPlayground.firstTransaction();

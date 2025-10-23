@@ -26,17 +26,14 @@ public class MergePlayground {
     em.persist(feTag);
     em.persist(beTag);
 
-    ErrorLog errorLog = new ErrorLog("message");
+    ErrorLog errorLog = new ErrorLog("message 🍑")
+        .setCreatedBy("bob");
     em.persist(errorLog);
     id =errorLog.getId();
 
     // add comments w/o cascade, persist them explicitly
-    ErrorComment c1 = new ErrorComment("First Comment");
-    ErrorComment c2 = new ErrorComment("Second Comment");
-    errorLog.getComments().add(c1);
-    errorLog.getComments().add(c2);
-    em.persist(c1);
-    em.persist(c2);
+    errorLog.getComments().add(new ErrorComment("First Comment"));
+    errorLog.getComments().add(new ErrorComment("Second Comment"));
 
     // link an existing tag
     errorLog.getTags().add(beTag);
@@ -44,7 +41,7 @@ public class MergePlayground {
     log.info("Created log id: " + errorLog.getId());
   }
 
-  @Transactional
+//  @Transactional // epic fail. ca doar citesti, da frameworkul cere pt lazy load.
   public String readFromBackend(String username) throws JsonProcessingException {
     ErrorLog fromDB = em.find(ErrorLog.class, id);
     String json = jackson.writeValueAsString(fromDB);
@@ -54,17 +51,31 @@ public class MergePlayground {
 
   @Transactional
   public void client1(String jsonFromServer) throws JsonProcessingException {
+    // ------- Pretend: in the browser/client/android -------
     ErrorLog copyInClient = jackson.readValue(jsonFromServer, ErrorLog.class);
-    // ------- Pretend: in the browser/client -------
     log.debug("Client1 receives JSON from BE: " + jackson.writeValueAsString(copyInClient));
-    copyInClient.setMessage("Client1 changed");
-    // TODO change fields
-    // TODO add a comment + merge parent ==> cascade
-    // TODO remove a comment (private child) ==> orphanRemoval
+    copyInClient.setMessage("DECENT");
+
+    // copchii
+    copyInClient.getComments().get(0).setText("EDITED"); //UPDATE
+    copyInClient.getComments().remove(1); // DELETE merge daca orphanRemoval = true
+    copyInClient.getComments().add(new ErrorComment("e de la tehnician")); //INSERT
+
+//    copyInClient.setCreatedBy("alice");// ilegal
+    // ! repara greasa PENIBILA de a PRIMI in JSON DTO 'createdBy' la update.
+    copyInClient.setCreatedBy(null);// pt ca nu exista un asa camp in UpdateErrorLogRequestDto
+
     // TODO link to +1 / other ErrorTag
     log.debug("Client1 sends back updated JSON: " + jackson.writeValueAsString(copyInClient));
-    // -------- leave the browser ---------
-    em.merge(copyInClient);
+    // -------- leave the browser --------- toJson-->fromJson
+    log.debug("PE SERVER: Urmeaza Merge la ce am creat din JSONul primit din client");
+    // a) @Column(updatable=false)
+    // b) setCreatedBy ignora/throws daca deja e setat campu
+
+    // daca pe acest flux nu se poate modifica un camp, dar pe altele da
+    copyInClient.setCreatedBy(em.find(ErrorLog.class, id).getCreatedBy());
+
+    em.merge(copyInClient); // = OVERWRITE TOATE CAMPURILE
   }
   // TODO concurrency control:
   //    1)  add @Version for optimistic locking
