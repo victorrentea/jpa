@@ -3,6 +3,7 @@ package victor.training.jpa.app;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.*;
@@ -51,17 +52,28 @@ public class JpaPlayground {
 
   @Transactional
   public void autoSave() {
-    StudentsYear entity = em.find(StudentsYear.class,1L);
+    StudentsYear entity = em.find(StudentsYear.class,1L); // hib a facut o copie
     entity.setCode("TWO");
-    entity.setCode("CA");
-    log.info("----"); // lazy loading face Un SELECT dupa linie
-    entity.getGroups().get(0).setCode("ZZ");
+    entity.setCode("CA2");
+
+    log.info("---- "); // lazy loading face Un SELECT dupa linie ⚠️MERGE DOAR IN TX
+    StudentsGroup group = entity.getGroups().get(0);
+    //em.clear(); // elimina din context toate entitatile -> "detasate", ne-urmarite
+    group.setCode("ZZ");// auto-saved
+
+    StudentsYear entity2 = em.find(StudentsYear.class,1L);
+    log.info("1st level cache (tx-scoped) merge: " + (entity == entity2));
   }
   // hib face o copie a starii persistenta la orice @ENtity iti da intr-o tranzactie
   // la final face equals
 
-  public void lazyLoading() {
+//    Session session = em.unwrap(Session.class);
+//  @Transactional
+  public void updateFaraAutoSave() {
     StudentsYear entity = em.find(StudentsYear.class, 1L);
-    log.info("Message: " /* +entity*/);
+    entity.setCode("MANUAL");
+    em.merge(entity); // fara TX
   }
+  // la ce mai trebuie .merge( daca oricum face autosave la tot ce ti-a dat??
+  // => construiesti cu new @Entity din ceva venit de la client/bro'
 }

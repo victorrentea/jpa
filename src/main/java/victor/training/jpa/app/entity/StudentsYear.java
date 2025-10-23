@@ -14,18 +14,20 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderColumn;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Getter
 @Setter
 
 @Entity
+@DynamicUpdate
 public class StudentsYear {
 
 	@Id
 	@GeneratedValue
 	private Long id;
-	
 	private String code;
+  private String desc;
 	
 	@OneToMany(mappedBy = "year", orphanRemoval = true, cascade = CascadeType.ALL)
 	@OrderColumn(name = "POSITION")

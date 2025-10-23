@@ -41,6 +41,7 @@ public class JpaApplication {
 
     jpaPlayground.writeBehind();
     jpaPlayground.autoSave();
+    jpaPlayground.updateFaraAutoSave();
 
 
 //		log.debug(" ========= FIRST TRANSACTION ========== ");
