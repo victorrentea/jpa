@@ -24,11 +24,7 @@ public class TransactionPlayground {
   public void firstTransaction() {
     log.debug("Function Begin");
     entityManager.persist(new ErrorLog("Halo!"));
-    CompletableFuture.runAsync(() -> servicePtMirela.inTxCuMine())
-        .exceptionally(ex -> {
-          log.error("Exception in async call", ex);
-          return null;
-        });
+    servicePtMirela.inTxCuMine();
     log.debug("Function End");
   }
 }
