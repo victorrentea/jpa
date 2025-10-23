@@ -36,6 +36,7 @@ public class TransactionPlayground {
 @RequiredArgsConstructor
 class ServicePtMirela{
   private final EntityManager entityManager;
+  @Transactional
   public void inTxCuMine() {
     entityManager.persist(new ErrorLog("Halo!"));
   }
