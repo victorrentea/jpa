@@ -26,6 +26,7 @@ public class TransactionPlayground {
     entityManager.persist(new ErrorLog("Halo!"));
     servicePtMirela.inTxCuMine();
     log.debug("Function End");
+    if (true) throw new RuntimeException("BUG🐞");
   }
 }
 @Service
@@ -33,6 +34,7 @@ public class TransactionPlayground {
 class ServicePtMirela{
   private final EntityManager entityManager;
   @Transactional
+//  @jakarta.transaction.Transactional()
   public void inTxCuMine() {
     entityManager.persist(new ErrorLog("Halo!"));
   }
