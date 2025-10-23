@@ -76,12 +76,14 @@ public class MergePlayground {
     // b) setCreatedBy ignora/throws daca deja e setat campu
 
     // daca pe acest flux nu se poate modifica un camp, dar pe altele da
-    copyInClient.setCreatedBy(em.find(ErrorLog.class, id).getCreatedBy());
+    ErrorLog oldDinDB = em.find(ErrorLog.class, id);
+    copyInClient.setCreatedBy(oldDinDB.getCreatedBy());
+    log.info("Acum sleep (niste business logic, ev API calls)...");
+    MyUtil.sleepMillis(1000);
+    oldDinDB.counter ++;
 
     em.merge(copyInClient); // = OVERWRITE TOATE CAMPURILE
     em.flush();
-    log.info("Acum sleep...");
-    MyUtil.sleepMillis(1000);
   }
   // TODO concurrency control:
   //    1)  add @Version for optimistic locking

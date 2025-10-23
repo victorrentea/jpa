@@ -27,7 +27,7 @@ public class StudentsYear {
 	@GeneratedValue
 	private Long id;
 	private String code;
-  private String desc;
+  private String description;
 	
 	@OneToMany(mappedBy = "year", orphanRemoval = true, cascade = CascadeType.ALL)
 	@OrderColumn(name = "POSITION")

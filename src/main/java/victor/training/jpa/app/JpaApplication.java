@@ -87,7 +87,7 @@ public class JpaApplication {
 
 	public static void main(String[] args) {
 		new SpringApplicationBuilder(JpaApplication.class)
-				.listeners(new TestDBConnectionAndDropAllInitializer())
+//				.listeners(new TestDBConnectionAndDropAllInitializer())
 				.run(args);
 	}
 }

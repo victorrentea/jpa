@@ -18,7 +18,8 @@ import static jakarta.persistence.CascadeType.ALL;
 @ToString
 @DynamicUpdate
 public class ErrorLog {
-   @Id
+  public int counter = 0;
+  @Id
    @GeneratedValue
    private Long id;
 
