@@ -1,9 +1,11 @@
 package victor.training.jpa.app;
 
+import io.micrometer.core.aop.TimedAspect;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -33,6 +35,11 @@ public class JpaApplication {
 	private LobPlayground lobPlayground;
   @Autowired
   private JpaPlayground jpaPlayground;
+
+  @Bean
+  TimedAspect timedAspect() {
+    return new TimedAspect();
+  }
 
 
   @EventListener(ContextRefreshedEvent.class)
