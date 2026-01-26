@@ -29,8 +29,8 @@ public class JpaPlayground {
    public void play() throws Exception {
       Teacher teacher = new Teacher();
       teacher.setName("John Doe");
-      TeacherDetails teacherDetails = new TeacherDetails();
-      teacherDetails.setCv("BETON");
+      TeacherDetails teacherDetails = new TeacherDetails()
+          .setCv("BETON");
       teacher.setDetails(teacherDetails);
       log.info("Before save: {}", teacher.getId());
       teacherRepo.save(teacher); // (A)

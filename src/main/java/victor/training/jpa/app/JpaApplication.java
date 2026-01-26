@@ -36,12 +36,9 @@ public class JpaApplication {
 
 
   @EventListener(ContextRefreshedEvent.class)
-//	@Transactional
 	public void onStartup() throws Exception {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
-		for (int i = 0; i < 100; i++) {
-    	jpaPlayground.play();
-		}
+		jpaPlayground.play();
 
 
 
