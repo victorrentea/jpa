@@ -1,5 +1,6 @@
 package victor.training.jpa.app;
 
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -14,6 +15,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Component
@@ -23,5 +26,8 @@ public class JpaPlayground {
    private final TeacherRepo teacherRepo;
 
    public void play() throws Exception {
+      Teacher teacher = new Teacher();
+      teacher.setName("John Doe");
+      teacherRepo.save(teacher);
    }
 }

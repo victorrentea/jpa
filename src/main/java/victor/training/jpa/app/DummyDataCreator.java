@@ -28,7 +28,7 @@ public class DummyDataCreator {
 	@PersistenceContext
 	private EntityManager em;
 
-	@EventListener(ApplicationStartedEvent.class)
+//	@EventListener(ApplicationStartedEvent.class)
 	@Transactional
 	public void persistDummyData() {
 		System.out.println("PERSIST INIT DATA");

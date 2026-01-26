@@ -3,18 +3,17 @@ package victor.training.jpa.app.entity;
 import lombok.Getter;
 import lombok.Setter;
 import victor.training.jpa.app.entity.converter.MoreTeacherDetailsConverter;
-import victor.training.jpa.app.facade.dto.TimeSlotDto;
 
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
 import java.util.*;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Getter
 @Setter
-public class Teacher extends AuditedEntity {
+public class Teacher implements Auditable {
 
 	public enum Grade {
 		LECTURER("L"),
@@ -35,7 +34,26 @@ public class Teacher extends AuditedEntity {
 	private String name;
 
 
+	@Embedded // ❤️adauga in tabela TEACHER campurile obiectului
+	// sa modifici numele campurilor preluate
+	@AttributeOverride(name = "lastModifiedBy", column = @Column(name = "lmb"))
+	private AuditedEntity auditedEntity;
 
+	//+ spring.jpa.hibernate.naming.implicit-strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
+	// atributele vor fi prefixate cu "origin_" respectiv "destination_"
+//	@Embedded
+//	private Point origin;
+//	@Embedded
+//	private Point destination;
+
+
+	public AuditedEntity getAuditedEntity() {
+		return auditedEntity;
+	}
+
+	public void setAuditedEntity(AuditedEntity auditedEntity) {
+		this.auditedEntity = auditedEntity;
+	}
 
 	@Enumerated(EnumType.STRING)
 //	@Convert(converter = GradeConverter.class)
@@ -43,7 +61,7 @@ public class Teacher extends AuditedEntity {
 
 	// fetch=LAZY or invert the link to retrieve details by teacher via repo
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	private TeacherDetails details;
 	@Convert(converter = MoreTeacherDetailsConverter.class)
 	private MoreTeacherDetails moreDetails;
@@ -68,7 +86,7 @@ public class Teacher extends AuditedEntity {
 
 	@ManyToMany(mappedBy = "teachers")
 	private Set<TeachingActivity> activities = new HashSet<>();
-	
+
 	@Enumerated(EnumType.STRING)
 	private DayOfWeek counselingDay;
 
@@ -83,7 +101,7 @@ public class Teacher extends AuditedEntity {
 
 	public Teacher() {
 	}
-	
+
 	public Teacher(String name) {
 		this.name = name;
 	}
@@ -91,8 +109,8 @@ public class Teacher extends AuditedEntity {
 	@Override
 	public String toString() {
 		return "Teacher{" +
-				 "id=" + id +
-				 ", name='" + name + '\'' +
-				 '}';
+				"id=" + id +
+				", name='" + name + '\'' +
+				'}';
 	}
 }

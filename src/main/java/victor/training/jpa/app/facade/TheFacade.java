@@ -56,11 +56,12 @@ public class TheFacade {
     }
 
     public Long createSubject(SubjectDto subjectDto) {
+        Teacher teacher = teacherRepo.findOneById(subjectDto.getHolderTeacherId());
         Subject subject = new Subject()
                 .setName(subjectDto.getName())
                 // TODO link existing entity from DB: a) Repo.getReference, b) new Teacher().setId()
-                .setHolderTeacher(teacherRepo.findOneById(subjectDto.getHolderTeacherId()))
                 ;
+        teacher.addHeldSubject(subject);
         return subjectRepo.save(subject).getId();
     }
 
@@ -69,13 +70,13 @@ public class TheFacade {
     }
 
     public void updateSubject(SubjectDto subjectDto) {
-        Subject subject = subjectRepo.findOneById(subjectDto.getId());
-        subject.setName(subjectDto.getName())
-                .setHolderTeacher(new Teacher().setId(subjectDto.getHolderTeacherId()));
-        // TODO 1 subjectRepo.save, OR (exclusive):
-        // TODO 2 @Transactional on the method ==> "Auto-Flush" dirty Entities at Tx COMMIT, after "Exit method". >> remove repo.save!
-        // TODO experiment @Transactional(readonly=true)
-        System.out.println("Exit method");
+//        Subject subject = subjectRepo.findOneById(subjectDto.getId());
+//        subject.setName(subjectDto.getName())
+//                .setHolderTeacher(new Teacher().setId(subjectDto.getHolderTeacherId()));
+//        // TODO 1 subjectRepo.save, OR (exclusive):
+//        // TODO 2 @Transactional on the method ==> "Auto-Flush" dirty Entities at Tx COMMIT, after "Exit method". >> remove repo.save!
+//        // TODO experiment @Transactional(readonly=true)
+//        System.out.println("Exit method");
     }
 
     @PostMapping("api/labs")
