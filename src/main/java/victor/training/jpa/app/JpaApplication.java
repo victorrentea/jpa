@@ -41,7 +41,7 @@ public class JpaApplication {
 //		jpaPlayground.play();
 
 		log.debug(" ========= FIRST TRANSACTION ========== ");
-		transactionPlayground.firstTransaction();
+//		transactionPlayground.firstTransaction();
 		log.debug(" ========= SECOND TRANSACTION ========== ");
 		transactionPlayground.secondTransaction();
 		log.debug(" ========= END ========== ");
