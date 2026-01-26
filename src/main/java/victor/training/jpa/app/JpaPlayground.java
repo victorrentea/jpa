@@ -26,6 +26,8 @@ public class JpaPlayground {
 
     altaMetoda10CalluriMaiJos();
 
+    // websocket.push/rabbit/kafka notification ca am sters racheta
+
     // nu face select ci-ti da din 1st level cacheul hibernate (atasat tranzactiei)
     System.out.println("E? " + teacherRepo.findById(teacher.getId())); // 0 SELECT, ca-mi da din 1st level cache
 

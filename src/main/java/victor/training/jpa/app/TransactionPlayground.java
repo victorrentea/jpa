@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.ErrorLog;
+import victor.training.jpa.app.entity.Teacher;
 import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
@@ -18,22 +19,17 @@ import jakarta.persistence.EntityManager;
 public class TransactionPlayground {
     private final EntityManager entityManager;
     private final JdbcTemplate jdbcTemplate;
-    private final TeacherRepo teacherRepo;
-    private final ErrorLogRepo repo;
+    private final TeacherRepo repo;
 
     @Transactional
     public void firstTransaction() {
         log.debug("Function Begin");
-
-        repo.save(new ErrorLog("Halo!"));
-
-        jdbcTemplate.update("INSERT INTO TEACHER(ID) VALUES (HIBERNATE_SEQUENCE.nextval)");
-        log.debug("Function End");
+        repo.save(new Teacher().setName("John".repeat(1000)));
+        log.info("Send ws:,API call... TeacherCreated");
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public void secondTransaction() {
         log.debug("Halo2!");
-        System.out.println(teacherRepo.findAll());
     }
 }

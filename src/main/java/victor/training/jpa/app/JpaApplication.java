@@ -38,15 +38,13 @@ public class JpaApplication {
   @EventListener(ContextRefreshedEvent.class)
 	public void onStartup() throws Exception {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
-		jpaPlayground.play();
+//		jpaPlayground.play();
 
-
-
-//		log.debug(" ========= FIRST TRANSACTION ========== ");
-//		transactionPlayground.firstTransaction();
-//		log.debug(" ========= SECOND TRANSACTION ========== ");
-//		transactionPlayground.secondTransaction();
-//		log.debug(" ========= END ========== ");
+		log.debug(" ========= FIRST TRANSACTION ========== ");
+		transactionPlayground.firstTransaction();
+		log.debug(" ========= SECOND TRANSACTION ========== ");
+		transactionPlayground.secondTransaction();
+		log.debug(" ========= END ========== ");
 
 //		log.debug("==== Merge:Persist init ====");
 //		mergePlayground.persistInitialData();
