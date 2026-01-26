@@ -28,7 +28,7 @@ public class Teacher implements Auditable {
 		}
 	}
 	@Id
-	@GeneratedValue
+	@GeneratedValue // din seq(aici), IDENTITY
 	private Long id;
 
 	private String name;

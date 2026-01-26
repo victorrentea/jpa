@@ -28,6 +28,11 @@ public class JpaPlayground {
    public void play() throws Exception {
       Teacher teacher = new Teacher();
       teacher.setName("John Doe");
-      teacherRepo.save(teacher);
+      TeacherDetails teacherDetails = new TeacherDetails();
+      teacherDetails.setCv("BETON");
+      teacher.setDetails(teacherDetails);
+      log.info("Before save: {}", teacher.getId());
+      teacherRepo.save(teacher); // intoarce entity modificata, dupa setId pe ea , aici == teacher
+      log.info("After save: {}", teacher.getId());
    }
 }
