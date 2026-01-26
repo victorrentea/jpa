@@ -34,6 +34,8 @@ public class JpaPlayground {
       teacher.setDetails(teacherDetails);
       log.info("Before save: {}", teacher.getId());
       teacherRepo.save(teacher); // (A)
+
+      System.out.println("E? " +  teacherRepo.findById(teacher.getId()));
       log.info("After save: {}", teacher.getId());
    }
    // (B)

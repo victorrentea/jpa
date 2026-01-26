@@ -39,9 +39,10 @@ public class JpaApplication {
 	@Transactional
 	public void onStartup() throws Exception {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 100; i++) {
     	jpaPlayground.play();
 		}
+
 
 
 //		log.debug(" ========= FIRST TRANSACTION ========== ");
