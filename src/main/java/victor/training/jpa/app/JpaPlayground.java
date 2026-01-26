@@ -14,7 +14,7 @@ import victor.training.jpa.app.repo.TeacherRepo;
 public class JpaPlayground {
   private final TeacherRepo teacherRepo;
 
-  @Transactional
+  @Transactional // inutil daca tot ce modific e un singur repo.save
   public void play() throws Exception {
     Teacher teacher = new Teacher()
         .setName("John Doe")
