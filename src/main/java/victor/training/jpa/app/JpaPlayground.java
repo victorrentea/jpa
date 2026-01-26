@@ -24,12 +24,14 @@ import java.sql.SQLException;
 @Slf4j
 public class JpaPlayground {
    private final TeacherRepo teacherRepo;
+   private final TeacherDetailsRepo teacherDetailsRepo;
 
    public void play() throws Exception {
       Teacher teacher = new Teacher();
       teacher.setName("John Doe");
       TeacherDetails teacherDetails = new TeacherDetails();
       teacherDetails.setCv("BETON");
+      teacherDetailsRepo.save(teacherDetails);
       teacher.setDetails(teacherDetails);
       log.info("Before save: {}", teacher.getId());
       teacherRepo.save(teacher); // intoarce entity modificata, dupa setId pe ea , aici == teacher
