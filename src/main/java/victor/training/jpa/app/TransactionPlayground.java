@@ -2,13 +2,11 @@ package victor.training.jpa.app;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import victor.training.jpa.app.entity.ErrorLog;
 import victor.training.jpa.app.entity.Teacher;
-import victor.training.jpa.app.repo.ErrorLogRepo;
 import victor.training.jpa.app.repo.TeacherRepo;
 
 import jakarta.persistence.EntityManager;
@@ -23,9 +21,11 @@ public class TransactionPlayground {
 
     public void firstTransaction() {
         log.debug("Function Begin");
-        atomic(); // adnotarea @Transactional nu merge pe apel local (pe this.)
+        myselfSaMeargaProxyurile.atomic(); // adnotarea @Transactional nu merge pe apel local (pe this.)
         log.info("Send ws:,API call... TeacherCreated");
     }
+    @Autowired
+    TransactionPlayground myselfSaMeargaProxyurile;// WTF!?
 
     @Transactional
     public void atomic() {
