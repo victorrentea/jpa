@@ -52,7 +52,17 @@ public class DummyDataCreator {
 		em.persist(bianca);
 		
 		Subject subject = new Subject("OOP");
-		subject.setHolderTeacher(victor);
+//		subject.setHolderTeacher(victor); // => nu compileaza
+//		victor.getHeldSubjects().add(subject); // => 💥 throws runtime exception
+		// ca sa nu mai uit pe viitor sa setez ambele capete ale unei relatii bidirectionale:
+		// A) nu mai fac relații bidirecționale.❤️ DACA nu am nevoie in logica s-o traversez decat intr-un sens🤞
+
+		// B) fac helper methods in entitiy, gen subject.setHolderTeacher(Teacher t) { this.holderTeacher = t; t.getHeldSubjects().add(this); }
+		victor.addHeldSubject(subject); // metoda custom sa nu uit sa setez ambele capete.
+		// TODO tre si remove,clear pe subjects 🤢
+
+
+
 		CourseActivity course = new CourseActivity();
 		course.setSubject(subject);
 		course.setDayOfWeek(DayOfWeek.MONDAY);
