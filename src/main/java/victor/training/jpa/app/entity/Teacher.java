@@ -60,8 +60,8 @@ public class Teacher implements Auditable {
 	private Grade grade;
 
 	// fetch=LAZY or invert the link to retrieve details by teacher via repo
-
 	@OneToOne(cascade = CascadeType.ALL)
+
 	// daca moare parintele, sa moara si copiii
 	private TeacherDetails details;
 	@Convert(converter = MoreTeacherDetailsConverter.class)
