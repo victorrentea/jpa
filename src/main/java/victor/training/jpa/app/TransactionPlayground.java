@@ -21,10 +21,9 @@ public class TransactionPlayground {
     private final JdbcTemplate jdbcTemplate;
     private final TeacherRepo repo;
 
-    @Transactional
     public void firstTransaction() {
         log.debug("Function Begin");
-        repo.saveAndFlush(new Teacher().setName("John".repeat(1000)));
+        repo.save(new Teacher().setName("John".repeat(1000)));
         log.info("Send ws:,API call... TeacherCreated");
     }
 
