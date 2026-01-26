@@ -2,6 +2,7 @@ package victor.training.jpa.app;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.entity.Teacher;
@@ -13,6 +14,7 @@ import victor.training.jpa.app.repo.TeacherRepo;
 @Slf4j
 public class JpaPlayground {
   private final TeacherRepo teacherRepo;
+  private final JdbcTemplate jdbcTemplate;
 
   @Transactional // inutil daca tot ce modific e un singur repo.save
   public void play() throws Exception {
@@ -22,15 +24,26 @@ public class JpaPlayground {
             .setCv("BETON"));
     teacherRepo.save(teacher); // (A)
 
+    altaMetoda10CalluriMaiJos();
+
     // nu face select ci-ti da din 1st level cacheul hibernate (atasat tranzactiei)
     System.out.println("E? " + teacherRepo.findById(teacher.getId())); // 0 SELECT, ca-mi da din 1st level cache
 
     // dar daca caut nu cu .findById
-    System.out.println(teacherRepo.findByName("John Doe")); // ✅ face auto-flush inainte
+//    System.out.println(teacherRepo.findByName("John Doe")); // ✅ face auto-flush inainte
+//    System.out.println(teacherRepo.findByNameNativ("John Doe")); // ✅ tot prin Hibernate treci -> isi da flush automat
+  // jdbcTemplate nu va cauza un auto-flush❌
+    // daca chemi vreo procedura/functie care da select❌
+//    pt ❌ =>
+//    teacherRepo.flush(); // manual
 
     log.info("After save: {}", teacher.getId());
   }
-  // (B)
+
+  private void altaMetoda10CalluriMaiJos() {
+    teacherRepo.save(new Teacher("John Doe"));
+  }
+  // (B) inainte de un commit, se face automat .flush
 
   // 2 x INSERT intr-o tx❤️ pleaca in DB la .save (A) = asteptat
 

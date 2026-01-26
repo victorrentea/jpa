@@ -31,6 +31,7 @@ public class Teacher implements Auditable {
 	@GeneratedValue // din seq(aici), IDENTITY
 	private Long id;
 
+	@Column(unique = true)
 	private String name;
 
 

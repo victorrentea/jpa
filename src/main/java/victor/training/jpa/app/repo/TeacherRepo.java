@@ -69,4 +69,12 @@ public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, JpaSpec
          "AND (cast(:#{#criteria.teachingCourses} as int) = 0 OR EXISTS (SELECT 1 FROM CourseActivity c JOIN c.teachers tt WHERE tt.id = t.id) )")
   // Uses Spring Expression Language to read properties of the 'criteria' parameter
   Page<Teacher> searchFixedJqplSpel(TeacherSearchCriteria criteria, Pageable pageRequest);
+
+  // rezulta in entityManager.createNativeQuery care tot la hib ajunge
+  @Query(value = """
+      SELECT *
+      FROM TEACHER t 
+      WHERE t.NAME = ?1
+      """, nativeQuery = true)
+  Optional<Teacher> findByNameNativ(String johnDoe);
 }
