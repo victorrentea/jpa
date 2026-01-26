@@ -20,10 +20,14 @@ public class JpaPlayground {
         .setName("John Doe")
         .setDetails(new TeacherDetails()
             .setCv("BETON"));
-    log.info("Before save: {}", teacher.getId());
     teacherRepo.save(teacher); // (A)
 
-    System.out.println("E? " + teacherRepo.findById(teacher.getId()));
+    // nu face select ci-ti da din 1st level cacheul hibernate (atasat tranzactiei)
+    System.out.println("E? " + teacherRepo.findById(teacher.getId())); // 0 SELECT, ca-mi da din 1st level cache
+
+    // dar daca caut nu cu .findById
+    System.out.println(teacherRepo.findByName("John Doe")); // ✅ face auto-flush inainte
+
     log.info("After save: {}", teacher.getId());
   }
   // (B)
