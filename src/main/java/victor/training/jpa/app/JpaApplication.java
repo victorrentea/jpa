@@ -8,6 +8,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.Transactional;
 import victor.training.jpa.app.common.CustomJpaRepositoryFactoryBean;
 import victor.training.jpa.app.util.TestDBConnectionAndDropAllInitializer;
 
@@ -35,9 +36,12 @@ public class JpaApplication {
 
 
   @EventListener(ContextRefreshedEvent.class)
+	@Transactional
 	public void onStartup() throws Exception {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
-    jpaPlayground.play();
+		for (int i = 0; i < 10; i++) {
+    	jpaPlayground.play();
+		}
 
 
 //		log.debug(" ========= FIRST TRANSACTION ========== ");
