@@ -48,6 +48,7 @@ class AltService {
     @Transactional
     public void atomic() {
         repo.save(new Teacher().setName("John2"));
+        if (true) throw new RuntimeException("VALIDARE CARE CRAPA🐞");
         repo.save(new Teacher().setName("Fratele"/*.repeat(1000)*/));
         // obigatoriu sa fii intr-o tranzactie deschisa
         applicationEventPublisher.publishEvent(new MesajDeTrimis("notificare"));
@@ -59,6 +60,6 @@ class AltService {
 //    @TransactionalEventListener(phase = AFTER_ROLLBACK) // anunti erori/compensari
 //    @TransactionalEventListener(phase = AFTER_COMPLETION) //  cleanup stergi fisiere temp...
     public void method(MesajDeTrimis event) {
-        log.info("ws:,API call, kafka Δt mare: " + event.ce);
+        log.info("CRITIC report fraud, missile launch detected, ws:,API call, kafka Δt mare: " + event.ce);
     }
 }
