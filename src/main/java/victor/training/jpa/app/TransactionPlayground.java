@@ -1,6 +1,7 @@
 package victor.training.jpa.app;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -15,6 +16,9 @@ import victor.training.jpa.app.repo.TeacherRepo;
 
 import jakarta.persistence.EntityManager;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import static org.springframework.transaction.event.TransactionPhase.*;
 
 @Slf4j
@@ -26,6 +30,7 @@ public class TransactionPlayground {
     private final TeacherRepo repo;
     private final AltService altService;
 
+    @SneakyThrows
     public void firstTransaction() {
         log.debug("Function Begin");
         altService.atomic(); // adnotarea @Transactional nu merge pe apel local (pe this.)
@@ -34,8 +39,10 @@ public class TransactionPlayground {
     @Transactional
     public void secondTransaction() {
         log.debug("Halo2!");
-        altService.atomic();
-        repo.save(new Teacher("Al treilea, atomic si el cu fratii"));
+        try {
+            altService.atomic();
+        }catch(Exception ignored) {/*swallow*/}
+        repo.save(new Teacher("Al treilea✅, atomic si el cu fratii"));
     }
 }
 @Slf4j
@@ -44,11 +51,10 @@ public class TransactionPlayground {
 class AltService {
     private final TeacherRepo repo;
     private final ApplicationEventPublisher applicationEventPublisher;
-
-    @Transactional
-    public void atomic() {
-        repo.save(new Teacher().setName("John2"));
-        if (true) throw new RuntimeException("VALIDARE CARE CRAPA🐞");
+    @Transactional // ~@TransactionAttribute
+    public void atomic() throws FileNotFoundException {
+        repo.save(new Teacher().setName("John2✅"));
+        if (true) throw new FileNotFoundException("VALIDARE CARE CRAPA🐞");
         repo.save(new Teacher().setName("Fratele"/*.repeat(1000)*/));
         // obigatoriu sa fii intr-o tranzactie deschisa
         applicationEventPublisher.publishEvent(new MesajDeTrimis("notificare"));
