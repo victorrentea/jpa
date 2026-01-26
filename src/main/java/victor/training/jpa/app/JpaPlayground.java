@@ -25,6 +25,7 @@ import java.sql.SQLException;
 public class JpaPlayground {
    private final TeacherRepo teacherRepo;
 
+   @Transactional
    public void play() throws Exception {
       Teacher teacher = new Teacher();
       teacher.setName("John Doe");
@@ -37,6 +38,10 @@ public class JpaPlayground {
    }
    // (B)
 
-   // 2 x INSERT intr-o tx❤️ pleaca in DB la (A)
-   // 2 x INSERT intr-o tx❤️ pleaca in DB la (B) daca metoda e @Transactional
+   // 2 x INSERT intr-o tx❤️ pleaca in DB la .save (A) = asteptat
+
+   // 2 x INSERT intr-o tx❤️ pleaca in DB dupa iesirea din metoda @Transactional(B) 😱😱
+   // daca metoda e @Transactional = WRITE-BEHIND
+   // 😊 performance pt ca inserturi catre aceeasi entitate pot fi batch-euite impreuna sa TCP/IP mai putin
+   // 🙁
 }
