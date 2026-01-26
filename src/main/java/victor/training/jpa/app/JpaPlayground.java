@@ -32,7 +32,11 @@ public class JpaPlayground {
       teacherDetails.setCv("BETON");
       teacher.setDetails(teacherDetails);
       log.info("Before save: {}", teacher.getId());
-      teacherRepo.save(teacher); // intoarce entity modificata, dupa setId pe ea , aici == teacher
+      teacherRepo.save(teacher); // (A)
       log.info("After save: {}", teacher.getId());
    }
+   // (B)
+
+   // 2 x INSERT intr-o tx❤️ pleaca in DB la (A)
+   // 2 x INSERT intr-o tx❤️ pleaca in DB la (B) daca metoda e @Transactional
 }
