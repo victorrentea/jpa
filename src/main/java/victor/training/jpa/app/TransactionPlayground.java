@@ -21,13 +21,17 @@ public class TransactionPlayground {
     private final JdbcTemplate jdbcTemplate;
     private final TeacherRepo repo;
 
-    @Transactional
     public void firstTransaction() {
         log.debug("Function Begin");
-        repo.saveAndFlush(new Teacher().setName("John".repeat(1000)));
+        atomic(); // adnotarea @Transactional nu merge pe apel local (pe this.)
         log.info("Send ws:,API call... TeacherCreated");
     }
 
+    @Transactional
+    public void atomic() {
+        repo.save(new Teacher().setName("John2"));
+        repo.save(new Teacher().setName("Fratele".repeat(1000)));
+    }
     @Transactional
     public void secondTransaction() {
         log.debug("Halo2!");
