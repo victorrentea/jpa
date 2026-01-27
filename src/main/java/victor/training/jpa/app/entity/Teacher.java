@@ -10,6 +10,8 @@ import java.util.*;
 
 import jakarta.persistence.*;
 
+import static jakarta.persistence.FetchType.EAGER;
+
 
 @Entity
 @Data // ANATHEMA! NICIODATA LA BIROU!
@@ -66,7 +68,6 @@ public class Teacher implements Auditable {
 
 	// fetch=LAZY or invert the link to retrieve details by teacher via repo
 	@OneToOne(cascade = CascadeType.ALL)
-
 	// daca moare parintele, sa moara si copiii
 	private TeacherDetails details;
 	@Convert(converter = MoreTeacherDetailsConverter.class)
@@ -78,12 +79,16 @@ public class Teacher implements Auditable {
 		return this;
 	}
 
-	@ElementCollection
-//	@OrderColumn(name="INDEX")
-	@OrderBy("type ASC, value ASC")
+//	@OneToMany
+	@ElementCollection(fetch = EAGER)
+	@OrderColumn(name="INDEX") // sa stochezi in DB ordinea customizata de user
+//	@OrderBy("type ASC, value ASC")// la incarcarea din DB ii pre-sorteaza in lista dupa
 	private List<ContactChannel> channels = new ArrayList<>();
 
-	@OneToMany(mappedBy = "holderTeacher")
+	@OneToMany(mappedBy = "holderTeacher",
+			fetch = EAGER)// DE EVITAT! pt ca mereu va incarca copiii astia, chiar daca in 80% din cazuri nu ii folosesti
+	// pui doar daca "Părintele n-are sens fără copii niciodată"
+	// eg: class Retur{ fetch=EAGER List<ReturLine> lines; }
 	private Set<Subject> heldSubjects = new HashSet<>() ;
 
 	public Set<Subject> getHeldSubjects() {
@@ -91,8 +96,8 @@ public class Teacher implements Auditable {
 		return Collections.unmodifiableSet(heldSubjects);
 	}
 
-	@ManyToMany(mappedBy = "teachers")
-	private Set<TeachingActivity> activities = new HashSet<>();
+	@ManyToMany(mappedBy = "teachers", fetch = EAGER)
+	private List<TeachingActivity> activities = new ArrayList<>();
 
 	@Enumerated(EnumType.STRING)
 	private DayOfWeek counselingDay;

@@ -7,6 +7,8 @@ import lombok.Value;
 import victor.training.jpa.app.entity.converter.MoreTeacherDetailsConverter;
 
 import jakarta.persistence.*;
+
+import java.sql.Blob;
 import java.util.List;
 
 @Getter
@@ -21,6 +23,8 @@ public class TeacherDetails {
 	@Lob
 	@Basic(fetch = FetchType.LAZY) // DOES NOT work anymore with spring boot
 	private String cv;
+
+//	private Blob cv;
 
 	@PreDestroy
 	public void method() {
