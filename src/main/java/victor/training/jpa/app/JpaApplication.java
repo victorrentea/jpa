@@ -33,17 +33,25 @@ public class JpaApplication {
 	private LobPlayground lobPlayground;
   @Autowired
   private JpaPlayground jpaPlayground;
+  @Autowired
+  private LazyPlayground lazyPlayground;
 
 
-  @EventListener(ContextRefreshedEvent.class)
+	@EventListener(ContextRefreshedEvent.class)
 	public void onStartup() throws Exception {
 		log.debug(">>>>>>>>>> Running Playground code... <<<<<<<<<<<<");
 //		jpaPlayground.play();
 
+//		log.debug(" ========= FIRST TRANSACTION ========== ");
+////		transactionPlayground.firstTransaction();
+//		log.debug(" ========= SECOND TRANSACTION ========== ");
+//		transactionPlayground.secondTransaction();
+//		log.debug(" ========= END ========== ");
+
 		log.debug(" ========= FIRST TRANSACTION ========== ");
-//		transactionPlayground.firstTransaction();
+		lazyPlayground.firstTransaction();
 		log.debug(" ========= SECOND TRANSACTION ========== ");
-		transactionPlayground.secondTransaction();
+		lazyPlayground.secondTransaction();
 		log.debug(" ========= END ========== ");
 
 //		log.debug("==== Merge:Persist init ====");

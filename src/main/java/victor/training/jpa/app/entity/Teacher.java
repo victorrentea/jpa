@@ -1,5 +1,6 @@
 package victor.training.jpa.app.entity;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import victor.training.jpa.app.entity.converter.MoreTeacherDetailsConverter;
@@ -11,9 +12,12 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Getter
-@Setter
+@Data // ANATHEMA! NICIODATA LA BIROU!
 public class Teacher implements Auditable {
+//	transient boolean chiarDateDoarTemporarAici;
+//	public boolean isCanCurrentUserApproveLoan() {
+	// penibil. cand @Entity pleaca JSON la FE
+//	}
 
 	public enum Grade {
 		LECTURER("L"),
@@ -68,9 +72,10 @@ public class Teacher implements Auditable {
 	@Convert(converter = MoreTeacherDetailsConverter.class)
 	private MoreTeacherDetails moreDetails;
 
-	public void addHeldSubject(Subject subject) {
+	public Teacher addHeldSubject(Subject subject) {
 		heldSubjects.add(subject);
 		subject.setHolderTeacher(this);
+		return this;
 	}
 
 	@ElementCollection
@@ -108,11 +113,4 @@ public class Teacher implements Auditable {
 		this.name = name;
 	}
 
-	@Override
-	public String toString() {
-		return "Teacher{" +
-				"id=" + id +
-				", name='" + name + '\'' +
-				'}';
-	}
 }

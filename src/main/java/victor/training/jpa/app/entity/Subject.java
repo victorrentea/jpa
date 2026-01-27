@@ -36,7 +36,6 @@ public class Subject  {
 	@ManyToOne
 	private Teacher holderTeacher;
 
-
 	// nu private, ca s-o pot chema din aialalta @Entity
 	void setHolderTeacher(Teacher holderTeacher) {
 		this.holderTeacher = holderTeacher;
