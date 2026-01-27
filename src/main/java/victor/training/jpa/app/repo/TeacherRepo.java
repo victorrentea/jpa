@@ -20,6 +20,21 @@ import java.util.Set;
 
 public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, JpaSpecificationExecutor<Teacher> {
 
+  // Mhm. Scrie-mi un query care să-mi aducă teacherul, preîncărcând lista de subiecte.
+  @Query("""
+      SELECT t 
+      FROM Teacher t 
+      LEFT JOIN FETCH t.heldSubjects 
+      WHERE t.id = ?1""")
+  Optional<Teacher> findByIdWithHeldSubjects(Long id);
+
+
+
+
+
+
+
+
   @Query(value = "INSERT INTO TEACHER(ID) VALUES (?1)", nativeQuery = true)
   @Modifying // requires a transaction
   @Transactional

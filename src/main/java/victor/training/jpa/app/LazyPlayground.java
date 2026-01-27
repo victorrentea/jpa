@@ -32,7 +32,7 @@ public class LazyPlayground {
     }
 
     @GetMapping("lazy")
-    @Transactional(readOnly = true) // quick fix
+//    @Transactional(readOnly = true) // quick fix
     public String httpEndpoint() {
         // Gafa de arhitectura, dar devii Spring nu-s toti foarte atenti
         //Și cei de la Spring Boot știu asta și vor să facă cât mai ușoară intrarea în
@@ -43,8 +43,8 @@ public class LazyPlayground {
         // - stack overflow daca ai relatii bidirectionale
         // - data coupling cu clientul => imposibil sa schimbi modelul intern fara sa spargi clientii
         // - privacy risk cand adaugi campuri sensibile in entity maine
-        Teacher teacher = teacherRepo.findById(teacherId).get();
-        System.out.println("Loaded teacher: " + teacher);
+        Teacher teacher = teacherRepo.findByIdWithHeldSubjects(teacherId).get();
+        System.out.println("Loaded teacher: " + teacher.getHeldSubjects()); // SELECT
         System.out.println("Ies din metoda");
         // ceva ce ia timp fara DB: REST API call 👑, WS:// push notificare, calcule CPU intensive
         return teacher.getName();
