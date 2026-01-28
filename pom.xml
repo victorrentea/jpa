@@ -104,12 +104,12 @@
 
     </dependency>
 
-    <dependency>
-      <!--COPIAZA ASTA! Generate Criteria API metamodel in target/generated-sources/annotations-->
+    <!--<dependency>
+      &lt;!&ndash;COPIAZA ASTA! Generate Criteria API metamodel in target/generated-sources/annotations&ndash;&gt;
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-jpamodelgen</artifactId>
       <version>6.3.1.Final</version>
-    </dependency>
+    </dependency>-->
   </dependencies>
 
   <build>

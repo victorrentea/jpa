@@ -1,7 +1,5 @@
 package victor.training.jpa.app.repo;
 
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -11,7 +9,6 @@ import victor.training.jpa.app.facade.dto.TeacherSearchCriteria;
 import victor.training.jpa.app.facade.dto.TeacherSearchResult;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 import java.util.ArrayList;
