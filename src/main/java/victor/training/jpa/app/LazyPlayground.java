@@ -20,7 +20,7 @@ public class LazyPlayground {
     private Long teacherId; // DOAMNE FERESTE sa tii stare specifica UNUI request daca e singleton
 
     public void firstTransaction() {
-        System.out.println(teacherRepo.findByNameAnimal("Ceva ce nu-i"));
+//        System.out.println(teacherRepo.findByNameAnimal("Ceva ce nu-i"));
         Subject subject = subjectRepo.save(new Subject("AI"));
         Teacher teacher = teacherRepo.save(
             new Teacher()
