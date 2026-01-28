@@ -95,6 +95,7 @@ public class TeacherSearchRepo {
       Subquery<Integer> subquery = criteriaQuery.subquery(Integer.class);
       Root<CourseActivity> subqueryRoot = subquery.from(CourseActivity.class);
       SetJoin<CourseActivity, Teacher> join = subqueryRoot.join(CourseActivity_.teachers);
+//      subquery.where(cb.equal(root.get("id"), join.get("id")));
       subquery.where(cb.equal(root.get(Teacher_.id), join.get(Teacher_.id)));
       predicates.add(cb.exists(subquery.select(cb.literal(1))));
     }

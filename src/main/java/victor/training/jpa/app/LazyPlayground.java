@@ -20,8 +20,13 @@ public class LazyPlayground {
     private Long teacherId; // DOAMNE FERESTE sa tii stare specifica UNUI request daca e singleton
 
     public void firstTransaction() {
+        System.out.println(teacherRepo.findByNameAnimal("Ceva ce nu-i"));
         Subject subject = subjectRepo.save(new Subject("AI"));
-        Teacher teacher = teacherRepo.save(new Teacher().setName("Profu").addHeldSubject(subject));
+        Teacher teacher = teacherRepo.save(
+            new Teacher()
+                .setName(null)
+                .addHeldSubject(subject));
+        System.out.println("A facut save?");
         teacherId = teacher.getId();
     }
 
@@ -32,6 +37,7 @@ public class LazyPlayground {
         System.out.println("Loaded teacher: " + teacher);
         // dark code(teacher);
         teacher.setName("changed name"); // automat UPDATE in DB chiar daca nu pui
+        System.out.println("Changed name to blank");
         teacher.getChannels().add(new ContactChannel(ContactChannel.Type.FACEBOOK, "profu"));
         // repo.save(teacher) dupa
 

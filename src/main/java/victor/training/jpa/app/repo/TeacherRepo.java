@@ -66,6 +66,9 @@ public interface TeacherRepo extends CustomJpaRepository<Teacher, Long>, JpaSpec
   // TODO make return null!
   Optional<Teacher> findByName(String name);
 
+  @Query("FROM Teacher WHERE name=:name")
+  Teacher findByNameAnimal(String name); // daca nu gaseste arunca direct exceptie, nu-ti baga NULL-n (mortu'n) casa
+
   // ❤️ validated at startup (it's static a @Query)
   // ❤️ performance: a static SQL is kept is statement cache at DB level
   @Query("SELECT t FROM Teacher t " +

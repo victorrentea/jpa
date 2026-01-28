@@ -19,12 +19,17 @@ public class TeacherDetails {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	@Lob
 	@Basic(fetch = FetchType.LAZY) // DOES NOT work anymore with spring boot
 	private String cv;
 
-//	private Blob cv;
+//	@Lob
+//	private byte[] cvBytes;
+
+//	private Blob cvBlob; permite scriere/citire cu input/output stream fara sa ai tot in memorie
+	// PreparedStatement ps;
+	// ps.setParam(4, blob);
 
 	@PreDestroy
 	public void method() {

@@ -1,5 +1,10 @@
 package victor.training.jpa.app.entity;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,12 +43,21 @@ public class Teacher implements Auditable {
 	private Long id;
 
 	@Column(unique = true)
+	@Size(min=2) // min 2 char sau null
 	private String name;
 
+	// validari composite 2+ campuri
+
+	@AssertTrue(message = "Daca are grade, trebuie sa aiba si nume")
+	public boolean isTrebuieSaAibaNumeDacaAreGrade() {
+		return grade == null || (name != null && !name.isBlank());
+	}
 
 	@Embedded // ❤️adauga in tabela TEACHER campurile obiectului
 	// sa modifici numele campurilor preluate
 	@AttributeOverride(name = "lastModifiedBy", column = @Column(name = "lmb"))
+	@Valid// cand validezi Teacher, valideaza si acest obiect inauntru
+//	@NotNull
 	private AuditedEntity auditedEntity;
 
 	//+ spring.jpa.hibernate.naming.implicit-strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
